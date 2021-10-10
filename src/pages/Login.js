@@ -1,14 +1,24 @@
 import { useState } from 'react'
 
+import loginSchema from '../validations/authSchema'
+
 function Login() {
     let [username, setUsername] = useState('')
     let [password, setPassword] = useState('')
 
-    const handleLogin = (e) => {
+     const handleLogin = async (e) => {
         e.preventDefault()
 
-        const data = {username, password}
-        console.log(data)
+        try {
+            const data = {username, password}
+            const isNumber = parseInt(data.username)
+            if(isNumber) {
+                throw new Error('The username must be a string!')
+            }
+            await loginSchema.validate(data)
+        } catch(err) {
+            alert(err.message)
+        }
     }
 
     return (
