@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import loginSchema from '../validations/authSchema'
+import { loginSchema } from '../validations/authSchema'
 
 function Login() {
     let [username, setUsername] = useState('')

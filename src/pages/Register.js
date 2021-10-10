@@ -1,5 +1,7 @@
 import { useState } from 'react'
 
+import { registerSchema } from '../validations/authSchema'
+
 function Register() {
     let [username, setUsername] = useState('')
     let [email, setEmail] = useState('')
@@ -7,8 +9,21 @@ function Register() {
     let [type, setType] = useState('')
     let [area, setArea] = useState('')
 
-    const handleRegister = (e) => {
+    const handleRegister = async (e) => {
         e.preventDefault()
+
+        try {
+            const data = {
+                username, email, password, type
+            }
+            if(area) {
+                data.area = area
+            } 
+            await registerSchema.validate(data)
+            console.log(data)
+        } catch(err) {
+            alert(err.message)
+        }
     }
 
     return (
