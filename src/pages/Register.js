@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 
 import { registerSchema } from '../validations/authSchema'
 
@@ -51,7 +51,7 @@ function Register() {
                         ) 
                         : ''
                     }    
-                    <button className="register__button">Register</button>
+                    <button className="register__btn btn btn-danger">Register</button>
                 </form>
             </div>
         </>
