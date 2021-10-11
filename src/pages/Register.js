@@ -51,7 +51,7 @@ function Register() {
                         ) 
                         : ''
                     }    
-                    <button className="register__btn btn btn-danger">Register</button>
+                    <button className="register__btn">Register</button>
                 </form>
             </div>
         </>
