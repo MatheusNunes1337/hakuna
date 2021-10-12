@@ -19,4 +19,8 @@ const registerSchema = yup.object({
     })
 })
 
-export {loginSchema, registerSchema }
+const redefinePassSchema = yup.object({
+    password: yup.string().required().min(6).max(12).strict()
+})
+
+export {loginSchema, registerSchema, redefinePassSchema }
