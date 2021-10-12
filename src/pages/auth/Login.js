@@ -25,7 +25,7 @@ function Login() {
 
     return (
         <>
-            <div className="login__container" onSubmit={handleLogin}>
+            <div className="form__container" onSubmit={handleLogin}>
                 <form action="" className="login__form">
                     <h2 className="form__title">Login</h2>
                     <label htmlFor="username" className="form__label">Usuário:</label>

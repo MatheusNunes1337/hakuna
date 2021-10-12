@@ -31,7 +31,7 @@ function Register() {
 
     return (
         <>
-            <div className="register__container" onSubmit={handleRegister}>
+            <div className="form__container" onSubmit={handleRegister}>
                 <form action="" className="register__form">
                     <h2 className="form__title">Cadastro</h2>
                     <label htmlFor="username" className="form__label">Usuário:</label>
