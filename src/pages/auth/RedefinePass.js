@@ -10,7 +10,7 @@ function RedefinePass() {
     let [password02, setPassword02] = useState('')
     
 
-    const handleRedefinirSenha = async (e) => {
+    const handleRedefinePass = async (e) => {
         e.preventDefault()
 
         try {
@@ -26,7 +26,7 @@ function RedefinePass() {
 
     return (
         <>
-            <div className="form__container" onSubmit={handleRedefinirSenha}>
+            <div className="form__container" onSubmit={handleRedefinePass}>
                 <form action="" className="redefinePass__form">
                     <h2 className="form__title">Redefinir Senha</h2>
                     <label htmlFor="password" className="form__label">Nova senha:</label>

@@ -40,7 +40,7 @@ body {
     background-image: linear-gradient(120deg, var(--green), var(--dark-blue));
 }
 
-.register__form, .login__form, .redefinePass__form {
+.register__form, .login__form, .redefinePass__form, .recoverPass__form {
     background-color: white;
     width: 90%;
     max-width: 430px;
