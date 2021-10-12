@@ -1,5 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700&display=swap');
+
+:root {
+    --dark-blue: #1b305a;
+    --light-green:  #c3f3df;
+    --green:  #1fc99e;
+    --light-purple: #e5e1f4;
+    --purple: #6c59a2;
+    --redish: #f5e1e6;
+    --red: #ec5865;
+    --ice: #efefef;
+    --ice-2: #ebebf7;
+
+}
+
+
 * {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
 }
+
+html {
+ font-size: 62,5%;   
+}
+
+body {
+    font-family: Roboto, sans-serif;
+    height: 100vh;
+    background-color: var(--ice);
+}
+
+.register__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    min-height: 100vh;
+}
+
+.register__form {
+    background-color: white;
+    width: 90%;
+    max-width: 430px;
+    padding: 2rem;
+}
+
+.register__title {
+    text-align: center;
+    font-size: 1.6rem, 1vw, 2rem;
+    margin-bottom: 1.5rem;
+    color: var(--dark-blue);
+    text-transform: uppercase;
+}
+
+.register__label {
+    font-size: 1rem;
+    display: block;
+    margin: 1.1rem 0 0.4rem 0;
+}
+
+.register__input {
+    text-indent: 5px;
+}
+
+.register__input, .register__select {
+    width: 100%;
+    display: block;
+    padding: 0.5rem 0;
+    background-color: var(--ice-2);
+    font-size: 1rem;
+    border: none;
+    transition: 0.8s ease;
+}
+
+.register__input:focus, .register__select:focus {
+    outline-color: var(--light-green);
+}
+
+.register__btn {
+    display: block;
+    width: 100%;
+    margin-top: 1.5rem;
+    padding: 0.5rem;
+    font-size: 1rem;
+    color: white;
+    background-color: var(--dark-blue);
+    border: none;
+}
+
+.form__link {
+    margin-top: 1.5rem;
+    text-decoration: none;
+    color: var(--green);
+}
+
+
+

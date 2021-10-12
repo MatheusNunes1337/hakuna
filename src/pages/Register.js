@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 import { registerSchema } from '../validations/authSchema'
+
+import '../assets/css/styles.css'
 
 function Register() {
     let [username, setUsername] = useState('')
@@ -38,7 +41,7 @@ function Register() {
                     <label htmlFor="password" className="register__label">Password:</label>
                     <input type="password" className="register__input" onChange={e => setPassword(e.target.value)} />
                     <label htmlFor="type" className="register__label">I am:</label>
-                    <select name="type" onChange={e => setType(e.target.value)}>
+                    <select name="type" className="register__select" onChange={e => setType(e.target.value)}>
                       <option value="student">student</option>
                       <option value="teacher">teacher</option>
                     </select>
@@ -53,6 +56,7 @@ function Register() {
                     }    
                     <button className="register__btn">Register</button>
                 </form>
+                <a href="/" className="form__link">Already have an account?</a>
             </div>
         </>
     )
