@@ -46,25 +46,25 @@ body {
     padding: 2rem;
 }
 
-.register__title {
+.form__title {
     text-align: center;
     font-size: 1.6rem, 1vw, 2rem;
     margin-bottom: 1.5rem;
     color: var(--dark-blue);
-    text-transform: uppercase;
+    
 }
 
-.register__label {
+.form__label {
     font-size: 1rem;
     display: block;
     margin: 1.1rem 0 0.4rem 0;
 }
 
-.register__input {
+.form__input {
     text-indent: 5px;
 }
 
-.register__input, .register__select {
+.form__input, .register__select {
     width: 100%;
     display: block;
     padding: 0.5rem 0;
@@ -74,11 +74,11 @@ body {
     transition: 0.8s ease;
 }
 
-.register__input:focus, .register__select:focus {
+.form__input:focus, .form__select:focus {
     outline-color: var(--light-green);
 }
 
-.register__btn {
+.form__btn {
     display: block;
     width: 100%;
     margin-top: 1.5rem;
@@ -87,6 +87,7 @@ body {
     color: white;
     background-color: var(--dark-blue);
     border: none;
+    font-weight: bold;
 }
 
 .form__link {
