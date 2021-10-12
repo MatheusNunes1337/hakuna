@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 
-import { loginSchema } from '../validations/authSchema'
+import { loginSchema } from '../../validations/authSchema'
+
+import '../../assets/css/styles.css'
 
 function Login() {
     let [username, setUsername] = useState('')

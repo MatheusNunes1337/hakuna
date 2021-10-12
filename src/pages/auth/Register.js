@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 
-import { registerSchema } from '../validations/authSchema'
+import { registerSchema } from '../../validations/authSchema'
 
-import '../assets/css/styles.css'
+import '../../assets/css/styles.css'
 
 function Register() {
     let [username, setUsername] = useState('')
