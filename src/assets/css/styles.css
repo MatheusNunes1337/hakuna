@@ -30,7 +30,7 @@ body {
     background-color: var(--ice);
 }
 
-.register__container {
+.register__container, .login__container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -40,11 +40,11 @@ body {
     background-image: linear-gradient(120deg, var(--green), var(--dark-blue));
 }
 
-.register__form {
+.register__form, .login__form {
     background-color: white;
     width: 90%;
     max-width: 430px;
-    padding: 2rem;
+    padding: 2.5rem 2rem;
     border-radius: 8px;
 }
 
@@ -103,6 +103,13 @@ body {
     margin-top: 1.5rem;
     text-decoration: none;
     color: white;
+}
+
+.login__form .form__link {
+    display: block;
+    margin-top: 1.5rem;
+    color: var(--dark-blue);
+    font-weight: bold;
 }
 
 

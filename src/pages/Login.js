@@ -25,13 +25,15 @@ function Login() {
         <>
             <div className="login__container" onSubmit={handleLogin}>
                 <form action="" className="login__form">
-                    <h2 className="login__title">login</h2>
-                    <label htmlFor="username" className="login__label">Username:</label>
-                    <input type="text" className="login__input" onChange={e => setUsername(e.target.value)} />
-                    <label htmlFor="username" className="login__label">Password:</label>
-                    <input type="password" className="login__input" onChange={e => setPassword(e.target.value)} />
-                    <button className="login__button">Login</button>
+                    <h2 className="form__title">Login</h2>
+                    <label htmlFor="username" className="form__label">Usuário:</label>
+                    <input type="text" className="form__input" onChange={e => setUsername(e.target.value)} />
+                    <label htmlFor="username" className="form__label">senha:</label>
+                    <input type="password" className="form__input" onChange={e => setPassword(e.target.value)} />
+                    <button className="form__btn">Login</button>
+                    <a href="/" className="form__link">Esqueceu sua senha?</a>
                 </form>
+                <a href="/" className="form__link">Ainda não possui uma conta?</a>
             </div>
         </>
     )
