@@ -30,7 +30,7 @@ body {
     background-color: var(--ice);
 }
 
-.register__container, .login__container {
+.form__container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -40,7 +40,7 @@ body {
     background-image: linear-gradient(120deg, var(--green), var(--dark-blue));
 }
 
-.register__form, .login__form {
+.register__form, .login__form, .redefinePass__form {
     background-color: white;
     width: 90%;
     max-width: 430px;
@@ -51,7 +51,7 @@ body {
 .form__title {
     text-align: center;
     font-size: clamp(1.7rem, 1vw + 1rem, 2.1rem);
-    margin-bottom: 1.5rem;
+    margin-bottom: 2.5rem;
     color: var(--dark-blue);
     
 }
