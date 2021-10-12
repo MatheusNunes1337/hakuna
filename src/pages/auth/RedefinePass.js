@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 
-import { registerSchema } from '../../validations/authSchema'
+import { redefinePassSchema } from '../../validations/authSchema'
 
 import '../../assets/css/styles.css'
 
@@ -18,8 +18,7 @@ function RedefinePass() {
                 throw new Error('The two passwords you entered are different')
             }
             const data = { password } 
-            //await redefinePassSchema.validate(data)
-            console.log(data)
+            await redefinePassSchema.validate(data)
         } catch(err) {
             alert(err.message)
         }

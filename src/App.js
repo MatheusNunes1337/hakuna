@@ -6,7 +6,7 @@ import RedefinePass from './pages/auth/RedefinePass';
 
 function App() {
   return (
-    <Register />
+    <RedefinePass />
   );
 }
 
