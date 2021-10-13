@@ -5,6 +5,7 @@ import Login from '../pages/auth/Login'
 import Register from '../pages/auth/Register'
 import RecoverPass from '../pages/auth/RecoverPass'
 import RedefinePass from '../pages/auth/RedefinePass'
+import Home from '../pages/Home'
 
 function Routes() {
     return (
@@ -21,6 +22,9 @@ function Routes() {
                 </Route>
                 <Route path="/redefine-pass">
                     <RedefinePass />
+                </Route>
+                <Route path="/home">
+                    <Home />
                 </Route>
             </Switch>
         </Router>
