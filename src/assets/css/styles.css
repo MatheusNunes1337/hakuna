@@ -92,12 +92,8 @@ body {
     background-image: linear-gradient(120deg, var(--green), var(--dark-blue));
     border: none;
     font-weight: bold;
-    transition: 1s all ease-in-out;
 }
 
-.form__btn:hover {
-    background-position: right;
-}
 
 .form__link {
     margin-top: 1.5rem;

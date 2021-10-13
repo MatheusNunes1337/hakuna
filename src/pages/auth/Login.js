@@ -34,7 +34,7 @@ function Login() {
                     <label htmlFor="username" className="form__label">senha:</label>
                     <input type="password" className="form__input" onChange={e => setPassword(e.target.value)} />
                     <button className="form__btn">Login</button>
-                    <a href="/" className="form__link">Esqueceu sua senha?</a>
+                    <Link to="/recover-pass" className="form__link">Esqueceu sua senha?</Link>
                 </form>
                 <Link to="/register" className="form__link">Ainda não possui uma conta?</Link>
             </div>
