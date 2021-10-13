@@ -1,10 +1,16 @@
 import React from 'react'
 
+import Container from './Container'
+
 function NavBar() {
     return (
+      <>
       <header>
-          oi
-      </header> 
+          <Container>
+              <p>oi</p>
+          </Container>
+      </header>
+      </> 
     )
 }
 
