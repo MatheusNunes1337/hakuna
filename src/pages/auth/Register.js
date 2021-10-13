@@ -56,7 +56,7 @@ function Register() {
                     }    
                     <button className="form__btn">Cadastrar</button>
                 </form>
-                <a href="/" className="form__link">Já possui uma conta?</a>
+                <Link to="/login" className="form__link">Já possui uma conta?</Link>
             </div>
         </>
     )

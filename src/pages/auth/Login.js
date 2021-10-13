@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 import { loginSchema } from '../../validations/authSchema'
 
@@ -35,7 +36,7 @@ function Login() {
                     <button className="form__btn">Login</button>
                     <a href="/" className="form__link">Esqueceu sua senha?</a>
                 </form>
-                <a href="/" className="form__link">Ainda não possui uma conta?</a>
+                <Link to="/register" className="form__link">Ainda não possui uma conta?</Link>
             </div>
         </>
     )
