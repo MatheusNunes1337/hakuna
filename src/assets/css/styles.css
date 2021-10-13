@@ -3,13 +3,15 @@
 :root {
     --dark-blue: #1b305a;
     --light-green:  #c3f3df;
-    --green:  #1fc99e;
+    --green:  #7ADFBB;
     --light-purple: #e5e1f4;
-    --purple: #6c59a2;
+    --purple: #483A69; /*#6c59a2*/
     --redish: #f5e1e6;
     --red: #ec5865;
     --ice: #efefef;
     --ice-2: #ebebf7;
+    --black: #464646;
+    --yellow: #E0C28F;
 
 }
 
@@ -92,6 +94,7 @@ body {
     background-image: linear-gradient(120deg, var(--green), var(--dark-blue));
     border: none;
     font-weight: bold;
+    cursor: pointer;
 }
 
 
@@ -114,6 +117,69 @@ body {
     width: 90vw;
     max-width: 1200px;
     margin: 0 auto;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0rem 5%;
+    background-color: white;
+}
+
+.navbar__brand {
+    color: var(--dark-blue);
+    font-size: clamp(1.2rem, 1.2vw + 1rem, 1.5rem);
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.navbar__bars {
+    color: var(--dark-blue);
+    font-size: 1.6rem;
+    cursor: pointer;
+}
+
+.navbar__menu {
+    display: flex;
+    padding: .8rem 0;
+}
+
+.navbar__links {
+    list-style: none;
+    padding: 0.8rem 1.2rem;
+}
+
+.navbar__link {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    color: var(--dark-blue);
+    font-weight: bold;
+}
+
+.navbar__btn {
+    padding: 0 1.2rem;
+    margin-left: 1rem;
+    display: inline-flex;
+    align-items: center;
+    color: var(--black);
+    font-weight: bold;
+    font-size: 1rem;
+    background-color: var(--green);
+    outline: unset;
+    border: unset;
+    cursor: pointer;
+}
+
+
+.navbar__link__icon, .navbar__btn__icon {
+    margin-right: .35rem;
+    color: var(--dark-blue);
+}
+
+.navbar__btn__icon {
+    color: var(--black);  
 }
 
 
