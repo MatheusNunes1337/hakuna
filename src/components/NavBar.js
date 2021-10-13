@@ -5,27 +5,23 @@ import { FaBars, FaCrown } from "react-icons/fa"
 import { BiMessageSquareAdd } from "react-icons/bi"
 import { HiLogout } from "react-icons/hi"
 
-
-
 import Container from './Container'
 
 function NavBar() {
 
     return (
-      <>
-      <header>
-          <Container>
-              <nav className="navbar">
+      <> 
+        <nav className="navbar">
+            
                   <Link to="/home" className="navbar__brand">Hakuna</Link>
-                  <FaBars color="#000" className="navbar__bars"/>
+                  <FaBars className="navbar__bars"/>
                   <ul className="navbar__menu">
-                      <li className="navbar__links"><Link to="/home" className="navbar__link"><BiMessageSquareAdd />Grupo</Link></li>
-                      <li className="navbar__links"><Link to="/home" className="navbar__link"><FaCrown />Ranking</Link></li>
-                      <button className="navbar__btn"><HiLogout />Sair</button>
+                      <li className="navbar__links"><Link to="/home" className="navbar__link"><BiMessageSquareAdd className="navbar__link__icon"/>Grupo</Link></li>
+                      <li className="navbar__links"><Link to="/home" className="navbar__link"><FaCrown className="navbar__link__icon" />Ranking</Link></li>
+                      <button className="navbar__btn"><HiLogout className="navbar__btn__icon" />Sair</button>
                   </ul>
-              </nav>
-          </Container>
-      </header>
+                
+        </nav>   
       </> 
     )
 }
