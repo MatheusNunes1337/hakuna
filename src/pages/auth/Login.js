@@ -36,7 +36,6 @@ function Login() {
                     <button className="form__btn">Login</button>
                     <Link to="/recover-pass" className="form__link">Esqueceu sua senha?</Link>
                 </form>
-                <Link to="/register" className="form__link">Ainda não possui uma conta?</Link>
             </div>
         </>
     )
