@@ -218,7 +218,7 @@ main {
     width: 25%;
     min-width: 300px;
     background-color: var(--blue);
-    padding: 3rem 1.5rem;
+    padding: 3rem 0rem;
     position: sticky;
     top: 0;
 }
@@ -229,6 +229,7 @@ main {
     display: block;
     margin: 0 auto;
     border-radius: 50%;
+    border: 5px solid white;
 }
 
 .sidebar__menu {
@@ -237,11 +238,17 @@ main {
 
 .sidebar__links {
     list-style: none;
-    padding: .7rem 2rem;
+    padding: .9rem 2rem;
     display: flex;
     align-items: center;
-    margin: 10px 0px;
+}
+
+.sidebar__links:not(:last-child) {
     border-bottom: .2px solid white;
+}
+
+.sidebar__links:hover {
+    background-color: var(--black);
 }
 
 .sidebar__link {
