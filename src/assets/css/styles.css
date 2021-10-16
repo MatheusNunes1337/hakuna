@@ -196,14 +196,6 @@ body {
     display: flex;
 }
 
-.wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    min-height: 100vh;
-    background-color: #464646;
-}
-
 main {
     max-width: 100vw;
     flex-grow: 1;
@@ -221,6 +213,7 @@ main {
     padding: 3rem 0rem;
     position: sticky;
     top: 0;
+    border-top-left-radius: 5px;
 }
 
 .sidebar__user {
@@ -257,6 +250,7 @@ main {
     text-decoration: none;
     display: flex;
     align-items: center;
+    font-weight: bold;
 }
 
 .sidebar__link__icon {
@@ -267,6 +261,8 @@ main {
     flex-grow: 1;
     height: auto;
     background-color: white;
+    padding: 3rem 2rem;
+    border-top-right-radius: 5px;
 }
 
 @media (max-width: 768px) {
