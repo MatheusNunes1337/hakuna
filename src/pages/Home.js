@@ -7,7 +7,6 @@ import Aside from '../components/Aside'
 function Home() {
     return (
       <>
-      <div className="wrapper">
         <NavBar />
         <main>
           <Container>
@@ -16,8 +15,7 @@ function Home() {
                 <p>content</p>
             </div>
           </Container >  
-        </main>
-       </div>    
+        </main>  
       </>  
     )
 }
