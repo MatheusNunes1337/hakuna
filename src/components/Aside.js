@@ -12,7 +12,7 @@ function Aside() {
     return (
       <aside className="aside">
           <picture>
-            <img src="http://www.thejungleadventure.com/assets/admin/dist/img/logo_admin.png" alt="user_pic" className="sidebar__user" />
+            <img src="https://p7.pstatp.com/origin/pgc-image/4abae973d25e4087907b051520e82df5.jpeg" alt="user_pic" className="sidebar__user" />
           </picture>
           <ul className="sidebar__menu">
             <li className="sidebar__links"><Link to="/home" className="sidebar__link"><FaUserAlt className="sidebar__link__icon"/>Perfil</Link></li>
