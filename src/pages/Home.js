@@ -12,7 +12,7 @@ function Home() {
           <Container>
             <Aside />
             <div className="content">
-                <p>content</p>
+                <h2 className="content__title">Página inicial</h2>
             </div>
           </Container >  
         </main>  

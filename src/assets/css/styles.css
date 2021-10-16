@@ -241,7 +241,7 @@ main {
 }
 
 .sidebar__links:hover {
-    background-color: var(--black);
+    background-color: var(--gray);
 }
 
 .sidebar__link {
@@ -263,6 +263,14 @@ main {
     background-color: white;
     padding: 3rem 2rem;
     border-top-right-radius: 5px;
+}
+
+.content__title {
+    font-size: 1.6rem;
+    color: var(--dark-blue);
+    border: .2px solid transparent;
+    border-bottom-color: var(--dark-blue);
+    padding: 0 0 .8rem 0;
 }
 
 @media (max-width: 768px) {
