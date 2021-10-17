@@ -271,7 +271,7 @@ main {
 
 .content__title {
     font-size: 1.6rem;
-    color: var(--dark-blue);
+    color: var(--black);
     border: .2px solid transparent;
     border-bottom-color: var(--dark-blue);
     padding: 0 0 .8rem 0;
@@ -293,8 +293,10 @@ main {
     padding: 1.5rem .8rem;
     overflow: hidden;
     border-radius: 5px;
-    background-color: var(--light-green);
+    border: 1px solid var(--ice-2);
+    background-color: white;
     text-decoration: none;
+    box-shadow: 1px 1px var(--ice-2);
 }
 
 .card__image {
