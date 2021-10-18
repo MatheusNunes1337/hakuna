@@ -354,6 +354,21 @@ main {
     .aside {
         display: none;
     }
+
+    .card__wrapper {
+        justify-content: space-between;
+    }
+
+    .card {
+        width: 48%;
+        gap: .2rem;
+        justify-content: space-evenly;
+    }
+
+    .card__image {
+        width: 55px;
+        height: 55px;
+    }
 }
 
 
