@@ -26,8 +26,8 @@ function Login() {
 
     return (
         <>
-            <div className="form__container" onSubmit={handleLogin}>
-                <form action="" className="login__form">
+            <div className="form__container">
+                <form action="" className="login__form" onSubmit={handleLogin}>
                     <h2 className="form__title">Login</h2>
                     <label htmlFor="username" className="form__label">Usuário:</label>
                     <input type="text" className="form__input" onChange={e => setUsername(e.target.value)} />
