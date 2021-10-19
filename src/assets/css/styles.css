@@ -70,7 +70,7 @@ body {
     text-indent: 5px;
 }
 
-.form__input, .form__select {
+.form__input, .form__select, .form__textarea {
     width: 100%;
     display: block;
     padding: 0.65rem 0;
@@ -83,7 +83,7 @@ body {
     background-color: white;
 }
 
-.form__input:focus, .form__select:focus {
+.form__input:focus, .form__select:focus, .form__textarea:focus {
     outline-color: var(--blue);
 }
 
@@ -332,6 +332,20 @@ main {
 
 .card__detail__icon {
     margin-right: 5px;
+}
+
+.group__form {
+    margin-top: 3rem;
+}
+
+.group__form .form__input, .group__form .form__select, .group__form .form__textarea {
+    width: 75%;
+    border: 2px solid var(--ice-2);
+    border-radius: 5px;
+}
+
+.group__form .form__btn {
+    width: 75%;
 }
 
 
