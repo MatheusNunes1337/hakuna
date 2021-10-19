@@ -35,6 +35,7 @@ function CreateGroup() {
                     <input type="text" className="form__input" onChange={e => setDiscipline(e.target.value)} />
                     <label htmlFor="topics" className="form__label">Tópicos (máx: 5, separados entre vírgulas):</label>
                     <input type="text" className="form__input" onChange={e => setTopics(e.target.value)} />
+                    <label htmlFor="type" className="form__label">Tipo:</label>
                     <select name="type" className="form__select" onChange={e => setType(e.target.value)}>
                       <option value="true">público</option>
                       <option value="false">privado</option>
