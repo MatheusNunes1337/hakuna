@@ -213,6 +213,8 @@ main {
     padding: 3rem 0rem;
     position: sticky;
     top: 0;
+    position: sticky;
+    max-height: 85vh;
     border-radius: 5px;
 }
 
