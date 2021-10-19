@@ -338,7 +338,9 @@ main {
     margin-top: 3rem;
 }
 
-.group__form .form__input, .group__form .form__select, .group__form .form__textarea {
+.group__form .form__input, 
+.group__form .form__select, 
+.group__form .form__textarea {
     width: 75%;
     border: 2px solid var(--ice-2);
     border-radius: 5px;
@@ -385,6 +387,14 @@ main {
         width: 55px;
         height: 55px;
     }
+
+    .group__form .form__input, 
+    .group__form .form__select, 
+    .group__form .form__textarea,
+    .group__form .form__btn {
+        width: 100%;
+    }
+
 }
 
 
