@@ -7,6 +7,7 @@ import RecoverPass from '../pages/auth/RecoverPass'
 import RedefinePass from '../pages/auth/RedefinePass'
 import Home from '../pages/Home'
 import CreateGroup from '../pages/group/CreateGroup'
+import GroupInfo from '../pages/group/GroupInfo'
 
 function Routes() {
     return (
@@ -26,6 +27,9 @@ function Routes() {
                 </Route>
                 <Route path="/create-group">
                     <CreateGroup />
+                </Route>
+                <Route path="/group-info">
+                    <GroupInfo />
                 </Route>
                 <Route path="/home">
                     <Home />
