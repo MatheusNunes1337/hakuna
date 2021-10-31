@@ -380,6 +380,7 @@ main {
     display: inline-block;
     padding: .3rem .5rem;
     background-color: #6c59a2;
+    font-size: .9rem;
     font-weight: bold;
     border-radius: 15px;
 }
@@ -448,10 +449,25 @@ main {
         height: 55px;
     }
 
+    .group__header {
+        flex-direction: column;
+    }
+
+    .header__image {
+        width: 95px;
+        height: 95px;
+    }
+
+    .header__title {
+        width: 100%;
+        margin-top: 1rem;
+    }
+
     .group__form .form__input, 
     .group__form .form__select, 
     .group__form .form__textarea,
-    .group__form .form__btn {
+    .group__form .form__btn, 
+    .enter__group__form .form__btn {
         width: 100%;
     }
 
