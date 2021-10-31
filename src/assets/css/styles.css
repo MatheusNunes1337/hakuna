@@ -350,6 +350,66 @@ main {
     width: 75%;
 }
 
+/*group info page */
+
+.group__header {
+    display: flex;
+    align-items: center;
+}
+
+.header__image {
+    width: 120px;
+    height: 120px;
+}
+
+.header__title {
+    font-size: 1.6rem;
+    color: var(--black);
+    text-align: justify;
+}
+
+.group__description {
+    font-size: 1.1rem;
+    color: var(--black);
+    text-align: justify;
+    margin-top: 1.4rem;
+}
+
+.group__topic {
+    margin-top: 1.4rem;
+    display: inline-block;
+    padding: .3rem .5rem;
+    background-color: #6c59a2;
+    font-weight: bold;
+    border-radius: 15px;
+}
+
+.group__topic:not(:last-child) {
+    margin-right: 1rem;
+}
+
+.group__topic:nth-child(odd) {
+    background-color: var(--light-green);
+}
+
+.group__topic:nth-child(even) {
+    background-color: var(--yellow);
+}
+
+.enter__group__form {
+    margin-top: 2.4rem;
+}
+
+.enter__group__form .form__input {
+    width: 35%;
+    border: 2px solid var(--ice-2);
+    border-radius: 5px;
+}
+
+.enter__group__form .form__btn {
+    width: 20%;
+}
+
 
 @media (max-width: 768px) {
 
