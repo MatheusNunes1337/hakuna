@@ -7,6 +7,7 @@ import RecoverPass from '../pages/auth/RecoverPass'
 import RedefinePass from '../pages/auth/RedefinePass'
 import Home from '../pages/Home'
 import CreateGroup from '../pages/group/CreateGroup'
+import UpdateGroup from '../pages/group/UpdateGroup'
 import GroupInfo from '../pages/group/GroupInfo'
 
 function Routes() {
@@ -27,6 +28,9 @@ function Routes() {
                 </Route>
                 <Route path="/create-group">
                     <CreateGroup />
+                </Route>
+                <Route path="/group/:id/config">
+                    <UpdateGroup />
                 </Route>
                 <Route path="/group-info">
                     <GroupInfo />
