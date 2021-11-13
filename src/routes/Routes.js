@@ -32,7 +32,7 @@ function Routes() {
                 <Route path="/group/:id/config">
                     <UpdateGroup />
                 </Route>
-                <Route path="/group-info">
+                <Route path="/group-info/:id">
                     <GroupInfo />
                 </Route>
                 <Route path="/home">

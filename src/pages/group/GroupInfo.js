@@ -34,7 +34,7 @@ function GroupInfo() {
                <span className="group__topic">#Trigonometria</span>
                <span className="group__topic">#Funções</span>
                <form action="" className="enter__group__form" onSubmit={handleGroup}>
-               {  is_public === 'true'
+               {  is_public === 'false'
                          ? (
                         <>
                             <label htmlFor="password" className="form__label">Senha de acesso:</label>

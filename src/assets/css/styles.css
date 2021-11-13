@@ -379,7 +379,8 @@ main {
     margin-top: 1.4rem;
     display: inline-block;
     padding: .3rem .5rem;
-    background-color: #6c59a2;
+    background-color:var(--blue);
+    color: white;
     font-size: .9rem;
     font-weight: bold;
     border-radius: 15px;
@@ -387,14 +388,6 @@ main {
 
 .group__topic:not(:last-child) {
     margin-right: 1rem;
-}
-
-.group__topic:nth-child(odd) {
-    background-color: var(--light-green);
-}
-
-.group__topic:nth-child(even) {
-    background-color: var(--yellow);
 }
 
 .enter__group__form {

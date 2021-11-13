@@ -10,13 +10,16 @@ function CreateGroup() {
     let [discipline, setDiscipline] = useState('')
     let [topics, setTopics] = useState('')
     let [is_public, setType] = useState('true')
-    let [password, setPassword] = useState('')
+    let [password, setPassword] = useState(null)
 
      const handleGroup = async (e) => {
         e.preventDefault()
+        
+        const data = {
+          name, description, discipline, topics, is_public, password
+        }
 
-        console.log('formulário de criação de grupo submetido')
-        alert(is_public)
+        console.log(data)
     }
 
     return (

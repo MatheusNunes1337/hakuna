@@ -10,14 +10,17 @@ function CreateGroup() {
     let [discipline, setDiscipline] = useState('')
     let [topics, setTopics] = useState('')
     let [members, setMembers] = useState(0)
-    let [is_public, setType] = useState('true')
-    let [password, setPassword] = useState('')
+    let [is_public, setType] = useState(true)
+    let [password, setPassword] = useState(null)
 
      const handleGroup = async (e) => {
         e.preventDefault()
 
-        console.log('formulário de update de grupo submetido')
-        alert(is_public)
+        const data = {
+          name, description, discipline, topics, members, is_public, password
+        }
+
+        console.log(data)
     }
 
     return (
@@ -41,10 +44,10 @@ function CreateGroup() {
                     <input type="text" className="form__input" onChange={e => setMembers(e.target.value)} />
                     <label htmlFor="type" className="form__label">Tipo:</label>
                     <select name="type" className="form__select" onChange={e => setType(e.target.value)}>
-                      <option value="true">público</option>
-                      <option value="false">privado</option>
+                      <option value={true}>público</option>
+                      <option value={false}>privado</option>
                     </select>
-                    {  is_public === 'false'
+                    {  is_public.toString() === 'false'
                          ? (
                         <>
                             <label htmlFor="password" className="form__label">Senha:</label>
