@@ -4,6 +4,7 @@ import NavBar from '../components/NavBar'
 import Container from '../components/Container'
 import Aside from '../components/Aside'
 import Card from '../components/Card'
+import SearchBar from '../components/SearchBar'
 
 function Home() {
     return (
@@ -11,6 +12,7 @@ function Home() {
         <NavBar />
         <main>
           <Container>
+            <SearchBar />
             <Aside />
             <div className="content">
                 <h2 className="content__title">Página inicial</h2>

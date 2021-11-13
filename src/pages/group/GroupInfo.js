@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import NavBar from '../../components/NavBar'
 import Container from '../../components/Container'
 import Aside from '../../components/Aside'
+import SearchBar from '../../components/SearchBar'
 
 function GroupInfo() {
     let [is_public, setType] = useState('false')
@@ -19,6 +20,7 @@ function GroupInfo() {
         <NavBar />
         <main>
           <Container>
+            <SearchBar />
             <Aside />
             <div className="content">
                <header className="group__header">

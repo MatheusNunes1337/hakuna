@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import NavBar from '../../components/NavBar'
 import Container from '../../components/Container'
 import Aside from '../../components/Aside'
+import SearchBar from '../../components/SearchBar'
 
 function CreateGroup() {
     let [name, setName] = useState('')
@@ -27,6 +28,7 @@ function CreateGroup() {
         <NavBar />
         <main>
           <Container>
+            <SearchBar />
             <Aside />
             <div className="content">
                 <h2 className="content__title">Novo grupo</h2>
