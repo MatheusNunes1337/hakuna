@@ -9,7 +9,7 @@ import Home from '../pages/Home'
 import CreateGroup from '../pages/group/CreateGroup'
 import UpdateGroup from '../pages/group/UpdateGroup'
 import GroupInfo from '../pages/group/GroupInfo'
-
+import Feed from '../pages/group/Feed'
 function Routes() {
     return (
         <Router>
@@ -31,6 +31,9 @@ function Routes() {
                 </Route>
                 <Route path="/group/:id/config">
                     <UpdateGroup />
+                </Route>
+                <Route path="/group/:id/">
+                    <Feed />
                 </Route>
                 <Route path="/group-info/:id">
                     <GroupInfo />
