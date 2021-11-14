@@ -249,9 +249,6 @@ main {
     min-width: 300px;
     background-color: white;
     padding: 3rem 0rem;
-    position: sticky;
-    top: 0;
-    position: sticky;
     max-height: 85vh;
     border-radius: 5px;
 }
@@ -265,8 +262,18 @@ main {
     border: 5px solid var(--blue);
 }
 
+.sidebar__username {
+    display: block;
+    margin: 0 auto;
+    margin-top: 1.5rem;
+    color: var(--black);
+    font-size: 1.1rem;
+    text-align: center;
+    font-weight: bold;
+}
+
 .sidebar__menu {
-    margin-top: 3.5rem;
+    margin-top: 3rem;
 }
 
 .sidebar__links {
@@ -598,7 +605,7 @@ main {
     .group__form .form__select, 
     .group__form .form__btn,
     .post__form .form__textarea, 
-    .enter__group__form .form__btn {
+    .enter__group__form .form__btn, .enter__group__form .form__input {
         width: 100%;
     }
 
