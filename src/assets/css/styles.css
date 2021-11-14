@@ -17,7 +17,6 @@
 
 }
 
-
 * {
     padding: 0;
     margin: 0;
@@ -136,7 +135,7 @@ body {
 
 .navbar__bars {
     display: none;
-    color: var(--dark-blue);
+    color: var(--blue);
     font-size: 1.8rem;
     cursor: pointer;
 }
@@ -380,7 +379,8 @@ main {
 
 .group__form .form__input, 
 .group__form .form__select, 
-.group__form .form__textarea {
+.group__form .form__textarea,
+.post__form .form__textarea {
     width: 75%;
     border: 2px solid var(--ice-2);
     border-radius: 5px;
@@ -388,6 +388,7 @@ main {
 
 .group__form .form__btn {
     width: 75%;
+    border-radius: 5px;
 }
 
 /*group info page */
@@ -444,6 +445,87 @@ main {
     width: 20%;
 }
 
+/* feed */
+
+.group__options{
+    margin: 1.4rem 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: .6rem;
+}
+
+
+.group__options__link {
+    display: flex;
+    align-items: center;
+    padding: .8rem;
+    color: var(--black);
+    font-weight: bold;
+    border-radius: 5px;
+    border: 2px solid var(--blue);
+    text-decoration: none;
+}
+
+.group__options__link:hover {
+    background-color: var(--blue);
+    color: white;
+}
+
+.group__options__icon {
+    margin-right: 5px;
+}
+
+.post__form .form__textarea {
+    width: 100%;
+    text-indent: 10px;
+    color: var(--black);
+    font-weight: bold;
+}
+
+.form__button__group {
+    display: flex;
+    background-color: #3799CE;
+    width: auto;
+}
+
+.post__form .form__btn {
+    width: 15%;
+    border-radius: 5px;
+    display: inline-block;
+}
+
+.post__form .material__btn {
+    display: inline-block;
+    padding: 0.65rem 1.2rem;
+    font-size: clamp(1rem, 1vw + 0.5rem, 1.15rem);
+    text-align: center;
+    margin-left: .5rem;
+    background-color: var(--black);
+    color: white;
+    border: unset;
+    border-radius: 5px;
+}
+
+.group__posts {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2.5rem;
+    min-height: 400px;
+}
+
+.group__feed__icon {
+    display: block;
+    margin-bottom: 1rem;
+    font-size: 3rem;
+}
+
+.group__feed__message {
+    font-size: clamp(1rem, 1vw + 0.5rem, 1.15rem);
+    font-weight: bold;
+    color: var(--black);
+}
 
 @media (max-width: 768px) {
 
@@ -514,12 +596,19 @@ main {
 
     .group__form .form__input, 
     .group__form .form__select, 
-    .group__form .form__textarea,
-    .group__form .form__btn, 
+    .group__form .form__btn,
+    .post__form .form__textarea, 
     .enter__group__form .form__btn {
         width: 100%;
     }
 
+    .post__form .form__btn {
+        width: 25%;
+    }
+
+    .group__options__link {
+        width: 100%;
+    }
 }
 
 

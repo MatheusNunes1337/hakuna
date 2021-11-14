@@ -1,9 +1,10 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { Link } from 'react-router-dom'
 
 import { HiLogout, HiUsers } from "react-icons/hi"
 import { BsFillCameraVideoFill, BsFillGearFill } from "react-icons/bs";
 import {FaBook} from 'react-icons/fa'
+import { CgFeed } from "react-icons/cg";
 
 import NavBar from '../../components/NavBar'
 import Container from '../../components/Container'
@@ -11,6 +12,7 @@ import Aside from '../../components/Aside'
 import SearchBar from '../../components/SearchBar'
 
 export default function Feed() {
+    const [posts, setPosts] = useState([])
     const handlePost = () => {
         console.log('post criado com sucesso')
     }
@@ -37,7 +39,17 @@ export default function Feed() {
                         <button className="material__btn"><FaBook className="group__options__icon"/></button>   
                     </form>
                     <div className="group__posts">
-                        
+                    {  posts.length !== 0
+                         ? (
+                        <>
+                            ''
+                        </>    
+                        ) 
+                        : <>
+                            <CgFeed className="group__feed__icon"/>
+                            <p className="group__feed__message">Nenhuma publicação foi realizada ainda</p>
+                          </>
+                    }
                     </div>
                 </div>
                 </Container >  

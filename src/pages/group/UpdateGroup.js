@@ -11,12 +11,12 @@ function CreateGroup() {
     let [discipline, setDiscipline] = useState('')
     let [topics, setTopics] = useState('')
     let [members, setMembers] = useState(0)
-    let [is_public, setType] = useState(true)
+    let [is_public, setType] = useState('true')
     let [password, setPassword] = useState(null)
 
      const handleGroup = async (e) => {
         e.preventDefault()
-
+        
         const data = {
           name, description, discipline, topics, members, is_public, password
         }
@@ -49,7 +49,7 @@ function CreateGroup() {
                       <option value={true}>público</option>
                       <option value={false}>privado</option>
                     </select>
-                    {  is_public.toString() === 'false'
+                    {  is_public === 'false'
                          ? (
                         <>
                             <label htmlFor="password" className="form__label">Senha:</label>
