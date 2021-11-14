@@ -3,10 +3,8 @@ import { Link } from 'react-router-dom'
 
 import { FaUserAlt } from "react-icons/fa"
 import { HiUserGroup } from "react-icons/hi";
-import { BsFillChatLeftFill } from "react-icons/bs";
+import { BsFillChatLeftFill, BsFillGearFill } from "react-icons/bs";
 import { IoNotifications } from "react-icons/io5";
-
-
 
 function Aside() {
     return (
@@ -20,7 +18,7 @@ function Aside() {
             <li className="sidebar__links"><Link to="/home" className="sidebar__link"><HiUserGroup className="sidebar__link__icon"/>Grupos</Link></li>
             <li className="sidebar__links"><Link to="/home" className="sidebar__link"><BsFillChatLeftFill className="sidebar__link__icon"/>Conversas</Link></li>
             <li className="sidebar__links"><Link to="/home" className="sidebar__link"><IoNotifications className="sidebar__link__icon"/>Notificações</Link></li>
-            <li className="sidebar__links"><Link to="/home" className="sidebar__link"><IoNotifications className="sidebar__link__icon"/>Grupo</Link></li>
+            <li className="sidebar__links"><Link to="/home" className="sidebar__link"><BsFillGearFill className="sidebar__link__icon"/>Configurações</Link></li>
           </ul>
       </aside> 
     )
