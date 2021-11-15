@@ -10,7 +10,7 @@ function Register() {
     let [email, setEmail] = useState('')
     let [password, setPassword] = useState('')
     let [type, setType] = useState('')
-    let [area, setArea] = useState('')
+    let [area, setArea] = useState(null)
 
     const handleRegister = async (e) => {
         e.preventDefault()
