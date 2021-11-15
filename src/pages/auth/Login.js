@@ -1,26 +1,26 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
+import axios from 'axios'
 
-import { loginSchema } from '../../validations/authSchema'
+//import { loginSchema } from '../../validations/authSchema'
 
 import '../../assets/css/styles.css'
 
 function Login() {
     let [username, setUsername] = useState('')
     let [password, setPassword] = useState('')
+    const history = useHistory()
 
      const handleLogin = async (e) => {
         e.preventDefault()
 
         try {
-            const data = {username, password}
-            const isNumber = parseInt(data.username)
-            if(isNumber) {
-                throw new Error('The username must be a string!')
-            }
-            await loginSchema.validate(data)
+            const userData = {username, password}
+            const {data} = await axios.post('http://hakunaa-api.herokuapp.com/api/auth/login', userData)
+            localStorage.setItem('userToken', data.token)
+            history.push('/home')
         } catch(err) {
-            alert(err.message)
+            alert(err.response.data.error)
         }
     }
 
