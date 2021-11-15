@@ -5,13 +5,16 @@ import { FaUserAlt } from "react-icons/fa"
 import { RiLock2Fill } from "react-icons/ri";
 import { MdPublic } from "react-icons/md";
 
+import matematica from '../assets/images/matematica.png'
+import astronomia from '../assets/images/astronomia.png'
+
 
 
 function Card(props) {
 
     return (
       <Link className="card" to="/home">
-          <img src="https://www.freeiconspng.com/uploads/whatsapp-icon-png-4.png" alt="card-image" className="card__image" />
+          <img src={astronomia} alt="card-image" className="card__image" />
           <div className="card__content">
               <h2 className="card__title">Grupo de astronomia</h2>
               <div className="card__details">
