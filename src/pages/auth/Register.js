@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
+import axios from 'axios'
 
 import { registerSchema } from '../../validations/authSchema'
 
@@ -9,23 +10,25 @@ function Register() {
     let [username, setUsername] = useState('')
     let [email, setEmail] = useState('')
     let [password, setPassword] = useState('')
-    let [type, setType] = useState('')
+    let [type, setType] = useState('student')
     let [area, setArea] = useState(null)
+    const history = useHistory()
 
     const handleRegister = async (e) => {
         e.preventDefault()
 
         try {
-            const data = {
+            const userData = {
                 username, email, password, type
             }
             if(area) {
-                data.area = area
+                userData.area = area
             } 
-            await registerSchema.validate(data)
-            console.log(data)
+            const {data} = await axios.post('http://hakunaa-api.herokuapp.com/api/auth/register', userData)
+            localStorage.setItem('userToken', data.token)
+            history.push('/home')
         } catch(err) {
-            alert(err.message)
+            alert(err.response.data.error)
         }
     }
 
