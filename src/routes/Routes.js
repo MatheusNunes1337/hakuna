@@ -1,5 +1,5 @@
 import React from 'react'
-import {BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import {BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
 
 import Login from '../pages/auth/Login'
 import Register from '../pages/auth/Register'
@@ -11,6 +11,16 @@ import UpdateGroup from '../pages/group/UpdateGroup'
 import GroupInfo from '../pages/group/GroupInfo'
 import Feed from '../pages/group/Feed'
 import UserConfig from '../pages/user/Config'
+
+function CustomRoute(props) {
+	const userToken = localStorage.getItem('userToken')
+	if(props.private && !userToken) {
+		return <Redirect to="/login" />
+	} 
+	else {
+		return <Route {...props} />
+	}
+}
 
 function Routes() {
     return (
@@ -28,24 +38,24 @@ function Routes() {
                 <Route path="/redefine-pass">
                     <RedefinePass />
                 </Route>
-                <Route path="/create-group">
+                <CustomRoute private path="/create-group">
                     <CreateGroup />
-                </Route>
-                <Route path="/group/:id/config">
+                </CustomRoute>
+                <CustomRoute private path="/group/:id/config">
                     <UpdateGroup />
-                </Route>
-                <Route path="/group/:id/">
+                </CustomRoute>
+                <CustomRoute private path="/group/:id/">
                     <Feed />
-                </Route>
-                <Route path="/group-info/:id">
+                </CustomRoute>
+                <CustomRoute private path="/group-info/:id">
                     <GroupInfo />
-                </Route>
-                <Route path="/user/:id/config">
+                </CustomRoute>
+                <CustomRoute private path="/user/:id/config">
                     <UserConfig />
-                </Route>
-                <Route path="/home">
+                </CustomRoute>
+                <CustomRoute private path="/home">
                     <Home />
-                </Route>
+                </CustomRoute>
             </Switch>
         </Router>
     )
