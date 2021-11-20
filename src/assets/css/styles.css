@@ -645,6 +645,7 @@ main {
 
     .group__form .form__input, 
     .group__form .form__select, 
+    .group__form .form__textarea, 
     .group__form .form__btn,
     .user__form .form__input,
     .user__form .form__select,
