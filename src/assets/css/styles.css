@@ -556,16 +556,16 @@ main {
     width: 100%;
 }
 
-.user__form .form__btn {
+.user__form .form__btn, .group__form .form__btn {
     font-size: 1rem;
     width: 20%;
 }
 
-.user__form .form__btn:nth-child(2n){
+.user__form .form__btn:nth-child(2n), .group__form .form__btn:nth-child(2n){
     background-color: var(--black);
 }
 
-.user__form .button__group {
+.user__form .button__group, .group__form .button__group {
     display: flex;
     flex-wrap: wrap;
     gap: 5px;
@@ -677,11 +677,11 @@ main {
         width: 13%;
     }
 
-    .user__form .button__group {
+    .user__form .button__group, .group__form .button__group {
         margin-top: 1.3rem;
     }
 
-    .user__form .button__group .form__btn {
+    .user__form .button__group .form__btn, .group__form .button__group .form__btn {
         margin-top: .5rem;
     }
 }
