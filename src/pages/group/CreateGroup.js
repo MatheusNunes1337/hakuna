@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-
+import { useHistory } from 'react-router-dom'
+import axios from 'axios'
 import NavBar from '../../components/NavBar'
 import Container from '../../components/Container'
 import Aside from '../../components/Aside'
@@ -13,14 +14,23 @@ function CreateGroup() {
     let [is_public, setType] = useState('true')
     let [password, setPassword] = useState(null)
 
+    const history = useHistory()
+    const userToken = localStorage.getItem('userToken')
+
      const handleGroup = async (e) => {
         e.preventDefault()
-        
-        const data = {
-          name, description, discipline, topics, is_public, password
+        try {
+          const groupData = {
+            name, description, discipline, topics: topics.split(','), is_public, password
+          }
+          const headers = { Authorization: `Bearer ${userToken}` }
+          const {data} = await axios.post('http://localhost:8080/api/groups', groupData, { headers })
+          alert('Grupo criado com sucesso')
+          history.push(`/group/${data.id}`)
+        } catch(err) {
+          alert(err.response.data.error)
         }
-
-        console.log(data)
+        
     }
 
     return (

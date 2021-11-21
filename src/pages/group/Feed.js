@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useParams, useHistory } from 'react-router-dom'
 
 import { HiLogout, HiUsers } from "react-icons/hi"
 import { BsFillCameraVideoFill, BsFillGearFill } from "react-icons/bs";
@@ -13,6 +13,10 @@ import SearchBar from '../../components/SearchBar'
 
 export default function Feed() {
     const [posts, setPosts] = useState([])
+
+    const { id } = useParams();
+    const history = useHistory()
+
     const handlePost = () => {
         console.log('post criado com sucesso')
     }
@@ -30,7 +34,7 @@ export default function Feed() {
                         <Link to="/home" className="group__options__link"><HiUsers className="group__options__icon"/>Membros</Link>
                         <Link to="/home" className="group__options__link"><FaBook className="group__options__icon"/>Materiais</Link>
                         <Link to="/home" className="group__options__link"><BsFillCameraVideoFill className="group__options__icon"/>Videochamadas</Link>
-                        <Link to="/home" className="group__options__link"><BsFillGearFill className="group__options__icon"/>Configurações</Link>
+                        <Link to={`/group/${id}/config`} className="group__options__link"><BsFillGearFill className="group__options__icon"/>Configurações</Link>
                         <Link to="/home" className="group__options__link"><HiLogout className="group__options__icon"/>Sair</Link>
                     </div>
                     <form action="" className="post__form" onSubmit={handlePost}>

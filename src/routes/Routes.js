@@ -50,7 +50,7 @@ function Routes() {
                 <CustomRoute private path="/group-info/:id">
                     <GroupInfo />
                 </CustomRoute>
-                <CustomRoute private path="/user/:id/config">
+                <CustomRoute private path="/user/config">
                     <UserConfig />
                 </CustomRoute>
                 <CustomRoute private path="/home">
