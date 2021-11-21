@@ -15,7 +15,6 @@ function CreateGroup() {
     let [members, setMembers] = useState(0)
     let [is_public, setType] = useState('true')
     let [password, setPassword] = useState('')
-    let [hidePassField, setVisibility] = useState('true')
 
     const { id } = useParams()
     const history = useHistory()
@@ -59,10 +58,6 @@ function CreateGroup() {
         }
     }
 
-    const showPasswordField = () => {
-      setVisibility('false')
-    }
-
     const deleteGroup = async () => {
       try {
         await axios.delete(`http://localhost:8080/api/groups/${id}`, {headers})
@@ -93,11 +88,11 @@ function CreateGroup() {
                     <label htmlFor="max_members" className="form__label">Número máximo de membros:</label>
                     <input type="text" className="form__input" value={members} onChange={e => setMembers(e.target.value)} />
                     <label htmlFor="type" className="form__label">Tipo:</label>
-                    <select name="type" className="form__select" defaultValue={is_public} onChange={e => setType(e.target.value)}>
+                    <select name="type" className="form__select" value={is_public.toString()} onChange={e => setType(e.target.value)}>
                       <option value="true">público</option>
                       <option value="false" selected="selected">privado</option>
                     </select>
-                    {  is_public === 'false'
+                    {  is_public.toString() === 'false'
                          ? (
                         <>
                             <label htmlFor="password" className="form__label">Senha:</label>
@@ -108,12 +103,6 @@ function CreateGroup() {
                     }
                      <div className="button__group">
                       <button className="form__btn">Salvar</button>
-                      {  is_public === 'false'
-                         ? (
-                          <button type="button" className="form__btn" onClick={showPasswordField}>Alterar senha</button>   
-                        ) 
-                        : ''
-                      }
                       <button type="button" className="form__btn" onClick={deleteGroup}>Excluir grupo</button>
                     </div>
                 </form>
