@@ -11,6 +11,7 @@ function NavBar() {
   const history = useHistory()
     const logout = () => {
       localStorage.removeItem('userToken')
+      localStorage.removeItem('userId')
       history.push('/login')
     }
 
