@@ -16,8 +16,9 @@ function Login() {
 
         try {
             const userData = {username, password}
-            const {data} = await axios.post('http://hakunaa-api.herokuapp.com/api/auth/login', userData)
+            const {data} = await axios.post('http://localhost:8080/api/auth/login', userData)
             localStorage.setItem('userToken', data.token)
+            localStorage.setItem('userId', data.id)
             history.push('/home')
         } catch(err) {
             alert(err.response.data.error)

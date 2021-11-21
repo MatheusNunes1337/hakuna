@@ -24,8 +24,9 @@ function Register() {
             if(area) {
                 userData.area = area
             } 
-            const {data} = await axios.post('http://hakunaa-api.herokuapp.com/api/auth/register', userData)
+            const {data} = await axios.post('http://localhost:8080/api/auth/register', userData)
             localStorage.setItem('userToken', data.token)
+            localStorage.setItem('userId', data.id)
             history.push('/home')
         } catch(err) {
             alert(err.response.data.error)
@@ -43,7 +44,7 @@ function Register() {
                     <input type="email" className="form__input" onChange={e => setEmail(e.target.value)} />
                     <label htmlFor="password" className="form__label">Senha:</label>
                     <input type="password" className="form__input" onChange={e => setPassword(e.target.value)} />
-                    <label htmlFor="type" className="form__label">I am:</label>
+                    <label htmlFor="type" className="form__label">Eu sou:</label>
                     <select name="type" className="form__select" onChange={e => setType(e.target.value)}>
                       <option value="student">estudante</option>
                       <option value="teacher">professor</option>
