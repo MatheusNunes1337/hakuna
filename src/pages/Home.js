@@ -1,4 +1,5 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
+import axios from 'axios'
 
 import NavBar from '../components/NavBar'
 import Container from '../components/Container'
@@ -7,28 +8,53 @@ import Card from '../components/Card'
 import SearchBar from '../components/SearchBar'
 
 function Home() {
-    return (
-      <>
-        <NavBar />
-        <main>
-          <Container>
-            <SearchBar />
-            <Aside />
-            <div className="content">
-                <h2 className="content__title">Página inicial</h2>
-                <div className="card__wrapper">
-                  <Card />
-                  <Card />
-                  <Card />
-                  <Card />
-                  <Card />
-                  <Card />
-                </div>
+  let [groups, setGroups] = useState([])
+
+  const token = localStorage.getItem('userToken')
+  const headers = { Authorization: `Bearer ${token}` }
+
+  useEffect(() => {
+    const getGroups = async () => {
+      try {
+        const {data} = await axios.get(`http://localhost:8080/api/groups/user`, {headers})
+        console.log('data', data)
+        setGroups(data)
+      } catch(err) {
+        alert(err.response.data.error)
+      }
+    }
+
+    getGroups()
+  }, [])
+  return (
+    <>
+      <NavBar />
+      <main>
+        <Container>
+          <SearchBar />
+          <Aside />
+          <div className="content">
+            <h2 className="content__title">Página inicial</h2>
+            <div className="card__wrapper">
+            {
+              groups.map((group, index) => {
+                return (
+                <Card key={index} 
+                id={group.id} 
+                title={group.name} 
+                icon={group.discipline} 
+                max_members={group.max_members}
+                is_public={group.is_public}
+                />)
+              })
+            }
             </div>
-          </Container >  
-        </main>  
-      </>  
-    )
+          </div>
+        </Container >  
+      </main>  
+    </>  
+  )
 }
+
 
 export default Home

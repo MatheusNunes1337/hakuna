@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import { Link, useParams, useHistory } from 'react-router-dom'
+import axios from 'axios'
 
 import { HiLogout, HiUsers } from "react-icons/hi"
 import { BsFillCameraVideoFill, BsFillGearFill } from "react-icons/bs";
@@ -15,10 +16,21 @@ export default function Feed() {
     const [posts, setPosts] = useState([])
 
     const { id } = useParams();
+    const token = localStorage.getItem('userToken')
+    const headers = { Authorization: `Bearer ${token}` }
     const history = useHistory()
 
     const handlePost = () => {
         console.log('post criado com sucesso')
+    }
+
+    const quitGroup = async () => {
+        try {
+            await axios.delete(`http://localhost:8080/api/members/group/${id}`, {headers})
+            history.push('/home')
+        } catch(err) {
+            alert(err.response.data.error)
+        }
     }
 
     return (
@@ -35,7 +47,7 @@ export default function Feed() {
                         <Link to="/home" className="group__options__link"><FaBook className="group__options__icon"/>Materiais</Link>
                         <Link to="/home" className="group__options__link"><BsFillCameraVideoFill className="group__options__icon"/>Videochamadas</Link>
                         <Link to={`/group/${id}/config`} className="group__options__link"><BsFillGearFill className="group__options__icon"/>Configurações</Link>
-                        <Link to="/home" className="group__options__link"><HiLogout className="group__options__icon"/>Sair</Link>
+                        <button className="group__options__btn" onClick={quitGroup}><HiLogout className="group__options__icon"/>Sair</button>
                     </div>
                     <form action="" className="post__form" onSubmit={handlePost}>
                         <textarea name="description" className="form__textarea" id="group__description" cols="30" rows="7">Compartilhe algo com os seus colegas</textarea>
