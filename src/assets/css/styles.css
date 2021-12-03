@@ -253,7 +253,7 @@ main {
     border-radius: 5px;
 }
 
-.sidebar__user {
+.sidebar__user, .hidden__menu__user {
     width: 150px;
     height: 150px;
     display: block;
@@ -262,7 +262,7 @@ main {
     border: 5px solid var(--blue);
 }
 
-.sidebar__username {
+.sidebar__username, .hidden__menu__username {
     display: block;
     margin: 0 auto;
     margin-top: 1.5rem;
@@ -272,22 +272,22 @@ main {
     font-weight: bold;
 }
 
-.sidebar__menu {
+.sidebar__menu, .user__menu {
     margin-top: 3rem;
 }
 
-.sidebar__links {
+.sidebar__links, .user__links {
     list-style: none;
     padding: .9rem 2rem;
     display: flex;
     align-items: center;
 }
 
-.sidebar__links:not(:last-child) {
+.sidebar__links:not(:last-child), .user__links:not(:last-child) {
     border-bottom: .2px solid white;
 }
 
-.sidebar__link {
+.sidebar__link, .user__link {
     font-size: 1.1rem;
     color:var(--black);
     text-decoration: none;
@@ -296,17 +296,37 @@ main {
     font-weight: bold;
 }
 
-.sidebar__links:hover {
+.sidebar__links:hover, .user__links:hover {
     background-color: var(--blue);
 }
 
-.sidebar__links:hover .sidebar__link {
+.sidebar__links:hover .sidebar__link, .user__links:hover .user__link {
     color: white;
 }
 
-.sidebar__link__icon {
+.sidebar__link__icon,  .user__link__icon {
     margin-right: .8rem;
 }
+
+.hidden__menu {
+    background-color: white;
+    padding: 2rem 0;
+}
+
+.user__link, .hidden__menu__username {
+    font-size: 1rem;
+}
+
+.hidden__menu__username {
+    margin-top: 1rem;
+}
+
+.hidden__menu__user {
+    width: 130px;
+    height: 130px;
+}
+
+
 
 .content {
     /*flex-grow: 1;*/
