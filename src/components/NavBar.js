@@ -11,8 +11,6 @@ import { HiUserGroup } from "react-icons/hi";
 import { BsFillChatLeftFill, BsFillGearFill } from "react-icons/bs";
 import { IoNotifications } from "react-icons/io5";
 
-import Container from './Container'
-
 function NavBar() {
   let [hiddenMenu, setVisibility] = useState(true)
   let [username, setUsername] = useState('')
@@ -71,11 +69,14 @@ function NavBar() {
               </picture>
               <span className="hidden__menu__username">{username}</span>
               <ul className="user__menu">
+                <li className="user__links"><Link to="/create-group" className="user__link"><BiMessageSquareAdd className="user__link__icon"/>Grupo</Link></li>
+                <li className="user__links"><Link to="/home" className="user__link"><FaCrown className="user__link__icon" />Ranking</Link></li>
                 <li className="user__links"><Link to="/home" className="user__link"><FaUserAlt className="user__link__icon"/>Perfil</Link></li>
                 <li className="user__links"><Link to="/home" className="user__link"><HiUserGroup className="user__link__icon"/>Grupos</Link></li>
                 <li className="user__links"><Link to="/home" className="user__link"><BsFillChatLeftFill className="user__link__icon"/>Conversas</Link></li>
                 <li className="user__links"><Link to="/home" className="user__link"><IoNotifications className="user__link__icon"/>Notificações</Link></li>
                 <li className="user__links"><Link to="/user/config" className="user__link"><BsFillGearFill className="user__link__icon"/>Configurações</Link></li>
+                <button className="user__menu__btn"><HiLogout className="user__menu__btn__icon" onClick={logout}/>Sair</button>
               </ul>
             </div>
           </>    

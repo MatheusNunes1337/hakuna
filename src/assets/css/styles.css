@@ -161,7 +161,7 @@ body {
     color: var(--blue);
 }
 
-.navbar__btn {
+.navbar__btn, .user__menu__btn {
     padding: 0 1.2rem;
     margin-left: 1rem;
     display: inline-flex;
@@ -177,7 +177,7 @@ body {
 }
 
 
-.navbar__link__icon, .navbar__btn__icon {
+.navbar__link__icon, .navbar__btn__icon, .user__menu__btn__icon {
     margin-right: .35rem;
 }
 
@@ -317,6 +317,12 @@ main {
     font-size: 1rem;
 }
 
+.user__menu__btn {
+    margin-top: 1rem;
+    margin-left: 2rem;
+    padding: 0.8rem;
+}
+
 .hidden__menu__username {
     margin-top: 1rem;
 }
@@ -325,6 +331,7 @@ main {
     width: 130px;
     height: 130px;
 }
+
 
 
 
