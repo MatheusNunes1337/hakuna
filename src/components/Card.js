@@ -14,7 +14,7 @@ import idiomas from '../assets/images/idiomas.png'
 
 
 
-function Card({id, icon, title, max_members, is_public}) {
+function Card({id, icon, title, max_members, is_public, members}) {
   let [cardIcon, setIcon] = useState('')
   
   switch(icon) {

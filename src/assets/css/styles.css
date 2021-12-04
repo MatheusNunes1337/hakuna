@@ -256,6 +256,7 @@ main {
 .sidebar__user, .hidden__menu__user {
     width: 150px;
     height: 150px;
+    padding: 4px;
     display: block;
     margin: 0 auto;
     border-radius: 50%;

@@ -9,7 +9,7 @@ import SearchBar from '../components/SearchBar'
 
 function Home() {
   let [groups, setGroups] = useState([])
-
+  
   const token = localStorage.getItem('userToken')
   const headers = { Authorization: `Bearer ${token}` }
 
@@ -17,7 +17,6 @@ function Home() {
     const getGroups = async () => {
       try {
         const {data} = await axios.get(`http://localhost:8080/api/groups/user`, {headers})
-        console.log('data', data)
         setGroups(data)
       } catch(err) {
         alert(err.response.data.error)
