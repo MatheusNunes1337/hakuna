@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { Link, useParams, useHistory } from 'react-router-dom'
 import axios from 'axios'
 
@@ -14,11 +14,28 @@ import SearchBar from '../../components/SearchBar'
 
 export default function Feed() {
     const [posts, setPosts] = useState([])
+    const [isMod, setMod] = useState(false)
 
     const { id } = useParams();
     const token = localStorage.getItem('userToken')
+    const userId = localStorage.getItem('userId')
     const headers = { Authorization: `Bearer ${token}` }
     const history = useHistory()
+
+    useEffect(() => {
+        const getMods = async () => {
+          try {
+            const {data} = await axios.get(`http://localhost:8080/api/members/group/${id}/mods`, {headers})
+            data.map(mod => {
+                if(mod.id == userId)
+                    setMod(true)
+            })
+          } catch(err) {
+            alert(err.response.data.error)
+          }
+        }
+        getMods()
+      }, [])
 
     const handlePost = () => {
         console.log('post criado com sucesso')
@@ -46,7 +63,7 @@ export default function Feed() {
                         <Link to="/home" className="group__options__link"><HiUsers className="group__options__icon"/>Membros</Link>
                         <Link to="/home" className="group__options__link"><FaBook className="group__options__icon"/>Materiais</Link>
                         <Link to="/home" className="group__options__link"><BsFillCameraVideoFill className="group__options__icon"/>Videochamadas</Link>
-                        <Link to={`/group/${id}/config`} className="group__options__link"><BsFillGearFill className="group__options__icon"/>Configurações</Link>
+                        {!isMod ? '' : <Link to={`/group/${id}/config`} className="group__options__link"><BsFillGearFill className="group__options__icon"/>Configurações</Link>}
                         <button className="group__options__btn" onClick={quitGroup}><HiLogout className="group__options__icon"/>Sair</button>
                     </div>
                     <form action="" className="post__form" onSubmit={handlePost}>
