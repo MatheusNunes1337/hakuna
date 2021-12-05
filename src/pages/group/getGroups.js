@@ -20,8 +20,8 @@ function GetGroups() {
 
   const token = localStorage.getItem('userToken')
   const headers = { Authorization: `Bearer ${token}` }
-  const filter = query.get("q")
-
+  const filter = query.get("query")
+ 
   useEffect(() => {
     const getGroups = async () => {
       try {
@@ -54,7 +54,7 @@ function GetGroups() {
                 icon={group.discipline} 
                 max_members={group.max_members}
                 is_public={group.is_public}
-                bibi={true}
+                search={true}
                 />)
               })
             }

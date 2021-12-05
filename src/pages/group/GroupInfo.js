@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { useParams, useHistory } from 'react-router-dom'
+import { useParams, useHistory, Redirect } from 'react-router-dom'
 import axios from 'axios'
 
 import NavBar from '../../components/NavBar'
 import Container from '../../components/Container'
 import Aside from '../../components/Aside'
 import SearchBar from '../../components/SearchBar'
+import setGroupIcon from '../../utils/setGroupIcon'
 
 function GroupInfo() {
     let [name, setName] = useState('')
@@ -13,6 +14,7 @@ function GroupInfo() {
     let [topics, setTopics] = useState([])
     let [is_public, setType] = useState('false')
     let [password, setPassword] = useState('')
+    let [icon, setIcon] = useState('')
 
     const { id } = useParams()
     const history = useHistory()
@@ -20,14 +22,30 @@ function GroupInfo() {
     const headers = { Authorization: `Bearer ${userToken}` }
 
     useEffect(() => {
+      const getGroups = async() => {
+        try {
+          const {data} = await axios.get(`http://localhost:8080/api/groups/user`,  {headers})
+          data.map(group => {
+            if(group.id == id)
+              return history.push(`/group/${id}`)
+          })
+        } catch(err) {
+          alert(err.response.data.error)
+        }
+      }
+      getGroups()
+    }, [])
+
+    useEffect(() => {
       const getGroup = async() => {
         try {
           const {data} = await axios.get(`http://localhost:8080/api/groups/${id}`,  {headers})
-          const {name, description, topics, is_public } = data
+          const {name, description, discipline, topics, is_public } = data
           setName(name)
           setDescription(description)
           setTopics(topics)
           setType(is_public.toString())
+          setIcon(setGroupIcon(discipline))
         } catch(err) {
           alert(err.response.data.error)
         }
@@ -56,7 +74,7 @@ function GroupInfo() {
             <Aside />
             <div className="content">
                <header className="group__header">
-                    <img src="https://www.freeiconspng.com/uploads/whatsapp-icon-png-4.png" alt="card-image" className="header__image" />
+                    <img src={icon} alt="group-image" className="header__image" />
                     <h2 className="header__title">{name}</h2>
                </header>
                <p className="group__description">

@@ -1,46 +1,18 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 
 import { Link } from 'react-router-dom'
 import { FaUserAlt } from "react-icons/fa"
 import { RiLock2Fill } from "react-icons/ri";
 import { BiWorld } from "react-icons/bi"
 
-import matematica from '../assets/images/matematica.png'
-import astronomia from '../assets/images/astronomia.png'
-import direito from '../assets/images/direito.png'
-import programacao from '../assets/images/programacao.png'
-import quimica from '../assets/images/quimica.png'
-import idiomas from '../assets/images/idiomas.png'
+import setGroupIcon from '../utils/setGroupIcon';
 
-
-
-function Card({id, icon, title, max_members, is_public, members, bibi}) {
+function Card({id, icon, title, max_members, is_public, members, search}) {
   let [cardIcon, setIcon] = useState('')
+  useEffect(() => {
+    setIcon(setGroupIcon(icon))
+  }, [])
   
-  switch(icon) {
-    case 'matemática':
-      cardIcon = matematica
-      break
-    case 'astronomia':
-      cardIcon = astronomia
-      break
-    case 'direito':
-      cardIcon = direito
-      break
-    case 'programacao':
-      cardIcon = programacao
-      break 
-    case 'quimica':
-      cardIcon = quimica
-      break
-    case 'idiomas':
-      cardIcon = idiomas
-      break
-    default:
-      cardIcon = astronomia
-      break            
-  }
-
   return (
     <Link className="card" to={!search ? `/group/${id}` : `/group-info/${id}`}>
         <img src={cardIcon} alt="card-image" className="card__image" />
