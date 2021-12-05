@@ -14,7 +14,7 @@ import idiomas from '../assets/images/idiomas.png'
 
 
 
-function Card({id, icon, title, max_members, is_public, members}) {
+function Card({id, icon, title, max_members, is_public, members, bibi}) {
   let [cardIcon, setIcon] = useState('')
   
   switch(icon) {
@@ -42,7 +42,7 @@ function Card({id, icon, title, max_members, is_public, members}) {
   }
 
   return (
-    <Link className="card" to={`/group/${id}`}>
+    <Link className="card" to={!search ? `/group/${id}` : `/group-info/${id}`}>
         <img src={cardIcon} alt="card-image" className="card__image" />
         <div className="card__content">
             <h2 className="card__title">{title}</h2>
