@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
-import axios from 'axios'
+import api from '../../services/api'
 
 import { registerSchema } from '../../validations/authSchema'
 
@@ -24,7 +24,7 @@ function Register() {
             if(area) {
                 userData.area = area
             } 
-            const {data} = await axios.post('http://localhost:8080/api/auth/register', userData)
+            const {data} = await api.api('auth/register', userData)
             localStorage.setItem('userToken', data.token)
             localStorage.setItem('userId', data.id)
             history.push('/home')

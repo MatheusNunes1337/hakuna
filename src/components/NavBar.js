@@ -1,6 +1,6 @@
 import React, {useEffect, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
-import axios from 'axios'
+import api from '../services/api'
 
 import { FaBars, FaCrown } from "react-icons/fa"
 import { BiMessageSquareAdd } from "react-icons/bi"
@@ -25,7 +25,7 @@ function NavBar() {
   useEffect(() => {
     const getUser = async () => {
       try {
-        const {data} = await axios.get(`http://localhost:8080/api/users/${id}`, {headers})
+        const {data} = await api.get(`users/${id}`, {headers})
         const {username} = data
         setUsername(username)
       } catch(err) {

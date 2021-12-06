@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
-import axios from 'axios'
+import api from '../../services/api'
 
 import NavBar from '../../components/NavBar'
 import Container from '../../components/Container'
@@ -25,7 +25,7 @@ function CreateGroup() {
       const getGroup = async() => {
         try {
           const headers = { Authorization: `Bearer ${userToken}` }
-          const {data} = await axios.get(`http://localhost:8080/api/groups/${id}`, { headers })
+          const {data} = await api.get(`groups/${id}`, { headers })
           const {name, description, discipline, topics, max_members, is_public } = data
           setName(name)
           setDescription(description)
@@ -51,7 +51,7 @@ function CreateGroup() {
           if(payload.is_public === 'true') 
             payload.password = null
   
-          await axios.put(`http://localhost:8080/api/groups/${id}`, payload, { headers })
+          await api.put(`groups/${id}`, payload, { headers })
           alert('informações do grupo atualizadas com sucesso')
         } catch(err) {
           alert(err.response.data.error)
@@ -60,7 +60,7 @@ function CreateGroup() {
 
     const deleteGroup = async () => {
       try {
-        await axios.delete(`http://localhost:8080/api/groups/${id}`, {headers})
+        await api.delete(`groups/${id}`, {headers})
         history.push('/home')
       } catch(err) {
         alert(err.response.data.error)

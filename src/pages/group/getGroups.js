@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import {useLocation} from 'react-router-dom'
-import axios from 'axios'
+import api from '../../services/api'
 
 import NavBar from '../../components/NavBar'
 import Container from '../../components/Container'
@@ -25,7 +25,7 @@ function GetGroups() {
   useEffect(() => {
     const getGroups = async () => {
       try {
-        const {data} = await axios.get(`http://localhost:8080/api/groups?query=${filter}`, {headers})
+        const {data} = await api.get(`groups?query=${filter}`, {headers})
         setGroups(data)
       } catch(err) {
         alert(err.response.data.error)
@@ -45,19 +45,22 @@ function GetGroups() {
           <div className="content">
             <h2 className="content__title">Resultados para: {filter}</h2>
             <div className="card__wrapper">
-            {
-              groups.map((group, index) => {
-                return (
-                <Card key={index} 
-                id={group.id} 
-                title={group.name} 
-                icon={group.discipline} 
-                max_members={group.max_members}
-                is_public={group.is_public}
-                search={true}
-                />)
-              })
-            }
+              {
+                groups.length !== 0 ? 
+                groups.map((group, index) => {
+                  return (
+                  <Card key={index} 
+                  id={group.id} 
+                  title={group.name} 
+                  icon={group.discipline} 
+                  max_members={group.max_members}
+                  is_public={group.is_public}
+                  search={true}
+                  />)
+                }) : (
+                  <p>Nenhum grupo encontrado</p>
+                )
+              }
             </div>
           </div>
         </Container >  

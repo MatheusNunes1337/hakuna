@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
-import axios from 'axios'
-
-//import { loginSchema } from '../../validations/authSchema'
+import api from '../../services/api'
 
 import '../../assets/css/styles.css'
 
@@ -16,7 +14,7 @@ function Login() {
 
         try {
             const userData = {username, password}
-            const {data} = await axios.post('http://localhost:8080/api/auth/login', userData)
+            const {data} = await api.post('auth/login', userData)
             localStorage.setItem('userToken', data.token)
             localStorage.setItem('userId', data.id)
             history.push('/home')

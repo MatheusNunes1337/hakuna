@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import { Link, useParams, useHistory } from 'react-router-dom'
-import axios from 'axios'
+import api from '../../services/api'
 
 import { HiLogout, HiUsers } from "react-icons/hi"
 import { BsFillCameraVideoFill, BsFillGearFill } from "react-icons/bs";
@@ -25,7 +25,7 @@ export default function Feed() {
     useEffect(() => {
         const getMods = async () => {
           try {
-            const {data} = await axios.get(`http://localhost:8080/api/members/group/${id}/mods`, {headers})
+            const {data} = await api.get(`members/group/${id}/mods`, {headers})
             data.map(mod => {
                 if(mod.id == userId)
                     setMod(true)
@@ -43,7 +43,7 @@ export default function Feed() {
 
     const quitGroup = async () => {
         try {
-            await axios.delete(`http://localhost:8080/api/members/group/${id}`, {headers})
+            await api.delete(`members/group/${id}`, {headers})
             history.push('/home')
         } catch(err) {
             alert(err.response.data.error)

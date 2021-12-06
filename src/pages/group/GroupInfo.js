@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, useHistory, Redirect } from 'react-router-dom'
-import axios from 'axios'
+import api from '../../services/api'
 
 import NavBar from '../../components/NavBar'
 import Container from '../../components/Container'
@@ -24,7 +24,7 @@ function GroupInfo() {
     useEffect(() => {
       const getGroups = async() => {
         try {
-          const {data} = await axios.get(`http://localhost:8080/api/groups/user`,  {headers})
+          const {data} = await api.get(`groups/user`,  {headers})
           data.map(group => {
             if(group.id == id)
               return history.push(`/group/${id}`)
@@ -39,7 +39,7 @@ function GroupInfo() {
     useEffect(() => {
       const getGroup = async() => {
         try {
-          const {data} = await axios.get(`http://localhost:8080/api/groups/${id}`,  {headers})
+          const {data} = await api.get(`groups/${id}`,  {headers})
           const {name, description, discipline, topics, is_public } = data
           setName(name)
           setDescription(description)
@@ -58,7 +58,7 @@ function GroupInfo() {
 
       try {
           const payload = {id, password}
-          await axios.post('http://localhost:8080/api/members/', payload, {headers})
+          await api.post('members/', payload, {headers})
           history.push(`/group/${id}`)
         } catch(err) {
           alert(err.response.data.error)

@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import axios from 'axios'
+import api from '../services/api'
 
 import NavBar from '../components/NavBar'
 import Container from '../components/Container'
@@ -16,7 +16,7 @@ function Home() {
   useEffect(() => {
     const getGroups = async () => {
       try {
-        const {data} = await axios.get(`http://localhost:8080/api/groups/user`, {headers})
+        const {data} = await api.get(`groups/user`, {headers})
         setGroups(data)
       } catch(err) {
         alert(err.response.data.error)

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import { Link } from 'react-router-dom'
-import axios from 'axios'
+import api from '../services/api'
 
 import { FaUserAlt } from "react-icons/fa"
 import { HiUserGroup } from "react-icons/hi";
@@ -19,7 +19,7 @@ function Aside() {
   useEffect(() => {
     const getUser = async () => {
       try {
-        const {data} = await axios.get(`http://localhost:8080/api/users/${id}`, {headers})
+        const {data} = await api.get(`users/${id}`, {headers})
         const {username} = data
         setUsername(username)
       } catch(err) {
