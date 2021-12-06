@@ -25,7 +25,7 @@ function CreateGroup() {
             name, description, discipline, topics: topics.split(','), is_public, password
           }
           const headers = { Authorization: `Bearer ${userToken}` }
-          const {data} = await api.post('http://localhost:8080/api/groups', groupData, { headers })
+          const {data} = await api.post('groups', groupData, { headers })
           alert('Grupo criado com sucesso')
           history.push(`/group/${data.id}`)
         } catch(err) {

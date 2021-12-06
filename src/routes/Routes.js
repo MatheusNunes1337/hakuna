@@ -27,12 +27,6 @@ function Routes() {
     return (
         <Router>
             <Switch>
-                <Route path="/login">
-                    <Login />
-                </Route>
-                <Route path="/register">
-                    <Register />
-                </Route>
                 <Route path="/recover-pass">
                     <RecoverPass />
                 </Route>
@@ -60,6 +54,12 @@ function Routes() {
                 <CustomRoute private path="/home">
                     <Home />
                 </CustomRoute>
+                <Route path="/login">
+                    <Login />
+                </Route>
+                <Route path="/">
+                    <Register />
+                </Route>
             </Switch>
         </Router>
     )

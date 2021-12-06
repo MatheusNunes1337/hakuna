@@ -36,6 +36,7 @@ function Home() {
             <h2 className="content__title">Página inicial</h2>
             <div className="card__wrapper">
             {
+              groups.length !== 0 ? 
               groups.map((group, index) => {
                 return (
                 <Card key={index} 
@@ -45,7 +46,9 @@ function Home() {
                 max_members={group.max_members}
                 is_public={group.is_public}
                 />)
-              })
+              }) : (
+                <p>Parece que você ainda não participa de nenhum grupo.</p>
+              )
             }
             </div>
           </div>

@@ -24,7 +24,7 @@ function Register() {
             if(area) {
                 userData.area = area
             } 
-            const {data} = await api.api('auth/register', userData)
+            const {data} = await api.post('auth/register', userData)
             localStorage.setItem('userToken', data.token)
             localStorage.setItem('userId', data.id)
             history.push('/home')

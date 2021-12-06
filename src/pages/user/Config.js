@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import {useHistory} from 'react-router-dom'
-import axios from 'axios'
+import api from '../../services/api'
 
 import NavBar from '../../components/NavBar'
 import Container from '../../components/Container'
@@ -26,7 +26,7 @@ export default function UserConfig() {
         try {
           console.log('TOKEN', token)
           console.log('id', id)
-          const {data} = await axios.get(`http://localhost:8080/api/users/${id}`, {headers})
+          const {data} = await api.get(`users/${id}`, {headers})
           const {username, email, type, area} = data
           setUsername(username)
           setEmail(email)
@@ -45,8 +45,7 @@ export default function UserConfig() {
 
       try {
         const payload =  {username, email, type, area}
-        console.log('payload', payload)
-        await axios.put(`http://localhost:8080/api/users/${id}`, payload, {headers})
+        await api.put(`users/${id}`, payload, {headers})
         alert('informações alteradas com sucesso')
       } catch(err) {
         alert(err.response.data.error)
@@ -55,7 +54,7 @@ export default function UserConfig() {
 
     const changePassword = async () => {
       try {
-        await axios.patch(`http://localhost:8080/api/users/${id}/update-password`, {password}, {headers})
+        await api.patch(`users/${id}/update-password`, {password}, {headers})
         alert('Senha modificada com sucesso')
         setVisibility('true')
       } catch(err) {
@@ -69,7 +68,7 @@ export default function UserConfig() {
 
     const deleteAccount = async () => {
       try {
-        await axios.delete(`http://localhost:8080/api/users/${id}`, {headers})
+        await api.delete(`users/${id}`, {headers})
         history.push('/register')
       } catch(err) {
         alert(err.response.data.error)
