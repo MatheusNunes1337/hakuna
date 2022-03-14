@@ -58,7 +58,7 @@ function NavBar() {
               <FaBars onClick={toggleMenu} className="navbar__bars"/>
               <ul className="navbar__menu">
                   <li className="navbar__links"><Link to="/create-group" className="navbar__link"><BiMessageSquareAdd className="navbar__link__icon"/>Grupo</Link></li>
-                  <li className="navbar__links"><Link to="/home" className="navbar__link"><FaCrown className="navbar__link__icon" />Ranking</Link></li>
+                  <li className="navbar__links"><Link to="/ranking" className="navbar__link"><FaCrown className="navbar__link__icon" />Ranking</Link></li>
                   <button className="navbar__btn"><HiLogout className="navbar__btn__icon" onClick={logout}/>Sair</button>
               </ul> 
           </nav>
