@@ -618,7 +618,7 @@ main {
     width: 100%;
 }
 
-.ranking__container .ranking__item, div.mod__item  {
+.ranking__container .ranking__item, div.mod__item, div.others__item  {
     display: flex;
     align-items: center;
     margin: 10px 0px;
@@ -706,6 +706,38 @@ h3.content__subtitle {
     color: white;
     background-color: var(--blue);
     border: none;
+    cursor: pointer;
+}
+
+.others__container > h3 {
+    margin-top: 45px;
+}
+
+.pagination__wrapper {
+    width: 100%;
+    height: auto;
+    margin: 1.8rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pagination__index {
+    margin: 0 8px;
+    font-size: 1rem;
+}
+
+.pagination__btn {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    font-size: 1rem;
+    /*
+    border: none;
+    background-color: var(--black);
+    color: white;
+    */
+    font-weight: bold;
     cursor: pointer;
 }
 
@@ -821,14 +853,19 @@ h3.content__subtitle {
     .user__form .button__group .form__btn, .group__form .button__group .form__btn {
         margin-top: .5rem;
     }
-    .ranking__item .ranking__user__img {
+    .ranking__item .ranking__user__img, .member__img {
         height: 60px;
         width: 60px;
         margin-left: 8px;
     }
 
-    .ranking__item .ranking__user__name {
+    .ranking__item .ranking__user__name, .member__name {
         margin-left: 10px;
+    }
+
+    .member__action__btns > button {
+        padding: 5px;
+        font-size: .8rem;
     }
 }
 
