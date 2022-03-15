@@ -7,8 +7,11 @@ import Aside from '../components/Aside'
 import Card from '../components/Card'
 import SearchBar from '../components/SearchBar'
 
+import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
+
 function Home() {
   let [groups, setGroups] = useState([])
+  const [paginationIndex, setPaginationIndex] = useState(1)
   
   const token = localStorage.getItem('userToken')
   const headers = { Authorization: `Bearer ${token}` }
@@ -22,9 +25,16 @@ function Home() {
         alert(err.response.data.error)
       }
     }
-
     getGroups()
   }, [])
+
+  const nextPage = () => {
+    setPaginationIndex(paginationIndex + 1)
+  }
+
+  const previousPage = () => {
+      setPaginationIndex(paginationIndex - 1)
+  }
   return (
     <>
       <NavBar />

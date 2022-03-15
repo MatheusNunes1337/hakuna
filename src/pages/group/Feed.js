@@ -67,9 +67,10 @@ export default function Feed() {
                         <button className="group__options__btn" onClick={quitGroup}><HiLogout className="group__options__icon"/>Sair</button>
                     </div>
                     <form action="" className="post__form" onSubmit={handlePost}>
-                        <textarea name="description" className="form__textarea" id="group__description" cols="30" rows="7">Compartilhe algo com os seus colegas</textarea>
+                        <textarea name="description" className="form__textarea" id="group__description" cols="30" rows="7" placeholder='Compartilhe algo com os seus colegas'></textarea>
                         <button className="form__btn">Postar</button>
-                        <button type='file' className="material__btn"><FaBook className="group__options__icon"/></button>   
+                        <input type="file" id="add_material__btn" name='files' multiple/>
+                        <label for="add_material__btn" className="material__btn"><FaBook className="group__options__icon"/></label> 
                     </form>
                     <div className="group__posts">
                     {  posts.length !== 0

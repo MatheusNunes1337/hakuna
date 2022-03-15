@@ -28,6 +28,27 @@ export default function Membros() {
         setPaginationIndex(paginationIndex - 1)
     }
 
+    const deleteMember = () => {
+        const confirmed = window.confirm('Tem certeza que deseja deletar esse membro?')
+        if(!confirmed) {
+            return false
+        } 
+    }
+
+    const makeMod = () => {
+        const confirmed = window.confirm('Tem certeza que deseja tornar esse membro moderador do grupo?')
+        if(!confirmed) {
+            return false
+        } 
+    }
+
+    const revokeMod = () => {
+        const confirmed = window.confirm('Tem certeza que deseja retirar os privilégios de moderador desse membro?')
+        if(!confirmed) {
+            return false
+        } 
+    }
+
     return (
         <>
         <NavBar />
@@ -45,9 +66,9 @@ export default function Membros() {
                                     <img src='https://th.bing.com/th/id/OIP.s4XSrU8mt2ats3XCD7pOfgHaF7?pid=ImgDet&w=3000&h=2400&rs=1' className='member__img'/>
                                     <span className='member__name'>Matheus1337</span>
                                     <div className='member__action__btns'>
-                                        <button className='ranking__user__points'><FaSearch /></button>
-                                        <button className='ranking__user__points'><FaArrowDown /></button>
-                                        <button className='ranking__user__points'><AiFillDelete /></button>
+                                        <button className='member__action__btn'><FaSearch /></button>
+                                        <button className='member__action__btn' onClick={revokeMod}><FaArrowDown /></button>
+                                        <button className='member__action__btn' onClick={deleteMember}><AiFillDelete /></button>
                                     </div>
                                 </div>
                                 <div className='mod__item'>
