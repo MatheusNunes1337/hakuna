@@ -66,9 +66,9 @@ export default function Membros() {
                                     <img src='https://th.bing.com/th/id/OIP.s4XSrU8mt2ats3XCD7pOfgHaF7?pid=ImgDet&w=3000&h=2400&rs=1' className='member__img'/>
                                     <span className='member__name'>Matheus1337</span>
                                     <div className='member__action__btns'>
-                                        <button className='member__action__btn'><FaSearch /></button>
-                                        <button className='member__action__btn' onClick={revokeMod}><FaArrowDown /></button>
-                                        <button className='member__action__btn' onClick={deleteMember}><AiFillDelete /></button>
+                                        <button className='member__action__btn' title='Ver perfil'><FaSearch /></button>
+                                        <button className='member__action__btn' title='Remover moderador' onClick={revokeMod}><FaArrowDown /></button>
+                                        <button className='member__action__btn' title='Remover membro' onClick={deleteMember}><AiFillDelete /></button>
                                     </div>
                                 </div>
                                 <div className='mod__item'>
@@ -89,9 +89,9 @@ export default function Membros() {
                                     <img src='https://th.bing.com/th/id/OIP.s4XSrU8mt2ats3XCD7pOfgHaF7?pid=ImgDet&w=3000&h=2400&rs=1' className='member__img'/>
                                     <span className='member__name'>Matheus1337</span>
                                     <div className='member__action__btns'>
-                                        <button className='member__action__btn'><FaSearch /></button>
-                                        <button className='member__action__btn'><FaArrowUp /></button>
-                                        <button className='member__action__btn'><AiFillDelete /></button>
+                                        <button className='member__action__btn' title='Ver perfil'><FaSearch /></button>
+                                        <button className='member__action__btn' title='Tornar moderador'><FaArrowUp /></button>
+                                        <button className='member__action__btn' title='Remover membro'><AiFillDelete /></button>
                                     </div>
                                 </div>
                                 <div className='others__item'>
