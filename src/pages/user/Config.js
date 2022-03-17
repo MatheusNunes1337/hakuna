@@ -7,6 +7,9 @@ import Container from '../../components/Container'
 import Aside from '../../components/Aside'
 import SearchBar from '../../components/SearchBar'
 import {FaSave} from 'react-icons/fa'
+import { MdAddAPhoto } from "react-icons/md";
+
+import studentPic from '../../assets/images/student.png'
 
 export default function UserConfig() {
     let [username, setUsername] = useState('')
@@ -15,6 +18,9 @@ export default function UserConfig() {
     let [type, setType] = useState('teacher')
     let [area, setArea] = useState('')
     let [hidePassField, setVisibility] = useState('true')
+    let [profilePic, setProfilePic] = useState('')
+    let [endImg] = useState(studentPic)
+    const [showSavePicButton, setSavePicButtonStatus] = useState(false)
 
     const history = useHistory()
     const id =  localStorage.getItem('userId')
@@ -75,6 +81,16 @@ export default function UserConfig() {
       }
     }
 
+    const changeUserPic = (e) => {
+      setProfilePic(e.target.files[0])
+      setSavePicButtonStatus(true)
+    }
+
+    const cancelPic = () => {
+      console.log('IMAGEM', profilePic)
+      setProfilePic(false)
+    }
+
     return (
         <>
         <NavBar />
@@ -85,6 +101,16 @@ export default function UserConfig() {
             <div className="content">
                 <h2 className="content__title">Configurações da conta</h2>
                 <form action="" className="user__form" onSubmit={handleUser}>
+                <picture className='form__user__pic__wrapper'>
+                  <input type="file" id="add_pic__btn" name='profilePic' onChange={changeUserPic} />
+                  <label for="add_pic__btn" className="overlay"><MdAddAPhoto className='form__user__pic__icon' /></label>
+                  {
+                    profilePic ? (<img src={URL.createObjectURL(profilePic)} alt="foto de perfil" className="user__form__pic"/>) : (
+                    <img src={endImg} className="user__form__pic"/>
+                    )
+                  }
+                </picture>
+                    {showSavePicButton ? (<button type='button' onClick={cancelPic} className='form__user__save__pic'>salvar</button>): ''}
                     <label htmlFor="username" className="form__label">Usuário:</label>
                     <input type="text" className="form__input" value={username} onChange={e => setUsername(e.target.value)}/>
                     <label htmlFor="email" className="form__label">Email:</label>

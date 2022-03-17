@@ -251,6 +251,7 @@ main {
     padding: 3rem 0rem;
     max-height: 95vh;
     border-radius: 5px;
+    position: relative;
 }
 
 .sidebar__user, .hidden__menu__user {
@@ -261,6 +262,13 @@ main {
     margin: 0 auto;
     border-radius: 50%;
     border: 5px solid var(--blue);
+}
+.sidebar__user__wrapper {
+    width: 150px;
+    height: 150px;
+    display: block;
+    position: relative;
+    margin: 0 auto;
 }
 
 .sidebar__username, .hidden__menu__username {
@@ -486,6 +494,59 @@ main {
 
 .enter__group__form .form__btn {
     width: 20%;
+}
+
+.form__user__pic__wrapper {
+    display: flex;
+    margin: 25px 0px 15px 0px;
+}
+
+.form__user__save__pic {
+    display: block;
+    width: 150px;
+    padding: 8px;
+    margin-bottom: 25px;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--blue);
+    color: white;
+    font-size: 1rem;
+}
+
+.user__form__pic {
+    width: 150px;
+    height: 150px;
+    padding: 4px;
+    display: block;
+    border-radius: 50%;
+    border: 5px solid var(--blue);
+}
+
+form.user__form .overlay {
+    background-color: #7ADFBB;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 150px;
+    height: 150px;
+    margin-top: 3rem;
+    border-radius: 50%;
+    position: absolute;
+    border: none;
+    opacity: 0;
+    transition: .5s ease;
+    background-color: rgba(0,0,0,0.5);
+    margin: 0 auto;
+}
+
+.form__user__pic__wrapper:hover .overlay {
+    opacity: 1;
+}
+
+.form__user__pic__wrapper .form__user__pic__icon {
+    font-size: 1.5rem;
+    color: white;
+    font-weight: bold;
 }
 
 /* feed */
@@ -1048,6 +1109,15 @@ h3.content__subtitle {
     .user__form .button__group .form__btn, .group__form .button__group .form__btn {
         margin-top: .5rem;
     }
+
+    .form__user__pic__wrapper {
+        justify-content: center;
+    }
+
+    .form__user__save__pic {
+        margin: 0 auto 40px auto;
+    }
+
     .ranking__item .ranking__user__img, .member__img {
         height: 60px;
         width: 60px;
