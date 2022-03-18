@@ -498,7 +498,7 @@ main {
 
 .form__user__pic__wrapper {
     display: flex;
-    margin: 25px 0px 15px 0px;
+    margin: 25px 0px 25px 0px;
 }
 
 .form__user__save__pic {
@@ -809,12 +809,49 @@ h3.content__subtitle {
 
 .post__item {
     display: flex;
+    position: relative;
     flex-wrap: wrap;
     width: 100%;
     height: auto;
     background-color: white;
     box-shadow: 1px 3px 2px var(--ice-2);
     padding: 15px;
+    border-radius: 5px;
+}
+
+
+.post__item .post__options__menu {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    position: absolute;
+    background-color: var(--ice);
+    box-shadow: 2px 3px 1px var(--ice-2);
+    border-color: var(--ice);
+    top: 35px;
+    right: 20px;
+    border-radius: 5px;
+}
+
+.post__item .post__options__menu > li {
+    display: flex;
+    align-items: center;
+    padding: 7px 5px;
+    list-style: none;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.post__item .post__options__menu > li:hover {
+    background-color: #3799CE;
+}
+
+.post__item .post__options__menu > li a {
+    font-size: 0.8rem;
+}
+
+.post__options__menu__icon {
+    margin-right: 6px;
 }
 
 .post__item .post__author__img, .comment__container .post__author__img {
@@ -856,9 +893,11 @@ h3.content__subtitle {
     background-color: transparent;
 }
 
+/*
 .post__item .post__options__btn:hover {
     background-color: var(--ice-2);
 }
+*/
 
 .post__item .post__content {
     width: 100%;
@@ -943,6 +982,52 @@ h3.content__subtitle {
     transform: translate(-50%, -50%);
 }
 
+.post__files__wrapper, .comment__files__wrapper  {
+    display: flex;
+    gap: 10px;
+    height: auto;
+    width: 100%;
+    margin: 20px 0px;
+}
+
+.comment__files__wrapper {
+    margin-top: 10px;
+    margin-left: 8%;
+}
+
+.post__files__wrapper > button, .comment__files__wrapper > button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    padding: 10px 12px;
+    font-size: 0.9rem;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+}
+
+.comment__files__wrapper > button {
+    padding: 8px;
+    font-size: .8rem;
+}
+
+.pdf__file {
+    background-color: red;
+}
+
+.word__file {
+    background-color: var(--dark-blue);
+}
+
+.img__file {
+    background-color: #2AAE9A;
+}
+
+.file__btn__icon {
+    margin-right: 4px;
+}
+
 .comment__container {
     display: flex;
     justify-content: space-between;
@@ -983,7 +1068,11 @@ h3.content__subtitle {
 .comment__action__btns > button {
     padding: 8px 10px;
     font-size: .8rem;
-    gap: 1px;
+    gap: 0.8px;
+}
+
+.comment__action__btn__icon {
+    margin-right: 3px;
 }
 
 .comment__action__btns > button:hover,  .comment__action__btns > button:focus{

@@ -86,9 +86,9 @@ export default function UserConfig() {
       setSavePicButtonStatus(true)
     }
 
-    const cancelPic = () => {
-      console.log('IMAGEM', profilePic)
-      setProfilePic(false)
+    const savePic = () => {
+      alert('imagem salva com sucesso')
+      setSavePicButtonStatus(false)
     }
 
     return (
@@ -110,7 +110,7 @@ export default function UserConfig() {
                     )
                   }
                 </picture>
-                    {showSavePicButton ? (<button type='button' onClick={cancelPic} className='form__user__save__pic'>salvar</button>): ''}
+                    {showSavePicButton ? (<button type='button' onClick={savePic} className='form__user__save__pic'>salvar</button>): ''}
                     <label htmlFor="username" className="form__label">Usuário:</label>
                     <input type="text" className="form__input" value={username} onChange={e => setUsername(e.target.value)}/>
                     <label htmlFor="email" className="form__label">Email:</label>

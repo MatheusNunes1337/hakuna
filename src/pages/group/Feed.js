@@ -4,7 +4,8 @@ import api from '../../services/api'
 
 import { HiLogout, HiUsers } from "react-icons/hi"
 import { BsFillCameraVideoFill, BsFillGearFill, BsThreeDots } from "react-icons/bs";
-import { AiFillDislike, AiFillLike } from "react-icons/ai";
+import { AiFillDislike, AiFillLike, AiFillDelete } from "react-icons/ai";
+import { MdEdit } from "react-icons/md";
 import {FaBook, FaCommentAlt} from 'react-icons/fa'
 import { CgFeed } from "react-icons/cg";
 
@@ -12,6 +13,7 @@ import NavBar from '../../components/NavBar'
 import Container from '../../components/Container'
 import Aside from '../../components/Aside'
 import SearchBar from '../../components/SearchBar'
+import FileButton from '../../components/FileDownloadButton';
 
 export default function Feed() {
     const [posts, setPosts] = useState([])
@@ -19,6 +21,9 @@ export default function Feed() {
     const [comments, setComments] = useState(['oi', 'tchau'])
     const [showCommentInput, setCommentInput] = useState(false)
     const [showCommentList, setCommentList] = useState(false)
+    const [showPostFilesList, setPostFilesList] = useState(false)
+    const [showCommentFilesList, setCommentFilesList] = useState(false)
+    const [showPostOptionsMenu, setPostOptionsMenu] = useState(false)
     const [isPostLiked, setPostLikeStatus] = useState(false)
     const [isPostDesliked, setPostDeslikeStatus] = useState(false)
     const [isCommentLiked, setCommentLikeStatus] = useState(false)
@@ -63,6 +68,7 @@ export default function Feed() {
             setCommentInput(false)
         } else {
             setCommentInput(true)
+            setPostFilesList(false)
         }
     }
 
@@ -110,6 +116,35 @@ export default function Feed() {
         }
     }
 
+    const handlePostFilesSection = () => {
+        if(showPostFilesList) {
+            setPostFilesList(false)
+        } else {
+            setPostFilesList(true)
+            setCommentInput(false)
+        }
+    }
+
+    const handleCommentFilesSection = () => {
+        if(showCommentFilesList) {
+            setCommentFilesList(false)
+        } else {
+            setCommentFilesList(true)
+        }
+    }
+
+    const boo = () => {
+        alert('oiii')
+    }
+
+    const handlePostOptionsMenu = () => {
+        if(showPostOptionsMenu) {
+            setPostOptionsMenu(false)
+        } else {
+            setPostOptionsMenu(true)
+        }
+    }
+
     return (
         <>
         <NavBar />
@@ -137,13 +172,21 @@ export default function Feed() {
                          ? (
                         <>
                             <div className='post__item'>
+                                {
+                                    showPostOptionsMenu ? (
+                                        <ul className='post__options__menu'>
+                                            <li onClick={boo}><MdEdit className='post__options__menu__icon' />Editar publicação</li>
+                                            <li><AiFillDelete className='post__options__menu__icon' />Deletar publicação</li>
+                                        </ul>
+                                    ) : ''
+                                }
                                 <img src='https://th.bing.com/th/id/OIP.s4XSrU8mt2ats3XCD7pOfgHaF7?pid=ImgDet&w=3000&h=2400&rs=1' className='post__author__img'/>
                                 <div className='post__infos'>
                                     <span className='post__author__name'>Matheus1337</span>
                                     <span className='post__author__title'>Professor de matemática</span>
                                     <span className='post__creation_time'>17:45</span>
                                 </div>
-                                <button className='post__options__btn'><BsThreeDots /></button>
+                                <button onClick={handlePostOptionsMenu} className='post__options__btn'><BsThreeDots /></button>
                                 <p className='post__content'>
                                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec et ipsum vel nunc ultricies posuere nec pulvinar purus. Ut id feugiat odio. Mauris sagittis urna ut rhoncus convallis. Praesent tincidunt elementum enim, et gravida enim. Nullam vestibulum nibh in leo viverra consequat. Pellentesque vestibulum tempus auctor. Phasellus lacinia ante non scelerisque pretium. Maecenas vel quam sit amet velit vehicula pellentesque.
                                     Sed volutpat purus nec sem ullamcorper sagittis. Morbi felis mi, facilisis nec mauris at, finibus pulvinar justo. Suspendisse facilisis neque sapien, vel vehicula neque bibendum gravida. Aliquam vel luctus dui, suscipit aliquet justo. Mauris aliquam eu urna vitae mollis. In porttitor erat sit amet eleifend ullamcorper. Pellentesque ultrices lorem non justo mollis, ut ornare leo condimentum. Integer quis erat condimentum arcu tempor dignissim at in augue. Vivamus dui lectus, condimentum at ornare ornare, maximus et nibh. Phasellus venenatis imperdiet neque in faucibus. Donec semper erat vel ultrices sollicitudin. Suspendisse aliquet, ligula quis fermentum viverra, nisi nibh porta metus, a lacinia quam diam sit amet ante. Aenean rhoncus ex at finibus pretium.
@@ -154,7 +197,7 @@ export default function Feed() {
                                     <button onClick={performPostLike}><AiFillLike />{isPostLiked ? 15 : 'Like'}</button>
                                     <button onClick={performPostDeslike}><AiFillDislike />{isPostDesliked ? 3 : 'Deslike'}</button>
                                     <button onClick={handleCommentInput}><FaCommentAlt/>Comentar</button>
-                                    <button><FaBook />Materiais</button>
+                                    <button onClick={handlePostFilesSection}><FaBook />Materiais</button>
                                 </div>
                                 {
                                     showCommentInput ? (
@@ -163,6 +206,15 @@ export default function Feed() {
                                             <input type="text" placeholder='adicionar comentário'/>
                                             <input type="file" id="add_material__comment__btn" name='files' multiple/>
                                             <label for="add_material__comment__btn" className=""><FaBook className="material__comment__icon"/></label>
+                                        </div>
+                                    ) : ''
+                                }
+                                {
+                                    showPostFilesList ? (
+                                        <div className='post__files__wrapper'>
+                                            <FileButton file='matheus.pdf' />
+                                            <FileButton file='matheus.jpeg' />
+                                            <FileButton file='matheus.docx' />
                                         </div>
                                     ) : ''
                                 }
@@ -182,10 +234,19 @@ export default function Feed() {
                                                 </p>
                                             </div>
                                             <div className='comment__action__btns'>
-                                                <button onClick={performCommentLike}><AiFillLike />{isCommentLiked ? 5 : 'Like'}</button>
-                                                <button onClick={performCommentDeslike}><AiFillDislike />{isCommentDesliked ? 3 : 'Deslike'}</button>
-                                                <button><FaBook />Materiais</button>
+                                                <button onClick={performCommentLike}><AiFillLike className='comment__action__btn__icon' />{isCommentLiked ? 5 : 'Like'}</button>
+                                                <button onClick={performCommentDeslike}><AiFillDislike className='comment__action__btn__icon' />{isCommentDesliked ? 3 : 'Deslike'}</button>
+                                                <button onClick={handleCommentFilesSection}><FaBook className='comment__action__btn__icon' />Materiais</button>
                                             </div>
+                                            {
+                                                showCommentFilesList ? (
+                                                    <div className='comment__files__wrapper'>
+                                                        <FileButton file='matheus.pdf' />
+                                                        <FileButton file='matheus.jpeg' />
+                                                        <FileButton file='matheus.docx' />
+                                                </div>
+                                                ) : ''
+                                            }
                                         </div>
                                     ) : ''
                                 }
