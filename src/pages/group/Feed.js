@@ -4,9 +4,9 @@ import api from '../../services/api'
 
 import { HiLogout, HiUsers } from "react-icons/hi"
 import { BsFillCameraVideoFill, BsFillGearFill, BsThreeDots } from "react-icons/bs";
-import { AiFillDislike, AiFillLike, AiFillDelete } from "react-icons/ai";
+import { AiFillDislike, AiFillLike, AiOutlineLike, AiOutlineDislike, AiFillDelete } from "react-icons/ai";
 import { MdEdit } from "react-icons/md";
-import {FaBook, FaCommentAlt} from 'react-icons/fa'
+import {FaBook, FaCommentAlt, FaRegCommentAlt} from 'react-icons/fa'
 import { CgFeed } from "react-icons/cg";
 
 import NavBar from '../../components/NavBar'
@@ -28,6 +28,11 @@ export default function Feed() {
     const [isPostDesliked, setPostDeslikeStatus] = useState(false)
     const [isCommentLiked, setCommentLikeStatus] = useState(false)
     const [isCommentDesliked, setCommentDeslikeStatus] = useState(false)
+    const [postLikeIcon, setPostLikeIcon] = useState(<AiOutlineLike />)
+    const [postDeslikeIcon, setPostDeslikeIcon] = useState(<AiOutlineDislike />)
+    const [commentLikeIcon, setCommentLikeIcon] = useState(<AiOutlineLike className='comment__action__btn__icon' />)
+    const [commentDeslikeIcon, setCommentDeslikeIcon] = useState(<AiOutlineDislike className='comment__action__btn__icon' />)
+    const [commentIcon, setCommentIcon] = useState(<FaRegCommentAlt />)
 
     const { id } = useParams();
     const token = localStorage.getItem('userToken')
@@ -66,9 +71,11 @@ export default function Feed() {
     const handleCommentInput = () => {
         if(showCommentInput) {
             setCommentInput(false)
+            setCommentIcon(<FaRegCommentAlt />)
         } else {
             setCommentInput(true)
             setPostFilesList(false)
+            setCommentIcon(<FaCommentAlt />)
         }
     }
 
@@ -83,36 +90,48 @@ export default function Feed() {
     const performPostLike = () => {
         if(isPostLiked) {
             setPostLikeStatus(false)
+            setPostLikeIcon(<AiOutlineLike />)
         } else {
             setPostLikeStatus(true)
             setPostDeslikeStatus(false)
+            setPostLikeIcon(<AiFillLike />)
+            setPostDeslikeIcon(<AiOutlineDislike />)
         }
     }
 
     const performPostDeslike = () => {
         if(isPostDesliked) {
             setPostDeslikeStatus(false)
+            setPostDeslikeIcon(<AiOutlineDislike />)
         } else {
             setPostDeslikeStatus(true)
             setPostLikeStatus(false)
+            setPostDeslikeIcon(<AiFillDislike />)
+            setPostLikeIcon(<AiOutlineLike />)
         }
     }
 
     const performCommentLike = () => {
         if(isCommentLiked) {
             setCommentLikeStatus(false)
+            setCommentLikeIcon(<AiOutlineLike className='comment__action__btn__icon' />)
         } else {
             setCommentLikeStatus(true)
             setCommentDeslikeStatus(false)
+            setCommentLikeIcon(<AiFillLike className='comment__action__btn__icon' />)
+            setCommentDeslikeIcon(<AiOutlineDislike className='comment__action__btn__icon' />)
         }
     }
 
     const performCommentDeslike = () => {
         if(isCommentDesliked) {
             setCommentDeslikeStatus(false)
+            setCommentDeslikeIcon(<AiOutlineDislike className='comment__action__btn__icon' />)
         } else {
             setCommentDeslikeStatus(true)
             setCommentLikeStatus(false)
+            setCommentDeslikeIcon(<AiFillDislike className='comment__action__btn__icon' />)
+            setCommentLikeIcon(<AiOutlineLike className='comment__action__btn__icon' />)
         }
     }
 
@@ -194,9 +213,9 @@ export default function Feed() {
                                 {comments.length > 0 ? <button onClick={handleCommentList} className="handleComments__btn">{`${comments.length} comentários` }</button> : ''}
                                 <hr />
                                 <div className='post__action__btns'>
-                                    <button onClick={performPostLike}><AiFillLike />{isPostLiked ? 15 : 'Like'}</button>
-                                    <button onClick={performPostDeslike}><AiFillDislike />{isPostDesliked ? 3 : 'Deslike'}</button>
-                                    <button onClick={handleCommentInput}><FaCommentAlt/>Comentar</button>
+                                    <button onClick={performPostLike}>{postLikeIcon}{isPostLiked ? 15 : 'Like'}</button>
+                                    <button onClick={performPostDeslike}>{postDeslikeIcon}{isPostDesliked ? 3 : 'Deslike'}</button>
+                                    <button onClick={handleCommentInput}>{commentIcon}Comentar</button>
                                     <button onClick={handlePostFilesSection}><FaBook />Materiais</button>
                                 </div>
                                 {
@@ -234,8 +253,8 @@ export default function Feed() {
                                                 </p>
                                             </div>
                                             <div className='comment__action__btns'>
-                                                <button onClick={performCommentLike}><AiFillLike className='comment__action__btn__icon' />{isCommentLiked ? 5 : 'Like'}</button>
-                                                <button onClick={performCommentDeslike}><AiFillDislike className='comment__action__btn__icon' />{isCommentDesliked ? 3 : 'Deslike'}</button>
+                                                <button onClick={performCommentLike}>{commentLikeIcon}{isCommentLiked ? 5 : 'Like'}</button>
+                                                <button onClick={performCommentDeslike}>{commentDeslikeIcon}{isCommentDesliked ? 3 : 'Deslike'}</button>
                                                 <button onClick={handleCommentFilesSection}><FaBook className='comment__action__btn__icon' />Materiais</button>
                                             </div>
                                             {
