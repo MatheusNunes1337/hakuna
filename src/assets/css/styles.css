@@ -1085,11 +1085,6 @@ h3.content__subtitle {
     background-color: transparent;
 }
 
-
-
-
-
-
 @media (max-width: 768px) {
 
     .container {
@@ -1222,9 +1217,9 @@ h3.content__subtitle {
         font-size: .8rem;
     }
 
-    .post__action__btns > button {
+    .post__item .post__action__btns > button {
         font-size: 0.8rem;
-        gap: 1;
+        gap: 1px;
         padding: 10px 5px;
     }
 
@@ -1238,13 +1233,58 @@ h3.content__subtitle {
 }
 
 @media (max-width: 460px) {
+    .container {
+      padding: 0rem;
+      justify-content: center;
+    }
+
+    .content {
+       padding: 3rem 8%; 
+    }
+
+    .searchbar {
+        margin: 0px 8% 1.2rem 8%;
+    }
+
     .card {
         width: 100%;
         padding: 1.5rem 0px;
     }
 
+    .post__item .post__infos {
+        flex: 1
+    }
+
+    .post__item .post__action__btns {
+        width: 100%;
+    }
+
+    .post__files__wrapper > button {
+        padding: 7px 4px;
+        font-size: 0.7rem;
+    }
+
+    /*
+    .post__item .post__action__btns > button {
+        font-size: 0.7em;
+        gap: 5px;
+        width: 100%;
+        padding: 10px 2px;
+    }
+    */
+
     .comment__container .comment_body {
         width: 80%;
+        background-color: red;
+    }
+
+    .post__comment__input > input {
+        height: 80%;
+    }
+
+    .post__item .post__author__img, .comment__container .post__author__img {
+        width: 40px;
+        height: 40px;
     }
 }
 

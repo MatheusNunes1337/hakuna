@@ -33,6 +33,8 @@ export default function Feed() {
     const [commentLikeIcon, setCommentLikeIcon] = useState(<AiOutlineLike className='comment__action__btn__icon' />)
     const [commentDeslikeIcon, setCommentDeslikeIcon] = useState(<AiOutlineDislike className='comment__action__btn__icon' />)
     const [commentIcon, setCommentIcon] = useState(<FaRegCommentAlt />)
+    const [materialIcon, setMaterialIcon] = useState(<FaBook />)
+    const [screenWidth, setScreenWidth] = useState('')
 
     const { id } = useParams();
     const token = localStorage.getItem('userToken')
@@ -54,6 +56,12 @@ export default function Feed() {
         }
         getMods()
       }, [])
+
+    const getScreenWidth = () => window.screen.availWidth
+        
+    useEffect(() => {
+        setScreenWidth(getScreenWidth)
+    }, [screenWidth])
 
     const handlePost = () => {
         console.log('post criado com sucesso')
@@ -163,7 +171,7 @@ export default function Feed() {
             setPostOptionsMenu(true)
         }
     }
-
+    
     return (
         <>
         <NavBar />
@@ -213,10 +221,23 @@ export default function Feed() {
                                 {comments.length > 0 ? <button onClick={handleCommentList} className="handleComments__btn">{`${comments.length} comentários` }</button> : ''}
                                 <hr />
                                 <div className='post__action__btns'>
-                                    <button onClick={performPostLike}>{postLikeIcon}{isPostLiked ? 15 : 'Like'}</button>
-                                    <button onClick={performPostDeslike}>{postDeslikeIcon}{isPostDesliked ? 3 : 'Deslike'}</button>
-                                    <button onClick={handleCommentInput}>{commentIcon}Comentar</button>
-                                    <button onClick={handlePostFilesSection}><FaBook />Materiais</button>
+                                    {
+                                        screenWidth > 200 ? (
+                                            <>
+                                                <button onClick={performPostLike}>{postLikeIcon}{isPostLiked ? 15 : 'Like'}</button>
+                                                <button onClick={performPostDeslike}>{postDeslikeIcon}{isPostDesliked ? 3 : 'Deslike'}</button>
+                                                <button onClick={handleCommentInput}>{commentIcon}Comentar</button>
+                                                <button onClick={handlePostFilesSection}>{materialIcon}Materiais</button>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <button onClick={performPostLike}>{postLikeIcon}{isPostLiked ? 15 : ''}</button>
+                                                <button onClick={performPostDeslike}>{postDeslikeIcon}{isPostDesliked ? 3 : ''}</button>
+                                                <button onClick={handleCommentInput}>{commentIcon}</button>
+                                                <button onClick={handlePostFilesSection}>{materialIcon}</button>
+                                            </>
+                                        )
+                                    }
                                 </div>
                                 {
                                     showCommentInput ? (
