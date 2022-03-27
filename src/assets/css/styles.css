@@ -379,7 +379,7 @@ main {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: .5rem;
+    gap: 1rem;
     width: calc(100% / 3 - 0.7rem);
     padding: 1.5rem .8rem;
     overflow: hidden;
@@ -396,9 +396,14 @@ main {
     display: block;
 }
 
+.card__content {
+    flex-grow: 1;
+}
+
 .card__title {
     font-size: 1rem;
     padding: 5px 0px;
+    word-break: break-all;
     color: var(--black);
     border-bottom: 2px solid var(--ice-2);
 }
@@ -408,6 +413,11 @@ main {
     align-items: center;
     justify-content: space-between;
     margin-top: 12px;
+}
+
+.card__detail {
+    display: flex;
+    align-items: center;
 }
 
 .card__detail, .card__detail__icon {
