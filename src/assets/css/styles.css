@@ -11,6 +11,7 @@
     --red: #ec5865;
     --ice: #efefef; /*#f5f5f5*/
     --ice-2: #ebebf7;
+    --ice-3: #c9c9d6;
     --black: #464646;
     --gray: #757575;
     --yellow: #E0C28F;
@@ -251,6 +252,7 @@ main {
     padding: 3rem 0rem;
     max-height: 95vh;
     border-radius: 5px;
+    border: 0.8px solid var(--ice-3);
     position: relative;
 }
 
@@ -351,6 +353,7 @@ main {
     background-color: white;
     padding: 3rem 2rem;
     border-radius: 5px;
+    border: 0.8px solid var(--ice-3);
 }
 
 .content__title {
@@ -381,10 +384,10 @@ main {
     padding: 1.5rem .8rem;
     overflow: hidden;
     border-radius: 5px;
-    border: 1px solid var(--ice-2);
+    border: 0.8px solid var(--ice-3);
     background-color: white;
     text-decoration: none;
-    box-shadow: 1px 1px var(--ice-2);
+    /*box-shadow: 1px 1px var(--ice-2);*/
 }
 
 .card__image {
@@ -814,43 +817,50 @@ h3.content__subtitle {
     width: 100%;
     height: auto;
     background-color: white;
-    box-shadow: 1px 3px 2px var(--ice-2);
+    border: 0.8px solid var(--ice-3);
     padding: 15px;
     border-radius: 5px;
 }
 
 
-.post__item .post__options__menu {
+.post__item .post__options__menu, .comment__item .comment__options__menu {
     display: flex;
     flex-direction: column;
     gap: 2px;
     position: absolute;
-    background-color: var(--ice);
-    box-shadow: 2px 3px 1px var(--ice-2);
-    border-color: var(--ice);
+    background-color: white;
+    border: 0.8px solid var(--ice-3);
     top: 35px;
     right: 20px;
     border-radius: 5px;
 }
 
-.post__item .post__options__menu > li {
+.comment__item .comment__options__menu {
+    right: 15px;
+}
+
+.post__item .post__options__menu > li, .comment__item .comment__options__menu > li {
     display: flex;
     align-items: center;
-    padding: 7px 5px;
+    padding: 6px 5px;
     list-style: none;
     font-size: 0.9rem;
     cursor: pointer;
 }
 
-.post__item .post__options__menu > li:hover {
-    background-color: #3799CE;
+.comment__item .comment__options__menu > li {
+    padding: 4px 5px; 
 }
 
-.post__item .post__options__menu > li a {
+.post__item .post__options__menu > li:hover, .comment__item .comment__options__menu > li:hover {
+    background-color: var(--ice-2);
+}
+
+.post__item .post__options__menu > li a, .comment__item .comment__options__menu > li a {
     font-size: 0.8rem;
 }
 
-.post__options__menu__icon {
+.post__options__menu__icon, .comment__options__menu__icon {
     margin-right: 6px;
 }
 
@@ -1028,7 +1038,9 @@ h3.content__subtitle {
     margin-right: 4px;
 }
 
-.comment__container {
+
+.comment__item {
+    width: 100%;
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
@@ -1037,8 +1049,9 @@ h3.content__subtitle {
     background-color: transparent;
 }
 
-.comment__container .comment_body {
+.comment__item .comment_body {
     display: flex;
+    position: relative;
     flex-wrap: wrap;
     background-color: var(--ice-2);
     width: 92%;
@@ -1046,18 +1059,19 @@ h3.content__subtitle {
     border-radius: 5px;
 }
 
-.comment_body .comment__content {
+.comment__item .comment__content {
     width: 100%;
     margin-top: 10px;
     text-align: justify;
 }
 
-.comment__container .comment__infos {
+
+.comment__item .comment__infos {
     margin-left: 0px;
 }
 
-.comment__container .comment__options__btn {
-    margin-top: 0;
+.comment__item .comment__options__btn {
+    margin-top: 0px;
 }
 
 .comment__action__btns {
@@ -1233,13 +1247,18 @@ h3.content__subtitle {
 }
 
 @media (max-width: 460px) {
+    main {
+        background-color: white;
+    }
+
     .container {
       padding: 0rem;
       justify-content: center;
     }
 
     .content {
-       padding: 3rem 8%; 
+       padding: 3rem 8%;
+       border: none; 
     }
 
     .searchbar {
@@ -1274,8 +1293,16 @@ h3.content__subtitle {
     */
 
     .comment__container .comment_body {
-        width: 80%;
-        background-color: red;
+        width: 85%;
+    }
+
+    .comment__container .comment__infos {
+        width: auto;
+    }
+
+    .comment__action__btns {
+        width: 85%;
+        margin-left: 50px;
     }
 
     .post__comment__input > input {

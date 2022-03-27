@@ -24,6 +24,7 @@ export default function Feed() {
     const [showPostFilesList, setPostFilesList] = useState(false)
     const [showCommentFilesList, setCommentFilesList] = useState(false)
     const [showPostOptionsMenu, setPostOptionsMenu] = useState(false)
+    const [showCommentOptionsMenu, setCommentOptionsMenu] = useState(true)
     const [isPostLiked, setPostLikeStatus] = useState(false)
     const [isPostDesliked, setPostDeslikeStatus] = useState(false)
     const [isCommentLiked, setCommentLikeStatus] = useState(false)
@@ -171,6 +172,14 @@ export default function Feed() {
             setPostOptionsMenu(true)
         }
     }
+
+    const handleCommentOptionsMenu = () => {
+        if(showCommentOptionsMenu) {
+            setCommentOptionsMenu(false)
+        } else {
+            setCommentOptionsMenu(true)
+        }
+    }
     
     return (
         <>
@@ -261,32 +270,42 @@ export default function Feed() {
                                 {
                                     showCommentList ? (
                                         <div className='comment__container'>
-                                            <img src='https://th.bing.com/th/id/OIP.s4XSrU8mt2ats3XCD7pOfgHaF7?pid=ImgDet&w=3000&h=2400&rs=1' className='post__author__img'/>
-                                            <div className='comment_body'>
-                                                <div className='comment__infos'>
-                                                    <span className='comment__author__name'>Matheus1337</span>
-                                                    <span className='comment__author__title'>Professor de matemática</span>
-                                                    <span className='comment__creation_time'>17:45</span>
+                                            <div className="comment__item">
+                                                <img src='https://th.bing.com/th/id/OIP.s4XSrU8mt2ats3XCD7pOfgHaF7?pid=ImgDet&w=3000&h=2400&rs=1' className='post__author__img'/>
+                                                <div className='comment_body'>
+                                                    {
+                                                        showCommentOptionsMenu ? (
+                                                            <ul className='comment__options__menu'>
+                                                                <li onClick={boo}><MdEdit className='comment__options__menu__icon' />Editar comentário</li>
+                                                                <li><AiFillDelete className='comment__options__menu__icon' />Deletar comentário</li>
+                                                            </ul>
+                                                        ) : ''
+                                                    }
+                                                    <div className='comment__infos'>
+                                                        <span className='comment__author__name'>Matheus1337</span>
+                                                        <span className='comment__author__title'>Professor de matemática</span>
+                                                        <span className='comment__creation_time'>17:45</span>
+                                                    </div>
+                                                    <button className='comment__options__btn' onClick={handleCommentOptionsMenu}><BsThreeDots /></button>
+                                                    <p className='comment__content'>
+                                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec et ipsum vel nunc ultricies posuere nec pulvinar purus. Ut id feugiat odio. Mauris sagittis urna ut rhoncus convallis. Praesent tincidunt elementum enim, et gravida enim. Nullam vestibulum nibh in leo viverra consequat. Pellentesque vestibulum tempus auctor. Phasellus lacinia ante non scelerisque pretium.
+                                                    </p>
                                                 </div>
-                                                <button className='comment__options__btn'><BsThreeDots /></button>
-                                                <p className='comment__content'>
-                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec et ipsum vel nunc ultricies posuere nec pulvinar purus. Ut id feugiat odio. Mauris sagittis urna ut rhoncus convallis. Praesent tincidunt elementum enim, et gravida enim. Nullam vestibulum nibh in leo viverra consequat. Pellentesque vestibulum tempus auctor. Phasellus lacinia ante non scelerisque pretium.
-                                                </p>
-                                            </div>
-                                            <div className='comment__action__btns'>
-                                                <button onClick={performCommentLike}>{commentLikeIcon}{isCommentLiked ? 5 : 'Like'}</button>
-                                                <button onClick={performCommentDeslike}>{commentDeslikeIcon}{isCommentDesliked ? 3 : 'Deslike'}</button>
-                                                <button onClick={handleCommentFilesSection}><FaBook className='comment__action__btn__icon' />Materiais</button>
-                                            </div>
-                                            {
-                                                showCommentFilesList ? (
-                                                    <div className='comment__files__wrapper'>
-                                                        <FileButton file='matheus.pdf' />
-                                                        <FileButton file='matheus.jpeg' />
-                                                        <FileButton file='matheus.docx' />
+                                                <div className='comment__action__btns'>
+                                                    <button onClick={performCommentLike}>{commentLikeIcon}{isCommentLiked ? 5 : 'Like'}</button>
+                                                    <button onClick={performCommentDeslike}>{commentDeslikeIcon}{isCommentDesliked ? 3 : 'Deslike'}</button>
+                                                    <button onClick={handleCommentFilesSection}><FaBook className='comment__action__btn__icon' />Materiais</button>
                                                 </div>
-                                                ) : ''
-                                            }
+                                                {
+                                                    showCommentFilesList ? (
+                                                        <div className='comment__files__wrapper'>
+                                                            <FileButton file='matheus.pdf' />
+                                                            <FileButton file='matheus.jpeg' />
+                                                            <FileButton file='matheus.docx' />
+                                                    </div>
+                                                    ) : ''
+                                                }
+                                            </div>
                                         </div>
                                     ) : ''
                                 }
