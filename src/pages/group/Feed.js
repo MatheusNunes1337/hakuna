@@ -4,7 +4,7 @@ import api from '../../services/api'
 
 import { HiLogout, HiUsers } from "react-icons/hi"
 import { BsFillCameraVideoFill, BsFillGearFill, BsThreeDots } from "react-icons/bs";
-import { AiFillDislike, AiFillLike, AiOutlineLike, AiOutlineDislike, AiFillDelete } from "react-icons/ai";
+import { AiFillDislike, AiFillLike, AiOutlineLike, AiOutlineDislike, AiFillDelete, AiOutlineHeart } from "react-icons/ai";
 import { MdEdit } from "react-icons/md";
 import {FaBook, FaCommentAlt, FaRegCommentAlt} from 'react-icons/fa'
 import { CgFeed } from "react-icons/cg";
