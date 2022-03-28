@@ -24,7 +24,7 @@ export default function Feed() {
     const [showPostFilesList, setPostFilesList] = useState(false)
     const [showCommentFilesList, setCommentFilesList] = useState(false)
     const [showPostOptionsMenu, setPostOptionsMenu] = useState(false)
-    const [showCommentOptionsMenu, setCommentOptionsMenu] = useState(true)
+    const [showCommentOptionsMenu, setCommentOptionsMenu] = useState(false)
     const [isPostLiked, setPostLikeStatus] = useState(false)
     const [isPostDesliked, setPostDeslikeStatus] = useState(false)
     const [isCommentLiked, setCommentLikeStatus] = useState(false)
@@ -192,7 +192,7 @@ export default function Feed() {
                     <h2 className="content__title">Feed</h2>
                     <div className="group__options">
                         <Link to={`/group/${id}/members`} className="group__options__link"><HiUsers className="group__options__icon"/>Membros</Link>
-                        <Link to="/home" className="group__options__link"><FaBook className="group__options__icon"/>Materiais</Link>
+                        <Link to={`/group/${id}/files`} className="group__options__link"><FaBook className="group__options__icon"/>Materiais</Link>
                         <Link to="/home" className="group__options__link"><BsFillCameraVideoFill className="group__options__icon"/>Videochamadas</Link>
                         {!isMod ? '' : <Link to={`/group/${id}/config`} className="group__options__link"><BsFillGearFill className="group__options__icon"/>Configurações</Link>}
                         <button className="group__options__btn" onClick={quitGroup}><HiLogout className="group__options__icon"/>Sair</button>

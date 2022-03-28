@@ -121,6 +121,7 @@ body {
 
 .navbar {
     display: flex;
+    position: relative;
     justify-content: space-between;
     align-items: center;
     padding: .8rem 8%;
@@ -132,6 +133,17 @@ body {
     font-size: clamp(1.2rem, 1.2vw + 1rem, 1.5rem);
     font-weight: bold;
     text-decoration: none;
+}
+
+.hakuna__version {
+    position: absolute;
+    background-color: red;
+    border-radius: 5px;
+    padding: 2px 3px;
+    margin-left: 85px;
+    top: 20px;
+    font-size: 0.8rem;
+    color: white;
 }
 
 .navbar__bars {
@@ -1109,6 +1121,60 @@ h3.content__subtitle {
     background-color: transparent;
 }
 
+.files__container {
+    width: 100%;
+    overflow-x: auto;
+    height: auto;
+}
+
+.files__container > table {
+   width: 100%;
+   margin-top: 20px;
+   border-collapse: collapse;
+   border: 1px solid #ddd;
+}
+
+.files__container > table th {
+    background-color: var(--blue);
+    color: white;
+}
+
+.files__table th, .files__table td {
+  text-align: center;
+  padding: 10px 0px;
+}
+
+.files__table th:first-of-type {
+   padding: 10px 6px;
+}
+
+.files__table tr:nth-child(even) {
+    background-color: #dddddd;
+}
+
+.files__table td > button {
+    display: inline-flex;
+    gap: 3px;
+    align-items: center;
+    padding: 6px 8px;
+    background-color: var(--black);
+    color: white;
+    font-size: 0.9rem;
+    border: none;
+    cursor: pointer;
+}
+
+.files__table .file__btn__icon {
+    font-size: 1.3rem;
+}
+
+@media (max-width: 1300px) {
+    .group__options {
+        gap: 0.5rem;
+    }
+}
+
+
 @media (max-width: 768px) {
 
     .container {
@@ -1121,6 +1187,11 @@ h3.content__subtitle {
 
     .navbar__bars {
         display: block;
+    }
+
+    .hakuna__version {
+        top: 10px;
+        font-size: 0.7rem;
     }
 
     .navbar__menu {

@@ -14,6 +14,7 @@ import UserConfig from '../pages/user/Config'
 import GetGroups from '../pages/group/getGroups'
 import Ranking from '../pages/Ranking'
 import Membros from '../pages/group/getMembers'
+import Files from '../pages/group/Files'
 
 function CustomRoute(props) {
 	const userToken = localStorage.getItem('userToken')
@@ -43,6 +44,9 @@ function Routes() {
                 </CustomRoute>
                 <CustomRoute private path="/group/:id/members">
                     <Membros />
+                </CustomRoute>
+                <CustomRoute private path="/group/:id/files">
+                    <Files />
                 </CustomRoute>
                 <CustomRoute private path="/group/:id/">
                     <Feed />

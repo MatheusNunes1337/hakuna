@@ -55,6 +55,7 @@ function NavBar() {
         <header>
           <nav className="navbar">
               <Link to="/home" className="navbar__brand">Hakuna</Link>
+              <span className='hakuna__version'>Beta</span>
               <FaBars onClick={toggleMenu} className="navbar__bars"/>
               <ul className="navbar__menu">
                   <li className="navbar__links"><Link to="/create-group" className="navbar__link"><BiMessageSquareAdd className="navbar__link__icon"/>Grupo</Link></li>

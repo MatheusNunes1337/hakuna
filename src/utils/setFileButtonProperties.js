@@ -2,7 +2,7 @@ import React from 'react'
 
 import { GrDocumentTxt } from "react-icons/gr";
 import { BsFillFileEarmarkPdfFill, BsFileEarmarkWordFill } from "react-icons/bs";
-import { AiFillFileWord, AiFillFilePdf, AiFillFileImage, AiFillFire } from "react-icons/ai";
+import { AiFillFileWord, AiFillFilePdf, AiFillFileExcel, AiFillFileImage, AiFillFire } from "react-icons/ai";
 import { IoLogoJavascript } from "react-icons/io";
 
 const setFileButtonProperties = (fileExtension) => {
@@ -18,6 +18,14 @@ const setFileButtonProperties = (fileExtension) => {
         case 'docx':
             icon = <AiFillFileWord className='file__btn__icon' />
             classname = 'word__file'
+            break
+        case 'xlsx':
+            icon = <AiFillFileExcel className='file__btn__icon' />
+            classname = 'excel__file'
+            break
+        case 'xls':
+            icon = <AiFillFileExcel className='file__btn__icon' />
+            classname = 'excel__file'
             break
         case 'js':
             icon = <IoLogoJavascript className='file__btn__icon' />
