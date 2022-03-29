@@ -43,7 +43,7 @@ function Home() {
           <SearchBar />
           <Aside />
           <div className="content">
-            <h2 className="content__title">Página inicial</h2>
+            <h2 className="content__title welcome">Bem vindo de volta, Matheus1337</h2>
             <div className="card__wrapper">
             {
               groups.length !== 0 ? 
