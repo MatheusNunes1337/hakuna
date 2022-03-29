@@ -189,7 +189,7 @@ export default function Feed() {
                 <SearchBar />
                 <Aside />
                 <div className="content">
-                    <h2 className="content__title">Feed</h2>
+                    <h2 className="content__title">Análise combinatória do matheus</h2>
                     <div className="group__options">
                         <Link to={`/group/${id}/members`} className="group__options__link"><HiUsers className="group__options__icon"/>Membros</Link>
                         <Link to={`/group/${id}/files`} className="group__options__link"><FaBook className="group__options__icon"/>Materiais</Link>

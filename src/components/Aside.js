@@ -37,7 +37,7 @@ function Aside() {
         </picture>
         <span className="sidebar__username">{username}</span>
         <ul className="sidebar__menu">
-          <li className="sidebar__links"><Link to="/home" className="sidebar__link"><FaUserAlt className="sidebar__link__icon"/>Perfil</Link></li>
+          <li className="sidebar__links"><Link to={`/${username}`} className="sidebar__link"><FaUserAlt className="sidebar__link__icon"/>Perfil</Link></li>
           <li className="sidebar__links"><Link to="/home" className="sidebar__link"><HiUserGroup className="sidebar__link__icon"/>Grupos</Link></li>
           <li className="sidebar__links"><Link to="/home" className="sidebar__link"><BsFillChatLeftFill className="sidebar__link__icon"/>Conversas</Link></li>
           <li className="sidebar__links"><Link to="/home" className="sidebar__link"><IoNotifications className="sidebar__link__icon"/>Notificações</Link></li>

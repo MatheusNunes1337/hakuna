@@ -143,6 +143,7 @@ body {
     margin-left: 85px;
     top: 20px;
     font-size: 0.8rem;
+    font-weight: bold;
     color: white;
 }
 
@@ -474,8 +475,8 @@ main {
 }
 
 .header__image {
-    width: 80px;
-    height: 80px;
+    width: 75px;
+    height: 75px;
     margin-right: 1rem;
 }
 
@@ -504,7 +505,7 @@ main {
 }
 
 .group__topic:not(:last-child) {
-    margin-right: 1rem;
+    margin-right: 0.5rem;
 }
 
 .enter__group__form {
@@ -717,8 +718,7 @@ input[type="file"] {
     align-items: center;
     margin: 10px 0px;
     padding: 12px;
-    border: 1px solid var(--ice-2);
-    box-shadow: 1px 1px var(--ice-2);
+    border: 0.8px solid var(--ice-3);
 }
 
 .ranking__container .ranking__item > span {
@@ -1170,6 +1170,99 @@ h3.content__subtitle {
     font-size: 1.3rem;
 }
 
+/* user profile */
+
+.user__info__container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    margin-top: 25px;
+    padding: 10px 0px;
+    gap: 15px;
+}
+
+.user__info__container .user__profile__pic {
+    width: 150px;
+    height: 150px;
+    padding: 4px;
+    border-radius: 50%;
+    border: 5px solid var(--blue);
+}
+
+.user__info__container .profile__info__container {
+    margin-top: 20px;
+    width: 60%;
+}
+
+.user__info__container .user__profile__username {
+    width: 100%;
+    display: block;
+    font-size: 1.65rem;
+    font-weight: bold;
+}
+
+.user__info__container .user__profile__area {  
+    font-size: 1.1rem;
+}
+
+.user__info__container .user__profile__area:after {
+    content: '*';
+    margin-left: 5px;
+}
+
+.user__info__container .user__profile__points {
+    margin-left: 5px;  
+    font-size: 1.1rem;
+    color: var(--blue);
+    font-weight: bold;
+}
+
+.user__info__container .user__profile__points::after {
+    content: 'pontos';
+    color: var(--black);
+    margin-left: 5px;
+    font-weight: bold;
+}
+
+.user__info__container .action__btns__wrapper {
+    gap: 10px;
+    display: flex;
+    margin-top: 10px;
+    width: auto;
+}
+
+.user__info__container .action__btns__wrapper button {
+    display: inline-flex;
+    padding: 10px;
+    background-color: var(--blue);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.user__groups__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    height: 300px;
+    margin-top: 20px;
+}
+
+.user__groups__container .building__icon {
+    font-size: 3rem;
+    color: var(--ice-3);
+}
+
+.user__groups__container > span {
+    font-size: 1.5rem;
+    font-weight: bold;
+    display: block;
+    color: var(--ice-3);
+}
+
 @media (max-width: 1300px) {
     .group__options {
         gap: 0.5rem;
@@ -1230,8 +1323,9 @@ h3.content__subtitle {
 
     .card {
         width: 48%;
-        gap: .2rem;
-        justify-content: space-evenly;
+        gap: 1rem;
+        padding: 4px 20px;
+        
     }
 
     .card__image {
@@ -1331,6 +1425,41 @@ h3.content__subtitle {
     .comment__action__btns {
         margin-left: 10%;
     }
+
+    .user__info__container {
+        justify-content: center;
+        gap: 3px;
+    }
+
+    .user__info__container .profile__info__container {
+        width: 90%;
+    }
+
+    .user__info__container .user__profile__username {
+        text-align: center;
+    }
+
+    .user__info__container .user__profile__area {
+        width: 100%;
+        display: block;
+        text-align: center;
+    }
+
+    .user__info__container .user__profile__area::after {
+        content: '';
+    }
+
+    .user__info__container .user__profile__points {
+        width: 100%;
+        display: block;
+        text-align: center;
+    }
+
+    .user__info__container .action__btns__wrapper {
+        justify-content: center;
+        margin-left: auto;
+        margin-right: auto;
+    }
 }
 
 @media (max-width: 460px) {
@@ -1355,7 +1484,7 @@ h3.content__subtitle {
 
     .card {
         width: 100%;
-        padding: 1.5rem 0px;
+        padding: 1.5rem 15px;
     }
 
     .post__item .post__infos {
