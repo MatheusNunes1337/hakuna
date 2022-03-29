@@ -8,6 +8,8 @@ import Card from '../components/Card'
 import SearchBar from '../components/SearchBar'
 
 import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
+import { HiUserGroup } from "react-icons/hi";
+import { FaSadCry } from "react-icons/fa";
 
 function Home() {
   let [groups, setGroups] = useState([])
@@ -44,7 +46,7 @@ function Home() {
           <Aside />
           <div className="content">
             <h2 className="content__title welcome">Bem vindo de volta, Matheus1337</h2>
-            <div className="card__wrapper">
+            <div className={groups.length !== 0 ? "card__wrapper": "card__wrapper any__group"}>
             {
               groups.length !== 0 ? 
               groups.map((group, index) => {
@@ -55,9 +57,13 @@ function Home() {
                 icon={group.discipline} 
                 max_members={group.max_members}
                 is_public={group.is_public}
+                cardType="search"
                 />)
               }) : (
-                <p>Parece que você ainda não participa de nenhum grupo.</p>
+                <>
+                  <HiUserGroup className='any__group__icon'/>
+                  <span>Parece que você ainda não participa de nenhum grupo</span>
+                </>
               )
             }
             </div>

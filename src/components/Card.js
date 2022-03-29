@@ -4,14 +4,29 @@ import { Link } from 'react-router-dom'
 import { FaUserAlt } from "react-icons/fa"
 import { RiLock2Fill } from "react-icons/ri";
 import { BiWorld } from "react-icons/bi"
+import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 
 import setGroupIcon from '../utils/setGroupIcon';
 
-function Card({id, icon, title, max_members, is_public, members, search}) {
+function Card({id, icon, title, max_members, is_public, members, search, cardType}) {
   let [cardIcon, setIcon] = useState('')
+  //let [isGroupFavorited, setGroupFavorite] = useState(false)
+  //let [favoriteIcon, setFavoriteIcon] = useState(<AiOutlineHeart className="card__detail__icon" onClick={performFavoriteGroup}/>)
   useEffect(() => {
     setIcon(setGroupIcon(icon))
   }, [])
+
+  /*
+  const performFavoriteGroup = () => {
+    if(isGroupFavorited) {
+      setGroupFavorite(false)
+      setFavoriteIcon(<AiOutlineHeart className="card__detail__icon" onClick={performFavoriteGroup}/>)
+    } else {
+      setGroupFavorite(true)
+      setFavoriteIcon(<AiFillHeart className="card__detail__icon" onClick={performFavoriteGroup}/>)
+    }
+  }
+  */
   
   return (
     <Link className="card" to={!search ? `/group/${id}` : `/group-info/${id}`}>
@@ -27,7 +42,11 @@ function Card({id, icon, title, max_members, is_public, members, search}) {
                 : 
                   <span className="card__detail"><BiWorld className="card__detail__icon" />Público</span>
               }
-              <span className="card__detail"><FaUserAlt className="card__detail__icon" />1/{max_members}</span>
+              {
+                cardType === 'search' ? (
+                  <span className="card__detail"><FaUserAlt className="card__detail__icon" />1/{max_members}</span>
+                ) : <span className="card__detail">782</span>
+              }
             </div>
           </div>
     </Link> 

@@ -64,15 +64,15 @@ function Routes() {
                 <CustomRoute private path="/home">
                     <Home />
                 </CustomRoute>
-                <CustomRoute private path="/:username">
-                    <Profile />
-                </CustomRoute>
                 <CustomRoute private path="/ranking">
                     <Ranking />
                 </CustomRoute>
                 <Route path="/login">
                     <Login />
                 </Route>
+                <CustomRoute private path="/:username">
+                    <Profile />
+                </CustomRoute>
                 <Route path="/">
                     <Register />
                 </Route>

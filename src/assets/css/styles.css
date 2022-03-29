@@ -388,6 +388,29 @@ main {
     font-size: 1.2rem;
 }
 
+.any__group {
+    height: 400px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.any__group .any__group__icon {
+    font-size: 2.5rem;
+    color: var(--ice-3);
+}
+
+.any__group > span {
+    display: block;
+    font-size: 1.3rem;
+    font-weight: bold;
+    text-align: center;
+    color: var(--ice-3);
+}
+
 .card {
     display: flex;
     align-items: center;
@@ -1468,6 +1491,12 @@ h3.content__subtitle {
         justify-content: center;
         margin-left: auto;
         margin-right: auto;
+    }
+
+    .any__group {
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
     }
 }
 
