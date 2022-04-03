@@ -13,18 +13,22 @@ import { FaSadCry } from "react-icons/fa";
 
 function Home() {
   let [groups, setGroups] = useState([])
+  let [username, setUsername] = useState('')
   const [paginationIndex, setPaginationIndex] = useState(1)
   
+  const id =  localStorage.getItem('userId')
   const token = localStorage.getItem('userToken')
   const headers = { Authorization: `Bearer ${token}` }
 
   useEffect(() => {
     const getGroups = async () => {
       try {
-        const {data} = await api.get(`groups/user`, {headers})
-        setGroups(data)
+        const {data} = await api.get(`users/${id}`, {headers})
+        const {groups, username} = data
+        setGroups(groups)
+        setUsername(username)
       } catch(err) {
-        alert(err.response.data.error)
+        alert(err.response.data.name)
       }
     }
     getGroups()
@@ -45,7 +49,7 @@ function Home() {
           <SearchBar />
           <Aside />
           <div className="content">
-            <h2 className="content__title welcome">Bem vindo de volta, Matheus1337</h2>
+            <h2 className="content__title welcome">Bem vindo de volta, {username}</h2>
             <div className={groups.length !== 0 ? "card__wrapper": "card__wrapper any__group"}>
             {
               groups.length !== 0 ? 
