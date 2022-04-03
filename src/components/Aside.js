@@ -11,6 +11,8 @@ import studentPic from '../assets/images/student.png'
 
 function Aside() {
   let [username, setUsername] = useState('')
+  let [profilePic, setProfilePic] = useState('')
+  let [type, setType] = useState('')
 
   const id =  localStorage.getItem('userId')
   const token = localStorage.getItem('userToken')
@@ -20,10 +22,12 @@ function Aside() {
     const getUser = async () => {
       try {
         const {data} = await api.get(`users/${id}`, {headers})
-        const {username} = data
+        const {username, type, profilePic} = data
         setUsername(username)
+        setProfilePic(`https://hakuna-1337.s3.amazonaws.com/${profilePic}`)
+        setType(type)
       } catch(err) {
-        alert(err.response.data.error)
+        alert(err.response.data.name)
       }
     }
 
@@ -33,7 +37,7 @@ function Aside() {
   return (
     <aside className="aside">
         <picture>
-          <img src={studentPic} className="sidebar__user" />
+          <img src={profilePic} className="sidebar__user" />
         </picture>
         <span className="sidebar__username">{username}</span>
         <ul className="sidebar__menu">
