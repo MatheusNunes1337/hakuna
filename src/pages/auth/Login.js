@@ -14,7 +14,7 @@ function Login() {
 
         try {
             const userData = {username, password}
-            const {data} = await api.post('auth/login', userData)
+            const {data} = await api.post('authentication', userData)
             localStorage.setItem('userToken', data.token)
             localStorage.setItem('userId', data.id)
             history.push('/home')

@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import api from '../../services/api'
 
 import '../../assets/css/styles.css'
 
@@ -10,9 +11,12 @@ function RecoverPass() {
         e.preventDefault()
 
         try {
-            const data = { email } 
+            const data = { receiverEmail: email }
+            await api.post('recover', data)
+            alert(`Foi enviado um e-mail para ${email} com orientações para a recuperação da sua conta. Verifique a sua caixa postal e caixa de spam.`)
+            localStorage.setItem('emailRecover', email)
         } catch(err) {
-            alert(err.message)
+            alert(err.response.data.name)
         }
     }
 

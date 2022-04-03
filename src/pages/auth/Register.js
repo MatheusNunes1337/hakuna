@@ -24,12 +24,10 @@ function Register() {
             if(area) {
                 userData.area = area
             } 
-            const {data} = await api.post('auth/register', userData)
-            localStorage.setItem('userToken', data.token)
-            localStorage.setItem('userId', data.id)
-            history.push('/home')
+            await api.post('users', userData)
+            history.push('/login')
         } catch(err) {
-            alert(err.response.data.error)
+            alert(err.response.data.name)
         }
     }
 

@@ -19,7 +19,12 @@ import Profile from '../pages/user/Profile'
 
 function CustomRoute(props) {
 	const userToken = localStorage.getItem('userToken')
+    const emailRecover = localStorage.getItem('emailRecover')
+
 	if(props.private && !userToken) {
+		return <Redirect to="/login" />
+	}
+    if(props.restrict && !emailRecover) {
 		return <Redirect to="/login" />
 	} 
 	else {
@@ -34,7 +39,7 @@ function Routes() {
                 <Route path="/recover-pass">
                     <RecoverPass />
                 </Route>
-                <Route path="/redefine-pass">
+                <Route restrict path="/redefine-pass">
                     <RedefinePass />
                 </Route>
                 <CustomRoute private path="/create-group">
