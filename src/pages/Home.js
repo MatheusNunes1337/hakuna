@@ -25,6 +25,7 @@ function Home() {
       try {
         const {data} = await api.get(`users/${id}`, {headers})
         const {groups, username} = data
+        console.log(groups)
         setGroups(groups)
         setUsername(username)
       } catch(err) {
@@ -56,11 +57,11 @@ function Home() {
               groups.map((group, index) => {
                 return (
                 <Card key={index} 
-                id={group.id} 
+                id={group._id} 
                 title={group.name} 
                 icon={group.discipline} 
-                max_members={group.max_members}
-                is_public={group.is_public}
+                max_members={group.maxMembers}
+                is_public={group.isPublic}
                 cardType="search"
                 />)
               }) : (

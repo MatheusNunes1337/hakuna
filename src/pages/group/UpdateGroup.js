@@ -13,7 +13,7 @@ function CreateGroup() {
     let [discipline, setDiscipline] = useState('')
     let [topics, setTopics] = useState([])
     let [members, setMembers] = useState(0)
-    let [is_public, setType] = useState('true')
+    let [isPublic, setType] = useState(true)
     let [password, setPassword] = useState('')
 
     const { id } = useParams()
@@ -26,15 +26,15 @@ function CreateGroup() {
         try {
           const headers = { Authorization: `Bearer ${userToken}` }
           const {data} = await api.get(`groups/${id}`, { headers })
-          const {name, description, discipline, topics, max_members, is_public } = data
+          const {name, description, discipline, topics, maxMembers, isPublic } = data
           setName(name)
           setDescription(description)
           setDiscipline(discipline)
           setTopics(topics.join(','))
-          setMembers(max_members)
-          setType(is_public)
+          setMembers(maxMembers)
+          setType(isPublic)
         } catch(err) {
-          alert(err.response.data.error)
+          alert(err.response.data.name)
         }
       }
       getGroup()
@@ -45,16 +45,22 @@ function CreateGroup() {
         
         try {
           const payload = {
-            name, description, discipline, topics: topics.split(','), members, is_public, password
+            name, description, discipline, topics: topics.split(','), members, isPublic, password
           }
   
-          if(payload.is_public === 'true') 
+          if(payload.isPublic === 'true') {
             payload.password = null
+            setType(true)
+          } else {
+            setType(false)
+          }
+
   
-          await api.put(`groups/${id}`, payload, { headers })
+          //await api.put(`groups/${id}`, payload, { headers })
+          console.log('payload', payload)
           alert('informações do grupo atualizadas com sucesso')
         } catch(err) {
-          alert(err.response.data.error)
+          alert(err.response.data.name)
         }
     }
 
@@ -63,7 +69,7 @@ function CreateGroup() {
         await api.delete(`groups/${id}`, {headers})
         history.push('/home')
       } catch(err) {
-        alert(err.response.data.error)
+        alert(err.response.data.name)
       }
     }
 
@@ -88,11 +94,11 @@ function CreateGroup() {
                     <label htmlFor="max_members" className="form__label">Número máximo de membros:</label>
                     <input type="text" className="form__input" value={members} onChange={e => setMembers(e.target.value)} />
                     <label htmlFor="type" className="form__label">Tipo:</label>
-                    <select name="type" className="form__select" value={is_public.toString()} onChange={e => setType(e.target.value)}>
+                    <select name="type" className="form__select" value={isPublic} onChange={e => setType(e.target.value)}>
                       <option value="true">público</option>
                       <option value="false" selected="selected">privado</option>
                     </select>
-                    {  is_public.toString() === 'false'
+                    {  isPublic.toString() === 'false'
                          ? (
                         <>
                             <label htmlFor="password" className="form__label">Senha:</label>

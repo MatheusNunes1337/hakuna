@@ -17,6 +17,7 @@ import FileButton from '../../components/FileDownloadButton';
 
 export default function Feed() {
     const [posts, setPosts] = useState([])
+    const [groupName, setGroupName] = useState('')
     const [isMod, setMod] = useState(false)
     const [comments, setComments] = useState(['oi', 'tchau'])
     const [showCommentInput, setCommentInput] = useState(false)
@@ -46,13 +47,14 @@ export default function Feed() {
     useEffect(() => {
         const getMods = async () => {
           try {
-            const {data} = await api.get(`members/group/${id}/mods`, {headers})
-            data.map(mod => {
-                if(mod.id == userId)
-                    setMod(true)
-            })
+            const {data} = await api.get(`groups/${id}`, {headers})
+            const {mods, name, posts} = data
+            const moderators = mods.map(mod => mod._id)
+            if(moderators.includes(userId)) setMod(true)
+            setGroupName(name)
+            setPosts(posts)
           } catch(err) {
-            alert(err.response.data.error)
+            alert(err.response.data.name)
           }
         }
         getMods()
@@ -189,7 +191,7 @@ export default function Feed() {
                 <SearchBar />
                 <Aside />
                 <div className="content">
-                    <h2 className="content__title">Análise combinatória do matheus</h2>
+                    <h2 className="content__title">{groupName}</h2>
                     <div className="group__options">
                         <Link to={`/group/${id}/members`} className="group__options__link"><HiUsers className="group__options__icon"/>Membros</Link>
                         <Link to={`/group/${id}/files`} className="group__options__link"><FaBook className="group__options__icon"/>Materiais</Link>
@@ -204,7 +206,7 @@ export default function Feed() {
                         <label for="add_material__btn" className="material__btn"><FaBook className="group__options__icon"/></label> 
                     </form>
                     <div className="group__posts">
-                    {  posts.length == 0
+                    {  posts.length !== 0
                          ? (
                         <>
                             <div className='post__item'>

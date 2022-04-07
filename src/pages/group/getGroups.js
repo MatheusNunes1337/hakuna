@@ -28,7 +28,7 @@ function GetGroups() {
         const {data} = await api.get(`groups?query=${filter}`, {headers})
         setGroups(data)
       } catch(err) {
-        alert(err.response.data.error)
+        alert(err.response.data.name)
       }
     }
 

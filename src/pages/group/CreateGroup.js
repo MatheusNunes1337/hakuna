@@ -12,7 +12,7 @@ function CreateGroup() {
     let [description, setDescription] = useState('')
     let [discipline, setDiscipline] = useState('')
     let [topics, setTopics] = useState('')
-    let [is_public, setType] = useState('true')
+    let [isPublic, setType] = useState(true)
     let [password, setPassword] = useState(null)
 
     const history = useHistory()
@@ -22,8 +22,9 @@ function CreateGroup() {
         e.preventDefault()
         try {
           const groupData = {
-            name, description, discipline, topics: topics.split(','), is_public, password
+            name, description, discipline, topics: topics.split(','), isPublic, password
           }
+          console.log('group data', groupData)
           const headers = { Authorization: `Bearer ${userToken}` }
           const {data} = await api.post('groups', groupData, { headers })
           alert('Grupo criado com sucesso')
@@ -57,7 +58,7 @@ function CreateGroup() {
                       <option value="true">público</option>
                       <option value="false">privado</option>
                     </select>
-                    {  is_public === 'false'
+                    {  isPublic.toString() === 'false'
                          ? (
                         <>
                             <label htmlFor="password" className="form__label">Senha:</label>
