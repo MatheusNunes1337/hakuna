@@ -12,9 +12,9 @@ function CreateGroup() {
     let [description, setDescription] = useState('')
     let [discipline, setDiscipline] = useState('')
     let [topics, setTopics] = useState([])
-    let [members, setMembers] = useState(0)
+    let [maxMembers, setMembers] = useState(0)
     let [isPublic, setType] = useState(true)
-    let [password, setPassword] = useState('')
+    let [password, setPassword] = useState(null)
 
     const { id } = useParams()
     const history = useHistory()
@@ -45,22 +45,22 @@ function CreateGroup() {
         
         try {
           const payload = {
-            name, description, discipline, topics: topics.split(','), members, isPublic, password
+            name, description, discipline, topics: topics.split(','), maxMembers, isPublic, password
           }
   
           if(payload.isPublic === 'true') {
             payload.password = null
-            setType(true)
+            payload.isPublic = true
           } else {
-            setType(false)
+            payload.isPublic = false
           }
 
-  
-          //await api.put(`groups/${id}`, payload, { headers })
+          await api.patch(`groups/${id}`, payload, { headers })
           console.log('payload', payload)
           alert('informações do grupo atualizadas com sucesso')
         } catch(err) {
-          alert(err.response.data.name)
+          const {name} = err.response.data[0]
+          alert(name)
         }
     }
 
@@ -92,7 +92,7 @@ function CreateGroup() {
                     <label htmlFor="topics" className="form__label">Tópicos (máx: 5, separados entre vírgulas):</label>
                     <input type="text" className="form__input" value={topics} onChange={e => setTopics(e.target.value)} />
                     <label htmlFor="max_members" className="form__label">Número máximo de membros:</label>
-                    <input type="text" className="form__input" value={members} onChange={e => setMembers(e.target.value)} />
+                    <input type="text" className="form__input" value={maxMembers} onChange={e => setMembers(e.target.value)} />
                     <label htmlFor="type" className="form__label">Tipo:</label>
                     <select name="type" className="form__select" value={isPublic} onChange={e => setType(e.target.value)}>
                       <option value="true">público</option>

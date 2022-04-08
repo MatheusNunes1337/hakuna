@@ -19,7 +19,7 @@ function Login() {
             localStorage.setItem('userId', data.id)
             history.push('/home')
         } catch(err) {
-            alert(err.response.data.error)
+            alert(err.response.data.name)
         }
     }
 

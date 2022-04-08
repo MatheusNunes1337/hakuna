@@ -44,7 +44,7 @@ function Card({id, icon, title, max_members, is_public, members, search, cardTyp
               }
               {
                 cardType === 'search' ? (
-                  <span className="card__detail"><FaUserAlt className="card__detail__icon" />1/{max_members}</span>
+                  <span className="card__detail"><FaUserAlt className="card__detail__icon" />{members}/{max_members}</span>
                 ) : <span className="card__detail">782</span>
               }
             </div>

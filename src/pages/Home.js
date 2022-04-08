@@ -59,7 +59,8 @@ function Home() {
                 <Card key={index} 
                 id={group._id} 
                 title={group.name} 
-                icon={group.discipline} 
+                icon={group.discipline}
+                members={group.members.length} 
                 max_members={group.maxMembers}
                 is_public={group.isPublic}
                 cardType="search"

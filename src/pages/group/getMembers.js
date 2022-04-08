@@ -19,6 +19,26 @@ export default function Membros() {
     const history = useHistory()
 
     const [paginationIndex, setPaginationIndex] = useState(1)
+    const [mods, setMods] = useState([])
+    const [members, setMembers] = useState([])
+
+    useEffect(() => {
+        const getMembers = async () => {
+          try {
+            const {data} = await api.get(`groups/${id}`, {headers})
+            const {mods, members} = data
+            if(mods.includes(userId)) {
+                members.filter(member => member._id !== userId)
+            }
+            setMods(mods)
+            setMembers(members)
+          } catch(err) {
+            const {name} = err.response.data[0]
+            alert(name)
+          }
+        }
+        getMembers()
+      }, [])
 
     const nextPage = () => {
         setPaginationIndex(paginationIndex + 1)
@@ -35,18 +55,25 @@ export default function Membros() {
         } 
     }
 
-    const makeMod = () => {
+    const makeMod = (event) => {
+        const id = event.target.value
         const confirmed = window.confirm('Tem certeza que deseja tornar esse membro moderador do grupo?')
         if(!confirmed) {
             return false
         } 
     }
 
-    const revokeMod = () => {
+    const revokeMod = (event) => {
+        const id = event.target.value
         const confirmed = window.confirm('Tem certeza que deseja retirar os privilégios de moderador desse membro?')
         if(!confirmed) {
             return false
         } 
+    }
+
+    const goToProfile = (event) => {
+        const id = event.target.value
+        history.push(`/${id}`)
     }
 
     return (
@@ -61,49 +88,50 @@ export default function Membros() {
                         <div className='member__container'>
                             <div className='mod__container'>
                                 <h3 className="content__subtitle">Moderadores</h3>
-                                <div className='mod__item'>
-                                    <span className='member__index'>#1</span>
-                                    <img src='https://th.bing.com/th/id/OIP.s4XSrU8mt2ats3XCD7pOfgHaF7?pid=ImgDet&w=3000&h=2400&rs=1' className='member__img'/>
-                                    <span className='member__name'>Matheus1337</span>
-                                    <div className='member__action__btns'>
-                                        <button className='member__action__btn' title='Ver perfil'><FaSearch /></button>
-                                        <button className='member__action__btn' title='Remover moderador' onClick={revokeMod}><FaArrowDown /></button>
-                                        <button className='member__action__btn' title='Remover membro' onClick={deleteMember}><AiFillDelete /></button>
-                                    </div>
-                                </div>
-                                <div className='mod__item'>
-                                    <span className='member__index'>#2</span>
-                                    <img src='https://th.bing.com/th/id/OIP.s4XSrU8mt2ats3XCD7pOfgHaF7?pid=ImgDet&w=3000&h=2400&rs=1' className='member__img'/>
-                                    <span className='member__name'>Matheus1337</span>
-                                    <div className='member__action__btns'>
-                                        <button className='member__action__btn'><FaSearch /></button>
-                                        <button className='member__action__btn'><FaArrowDown /></button>
-                                        <button className='member__action__btn'><AiFillDelete /></button>
-                                    </div>
-                                </div>
+                                {
+                                    mods.map((mod, index) => {
+                                        return (
+                                            <div className='mod__item'>
+                                                <span className='member__index'>#{index + 1}</span>
+                                                <img src={`https://hakuna-1337.s3.amazonaws.com/${mod.profilePic}`} className='member__img'/>
+                                                <span className='member__name'>{mod.username}</span>
+                                                {
+                                                    mod._id !== userId ? (
+                                                        <div className='member__action__btns'>
+                                                            <button className='member__action__btn' title='Ver perfil' value={mod._id} onClick={goToProfile}><FaSearch /></button>
+                                                            <button className='member__action__btn' title='Remover moderador' value={mod._id} onClick={revokeMod}><FaArrowDown /></button>
+                                                            <button className='member__action__btn' title='Remover membro' value={mod._id} onClick={deleteMember}><AiFillDelete /></button>
+                                                        </div>
+                                                    ) : ''
+                                                }
+                                            </div>
+                                        )
+                                    }) 
+                                }
                             </div>
                             <div className='others__container'>
                                 <h3 className="content__subtitle">Outros membros</h3>
-                                <div className='others__item'>
-                                    <span className='member__index'>#1</span>
-                                    <img src='https://th.bing.com/th/id/OIP.s4XSrU8mt2ats3XCD7pOfgHaF7?pid=ImgDet&w=3000&h=2400&rs=1' className='member__img'/>
-                                    <span className='member__name'>Matheus1337</span>
-                                    <div className='member__action__btns'>
-                                        <button className='member__action__btn' title='Ver perfil'><FaSearch /></button>
-                                        <button className='member__action__btn' title='Tornar moderador'><FaArrowUp /></button>
-                                        <button className='member__action__btn' title='Remover membro'><AiFillDelete /></button>
-                                    </div>
-                                </div>
-                                <div className='others__item'>
-                                    <span className='member__index'>#2</span>
-                                    <img src='https://th.bing.com/th/id/OIP.s4XSrU8mt2ats3XCD7pOfgHaF7?pid=ImgDet&w=3000&h=2400&rs=1' className='member__img'/>
-                                    <span className='member__name'>Matheus1337</span>
-                                    <div className='member__action__btns'>
-                                        <button className='member__action__btn'><FaSearch /></button>
-                                        <button className='member__action__btn'><FaArrowUp /></button>
-                                        <button className='member__action__btn'><AiFillDelete /></button>
-                                    </div>
-                                </div>
+                                {
+                                    members.length !== 0 ?
+                                    members.map((member, index) => {
+                                        return (
+                                            <div className='others__item'>
+                                                <span className='member__index'>#{index + 1}</span>
+                                                <img src='https://th.bing.com/th/id/OIP.s4XSrU8mt2ats3XCD7pOfgHaF7?pid=ImgDet&w=3000&h=2400&rs=1' className='member__img'/>
+                                                <span className='member__name'>{member.username}</span>
+                                                {
+                                                    member._id == userId ? (
+                                                        <div className='member__action__btns'>
+                                                            <button className='member__action__btn' title='Ver perfil' value={member._id} onClick={goToProfile}><FaSearch /></button>
+                                                            <button className='member__action__btn' title='Tornar moderador' value={member._id}><FaArrowUp /></button>
+                                                            <button className='member__action__btn' title='Remover membro' value={member._id}><AiFillDelete /></button>
+                                                        </div>
+                                                    ) : ''
+                                                }
+                                            </div>
+                                        ) 
+                                    }) : ''
+                                }
                             </div>
                         </div>
                         <div className='pagination__wrapper'>

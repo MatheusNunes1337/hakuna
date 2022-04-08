@@ -25,8 +25,10 @@ function GetGroups() {
   useEffect(() => {
     const getGroups = async () => {
       try {
-        const {data} = await api.get(`groups?query=${filter}`, {headers})
-        setGroups(data)
+        console.log('filter', filter)
+        const {data} = await api.get(`groups?name=${filter}&topics=${filter}`, {headers})
+        const {groups} = data
+        setGroups(groups)
       } catch(err) {
         alert(err.response.data.name)
       }
