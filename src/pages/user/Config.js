@@ -76,7 +76,7 @@ export default function UserConfig() {
         await api.delete(`users/${id}`, {headers})
         history.push('/register')
       } catch(err) {
-        alert(err.response.data.error)
+        alert(err.response.data.name)
       }
     }
 

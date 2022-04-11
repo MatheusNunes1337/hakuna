@@ -37,6 +37,8 @@ export default function Feed() {
     const [commentIcon, setCommentIcon] = useState(<FaRegCommentAlt />)
     const [materialIcon, setMaterialIcon] = useState(<FaBook />)
     const [screenWidth, setScreenWidth] = useState('')
+    const [content, setContent] = useState('')
+    const [files, setFiles] = useState([])
 
     const { id } = useParams();
     const token = localStorage.getItem('userToken')
@@ -49,12 +51,13 @@ export default function Feed() {
           try {
             const {data} = await api.get(`groups/${id}`, {headers})
             const {mods, name, posts} = data
+            console.log('posts', posts)
             const moderators = mods.map(mod => mod._id)
             if(moderators.includes(userId)) setMod(true)
             setGroupName(name)
             setPosts(posts)
           } catch(err) {
-            alert(err.response.data.name)
+            alert(err)
           }
         }
         getMods()
@@ -66,8 +69,28 @@ export default function Feed() {
         setScreenWidth(getScreenWidth)
     }, [screenWidth])
 
-    const handlePost = () => {
-        console.log('post criado com sucesso')
+    const handlePost = async (e) => {
+        e.preventDefault()
+
+        if(content.length == 0) {
+            alert('The post content cannot be null.')
+            return 
+        } else if(content.length > 2000) {
+            alert('The post content must be a maximum of 2000 characters.')
+            return 
+        }
+
+        if(files.length > 3) {
+            alert('You can only upload a maximum of three files per post.')
+        }
+
+        const formData = new FormData()
+        formData.append('content', content)
+        formData.append('files', files)
+
+        const headers = { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data"}
+        await api.post(`groups/${id}/posts`, formData, {headers})
+        alert('Post criado com sucesso')
     }
 
     const quitGroup = async () => {
@@ -182,6 +205,7 @@ export default function Feed() {
             setCommentOptionsMenu(true)
         }
     }
+
     
     return (
         <>
@@ -200,50 +224,50 @@ export default function Feed() {
                         <button className="group__options__btn" onClick={quitGroup}><HiLogout className="group__options__icon"/>Sair</button>
                     </div>
                     <form action="" className="post__form" onSubmit={handlePost}>
-                        <textarea name="description" className="form__textarea" id="group__description" cols="30" rows="7" placeholder='Compartilhe algo com os seus colegas'></textarea>
+                        <textarea name="description" className="form__textarea" id="group__description" cols="30" rows="7" placeholder='Compartilhe algo com os seus colegas' onChange={e => setContent(e.target.value)}></textarea>
                         <button className="form__btn">Postar</button>
-                        <input type="file" id="add_material__btn" name='files' multiple/>
+                        <input type="file" id="add_material__btn" name='files' onChange={e => setFiles(e.target.files)} multiple/>
                         <label for="add_material__btn" className="material__btn"><FaBook className="group__options__icon"/></label> 
                     </form>
                     <div className="group__posts">
-                    {  posts.length !== 0
-                         ? (
-                        <>
-                            <div className='post__item'>
+                    {  posts.length !== 0 ?
+                       posts.map((post, index) => {
+                           return (
+                            <>
+                            <div className='post__item' key={index}>
                                 {
                                     showPostOptionsMenu ? (
                                         <ul className='post__options__menu'>
                                             <li onClick={boo}><MdEdit className='post__options__menu__icon' />Editar publicação</li>
-                                            <li><AiFillDelete className='post__options__menu__icon' />Deletar publicação</li>
+                                            <li value={post._id}><AiFillDelete className='post__options__menu__icon' />Deletar publicação</li>
                                         </ul>
                                     ) : ''
                                 }
                                 <img src='https://th.bing.com/th/id/OIP.s4XSrU8mt2ats3XCD7pOfgHaF7?pid=ImgDet&w=3000&h=2400&rs=1' className='post__author__img'/>
                                 <div className='post__infos'>
-                                    <span className='post__author__name'>Matheus1337</span>
-                                    <span className='post__author__title'>Professor de matemática</span>
-                                    <span className='post__creation_time'>17:45</span>
+                                    <span className='post__author__name'>{post.author.username}</span>
+                                    {post.author.type === 'teacher' ? <span className='post__author__title'>Professor de {post.author.area}</span> : ''}
+                                    <span className='post__creation_time'>{post.creationTime}</span>
                                 </div>
                                 <button onClick={handlePostOptionsMenu} className='post__options__btn'><BsThreeDots /></button>
                                 <p className='post__content'>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec et ipsum vel nunc ultricies posuere nec pulvinar purus. Ut id feugiat odio. Mauris sagittis urna ut rhoncus convallis. Praesent tincidunt elementum enim, et gravida enim. Nullam vestibulum nibh in leo viverra consequat. Pellentesque vestibulum tempus auctor. Phasellus lacinia ante non scelerisque pretium. Maecenas vel quam sit amet velit vehicula pellentesque.
-                                    Sed volutpat purus nec sem ullamcorper sagittis. Morbi felis mi, facilisis nec mauris at, finibus pulvinar justo. Suspendisse facilisis neque sapien, vel vehicula neque bibendum gravida. Aliquam vel luctus dui, suscipit aliquet justo. Mauris aliquam eu urna vitae mollis. In porttitor erat sit amet eleifend ullamcorper. Pellentesque ultrices lorem non justo mollis, ut ornare leo condimentum. Integer quis erat condimentum arcu tempor dignissim at in augue. Vivamus dui lectus, condimentum at ornare ornare, maximus et nibh. Phasellus venenatis imperdiet neque in faucibus. Donec semper erat vel ultrices sollicitudin. Suspendisse aliquet, ligula quis fermentum viverra, nisi nibh porta metus, a lacinia quam diam sit amet ante. Aenean rhoncus ex at finibus pretium.
+                                    {post.content}
                                 </p>
-                                {comments.length > 0 ? <button onClick={handleCommentList} className="handleComments__btn">{`${comments.length} comentários` }</button> : ''}
+                                {post.comments.length > 0 ? <button onClick={handleCommentList} className="handleComments__btn">{`${comments.length} comentários` }</button> : ''}
                                 <hr />
                                 <div className='post__action__btns'>
                                     {
                                         screenWidth > 200 ? (
                                             <>
-                                                <button onClick={performPostLike}>{postLikeIcon}{isPostLiked ? 15 : 'Like'}</button>
-                                                <button onClick={performPostDeslike}>{postDeslikeIcon}{isPostDesliked ? 3 : 'Deslike'}</button>
+                                                <button onClick={performPostLike}>{postLikeIcon}{isPostLiked ? post.likes : 'Like'}</button>
+                                                <button onClick={performPostDeslike}>{postDeslikeIcon}{isPostDesliked ? post.deslikes : 'Deslike'}</button>
                                                 <button onClick={handleCommentInput}>{commentIcon}Comentar</button>
                                                 <button onClick={handlePostFilesSection}>{materialIcon}Materiais</button>
                                             </>
                                         ) : (
                                             <>
-                                                <button onClick={performPostLike}>{postLikeIcon}{isPostLiked ? 15 : ''}</button>
-                                                <button onClick={performPostDeslike}>{postDeslikeIcon}{isPostDesliked ? 3 : ''}</button>
+                                                <button onClick={performPostLike}>{postLikeIcon}{isPostLiked ? post.likes : ''}</button>
+                                                <button onClick={performPostDeslike}>{postDeslikeIcon}{isPostDesliked ? post.deslikes : ''}</button>
                                                 <button onClick={handleCommentInput}>{commentIcon}</button>
                                                 <button onClick={handlePostFilesSection}>{materialIcon}</button>
                                             </>
@@ -312,8 +336,9 @@ export default function Feed() {
                                     ) : ''
                                 }
                             </div>
-                        </>    
-                        ) 
+                            </>
+                            )
+                       }) 
                         : <>
                             <CgFeed className="group__feed__icon"/>
                             <p className="group__feed__message">Nenhuma publicação foi realizada ainda</p>
