@@ -32,7 +32,7 @@ export default function Profile() {
           setPoints(contributionPoints)
           setProfilePic(`https://hakuna-1337.s3.amazonaws.com/${profilePic}`)
         } catch(err) {
-          alert(err.response.data.error)
+          alert(err.response.data.name)
         }
       }
 

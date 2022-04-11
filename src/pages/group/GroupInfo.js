@@ -13,7 +13,7 @@ function GroupInfo() {
     let [description, setDescription] = useState('')
     let [topics, setTopics] = useState([])
     let [is_public, setType] = useState('false')
-    let [password, setPassword] = useState('')
+    let [password, setPassword] = useState(null)
     let [icon, setIcon] = useState('')
 
     const { id } = useParams()
@@ -22,32 +22,17 @@ function GroupInfo() {
     const headers = { Authorization: `Bearer ${userToken}` }
 
     useEffect(() => {
-      const getGroups = async() => {
-        try {
-          const {data} = await api.get(`groups/user`,  {headers})
-          data.map(group => {
-            if(group.id == id)
-              return history.push(`/group/${id}`)
-          })
-        } catch(err) {
-          alert(err.response.data.error)
-        }
-      }
-      getGroups()
-    }, [])
-
-    useEffect(() => {
       const getGroup = async() => {
         try {
           const {data} = await api.get(`groups/${id}`,  {headers})
-          const {name, description, discipline, topics, is_public } = data
+          const {name, description, discipline, topics, isPublic } = data
           setName(name)
           setDescription(description)
           setTopics(topics)
-          setType(is_public.toString())
+          setType(isPublic.toString())
           setIcon(setGroupIcon(discipline))
         } catch(err) {
-          alert(err.response.data.error)
+          alert(err.response.data.name)
         }
       }
       getGroup()
@@ -57,11 +42,11 @@ function GroupInfo() {
       e.preventDefault()
 
       try {
-          const payload = {id, password}
-          await api.post('members/', payload, {headers})
+          const payload = {password}
+          await api.patch(`groups/${id}/join`, payload, {headers})
           history.push(`/group/${id}`)
         } catch(err) {
-          alert(err.response.data.error)
+          alert(err.response.data.name)
         }  
     }
 

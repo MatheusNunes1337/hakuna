@@ -25,8 +25,7 @@ function GetGroups() {
   useEffect(() => {
     const getGroups = async () => {
       try {
-        console.log('filter', filter)
-        const {data} = await api.get(`groups?name=${filter}&topics=${filter}`, {headers})
+        const {data} = await api.get(`groups?discipline=${filter}&topics=${filter}`, {headers})
         const {groups} = data
         setGroups(groups)
       } catch(err) {
@@ -52,11 +51,12 @@ function GetGroups() {
                 groups.map((group, index) => {
                   return (
                   <Card key={index} 
-                  id={group.id} 
+                  id={group._id} 
                   title={group.name} 
-                  icon={group.discipline} 
-                  max_members={group.max_members}
-                  is_public={group.is_public}
+                  icon={group.discipline}
+                  members={group.members.length} 
+                  max_members={group.maxMembers}
+                  is_public={group.isPublic}
                   search={true}
                   />)
                 }) : (
