@@ -25,7 +25,6 @@ export default function Profile() {
       const getUser = async () => {
         try {
           const {data} = await api.get(`users/${id}`, {headers})
-          console.log('response', data)
           const {username, type, area, contributionPoints, profilePic} = data
           setUsername(username)
           setType(type)
