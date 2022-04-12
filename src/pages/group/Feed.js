@@ -39,6 +39,8 @@ export default function Feed() {
     const [screenWidth, setScreenWidth] = useState('')
     const [content, setContent] = useState('')
     const [files, setFiles] = useState([])
+    const [commentContent, setCommentContent] = useState('')
+    const [commentFiles, setCommentFiles] = useState([])
 
     const { id } = useParams();
     const token = localStorage.getItem('userToken')
@@ -80,14 +82,15 @@ export default function Feed() {
             return 
         }
 
-        if(files.length > 3) {
+        if(Array.from(files).length > 3) {
             alert('You can only upload a maximum of three files per post.')
         }
 
         const formData = new FormData()
         formData.append('content', content)
-        formData.append('files', files)
-
+        Array.from(files).forEach(file => {
+            formData.append('files', file)
+        })
         const headers = { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data"}
         await api.post(`groups/${id}/posts`, formData, {headers})
         alert('Post criado com sucesso')
@@ -206,6 +209,43 @@ export default function Feed() {
         }
     }
 
+    const createComment = async (postId) => {
+        if(commentContent.length == 0) {
+            alert('The comment content cannot be null.')
+            return 
+        } else if(content.length > 300) {
+            alert('The comment content must be a maximum of 300 characters.')
+            return 
+        }
+
+        if(Array.from(commentFiles).length > 3) {
+            alert('You can only upload a maximum of three files per comment.')
+        }
+
+        try {
+            const formData = new FormData()
+            formData.append('content', commentContent)
+        
+            if(Array.from(commentFiles).length > 0) {
+                Array.from(commentFiles).forEach(file => {
+                    formData.append('files', file)
+                })
+            }
+
+            const headers = { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data"}
+            await api.post(`groups/${id}/posts/${postId}/comments`, formData, {headers})
+            alert('Comentário criado com sucesso.')
+        } catch(err) {
+            alert(err.response.data.name)
+        }
+    }
+
+    const submitComment = (e) => {
+        const postId = e.target.className
+        if(e.key === 'Enter') {
+            createComment(postId)
+        }
+    }
     
     return (
         <>
@@ -241,19 +281,19 @@ export default function Feed() {
                                             <li onClick={boo}><MdEdit className='post__options__menu__icon' />Editar publicação</li>
                                             <li value={post._id}><AiFillDelete className='post__options__menu__icon' />Deletar publicação</li>
                                         </ul>
-                                    ) : ''
+                                    ) : '' 
                                 }
-                                <img src='https://th.bing.com/th/id/OIP.s4XSrU8mt2ats3XCD7pOfgHaF7?pid=ImgDet&w=3000&h=2400&rs=1' className='post__author__img'/>
+                                <img src={`https://hakuna-1337.s3.amazonaws.com/${post.author.profilePic}`} className='post__author__img'/>
                                 <div className='post__infos'>
                                     <span className='post__author__name'>{post.author.username}</span>
                                     {post.author.type === 'teacher' ? <span className='post__author__title'>Professor de {post.author.area}</span> : ''}
                                     <span className='post__creation_time'>{post.creationTime}</span>
                                 </div>
-                                <button onClick={handlePostOptionsMenu} className='post__options__btn'><BsThreeDots /></button>
+                                {post.author._id === userId ? <button onClick={handlePostOptionsMenu} className='post__options__btn'><BsThreeDots /></button> : ''}
                                 <p className='post__content'>
                                     {post.content}
                                 </p>
-                                {post.comments.length > 0 ? <button onClick={handleCommentList} className="handleComments__btn">{`${comments.length} comentários` }</button> : ''}
+                                {post.comments.length > 0 ? <button onClick={handleCommentList} className="handleComments__btn">{post.comments.length > 1 ? `${post.comments.length} comentários` : `${post.comments.length} comentário`}</button> : ''}
                                 <hr />
                                 <div className='post__action__btns'>
                                     {
@@ -262,14 +302,14 @@ export default function Feed() {
                                                 <button onClick={performPostLike}>{postLikeIcon}{isPostLiked ? post.likes : 'Like'}</button>
                                                 <button onClick={performPostDeslike}>{postDeslikeIcon}{isPostDesliked ? post.deslikes : 'Deslike'}</button>
                                                 <button onClick={handleCommentInput}>{commentIcon}Comentar</button>
-                                                <button onClick={handlePostFilesSection}>{materialIcon}Materiais</button>
+                                                {post.files.length > 0 ? <button onClick={handlePostFilesSection}>{materialIcon}Materiais</button> : ''}
                                             </>
                                         ) : (
                                             <>
                                                 <button onClick={performPostLike}>{postLikeIcon}{isPostLiked ? post.likes : ''}</button>
                                                 <button onClick={performPostDeslike}>{postDeslikeIcon}{isPostDesliked ? post.deslikes : ''}</button>
                                                 <button onClick={handleCommentInput}>{commentIcon}</button>
-                                                <button onClick={handlePostFilesSection}>{materialIcon}</button>
+                                                {post.files.length > 0 ? <button onClick={handlePostFilesSection}>{materialIcon}</button> : ''}
                                             </>
                                         )
                                     }
@@ -277,61 +317,75 @@ export default function Feed() {
                                 {
                                     showCommentInput ? (
                                         <div className='post__comment__input'>
-                                            <img src='https://th.bing.com/th/id/OIP.s4XSrU8mt2ats3XCD7pOfgHaF7?pid=ImgDet&w=3000&h=2400&rs=1' className='post__author__img'/>
-                                            <input type="text" placeholder='adicionar comentário'/>
-                                            <input type="file" id="add_material__comment__btn" name='files' multiple/>
+                                            <img src={`https://hakuna-1337.s3.amazonaws.com/${post.author.profilePic}`} className='post__author__img'/>
+                                            <input type="text" placeholder='adicionar comentário' className={post._id} onKeyDown={submitComment} onChange={e => setCommentContent(e.target.value)}/>
+                                            <input type="file" id="add_material__comment__btn" onChange={e => setCommentFiles(e.target.files)} name='files' multiple/>
                                             <label for="add_material__comment__btn" className=""><FaBook className="material__comment__icon"/></label>
                                         </div>
                                     ) : ''
                                 }
                                 {
-                                    showPostFilesList ? (
+                                    showPostFilesList ?
+                                    (
                                         <div className='post__files__wrapper'>
-                                            <FileButton file='matheus.pdf' />
-                                            <FileButton file='matheus.jpeg' />
-                                            <FileButton file='matheus.docx' />
+                                            {
+                                             post.files.length > 0 ?
+                                             post.files.map(file => {
+                                                 return (
+                                                    <FileButton file={file} />  
+                                                 )
+                                             }) : ''
+                                            }
                                         </div>
-                                    ) : ''
+                                    ) : '' 
                                 }
                                 {
                                     showCommentList ? (
                                         <div className='comment__container'>
-                                            <div className="comment__item">
-                                                <img src='https://th.bing.com/th/id/OIP.s4XSrU8mt2ats3XCD7pOfgHaF7?pid=ImgDet&w=3000&h=2400&rs=1' className='post__author__img'/>
-                                                <div className='comment_body'>
-                                                    {
-                                                        showCommentOptionsMenu ? (
-                                                            <ul className='comment__options__menu'>
-                                                                <li onClick={boo}><MdEdit className='comment__options__menu__icon' />Editar comentário</li>
-                                                                <li><AiFillDelete className='comment__options__menu__icon' />Deletar comentário</li>
-                                                            </ul>
-                                                        ) : ''
-                                                    }
-                                                    <div className='comment__infos'>
-                                                        <span className='comment__author__name'>Matheus1337</span>
-                                                        <span className='comment__author__title'>Professor de matemática</span>
-                                                        <span className='comment__creation_time'>17:45</span>
-                                                    </div>
-                                                    <button className='comment__options__btn' onClick={handleCommentOptionsMenu}><BsThreeDots /></button>
-                                                    <p className='comment__content'>
-                                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec et ipsum vel nunc ultricies posuere nec pulvinar purus. Ut id feugiat odio. Mauris sagittis urna ut rhoncus convallis. Praesent tincidunt elementum enim, et gravida enim. Nullam vestibulum nibh in leo viverra consequat. Pellentesque vestibulum tempus auctor. Phasellus lacinia ante non scelerisque pretium.
-                                                    </p>
-                                                </div>
-                                                <div className='comment__action__btns'>
-                                                    <button onClick={performCommentLike}>{commentLikeIcon}{isCommentLiked ? 5 : 'Like'}</button>
-                                                    <button onClick={performCommentDeslike}>{commentDeslikeIcon}{isCommentDesliked ? 3 : 'Deslike'}</button>
-                                                    <button onClick={handleCommentFilesSection}><FaBook className='comment__action__btn__icon' />Materiais</button>
-                                                </div>
-                                                {
-                                                    showCommentFilesList ? (
-                                                        <div className='comment__files__wrapper'>
-                                                            <FileButton file='matheus.pdf' />
-                                                            <FileButton file='matheus.jpeg' />
-                                                            <FileButton file='matheus.docx' />
-                                                    </div>
-                                                    ) : ''
-                                                }
-                                            </div>
+                                            {
+                                                post.comments.map(comment => {
+                                                    return (
+                                                        <div className="comment__item">
+                                                            <img src={`https://hakuna-1337.s3.amazonaws.com/${comment.author.profilePic}`} className='post__author__img'/>
+                                                            <div className='comment_body'>
+                                                            {
+                                                                showCommentOptionsMenu ? (
+                                                                    <ul className='comment__options__menu'>
+                                                                        <li onClick={boo}><MdEdit className='comment__options__menu__icon' />Editar comentário</li>
+                                                                        <li><AiFillDelete className='comment__options__menu__icon' />Deletar comentário</li>
+                                                                    </ul>
+                                                                ) : ''
+                                                            }
+                                                                <div className='comment__infos'>
+                                                                    <span className='comment__author__name'>{comment.author.username}</span>
+                                                                    {comment.author.type == 'teacher'? <span className='comment__author__title'>Professor de {comment.author.area}</span> : ''}
+                                                                    <span className='comment__creation_time'>{comment.creationTime}</span>
+                                                                </div>
+                                                                <button className='comment__options__btn' onClick={handleCommentOptionsMenu}><BsThreeDots /></button>
+                                                                <p className='comment__content'>
+                                                                    {comment.content}
+                                                                </p>
+                                                            </div>
+                                                            <div className='comment__action__btns'>
+                                                                <button onClick={performCommentLike}>{commentLikeIcon}{isCommentLiked ? comment.likes : 'Like'}</button>
+                                                                <button onClick={performCommentDeslike}>{commentDeslikeIcon}{isCommentDesliked ? comment.deslikes : 'Deslike'}</button>
+                                                                {comment.files.length > 0 ? <button onClick={handleCommentFilesSection}><FaBook className='comment__action__btn__icon' />Materiais</button> : ''}
+                                                            </div>
+                                                            {
+                                                                showCommentFilesList ? (
+                                                                    <div className='comment__files__wrapper'>
+                                                                        {
+                                                                            comment.files.map(file => {
+                                                                                return (<FileButton file={file} />)
+                                                                            })
+                                                                        }
+                                                                    </div>
+                                                                ) : ''
+                                                            }
+                                                        </div>
+                                                    )
+                                                })
+                                            }
                                         </div>
                                     ) : ''
                                 }

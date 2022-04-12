@@ -868,6 +868,7 @@ h3.content__subtitle {
     border: 0.8px solid var(--ice-3);
     padding: 15px;
     border-radius: 5px;
+    margin-bottom: 25px;
 }
 
 
