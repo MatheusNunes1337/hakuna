@@ -41,6 +41,8 @@ export default function Feed() {
     const [files, setFiles] = useState([])
     const [commentContent, setCommentContent] = useState('')
     const [commentFiles, setCommentFiles] = useState([])
+    const [postUpdatedTimes, setPostUpdatedTimes] = useState(0)
+    const [targetId, setTargetId] = useState('') 
 
     const { id } = useParams();
     const token = localStorage.getItem('userToken')
@@ -63,7 +65,7 @@ export default function Feed() {
           }
         }
         getMods()
-      }, [])
+      }, [postUpdatedTimes])
 
     const getScreenWidth = () => window.screen.availWidth
         
@@ -105,14 +107,14 @@ export default function Feed() {
         }
     }
 
-    const handleCommentInput = () => {
+    const handleCommentInput = (e) => {
         if(showCommentInput) {
             setCommentInput(false)
-            setCommentIcon(<FaRegCommentAlt />)
+            //setCommentIcon(<FaRegCommentAlt />)
         } else {
             setCommentInput(true)
             setPostFilesList(false)
-            setCommentIcon(<FaCommentAlt />)
+            //setCommentIcon(<FaCommentAlt />)
         }
     }
 
@@ -124,27 +126,31 @@ export default function Feed() {
         }
     }
 
-    const performPostLike = () => {
-        if(isPostLiked) {
-            setPostLikeStatus(false)
-            setPostLikeIcon(<AiOutlineLike />)
-        } else {
-            setPostLikeStatus(true)
-            setPostDeslikeStatus(false)
-            setPostLikeIcon(<AiFillLike />)
-            setPostDeslikeIcon(<AiOutlineDislike />)
+    const performPostLike = async (e) => {
+        const postId = e.target.value
+        const formData = new FormData()
+        formData.append('isLiked', true)
+        const headers = { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data"}
+
+        try {
+            await api.patch(`groups/${id}/posts/${postId}`, formData, {headers})
+            setPostUpdatedTimes(postUpdatedTimes + 1)
+        } catch(err) {
+            alert(err.response.data.name)
         }
     }
 
-    const performPostDeslike = () => {
-        if(isPostDesliked) {
-            setPostDeslikeStatus(false)
-            setPostDeslikeIcon(<AiOutlineDislike />)
-        } else {
-            setPostDeslikeStatus(true)
-            setPostLikeStatus(false)
-            setPostDeslikeIcon(<AiFillDislike />)
-            setPostLikeIcon(<AiOutlineLike />)
+    const performPostDeslike = async (e) => {
+        const postId = e.target.value
+        const formData = new FormData()
+        formData.append('isDesliked', true)
+        const headers = { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data"}
+
+        try {
+            await api.patch(`groups/${id}/posts/${postId}`, formData, {headers})
+            setPostUpdatedTimes(postUpdatedTimes + 1)
+        } catch(err) {
+            alert(err.response.data.name)
         }
     }
 
@@ -246,6 +252,16 @@ export default function Feed() {
             createComment(postId)
         }
     }
+
+    const deletePost = async (e) => {
+        const postId = e.target.className
+        try {
+            await api.delete(`groups/${id}/posts/${postId}/`, {headers})
+            alert('Postagem excluída com sucesso.')
+        } catch(err) {
+            alert(err.response.data.name)
+        }
+    }
     
     return (
         <>
@@ -279,7 +295,7 @@ export default function Feed() {
                                     showPostOptionsMenu ? (
                                         <ul className='post__options__menu'>
                                             <li onClick={boo}><MdEdit className='post__options__menu__icon' />Editar publicação</li>
-                                            <li value={post._id}><AiFillDelete className='post__options__menu__icon' />Deletar publicação</li>
+                                            <li onClick={deletePost} className={post._id}><AiFillDelete className='post__options__menu__icon' />Deletar publicação</li>
                                         </ul>
                                     ) : '' 
                                 }
@@ -289,33 +305,35 @@ export default function Feed() {
                                     {post.author.type === 'teacher' ? <span className='post__author__title'>Professor de {post.author.area}</span> : ''}
                                     <span className='post__creation_time'>{post.creationTime}</span>
                                 </div>
-                                {post.author._id === userId ? <button onClick={handlePostOptionsMenu} className='post__options__btn'><BsThreeDots /></button> : ''}
+                                {post.author._id == userId ? <button onClick={handlePostOptionsMenu} className='post__options__btn'><BsThreeDots /></button> : ''}
                                 <p className='post__content'>
                                     {post.content}
                                 </p>
+                                {post.likes.length > 0 || post.deslikes.length > 0 ?  <span className="post__reaction__like"><AiFillLike />{post.likes.length}</span> : ''}
+                                {post.deslikes.length > 0 || post.likes.length > 0 ? <span className="post__reaction__deslike"><AiFillDislike />{post.deslikes.length}</span> : ''}
                                 {post.comments.length > 0 ? <button onClick={handleCommentList} className="handleComments__btn">{post.comments.length > 1 ? `${post.comments.length} comentários` : `${post.comments.length} comentário`}</button> : ''}
                                 <hr />
                                 <div className='post__action__btns'>
                                     {
                                         screenWidth > 200 ? (
                                             <>
-                                                <button onClick={performPostLike}>{postLikeIcon}{isPostLiked ? post.likes : 'Like'}</button>
-                                                <button onClick={performPostDeslike}>{postDeslikeIcon}{isPostDesliked ? post.deslikes : 'Deslike'}</button>
-                                                <button onClick={handleCommentInput}>{commentIcon}Comentar</button>
+                                                <button onClick={performPostLike} value={post._id}>{post.likes.includes(userId) ? <AiFillLike /> : <AiOutlineLike />}Like</button>
+                                                <button onClick={performPostDeslike} value={post._id}>{post.deslikes.includes(userId) ? <AiFillDislike /> : <AiOutlineDislike /> }Deslike</button>
+                                                <button onClick={handleCommentInput} value={post._id} >{targetId == post._id ? <FaCommentAlt /> : <FaRegCommentAlt />}Comentar</button>
                                                 {post.files.length > 0 ? <button onClick={handlePostFilesSection}>{materialIcon}Materiais</button> : ''}
                                             </>
                                         ) : (
                                             <>
-                                                <button onClick={performPostLike}>{postLikeIcon}{isPostLiked ? post.likes : ''}</button>
-                                                <button onClick={performPostDeslike}>{postDeslikeIcon}{isPostDesliked ? post.deslikes : ''}</button>
-                                                <button onClick={handleCommentInput}>{commentIcon}</button>
+                                                <button onClick={performPostLike} value={post._id}>{isPostLiked && targetId == post._id ? <AiFillLike /> : <AiOutlineLike />}{isPostLiked ? post.likes.length : ''}</button>
+                                                <button onClick={performPostDeslike} value={post._id}>{isPostDesliked && targetId == post._id ? <AiFillDislike /> : <AiOutlineDislike /> }{isPostDesliked ? post.deslikes.length : ''}</button>
+                                                <button onClick={handleCommentInput} value={post._id}>{targetId == post._id ? <FaCommentAlt /> : <FaRegCommentAlt />}</button>
                                                 {post.files.length > 0 ? <button onClick={handlePostFilesSection}>{materialIcon}</button> : ''}
                                             </>
                                         )
                                     }
                                 </div>
                                 {
-                                    showCommentInput ? (
+                                    showCommentInput && targetId == post._id? (
                                         <div className='post__comment__input'>
                                             <img src={`https://hakuna-1337.s3.amazonaws.com/${post.author.profilePic}`} className='post__author__img'/>
                                             <input type="text" placeholder='adicionar comentário' className={post._id} onKeyDown={submitComment} onChange={e => setCommentContent(e.target.value)}/>
