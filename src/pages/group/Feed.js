@@ -108,8 +108,10 @@ export default function Feed() {
     }
 
     const handleCommentInput = (e) => {
+        setTargetId(e.target.value)
         if(showCommentInput) {
             setCommentInput(false)
+            setTargetId('')
             //setCommentIcon(<FaRegCommentAlt />)
         } else {
             setCommentInput(true)
@@ -154,42 +156,50 @@ export default function Feed() {
         }
     }
 
-    const performCommentLike = () => {
-        if(isCommentLiked) {
-            setCommentLikeStatus(false)
-            setCommentLikeIcon(<AiOutlineLike className='comment__action__btn__icon' />)
-        } else {
-            setCommentLikeStatus(true)
-            setCommentDeslikeStatus(false)
-            setCommentLikeIcon(<AiFillLike className='comment__action__btn__icon' />)
-            setCommentDeslikeIcon(<AiOutlineDislike className='comment__action__btn__icon' />)
+    const performCommentLike = async (e) => {
+        const [commentId, postId] = e.target.className.split(' ')
+        const formData = new FormData()
+        formData.append('isLiked', true)
+        const headers = { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data"}
+
+        try {
+            await api.patch(`groups/${id}/posts/${postId}/comments/${commentId}`, formData, {headers})
+            setPostUpdatedTimes(postUpdatedTimes + 1)
+        } catch(err) {
+            alert(err.response.data.name)
         }
     }
 
-    const performCommentDeslike = () => {
-        if(isCommentDesliked) {
-            setCommentDeslikeStatus(false)
-            setCommentDeslikeIcon(<AiOutlineDislike className='comment__action__btn__icon' />)
-        } else {
-            setCommentDeslikeStatus(true)
-            setCommentLikeStatus(false)
-            setCommentDeslikeIcon(<AiFillDislike className='comment__action__btn__icon' />)
-            setCommentLikeIcon(<AiOutlineLike className='comment__action__btn__icon' />)
+    const performCommentDeslike = async (e) => {
+        const [commentId, postId] = e.target.className.split(' ')
+        const formData = new FormData()
+        formData.append('isDesliked', true)
+        const headers = { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data"}
+
+        try {
+            await api.patch(`groups/${id}/posts/${postId}/comments/${commentId}`, formData, {headers})
+            setPostUpdatedTimes(postUpdatedTimes + 1)
+        } catch(err) {
+            alert(err.response.data.name)
         }
     }
 
-    const handlePostFilesSection = () => {
+    const handlePostFilesSection = (e) => {
+        setTargetId(e.target.value)
         if(showPostFilesList) {
             setPostFilesList(false)
+            setTargetId('')
         } else {
             setPostFilesList(true)
             setCommentInput(false)
         }
     }
 
-    const handleCommentFilesSection = () => {
+    const handleCommentFilesSection = (e) => {
+        setTargetId(e.target.value)
         if(showCommentFilesList) {
             setCommentFilesList(false)
+            setTargetId('')
         } else {
             setCommentFilesList(true)
         }
@@ -262,6 +272,16 @@ export default function Feed() {
             alert(err.response.data.name)
         }
     }
+
+    const deleteComment = async(e) => {
+        const [commentId, postId] = e.target.className.split(' ')
+        try {
+            await api.delete(`groups/${id}/posts/${postId}/comments/${commentId}`, {headers})
+            alert('Comentário excluído com sucesso.')
+        } catch(err) {
+            alert(err.response.data.name)
+        }
+    }
     
     return (
         <>
@@ -320,14 +340,14 @@ export default function Feed() {
                                                 <button onClick={performPostLike} value={post._id}>{post.likes.includes(userId) ? <AiFillLike /> : <AiOutlineLike />}Like</button>
                                                 <button onClick={performPostDeslike} value={post._id}>{post.deslikes.includes(userId) ? <AiFillDislike /> : <AiOutlineDislike /> }Deslike</button>
                                                 <button onClick={handleCommentInput} value={post._id} >{targetId == post._id ? <FaCommentAlt /> : <FaRegCommentAlt />}Comentar</button>
-                                                {post.files.length > 0 ? <button onClick={handlePostFilesSection}>{materialIcon}Materiais</button> : ''}
+                                                {post.files.length > 0 ? <button onClick={handlePostFilesSection} value={post._id}>{materialIcon}Materiais</button> : ''}
                                             </>
                                         ) : (
                                             <>
-                                                <button onClick={performPostLike} value={post._id}>{isPostLiked && targetId == post._id ? <AiFillLike /> : <AiOutlineLike />}{isPostLiked ? post.likes.length : ''}</button>
+                                                <button onClick={performPostLike} value={post._id}>{post.likes.includes(userId) ? <AiFillLike /> : <AiOutlineLike />}Like{isPostLiked ? post.likes.length : ''}</button>
                                                 <button onClick={performPostDeslike} value={post._id}>{isPostDesliked && targetId == post._id ? <AiFillDislike /> : <AiOutlineDislike /> }{isPostDesliked ? post.deslikes.length : ''}</button>
                                                 <button onClick={handleCommentInput} value={post._id}>{targetId == post._id ? <FaCommentAlt /> : <FaRegCommentAlt />}</button>
-                                                {post.files.length > 0 ? <button onClick={handlePostFilesSection}>{materialIcon}</button> : ''}
+                                                {post.files.length > 0 ? <button onClick={handlePostFilesSection} value={post._id}>{materialIcon}</button> : ''}
                                             </>
                                         )
                                     }
@@ -343,7 +363,7 @@ export default function Feed() {
                                     ) : ''
                                 }
                                 {
-                                    showPostFilesList ?
+                                    showPostFilesList && targetId == post._id ?
                                     (
                                         <div className='post__files__wrapper'>
                                             {
@@ -370,7 +390,7 @@ export default function Feed() {
                                                                 showCommentOptionsMenu ? (
                                                                     <ul className='comment__options__menu'>
                                                                         <li onClick={boo}><MdEdit className='comment__options__menu__icon' />Editar comentário</li>
-                                                                        <li><AiFillDelete className='comment__options__menu__icon' />Deletar comentário</li>
+                                                                        <li onClick={deleteComment} className={comment._id + ' ' + comment.post}><AiFillDelete className='comment__options__menu__icon' />Deletar comentário</li>
                                                                     </ul>
                                                                 ) : ''
                                                             }
@@ -384,13 +404,17 @@ export default function Feed() {
                                                                     {comment.content}
                                                                 </p>
                                                             </div>
+                                                            <div className='comment__reactions__wrapper'>
+                                                                {comment.likes.length > 0 || comment.deslikes.length > 0 ?  <span className="comment__reaction__like"><AiFillLike />{comment.likes.length}</span> : ''}
+                                                                {comment.deslikes.length > 0 || comment.likes.length > 0 ? <span className="comment__reaction__deslike"><AiFillDislike />{comment.deslikes.length}</span> : ''}
+                                                            </div>
                                                             <div className='comment__action__btns'>
-                                                                <button onClick={performCommentLike}>{commentLikeIcon}{isCommentLiked ? comment.likes : 'Like'}</button>
-                                                                <button onClick={performCommentDeslike}>{commentDeslikeIcon}{isCommentDesliked ? comment.deslikes : 'Deslike'}</button>
-                                                                {comment.files.length > 0 ? <button onClick={handleCommentFilesSection}><FaBook className='comment__action__btn__icon' />Materiais</button> : ''}
+                                                                <button onClick={performCommentLike} className={comment._id + ' ' + comment.post}>{comment.likes.includes(userId) ? <AiFillLike /> : <AiOutlineLike />}Like</button>
+                                                                <button onClick={performCommentDeslike} className={comment._id + ' ' + comment.post}>{post.deslikes.includes(userId) ? <AiFillDislike /> : <AiOutlineDislike />}Deslike</button>
+                                                                {comment.files.length > 0 ? <button onClick={handleCommentFilesSection} value={comment._id}><FaBook className='comment__action__btn__icon' />Materiais</button> : ''}
                                                             </div>
                                                             {
-                                                                showCommentFilesList ? (
+                                                                showCommentFilesList && targetId == comment._id ? (
                                                                     <div className='comment__files__wrapper'>
                                                                         {
                                                                             comment.files.map(file => {

@@ -1051,7 +1051,7 @@ h3.content__subtitle {
 
 .comment__files__wrapper {
     margin-top: 10px;
-    margin-left: 8%;
+    margin-left: 9%;
 }
 
 .post__files__wrapper > button, .comment__files__wrapper > button {
@@ -1087,6 +1087,9 @@ h3.content__subtitle {
     margin-right: 4px;
 }
 
+.comment__container {
+    width: 100%;
+}
 
 .comment__item {
     width: 100%;
@@ -1103,7 +1106,7 @@ h3.content__subtitle {
     position: relative;
     flex-wrap: wrap;
     background-color: var(--ice-2);
-    width: 92%;
+    width: 91%;
     padding: 8px;
     border-radius: 5px;
 }
@@ -1124,8 +1127,26 @@ h3.content__subtitle {
 }
 
 .comment__action__btns {
-    margin-left: 8%;
+    margin-left: 9%;
     margin-top: 0.5rem;
+}
+
+.comment__reactions__wrapper {
+    width: 100%;
+    margin-left: 9%;
+    display: flex;
+}
+
+.comment__reaction__like, .comment__reaction__deslike {
+    display: flex;
+    gap: 2px;
+    font-size: 14px;
+    align-items: center;
+    margin: 5px 0px 0px 0px;
+}
+
+.comment__reaction__deslike {
+    margin-left: 8px;
 }
 
 .comment__action__btns > button {
@@ -1464,11 +1485,15 @@ span.post__reaction__deslike {
     }
 
     .comment__container .comment_body {
-        width: 90%;
+        width: 89%;
     }
 
-    .comment__action__btns {
-        margin-left: 10%;
+    .comment__action__btns, .comment__files__wrapper, .comment__reactions__wrapper {
+        margin-left: 11%;
+    }
+
+    .comment__reactions__wrapper {
+        width: 80%;
     }
 
     .user__info__container {
