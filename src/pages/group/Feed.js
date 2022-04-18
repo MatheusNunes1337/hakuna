@@ -100,6 +100,8 @@ export default function Feed() {
 
     const quitGroup = async () => {
         try {
+            const isConfirmed = window.confirm('Are you sure that you want to leave this group?')
+            if(!isConfirmed) return
             await api.delete(`members/group/${id}`, {headers})
             history.push('/home')
         } catch(err) {
@@ -108,7 +110,7 @@ export default function Feed() {
     }
 
     const handleCommentInput = (e) => {
-        setTargetId(e.target.value)
+        setTargetId(e.currentTarget.value)
         if(showCommentInput) {
             setCommentInput(false)
             setTargetId('')
@@ -185,7 +187,7 @@ export default function Feed() {
     }
 
     const handlePostFilesSection = (e) => {
-        setTargetId(e.target.value)
+        setTargetId(e.currentTarget.value)
         if(showPostFilesList) {
             setPostFilesList(false)
             setTargetId('')
@@ -196,7 +198,7 @@ export default function Feed() {
     }
 
     const handleCommentFilesSection = (e) => {
-        setTargetId(e.target.value)
+        setTargetId(e.currentTarget.value)
         if(showCommentFilesList) {
             setCommentFilesList(false)
             setTargetId('')
@@ -210,7 +212,7 @@ export default function Feed() {
     }
 
     const handlePostOptionsMenu = (e) => {
-        setTargetId(e.target.value)
+        setTargetId(e.currentTarget.value)
         if(showPostOptionsMenu) {
             setPostOptionsMenu(false)
             setTargetId('')
@@ -220,8 +222,7 @@ export default function Feed() {
     }
 
     const handleCommentOptionsMenu = (e) => {
-        console.log(e.target.classname)
-        setTargetId(e.target.classname)
+        setTargetId(e.currentTarget.value)
         if(showCommentOptionsMenu) {
             setCommentOptionsMenu(false)
             setTargetId('')
@@ -271,6 +272,8 @@ export default function Feed() {
     const deletePost = async (e) => {
         const postId = e.target.className
         try {
+            const isConfirmed = window.confirm('Are you sure that you want to delete this post?')
+            if(!isConfirmed) return
             await api.delete(`groups/${id}/posts/${postId}/`, {headers})
             alert('Postagem excluída com sucesso.')
         } catch(err) {
@@ -281,6 +284,8 @@ export default function Feed() {
     const deleteComment = async(e) => {
         const [commentId, postId] = e.target.className.split(' ')
         try {
+            const isConfirmed = window.confirm('Are you sure that you want to delete this comment?')
+            if(!isConfirmed) return 
             await api.delete(`groups/${id}/posts/${postId}/comments/${commentId}`, {headers})
             alert('Comentário excluído com sucesso.')
         } catch(err) {
@@ -316,7 +321,7 @@ export default function Feed() {
                             <>
                             <div className='post__item' key={index}>
                                 {
-                                    showPostOptionsMenu ? (
+                                    showPostOptionsMenu && targetId == post._id ? (
                                         <ul className='post__options__menu'>
                                             <li onClick={boo}><MdEdit className='post__options__menu__icon' />Editar publicação</li>
                                             <li onClick={deletePost} className={post._id}><AiFillDelete className='post__options__menu__icon' />Deletar publicação</li>
@@ -401,7 +406,7 @@ export default function Feed() {
                                                                     {comment.author.type == 'teacher'? <span className='comment__author__title'>Professor de {comment.author.area}</span> : ''}
                                                                     <span className='comment__creation_time'>{comment.creationTime}</span>
                                                                 </div>
-                                                                <button className='comment__options__btn' onClick={handleCommentOptionsMenu}><BsThreeDots /></button>
+                                                                <button className='comment__options__btn' value={comment._id} onClick={handleCommentOptionsMenu}><BsThreeDots /></button>
                                                                 <p className='comment__content'>
                                                                     {comment.content}
                                                                 </p>

@@ -2,12 +2,12 @@ import React, {useState, useEffect} from 'react'
 import { Link, useParams, useHistory } from 'react-router-dom'
 import api from '../../services/api'
 
-import { HiLogout, HiUsers } from "react-icons/hi"
-import { BsFillCameraVideoFill, BsFillGearFill, BsThreeDots } from "react-icons/bs";
-import { AiFillDislike, AiFillLike, AiOutlineLike, AiOutlineDislike, AiFillDelete } from "react-icons/ai";
-import { MdEdit, MdDownload } from "react-icons/md";
-import {FaBook, FaCommentAlt, FaRegCommentAlt} from 'react-icons/fa'
-import { CgFeed } from "react-icons/cg";
+
+import {FaBook} from 'react-icons/fa'
+import {MdDownload} from 'react-icons/md'
+import {BsFillGearFill} from 'react-icons/bs'
+import {HiLogout, HiUsers} from 'react-icons/hi'
+
 
 import NavBar from '../../components/NavBar'
 import Container from '../../components/Container'
@@ -16,13 +16,73 @@ import SearchBar from '../../components/SearchBar'
 import FileButton from '../../components/FileDownloadButton';
 import setFileButtonProperties from '../../utils/setFileButtonProperties';
 
-const getFileTypeIcon = (filename) => {
-    const [, ext] = filename.split('.')
+const getFilename = (file) => {
+    const [filename, ext] = file.split('.')
+    return filename
+}
+
+const getFileIcon = (file) => {
+    const [filename, ext] = file.split('.')
     const {icon} = setFileButtonProperties(ext)
     return icon
 }
 
 export default function Files() {
+    const [files, setFiles] = useState([])
+    const [isMod, setMod] = useState(false)
+
+    const { id } = useParams();
+    const token = localStorage.getItem('userToken')
+    const userId = localStorage.getItem('userId')
+    const headers = { Authorization: `Bearer ${token}` }
+    const history = useHistory()
+
+    useEffect(() => {
+        const getFiles = async () => {
+          try {
+            const {data} = await api.get(`groups/${id}`, {headers})
+            const {posts, mods} = data
+            const moderators = mods.map(mod => mod._id)
+            if(moderators.includes(userId)) setMod(true)
+            
+            let files_array = []
+            posts.forEach(post => {
+                post.files.forEach(file => {
+                    files_array.push({file: file, creationDate: post.creationDate})
+                })
+                post.comments.forEach(comment => {
+                    comment.files.forEach(file => {
+                        files_array.push({file: file, creationDate: comment.creationDate})
+                    })
+                })
+            })
+            setFiles(files_array.flat())
+          } catch(err) {
+            alert(err)
+          }
+        }
+        getFiles()
+      }, [])
+
+    const downloadFile = async (e) => {
+        try {
+            const fileKey = e.currentTarget.value
+            await api.get(`files/download/${fileKey}`, {headers})
+        } catch(err) {
+            alert(err.response.data.error)
+        }
+    }
+
+    const quitGroup = async () => {
+        try {
+            const isConfirmed = window.confirm('Are you sure that you want to leave this group?')
+            if(!isConfirmed) return
+            await api.delete(`members/group/${id}`, {headers})
+            history.push('/home')
+        } catch(err) {
+            alert(err.response.data.error)
+        }
+    }
     
     return (
         <>
@@ -33,38 +93,48 @@ export default function Files() {
                 <Aside />
                 <div className="content">
                     <h2 className="content__title">Materiais</h2>
-                    <div className='files__container'>
-                        <table className='files__table'>
-                            <tr>
-                                <th>#</th>
-                                <th>Nome</th>
-                                <th>Tipo</th>
-                                <th>Data de criação</th>
-                                <th>Ações</th>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>Maria Anders</td>
-                                <td>{getFileTypeIcon('batata.pdf')}</td>
-                                <td>18/11/1997</td>
-                                <td><button className='download__file__btn'><MdDownload className='download__file__icon'/>download</button></td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Maria Anders</td>
-                                <td>{getFileTypeIcon('batata.docx')}</td>
-                                <td>18/11/1997</td>
-                                <td><button className='download__file__btn'><MdDownload className='download__file__icon'/>download</button></td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Maria Anders</td>
-                                <td>{getFileTypeIcon('batata.png')}</td>
-                                <td>18/11/1997</td>
-                                <td><button className='download__file__btn'><MdDownload className='download__file__icon'/>download</button></td>
-                            </tr>
-                        </table>
+                    <div className="group__options">
+                        <Link to={`/group/${id}/members`} className="group__options__link"><HiUsers className="group__options__icon"/>Membros</Link>
+                        <Link to={`/group/${id}/files`} className="group__options__link"><FaBook className="group__options__icon"/>Materiais</Link>
+                        {!isMod ? '' : <Link to={`/group/${id}/config`} className="group__options__link"><BsFillGearFill className="group__options__icon"/>Configurações</Link>}
+                        <button className="group__options__btn" onClick={quitGroup}><HiLogout className="group__options__icon"/>Sair</button>
                     </div>
+                    {
+                        files.length !== 0 ? (
+                            <div className='files__container'>
+                                <table className='files__table'>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Nome</th>
+                                        <th>Tipo</th>
+                                        <th>Data de criação</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                    <tbody>
+                                        {
+                                            files.map((file, index) => {
+                                                return (
+                                                    <tr key={index}>
+                                                        <td>{index + 1}</td>
+                                                        <td>{getFilename(file.file)}</td>
+                                                        <td>{getFileIcon(file.file)}</td>
+                                                        <td>{file.creationDate}</td>
+                                                        <td><button className='download__file__btn' value={file.file} onClick={downloadFile}><MdDownload className='download__file__icon'/>download</button></td>
+                                                    </tr>
+                                                )
+                                            })
+                                        }
+                                    </tbody>
+                                 </table>
+                            </div>
+                            ) : (
+                                <div className='empty__files__container'>
+                                    <FaBook className='any__file__icon'/>
+                                    <span>Parece que ainda não foi compartilhado nenhum material nesse grupo</span>
+                                </div>
+                            )
+                    }
+                    
                 </div>
                 </Container >  
             </main>

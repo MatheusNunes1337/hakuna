@@ -388,24 +388,24 @@ main {
     font-size: 1.2rem;
 }
 
-.any__group {
+.any__group, .empty__files__container {
     height: 400px;
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 18px;
 }
 
-.any__group .any__group__icon {
+.any__group .any__group__icon, .empty__files__container .any__file__icon {
     font-size: 2.5rem;
     color: var(--ice-3);
 }
 
-.any__group > span {
+.any__group > span, .empty__files__container span {
     display: block;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     font-weight: bold;
     text-align: center;
     color: var(--ice-3);
