@@ -129,7 +129,7 @@ export default function Feed() {
     }
 
     const performPostLike = async (e) => {
-        const postId = e.target.value
+        const postId = e.currentTarget.value
         const formData = new FormData()
         formData.append('isLiked', true)
         const headers = { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data"}
@@ -143,7 +143,7 @@ export default function Feed() {
     }
 
     const performPostDeslike = async (e) => {
-        const postId = e.target.value
+        const postId = e.currentTarget.value
         const formData = new FormData()
         formData.append('isDesliked', true)
         const headers = { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data"}
@@ -157,7 +157,7 @@ export default function Feed() {
     }
 
     const performCommentLike = async (e) => {
-        const [commentId, postId] = e.target.className.split(' ')
+        const [commentId, postId] = e.currentTarget.className.split(' ')
         const formData = new FormData()
         formData.append('isLiked', true)
         const headers = { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data"}
@@ -171,7 +171,7 @@ export default function Feed() {
     }
 
     const performCommentDeslike = async (e) => {
-        const [commentId, postId] = e.target.className.split(' ')
+        const [commentId, postId] = e.currentTarget.className.split(' ')
         const formData = new FormData()
         formData.append('isDesliked', true)
         const headers = { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data"}
@@ -333,23 +333,21 @@ export default function Feed() {
                                 <p className='post__content'>
                                     {post.content}
                                 </p>
-                                {post.likes.length > 0 || post.deslikes.length > 0 ?  <span className="post__reaction__like"><AiFillLike />{post.likes.length}</span> : ''}
-                                {post.deslikes.length > 0 || post.likes.length > 0 ? <span className="post__reaction__deslike"><AiFillDislike />{post.deslikes.length}</span> : ''}
                                 {post.comments.length > 0 ? <button onClick={handleCommentList} className="handleComments__btn">{post.comments.length > 1 ? `${post.comments.length} comentários` : `${post.comments.length} comentário`}</button> : ''}
                                 <hr />
                                 <div className='post__action__btns'>
                                     {
                                         screenWidth > 200 ? (
                                             <>
-                                                <button onClick={performPostLike} value={post._id}>{post.likes.includes(userId) ? <AiFillLike /> : <AiOutlineLike />}Like</button>
-                                                <button onClick={performPostDeslike} value={post._id}>{post.deslikes.includes(userId) ? <AiFillDislike /> : <AiOutlineDislike /> }Deslike</button>
+                                                <button onClick={performPostLike} value={post._id}>{post.likes.includes(userId) ? <AiFillLike /> : <AiOutlineLike />}{post.likes.length}</button>
+                                                <button onClick={performPostDeslike} value={post._id}>{post.deslikes.includes(userId) ? <AiFillDislike /> : <AiOutlineDislike /> }{post.deslikes.length}</button>
                                                 <button onClick={handleCommentInput} value={post._id} >{targetId == post._id ? <FaCommentAlt /> : <FaRegCommentAlt />}Comentar</button>
                                                 {post.files.length > 0 ? <button onClick={handlePostFilesSection} value={post._id}>{materialIcon}Materiais</button> : ''}
                                             </>
                                         ) : (
                                             <>
-                                                <button onClick={performPostLike} value={post._id}>{post.likes.includes(userId) ? <AiFillLike /> : <AiOutlineLike />}Like{isPostLiked ? post.likes.length : ''}</button>
-                                                <button onClick={performPostDeslike} value={post._id}>{isPostDesliked && targetId == post._id ? <AiFillDislike /> : <AiOutlineDislike /> }{isPostDesliked ? post.deslikes.length : ''}</button>
+                                                <button onClick={performPostLike} value={post._id}>{post.likes.includes(userId) ? <AiFillLike /> : <AiOutlineLike />}{post.likes.length}</button>
+                                                <button onClick={performPostDeslike} value={post._id}>{isPostDesliked && targetId == post._id ? <AiFillDislike /> : <AiOutlineDislike /> }{post.deslikes.length}</button>
                                                 <button onClick={handleCommentInput} value={post._id}>{targetId == post._id ? <FaCommentAlt /> : <FaRegCommentAlt />}</button>
                                                 {post.files.length > 0 ? <button onClick={handlePostFilesSection} value={post._id}>{materialIcon}</button> : ''}
                                             </>
@@ -408,13 +406,9 @@ export default function Feed() {
                                                                     {comment.content}
                                                                 </p>
                                                             </div>
-                                                            <div className='comment__reactions__wrapper'>
-                                                                {comment.likes.length > 0 || comment.deslikes.length > 0 ?  <span className="comment__reaction__like"><AiFillLike />{comment.likes.length}</span> : ''}
-                                                                {comment.deslikes.length > 0 || comment.likes.length > 0 ? <span className="comment__reaction__deslike"><AiFillDislike />{comment.deslikes.length}</span> : ''}
-                                                            </div>
                                                             <div className='comment__action__btns'>
-                                                                <button onClick={performCommentLike} className={comment._id + ' ' + comment.post}>{comment.likes.includes(userId) ? <AiFillLike /> : <AiOutlineLike />}Like</button>
-                                                                <button onClick={performCommentDeslike} className={comment._id + ' ' + comment.post}>{post.deslikes.includes(userId) ? <AiFillDislike /> : <AiOutlineDislike />}Deslike</button>
+                                                                <button onClick={performCommentLike} className={comment._id + ' ' + comment.post}>{comment.likes.includes(userId) ? <AiFillLike /> : <AiOutlineLike />}{comment.likes.length}</button>
+                                                                <button onClick={performCommentDeslike} className={comment._id + ' ' + comment.post}>{post.deslikes.includes(userId) ? <AiFillDislike /> : <AiOutlineDislike />}{comment.deslikes.length}</button>
                                                                 {comment.files.length > 0 ? <button onClick={handleCommentFilesSection} value={comment._id}><FaBook className='comment__action__btn__icon' />Materiais</button> : ''}
                                                             </div>
                                                             {

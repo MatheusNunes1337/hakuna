@@ -104,7 +104,6 @@ function CreateGroup() {
                   <Link to={`/group/${id}`} className="group__options__link"><MdFeed className="group__options__icon"/>Feed</Link>
                   <Link to={`/group/${id}/members`} className="group__options__link"><HiUsers className="group__options__icon"/>Membros</Link>
                   <Link to={`/group/${id}/files`} className="group__options__link"><FaBook className="group__options__icon"/>Materiais</Link>
-                  {!isMod ? '' : <Link to={`/group/${id}/config`} className="group__options__link"><BsFillGearFill className="group__options__icon"/>Configurações</Link>}
                   <button className="group__options__btn" onClick={quitGroup}><HiLogout className="group__options__icon"/>Sair</button>
                 </div>
                 <form action="" className="group__form" onSubmit={handleGroup}>

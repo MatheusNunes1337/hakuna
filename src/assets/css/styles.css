@@ -975,18 +975,22 @@ h3.content__subtitle {
 
 .post__item .post__action__btns, .comment__action__btns {
     display: flex;
-    gap: 0.7rem;
+    gap: 15px;
     width: 50%;
     margin-top: 8px;    
 }
 
+.comment__action__btns {
+    gap: 1px;
+}
+
 .post__action__btns > button, .comment__action__btns > button {
-    padding: 14px 11px;
+    padding: 6px 0px;
     border: none;
     font-size: 1rem;
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 4px;
     border-radius: 5px;
     cursor: pointer;
     background-color: transparent;
@@ -995,6 +999,11 @@ h3.content__subtitle {
     transition: 1s ease;
 }
 
+.comment__action__btns > button {
+    gap: 6px;
+}
+
+/*
 .post__action__btns > button:hover {
     background-color: var(--ice-2);
 }
@@ -1003,9 +1012,9 @@ h3.content__subtitle {
     /*
     background-color: rgba(55, 153, 206, 0.3);
     color: var(--blue);
-    */
     background-color: var(--ice-2);
 }
+*/
 
 .post__comment__input {
     display: flex;
@@ -1128,57 +1137,24 @@ h3.content__subtitle {
 
 .comment__action__btns {
     margin-left: 9%;
-    margin-top: 0.5rem;
-}
-
-.comment__reactions__wrapper {
-    width: 100%;
-    margin-left: 9%;
-    display: flex;
-}
-
-.comment__reaction__like, .comment__reaction__deslike {
-    display: flex;
-    gap: 2px;
-    font-size: 14px;
-    align-items: center;
-    margin: 5px 0px 0px 0px;
-}
-
-.comment__reaction__deslike {
-    margin-left: 8px;
+    margin-top: 0.25rem;
+    gap: 12px;
 }
 
 .comment__action__btns > button {
-    padding: 8px 10px;
-    font-size: .8rem;
-    gap: 0.8px;
+    padding: 8px 0px;
+    font-size: 1rem;
+    gap: 4px;
 }
 
 .comment__action__btn__icon {
     margin-right: 3px;
 }
 
-.comment__action__btns > button:hover,  .comment__action__btns > button:focus{
-    background-color: var(--ice-2);
-}
-
 .handleComments__btn {
     margin: 15px 0px 5px auto;
     border: none;
     background-color: transparent;
-}
-
-span.post__reaction__like, span.post__reaction__deslike {
-    display: flex;
-    gap: 2px;
-    font-size: 14px;
-    align-items: center;
-    margin: 15px 0px 0px 0px  
-}
-
-span.post__reaction__deslike {
-    margin-left: 8px;
 }
 
 .files__container {
@@ -1478,22 +1454,22 @@ span.post__reaction__deslike {
         font-size: .8rem;
     }
 
+    .post__item .post__action__btns, .comment__action__btns {
+       gap: 10px;  
+    }
+
     .post__item .post__action__btns > button {
         font-size: 0.8rem;
-        gap: 1px;
-        padding: 10px 5px;
+        gap: 3px;
+        padding: 10px 0px;
     }
 
     .comment__container .comment_body {
-        width: 89%;
+        width: 87%;
     }
 
-    .comment__action__btns, .comment__files__wrapper, .comment__reactions__wrapper {
-        margin-left: 11%;
-    }
-
-    .comment__reactions__wrapper {
-        width: 80%;
+    .comment__action__btns, .comment__files__wrapper {
+        margin-left: 13%;
     }
 
     .user__info__container {
