@@ -7,9 +7,11 @@ import Container from '../../components/Container'
 import Aside from '../../components/Aside'
 import SearchBar from '../../components/SearchBar'
 
-import { FaSearch, FaArrowDown, FaArrowUp } from "react-icons/fa";
-import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
+import { FaSearch, FaArrowDown, FaArrowUp, FaBook } from "react-icons/fa";
+import { BsChevronRight, BsChevronLeft, BsFillGearFill } from "react-icons/bs";
 import { AiFillDelete } from "react-icons/ai";
+import { HiLogout, HiUsers } from "react-icons/hi"
+import {MdFeed} from 'react-icons/md'
 
 export default function Membros() {
     const { id } = useParams();
@@ -20,6 +22,7 @@ export default function Membros() {
 
     const [paginationIndex, setPaginationIndex] = useState(1)
     const [mods, setMods] = useState([])
+    const [isMod, setMod] = useState(false)
     const [members, setMembers] = useState([])
 
     useEffect(() => {
@@ -27,14 +30,18 @@ export default function Membros() {
           try {
             const {data} = await api.get(`groups/${id}`, {headers})
             const {mods, members} = data
-            if(mods.includes(userId)) {
-                members.filter(member => member._id !== userId)
+            const moderators = mods.map(mod => mod._id)
+            if(moderators.includes(userId)) {
+                setMod(true)
+                const membersOnly = members.filter(member => member._id !== userId)
+                setMembers(membersOnly)
+            } else {
+                setMembers(members)
             }
             setMods(mods)
-            setMembers(members)
           } catch(err) {
-            const {name} = err.response.data[0]
-            alert(name)
+            //const {name} = err.response.data[0]
+            alert(err.response.data[0].name)
           }
         }
         getMembers()
@@ -48,23 +55,34 @@ export default function Membros() {
         setPaginationIndex(paginationIndex - 1)
     }
 
-    const deleteMember = () => {
+    const deleteMember = async (event) => {
+        const id = event.currentTarget.value
         const confirmed = window.confirm('Tem certeza que deseja deletar esse membro?')
         if(!confirmed) {
-            return false
+            try {
+                await api.patch(`groups/${id}`, { headers })
+            } catch(err) {
+                alert(err.response.data.name)
+            }
         } 
     }
 
-    const makeMod = (event) => {
-        const id = event.target.value
-        const confirmed = window.confirm('Tem certeza que deseja tornar esse membro moderador do grupo?')
-        if(!confirmed) {
-            return false
+    const makeMod = async (event) => {
+        const memberId = event.currentTarget.value
+        const confirmed = window.confirm('Are you sure you want to make this member a moderator?')
+        if(confirmed) {
+            try {
+                console.log(headers)
+                await api.patch(`groups/${id}/mods/${memberId}`, { headers })
+                alert('Operação realizada com sucesso')
+            } catch(err) {
+                alert(err.response.data.name)
+            }
         } 
     }
 
     const revokeMod = (event) => {
-        const id = event.target.value
+        const id = event.currentTarget.value
         const confirmed = window.confirm('Tem certeza que deseja retirar os privilégios de moderador desse membro?')
         if(!confirmed) {
             return false
@@ -72,8 +90,19 @@ export default function Membros() {
     }
 
     const goToProfile = (event) => {
-        const id = event.target.value
+        event.preventDefault()
+
+        const id = event.currentTarget.value
         history.push(`/${id}`)
+    }
+
+    const quitGroup = async () => {
+        try {
+            await api.delete(`members/group/${id}`, {headers})
+            history.push('/home')
+        } catch(err) {
+            alert(err.response.data.error)
+        }
     }
 
     return (
@@ -85,6 +114,13 @@ export default function Membros() {
                     <Aside />
                     <div className="content">
                         <h2 className="content__title">Membros</h2>
+                        <div className="group__options">
+                            <Link to={`/group/${id}`} className="group__options__link"><MdFeed className="group__options__icon"/>Feed</Link>
+                            <Link to={`/group/${id}/members`} className="group__options__link"><HiUsers className="group__options__icon"/>Membros</Link>
+                            <Link to={`/group/${id}/files`} className="group__options__link"><FaBook className="group__options__icon"/>Materiais</Link>
+                            {!isMod ? '' : <Link to={`/group/${id}/config`} className="group__options__link"><BsFillGearFill className="group__options__icon"/>Configurações</Link>}
+                            <button className="group__options__btn" onClick={quitGroup}><HiLogout className="group__options__icon"/>Sair</button>
+                        </div>
                         <div className='member__container'>
                             <div className='mod__container'>
                                 <h3 className="content__subtitle">Moderadores</h3>
@@ -117,13 +153,13 @@ export default function Membros() {
                                         return (
                                             <div className='others__item'>
                                                 <span className='member__index'>#{index + 1}</span>
-                                                <img src='https://th.bing.com/th/id/OIP.s4XSrU8mt2ats3XCD7pOfgHaF7?pid=ImgDet&w=3000&h=2400&rs=1' className='member__img'/>
+                                                <img src={`https://hakuna-1337.s3.amazonaws.com/${member.profilePic}`} className='member__img'/>
                                                 <span className='member__name'>{member.username}</span>
                                                 {
-                                                    member._id == userId ? (
+                                                    member._id !== userId ? (
                                                         <div className='member__action__btns'>
                                                             <button className='member__action__btn' title='Ver perfil' value={member._id} onClick={goToProfile}><FaSearch /></button>
-                                                            <button className='member__action__btn' title='Tornar moderador' value={member._id}><FaArrowUp /></button>
+                                                            <button className='member__action__btn' title='Tornar moderador' onClick={makeMod} value={member._id}><FaArrowUp /></button>
                                                             <button className='member__action__btn' title='Remover membro' value={member._id}><AiFillDelete /></button>
                                                         </div>
                                                     ) : ''

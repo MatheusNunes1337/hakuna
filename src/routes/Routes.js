@@ -75,7 +75,7 @@ function Routes() {
                 <Route path="/login">
                     <Login />
                 </Route>
-                <CustomRoute private path="/:username">
+                <CustomRoute private path="/:id">
                     <Profile />
                 </CustomRoute>
                 <Route path="/">

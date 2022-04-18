@@ -209,17 +209,22 @@ export default function Feed() {
         alert('oiii')
     }
 
-    const handlePostOptionsMenu = () => {
+    const handlePostOptionsMenu = (e) => {
+        setTargetId(e.target.value)
         if(showPostOptionsMenu) {
             setPostOptionsMenu(false)
+            setTargetId('')
         } else {
             setPostOptionsMenu(true)
         }
     }
 
-    const handleCommentOptionsMenu = () => {
+    const handleCommentOptionsMenu = (e) => {
+        console.log(e.target.classname)
+        setTargetId(e.target.classname)
         if(showCommentOptionsMenu) {
             setCommentOptionsMenu(false)
+            setTargetId('')
         } else {
             setCommentOptionsMenu(true)
         }
@@ -295,7 +300,6 @@ export default function Feed() {
                     <div className="group__options">
                         <Link to={`/group/${id}/members`} className="group__options__link"><HiUsers className="group__options__icon"/>Membros</Link>
                         <Link to={`/group/${id}/files`} className="group__options__link"><FaBook className="group__options__icon"/>Materiais</Link>
-                        <Link to="/home" className="group__options__link"><BsFillCameraVideoFill className="group__options__icon"/>Videochamadas</Link>
                         {!isMod ? '' : <Link to={`/group/${id}/config`} className="group__options__link"><BsFillGearFill className="group__options__icon"/>Configurações</Link>}
                         <button className="group__options__btn" onClick={quitGroup}><HiLogout className="group__options__icon"/>Sair</button>
                     </div>
@@ -325,7 +329,7 @@ export default function Feed() {
                                     {post.author.type === 'teacher' ? <span className='post__author__title'>Professor de {post.author.area}</span> : ''}
                                     <span className='post__creation_time'>{post.creationTime}</span>
                                 </div>
-                                {post.author._id == userId ? <button onClick={handlePostOptionsMenu} className='post__options__btn'><BsThreeDots /></button> : ''}
+                                {post.author._id == userId ? <button onClick={handlePostOptionsMenu} value={post._id} className='post__options__btn'><BsThreeDots /></button> : ''}
                                 <p className='post__content'>
                                     {post.content}
                                 </p>
@@ -387,7 +391,7 @@ export default function Feed() {
                                                             <img src={`https://hakuna-1337.s3.amazonaws.com/${comment.author.profilePic}`} className='post__author__img'/>
                                                             <div className='comment_body'>
                                                             {
-                                                                showCommentOptionsMenu ? (
+                                                                showCommentOptionsMenu && targetId == comment._id ? (
                                                                     <ul className='comment__options__menu'>
                                                                         <li onClick={boo}><MdEdit className='comment__options__menu__icon' />Editar comentário</li>
                                                                         <li onClick={deleteComment} className={comment._id + ' ' + comment.post}><AiFillDelete className='comment__options__menu__icon' />Deletar comentário</li>

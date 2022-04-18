@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import {useHistory} from 'react-router-dom'
+import {useHistory, useParams} from 'react-router-dom'
 import api from '../../services/api'
 
 import { MdBuild } from "react-icons/md";
@@ -17,7 +17,7 @@ export default function Profile() {
     let [profilePic, setProfilePic] = useState('')
 
     const history = useHistory()
-    const id =  localStorage.getItem('userId')
+    const { id } = useParams();
     const token = localStorage.getItem('userToken')
     const headers = { Authorization: `Bearer ${token}` }
 
@@ -37,7 +37,7 @@ export default function Profile() {
       }
 
       getUser()
-    }, [])
+    }, [id])
   
     return (
         <>

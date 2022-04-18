@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react'
-import { useParams, useHistory } from 'react-router-dom'
+import { useParams, useHistory, Link } from 'react-router-dom'
 import api from '../../services/api'
 
 import NavBar from '../../components/NavBar'
 import Container from '../../components/Container'
 import Aside from '../../components/Aside'
 import SearchBar from '../../components/SearchBar'
+
+import { FaBook } from "react-icons/fa";
+import { BsFillGearFill } from "react-icons/bs";
+import { HiLogout, HiUsers } from "react-icons/hi"
+import {MdFeed} from 'react-icons/md'
 
 function CreateGroup() {
     let [name, setName] = useState('')
@@ -15,10 +20,12 @@ function CreateGroup() {
     let [maxMembers, setMembers] = useState(0)
     let [isPublic, setType] = useState(true)
     let [password, setPassword] = useState(null)
+    const [isMod, setMod] = useState(false)
 
     const { id } = useParams()
     const history = useHistory()
     const userToken = localStorage.getItem('userToken')
+    const userId = localStorage.getItem('userId')
     const headers = { Authorization: `Bearer ${userToken}` }
 
     useEffect(() => {
@@ -26,13 +33,15 @@ function CreateGroup() {
         try {
           const headers = { Authorization: `Bearer ${userToken}` }
           const {data} = await api.get(`groups/${id}`, { headers })
-          const {name, description, discipline, topics, maxMembers, isPublic } = data
+          const {name, description, discipline, topics, maxMembers, isPublic, mods } = data
           setName(name)
           setDescription(description)
           setDiscipline(discipline)
           setTopics(topics.join(','))
           setMembers(maxMembers)
           setType(isPublic)
+          const moderators = mods.map(mod => mod._id) 
+          if(moderators.includes(userId)) setMod(true)
         } catch(err) {
           alert(err.response.data.name)
         }
@@ -73,6 +82,15 @@ function CreateGroup() {
       }
     }
 
+    const quitGroup = async () => {
+      try {
+          await api.delete(`members/group/${id}`, {headers})
+          history.push('/home')
+      } catch(err) {
+          alert(err.response.data.error)
+      }
+    }
+
     return (
       <>
         <NavBar />
@@ -82,6 +100,13 @@ function CreateGroup() {
             <Aside />
             <div className="content">
                 <h2 className="content__title">Configurações do grupo</h2>
+                <div className="group__options">
+                  <Link to={`/group/${id}`} className="group__options__link"><MdFeed className="group__options__icon"/>Feed</Link>
+                  <Link to={`/group/${id}/members`} className="group__options__link"><HiUsers className="group__options__icon"/>Membros</Link>
+                  <Link to={`/group/${id}/files`} className="group__options__link"><FaBook className="group__options__icon"/>Materiais</Link>
+                  {!isMod ? '' : <Link to={`/group/${id}/config`} className="group__options__link"><BsFillGearFill className="group__options__icon"/>Configurações</Link>}
+                  <button className="group__options__btn" onClick={quitGroup}><HiLogout className="group__options__icon"/>Sair</button>
+                </div>
                 <form action="" className="group__form" onSubmit={handleGroup}>
                     <label htmlFor="name" className="form__label">Nome:</label>
                     <input type="text" className="form__input" value={name} onChange={e => setName(e.target.value)} />
