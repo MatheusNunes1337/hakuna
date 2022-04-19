@@ -1336,6 +1336,10 @@ h3.content__subtitle {
     .group__options {
         gap: 0.5rem;
     }
+
+    .post__form .post__btn__wrapper button.form__btn {
+        width: 15%;
+    }
 }
 
 
@@ -1428,8 +1432,8 @@ h3.content__subtitle {
         width: 100%;
     }
 
-    .post__form .form__btn {
-        width: 25%;
+    .post__form .post__btn__wrapper button.form__btn {
+        width: 15%;
     }
 
     .group__options__link, .group__options__btn {
@@ -1577,6 +1581,10 @@ h3.content__subtitle {
     .post__files__wrapper > button {
         padding: 7px 4px;
         font-size: 0.7rem;
+    }
+
+    .post__form .post__btn__wrapper button.form__btn {
+        width: 30%;
     }
 
     /*
