@@ -5,8 +5,7 @@ import api from '../../services/api'
 
 import {FaBook} from 'react-icons/fa'
 import {MdDownload} from 'react-icons/md'
-import {BsFillGearFill} from 'react-icons/bs'
-import {HiLogout, HiUsers} from 'react-icons/hi'
+import {MdOutlineArrowBack} from 'react-icons/md'
 
 
 import NavBar from '../../components/NavBar'
@@ -92,12 +91,9 @@ export default function Files() {
                 <SearchBar />
                 <Aside />
                 <div className="content">
-                    <h2 className="content__title">Materiais</h2>
-                    <div className="group__options">
-                        <Link to={`/group/${id}/members`} className="group__options__link"><HiUsers className="group__options__icon"/>Membros</Link>
-                        <Link to={`/group/${id}/files`} className="group__options__link"><FaBook className="group__options__icon"/>Materiais</Link>
-                        {!isMod ? '' : <Link to={`/group/${id}/config`} className="group__options__link"><BsFillGearFill className="group__options__icon"/>Configurações</Link>}
-                        <button className="group__options__btn" onClick={quitGroup}><HiLogout className="group__options__icon"/>Sair</button>
+                    <div className='content__title__wrapper'>
+                        <Link to={`group/${id}`} className="group__back" title='voltar' ><MdOutlineArrowBack className="back__icon"/></Link>
+                        <h2 className="content__title">Materiais</h2>
                     </div>
                     {
                         files.length !== 0 ? (

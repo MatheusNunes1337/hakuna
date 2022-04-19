@@ -7,11 +7,10 @@ import Container from '../../components/Container'
 import Aside from '../../components/Aside'
 import SearchBar from '../../components/SearchBar'
 
-import { FaSearch, FaArrowDown, FaArrowUp, FaBook } from "react-icons/fa";
-import { BsChevronRight, BsChevronLeft, BsFillGearFill } from "react-icons/bs";
+import { FaSearch, FaArrowDown, FaArrowUp } from "react-icons/fa";
+import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
 import { AiFillDelete } from "react-icons/ai";
-import { HiLogout, HiUsers } from "react-icons/hi"
-import {MdFeed} from 'react-icons/md'
+import {MdOutlineArrowBack} from 'react-icons/md'
 
 export default function Membros() {
     const { id } = useParams();
@@ -113,13 +112,9 @@ export default function Membros() {
                     <SearchBar />
                     <Aside />
                     <div className="content">
-                        <h2 className="content__title">Membros</h2>
-                        <div className="group__options">
-                            <Link to={`/group/${id}`} className="group__options__link"><MdFeed className="group__options__icon"/>Feed</Link>
-                            <Link to={`/group/${id}/members`} className="group__options__link"><HiUsers className="group__options__icon"/>Membros</Link>
-                            <Link to={`/group/${id}/files`} className="group__options__link"><FaBook className="group__options__icon"/>Materiais</Link>
-                            {!isMod ? '' : <Link to={`/group/${id}/config`} className="group__options__link"><BsFillGearFill className="group__options__icon"/>Configurações</Link>}
-                            <button className="group__options__btn" onClick={quitGroup}><HiLogout className="group__options__icon"/>Sair</button>
+                        <div className='content__title__wrapper'>
+                            <Link to={`group/${id}`} className="group__back" title='voltar' ><MdOutlineArrowBack className="back__icon"/></Link>
+                            <h2 className="content__title">Membros</h2>
                         </div>
                         <div className='member__container'>
                             <div className='mod__container'>

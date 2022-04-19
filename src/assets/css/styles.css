@@ -369,12 +369,29 @@ main {
     border: 0.8px solid var(--ice-3);
 }
 
-.content__title {
-    font-size: 1.6rem;
-    color: var(--black);
+.content__title__wrapper {
+    display: flex;
+    gap: 8px;
+    align-items: center;
     border: 2px solid transparent;
     border-bottom-color: var(--ice-2);
     padding: 0 0 .8rem 0;
+}
+
+.content__title {
+    flex-grow: 1;
+}
+
+.content__title, .group__back {
+    font-size: 1.6rem;
+    color: var(--black);
+}
+
+.group__back {
+    display: flex;
+    align-items: center;
+    align-self: center;
+    border: none;
 }
 
 .card__wrapper {
