@@ -104,7 +104,9 @@ export default function UserConfig() {
             <SearchBar />
             <Aside />
             <div className="content">
-                <h2 className="content__title">Configurações da conta</h2>
+                <div className='content__title__wrapper'>
+                  <h2 className="content__title">Configurações da conta</h2>
+                </div>
                 <form action="" className="user__form" onSubmit={handleUser}>
                 <picture className='form__user__pic__wrapper'>
                   <input type="file" id="add_pic__btn" name='profilePic' onChange={changeUserPic} />

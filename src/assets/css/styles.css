@@ -75,6 +75,7 @@ body {
     display: block;
     padding: 0.65rem 0;
     font-size: 1rem;
+    font-family: 'Roboto', sans-serif;
     border: unset;
     transition: 0.3s ease;
 }
@@ -666,23 +667,31 @@ form.user__form .overlay {
     width: auto;
 }
 
-.post__form .form__btn {
+.post__form .post__btn__wrapper button.form__btn {
     width: 15%;
     border-radius: 5px;
     font-size: 1rem;
-    display: inline-block;
+    margin-top: 0px;
+}
+
+.post__btn__wrapper {
+    display: flex;
+    align-items: center;
+    margin-top: 15px;
 }
 
 .post__form .material__btn {
-    display: inline-block;
+    display: inline-flex;
     padding: 0.65rem 1.2rem;
     font-size: 1rem;
-    text-align: center;
     margin-left: .5rem;
     background-color: var(--black);
     color: white;
     border: unset;
     border-radius: 5px;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
 }
 
 input[type="file"] {
@@ -751,6 +760,7 @@ input[type="file"] {
 .ranking__container, .member__container {
     height: auto;
     width: 100%;
+    margin-top: 30px;
 }
 
 .ranking__container .ranking__item, div.mod__item, div.others__item  {

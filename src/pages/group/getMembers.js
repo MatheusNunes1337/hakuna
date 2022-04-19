@@ -11,6 +11,7 @@ import { FaSearch, FaArrowDown, FaArrowUp } from "react-icons/fa";
 import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
 import { AiFillDelete } from "react-icons/ai";
 import {MdOutlineArrowBack} from 'react-icons/md'
+import { Alert } from 'bootstrap'
 
 export default function Membros() {
     const { id } = useParams();
@@ -32,7 +33,7 @@ export default function Membros() {
             const moderators = mods.map(mod => mod._id)
             if(moderators.includes(userId)) {
                 setMod(true)
-                const membersOnly = members.filter(member => member._id !== userId)
+                const membersOnly = members.filter(member => !moderators.includes(member._id))
                 setMembers(membersOnly)
             } else {
                 setMembers(members)
@@ -55,11 +56,12 @@ export default function Membros() {
     }
 
     const deleteMember = async (event) => {
-        const id = event.currentTarget.value
-        const confirmed = window.confirm('Tem certeza que deseja deletar esse membro?')
-        if(!confirmed) {
+        const memberId = event.currentTarget.value
+        const confirmed = window.confirm('Are you sure you want to remove this member from the group?')
+        if(confirmed) {
             try {
-                await api.patch(`groups/${id}`, { headers })
+                await api.delete(`groups/${id}/members/${memberId}`, { headers })
+                Alert('Member removed successfully')
             } catch(err) {
                 alert(err.response.data.name)
             }
@@ -72,7 +74,7 @@ export default function Membros() {
         if(confirmed) {
             try {
                 console.log(headers)
-                await api.patch(`groups/${id}/mods/${memberId}`, { headers })
+                await api.patch(`groups/${id}/mods/${memberId}`, {}, { headers })
                 alert('Operação realizada com sucesso')
             } catch(err) {
                 alert(err.response.data.name)
@@ -80,12 +82,18 @@ export default function Membros() {
         } 
     }
 
-    const revokeMod = (event) => {
-        const id = event.currentTarget.value
-        const confirmed = window.confirm('Tem certeza que deseja retirar os privilégios de moderador desse membro?')
-        if(!confirmed) {
-            return false
-        } 
+    const revokeMod = async (event) => {
+        const modId = event.currentTarget.value
+        const confirmed = window.confirm('Are you sure you want to revoke moderator privileges from this member?')
+        if(confirmed) {
+            try {
+                console.log(headers)
+                await api.delete(`groups/${id}/mods/${modId}`, { headers })
+                alert('Operação realizada com sucesso')
+            } catch(err) {
+                alert(err.response.data.name)
+            }
+        }  
     }
 
     const goToProfile = (event) => {
@@ -93,15 +101,6 @@ export default function Membros() {
 
         const id = event.currentTarget.value
         history.push(`/${id}`)
-    }
-
-    const quitGroup = async () => {
-        try {
-            await api.delete(`members/group/${id}`, {headers})
-            history.push('/home')
-        } catch(err) {
-            alert(err.response.data.error)
-        }
     }
 
     return (
@@ -155,7 +154,7 @@ export default function Membros() {
                                                         <div className='member__action__btns'>
                                                             <button className='member__action__btn' title='Ver perfil' value={member._id} onClick={goToProfile}><FaSearch /></button>
                                                             <button className='member__action__btn' title='Tornar moderador' onClick={makeMod} value={member._id}><FaArrowUp /></button>
-                                                            <button className='member__action__btn' title='Remover membro' value={member._id}><AiFillDelete /></button>
+                                                            <button className='member__action__btn' title='Remover membro' onClick={deleteMember} value={member._id}><AiFillDelete /></button>
                                                         </div>
                                                     ) : ''
                                                 }

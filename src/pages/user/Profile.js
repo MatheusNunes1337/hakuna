@@ -47,7 +47,9 @@ export default function Profile() {
             <SearchBar />
             <Aside />
             <div className="content">
-                <h2 className="content__title">Perfil</h2>
+              <div className='content__title__wrapper'>
+                  <h2 className="content__title">Perfil</h2>
+              </div>
                 <div className='user__info__container'>
                     <img src={profilePic} className="user__profile__pic" />
                     <div className='profile__info__container'>

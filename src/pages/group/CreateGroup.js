@@ -43,7 +43,9 @@ function CreateGroup() {
             <SearchBar />
             <Aside />
             <div className="content">
-                <h2 className="content__title">Novo grupo</h2>
+                <div className='content__title__wrapper'>
+                  <h2 className="content__title">Novo grupo</h2>
+                </div>
                 <form action="" className="group__form" onSubmit={handleGroup}>
                     <label htmlFor="name" className="form__label">Nome:</label>
                     <input type="text" className="form__input" onChange={e => setName(e.target.value)} />

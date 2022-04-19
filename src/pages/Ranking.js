@@ -42,7 +42,9 @@ export default function Ranking() {
                     <SearchBar />
                     <Aside />
                     <div className="content">
-                        <h2 className="content__title">Ranking</h2>
+                        <div className='content__title__wrapper'> 
+                          <h2 className="content__title">Ranking</h2>
+                        </div>
                         <div className='ranking__container'>
                             {
                               users.map((user, index)  => {

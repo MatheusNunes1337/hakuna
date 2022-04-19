@@ -5,8 +5,8 @@ import api from '../../services/api'
 import { HiLogout, HiUsers } from "react-icons/hi"
 import { BsFillCameraVideoFill, BsFillGearFill, BsThreeDots } from "react-icons/bs";
 import { AiFillDislike, AiFillLike, AiOutlineLike, AiOutlineDislike, AiFillDelete, AiOutlineHeart } from "react-icons/ai";
-import { MdEdit } from "react-icons/md";
-import {FaBook, FaCommentAlt, FaRegCommentAlt} from 'react-icons/fa'
+import { MdEdit, MdUpload } from "react-icons/md";
+import {FaBook, FaCommentAlt, FaRegCommentAlt, FaHandsHelping} from 'react-icons/fa'
 import { CgFeed } from "react-icons/cg";
 
 import NavBar from '../../components/NavBar'
@@ -301,7 +301,9 @@ export default function Feed() {
                 <SearchBar />
                 <Aside />
                 <div className="content">
-                    <h2 className="content__title">{groupName}</h2>
+                    <div className='content__title__wrapper'>
+                        <h2 className="content__title">{groupName}</h2>
+                    </div>
                     <div className="group__options">
                         <Link to={`/group/${id}/members`} className="group__options__link"><HiUsers className="group__options__icon"/>Membros</Link>
                         <Link to={`/group/${id}/files`} className="group__options__link"><FaBook className="group__options__icon"/>Materiais</Link>
@@ -310,9 +312,11 @@ export default function Feed() {
                     </div>
                     <form action="" className="post__form" onSubmit={handlePost}>
                         <textarea name="description" className="form__textarea" id="group__description" cols="30" rows="7" placeholder='Compartilhe algo com os seus colegas' onChange={e => setContent(e.target.value)}></textarea>
-                        <button className="form__btn">Postar</button>
-                        <input type="file" id="add_material__btn" name='files' onChange={e => setFiles(e.target.files)} multiple/>
-                        <label for="add_material__btn" className="material__btn"><FaBook className="group__options__icon"/></label> 
+                        <div className='post__btn__wrapper'>
+                            <button className="form__btn">Postar</button>
+                            <input type="file" id="add_material__btn" name='files' onChange={e => setFiles(e.target.files)} multiple/>
+                            <label for="add_material__btn" className="material__btn"><MdUpload/>Material</label> 
+                        </div>
                     </form>
                     <div className="group__posts">
                     {  posts.length !== 0 ?
@@ -321,12 +325,20 @@ export default function Feed() {
                             <>
                             <div className='post__item' key={index}>
                                 {
-                                    showPostOptionsMenu && targetId == post._id ? (
-                                        <ul className='post__options__menu'>
-                                            <li onClick={boo}><MdEdit className='post__options__menu__icon' />Editar publicação</li>
-                                            <li onClick={deletePost} className={post._id}><AiFillDelete className='post__options__menu__icon' />Deletar publicação</li>
-                                        </ul>
-                                    ) : '' 
+                                    showPostOptionsMenu && targetId == post._id ? 
+                                    post.author._id === userId ? (
+                                            <ul className='post__options__menu'>
+                                                <li onClick={boo}><MdEdit className='post__options__menu__icon' />Editar</li>
+                                                <li onClick={deletePost} className={post._id}><AiFillDelete className='post__options__menu__icon' />Deletar</li>
+                                                <li onClick={boo}><FaHandsHelping className='post__options__menu__icon' />Solicitar ajuda</li>
+                                            </ul>
+                                        ) : (
+                                            <ul className='post__options__menu'>
+                                                <li onClick={deletePost} className={post._id}><AiFillDelete className='post__options__menu__icon' />Deletar</li>
+                                                <li onClick={boo}><FaHandsHelping className='post__options__menu__icon' />Solicitar ajuda</li>
+                                            </ul>
+                                        )
+                                     : '' 
                                 }
                                 <img src={`https://hakuna-1337.s3.amazonaws.com/${post.author.profilePic}`} className='post__author__img'/>
                                 <div className='post__infos'>
@@ -334,7 +346,7 @@ export default function Feed() {
                                     {post.author.type === 'teacher' ? <span className='post__author__title'>Professor de {post.author.area}</span> : ''}
                                     <span className='post__creation_time'>{post.creationTime}</span>
                                 </div>
-                                {post.author._id == userId ? <button onClick={handlePostOptionsMenu} value={post._id} className='post__options__btn'><BsThreeDots /></button> : ''}
+                                {post.author._id == userId || isMod ? <button onClick={handlePostOptionsMenu} value={post._id} className='post__options__btn'><BsThreeDots /></button> : ''}
                                 <p className='post__content'>
                                     {post.content}
                                 </p>
