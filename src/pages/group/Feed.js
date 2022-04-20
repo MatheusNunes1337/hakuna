@@ -3,10 +3,10 @@ import { Link, useParams, useHistory } from 'react-router-dom'
 import api from '../../services/api'
 
 import { HiLogout, HiUsers } from "react-icons/hi"
-import { BsFillCameraVideoFill, BsFillGearFill, BsThreeDots } from "react-icons/bs";
+import { BsFillCameraVideoFill, BsFillGearFill, BsThreeDots, BsFillXCircleFill } from "react-icons/bs";
 import { AiFillDislike, AiFillLike, AiOutlineLike, AiOutlineDislike, AiFillDelete, AiOutlineHeart } from "react-icons/ai";
-import { MdEdit, MdUpload } from "react-icons/md";
-import {FaBook, FaCommentAlt, FaRegCommentAlt, FaHandsHelping} from 'react-icons/fa'
+import { MdEdit, MdUpload, MdClose } from "react-icons/md";
+import {FaBook, FaCommentAlt, FaRegCommentAlt, FaHandsHelping, FaSearch} from 'react-icons/fa'
 import { CgFeed } from "react-icons/cg";
 
 import NavBar from '../../components/NavBar'
@@ -43,6 +43,12 @@ export default function Feed() {
     const [commentFiles, setCommentFiles] = useState([])
     const [postUpdatedTimes, setPostUpdatedTimes] = useState(0)
     const [targetId, setTargetId] = useState('') 
+    const [commentTargetId, setCommentTargetId] = useState('') 
+    const [showSearchInput, setSearchInputVisibility] = useState(false) 
+    const [filter, setFilter] = useState('')
+    const [isPostsFiltered, setPostsFilteredStatus] = useState(false)
+    const [filterButtonVisibility, setFilterButtonVisibility] = useState(false)
+    const [searchModeOn, setSearchMode] = useState(false)
 
     const { id } = useParams();
     const token = localStorage.getItem('userToken')
@@ -61,11 +67,11 @@ export default function Feed() {
             setGroupName(name)
             setPosts(posts)
           } catch(err) {
-            alert(err)
+            alert(err.response.data.name)
           }
         }
         getMods()
-      }, [postUpdatedTimes])
+      }, [postUpdatedTimes, searchModeOn])
 
     const getScreenWidth = () => window.screen.availWidth
         
@@ -110,10 +116,10 @@ export default function Feed() {
     }
 
     const handleCommentInput = (e) => {
-        setTargetId(e.currentTarget.value)
+        setCommentTargetId(e.currentTarget.value)
         if(showCommentInput) {
             setCommentInput(false)
-            setTargetId('')
+            setCommentTargetId('')
             //setCommentIcon(<FaRegCommentAlt />)
         } else {
             setCommentInput(true)
@@ -292,6 +298,35 @@ export default function Feed() {
             alert(err.response.data.name)
         }
     }
+
+    const handleSearchInput = () => {
+        if(showSearchInput) {
+            setSearchInputVisibility(false)
+        } else {
+            setSearchInputVisibility(true)
+        }
+    }
+    const searchPost = async (e) => {
+        e.preventDefault()
+        setPostsFilteredStatus(true)
+        setFilterButtonVisibility(true)
+        setSearchMode(true)
+
+        try {
+            const {data} = await api.get(`groups/${id}/posts?content=${filter}`, {headers})
+            const {posts} = data
+            setPosts(posts)
+          } catch(err) {
+            alert(err.response.data.name)
+          }
+    }
+
+    const removeFilter = () => {
+        const searchInput = document.getElementsByClassName('search__post__input')[0]
+        searchInput.value = ''
+        setFilterButtonVisibility(false)
+        setSearchMode(false)
+    }
     
     return (
         <>
@@ -306,10 +341,22 @@ export default function Feed() {
                     </div>
                     <div className="group__options">
                         <Link to={`/group/${id}/members`} className="group__options__link"><HiUsers className="group__options__icon"/>Membros</Link>
+                        <button className="group__options__btn" style={showSearchInput ? {backgroundColor: '#3799CE'} : {backgroundColor: '#464646'}} onClick={handleSearchInput}><FaSearch className="group__options__icon"/>Buscar</button>
                         <Link to={`/group/${id}/files`} className="group__options__link"><FaBook className="group__options__icon"/>Materiais</Link>
                         {!isMod ? '' : <Link to={`/group/${id}/config`} className="group__options__link"><BsFillGearFill className="group__options__icon"/>Configurações</Link>}
                         <button className="group__options__btn" onClick={quitGroup}><HiLogout className="group__options__icon"/>Sair</button>
                     </div>
+                    {
+                        showSearchInput ? (
+                            <>
+                                <div className="searchbar">
+                                    <input type="text" className="search__post__input" onChange={e => setFilter(e.target.value)} placeholder="Busque uma postagem por palavra-chave"/>
+                                    <button className="searchbar__btn" onClick={searchPost}><FaSearch className="searchbar__icon"/></button>
+                                </div>
+                                {filterButtonVisibility ? <button className='filter__btn'>{filter}<MdClose onClick={removeFilter}/></button> : ''}
+                            </>
+                        ) : ''
+                    }
                     <form action="" className="post__form" onSubmit={handlePost}>
                         <textarea name="description" className="form__textarea" id="group__description" cols="30" rows="7" placeholder='Compartilhe algo com os seus colegas' onChange={e => setContent(e.target.value)}></textarea>
                         <div className='post__btn__wrapper'>
@@ -358,21 +405,21 @@ export default function Feed() {
                                             <>
                                                 <button onClick={performPostLike} value={post._id}>{post.likes.includes(userId) ? <AiFillLike /> : <AiOutlineLike />}{post.likes.length}</button>
                                                 <button onClick={performPostDeslike} value={post._id}>{post.deslikes.includes(userId) ? <AiFillDislike /> : <AiOutlineDislike /> }{post.deslikes.length}</button>
-                                                <button onClick={handleCommentInput} value={post._id} >{targetId == post._id ? <FaCommentAlt /> : <FaRegCommentAlt />}Comentar</button>
+                                                <button onClick={handleCommentInput} value={post._id} >{commentTargetId == post._id ? <FaCommentAlt /> : <FaRegCommentAlt />}Comentar</button>
                                                 {post.files.length > 0 ? <button onClick={handlePostFilesSection} value={post._id}>{materialIcon}Materiais</button> : ''}
                                             </>
                                         ) : (
                                             <>
                                                 <button onClick={performPostLike} value={post._id}>{post.likes.includes(userId) ? <AiFillLike /> : <AiOutlineLike />}{post.likes.length}</button>
                                                 <button onClick={performPostDeslike} value={post._id}>{isPostDesliked && targetId == post._id ? <AiFillDislike /> : <AiOutlineDislike /> }{post.deslikes.length}</button>
-                                                <button onClick={handleCommentInput} value={post._id}>{targetId == post._id ? <FaCommentAlt /> : <FaRegCommentAlt />}</button>
+                                                <button onClick={handleCommentInput} value={post._id}>{commentTargetId == post._id ? <FaCommentAlt /> : <FaRegCommentAlt />}</button>
                                                 {post.files.length > 0 ? <button onClick={handlePostFilesSection} value={post._id}>{materialIcon}</button> : ''}
                                             </>
                                         )
                                     }
                                 </div>
                                 {
-                                    showCommentInput && targetId == post._id? (
+                                    showCommentInput && commentTargetId == post._id? (
                                         <div className='post__comment__input'>
                                             <img src={`https://hakuna-1337.s3.amazonaws.com/${post.author.profilePic}`} className='post__author__img'/>
                                             <input type="text" placeholder='adicionar comentário' className={post._id} onKeyDown={submitComment} onChange={e => setCommentContent(e.target.value)}/>
@@ -450,10 +497,19 @@ export default function Feed() {
                             </>
                             )
                        }) 
-                        : <>
-                            <CgFeed className="group__feed__icon"/>
-                            <p className="group__feed__message">Nenhuma publicação foi realizada ainda</p>
-                          </>
+                        : (
+                            !isPostsFiltered ? (
+                                <>
+                                    <CgFeed className="group__feed__icon"/>
+                                    <p className="group__feed__message">Nenhuma publicação foi realizada ainda</p>
+                                </>
+                            ) : (
+                                <>
+                                    <CgFeed className="group__feed__icon"/>
+                                    <p className="group__feed__message">{`Nenhuma publicação com a palavra-chave "${filter}" foi encontrada`}</p>
+                                </>
+                            )
+                          )
                     }
                     </div>
                 </div>

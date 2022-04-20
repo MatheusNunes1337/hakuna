@@ -66,11 +66,11 @@ body {
     margin: 1.1rem 0 0.4rem 0;
 }
 
-.form__input, .searchbar__input {
+.form__input, .searchbar__input, .search__post__input {
     text-indent: 5px;
 }
 
-.form__input, .form__select, .form__textarea, .searchbar__input {
+.form__input, .form__select, .form__textarea, .searchbar__input, .search__post__input {
     width: 100%;
     display: block;
     padding: 0.65rem 0;
@@ -84,7 +84,7 @@ body {
     background-color: white;
 }
 
-.form__input:focus, .form__select:focus, .form__textarea:focus, .searchbar__input:focus {
+.form__input:focus, .form__select:focus, .form__textarea:focus, .searchbar__input:focus, .search__post__input:focus {
     outline-color: var(--blue);
 }
 
@@ -206,7 +206,7 @@ body {
     margin-bottom: 1.2rem;
 }
 
-.searchbar__input {
+.searchbar__input, .search__post__input {
     width: 92%;
     height: 50px;
     border: 2px solid var(--ice-2);
@@ -216,9 +216,11 @@ body {
     text-indent: 10px;
 }
 
+/*
 .searchbar__input::placeholder {
     font-weight: bold;
 }
+*/
 
 .searchbar__btn {
     display: flex;
@@ -1332,6 +1334,16 @@ h3.content__subtitle {
     position: absolute;
 }
 
+.filter__btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    border: none;
+    padding: 14px 12px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
 @media (max-width: 1300px) {
     .group__options {
         gap: 0.5rem;
@@ -1378,7 +1390,7 @@ h3.content__subtitle {
         width: 100%;
     }
 
-    .searchbar__input {
+    .searchbar__input, .search__post__input {
         width: 85%;
         font-size: 0.95rem;
         white-space: nowrap;
