@@ -206,12 +206,21 @@ body {
     margin-bottom: 1.2rem;
 }
 
+.searchbar__type__filter {
+    border-radius: 5px;
+    font-size: 1rem;
+    font-family: 'Roboto', sans-serif;
+    color: var(--black);
+    padding: 0px 5px;
+    border: 2px solid var(--ice-2);
+}
+
 .searchbar__input, .search__post__input {
     width: 92%;
     height: 50px;
     border: 2px solid var(--ice-2);
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
+    /*border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;*/
     border-right: unset;
     text-indent: 10px;
 }
@@ -303,6 +312,7 @@ main {
     margin-top: 3rem;
 }
 
+
 .sidebar__links, .user__links {
     list-style: none;
     padding: .9rem 2rem;
@@ -329,6 +339,10 @@ main {
 
 .sidebar__links:hover .sidebar__link, .user__links:hover .user__link {
     color: white;
+}
+
+a.sidebar__links:focus {
+    background-color: var(--blue);
 }
 
 .sidebar__link__icon,  .user__link__icon {
@@ -1576,6 +1590,8 @@ h3.content__subtitle {
     .searchbar {
         margin: 0px 8% 1.2rem 8%;
     }
+
+    
 
     .card {
         width: 100%;

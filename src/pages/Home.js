@@ -50,7 +50,9 @@ function Home() {
           <SearchBar />
           <Aside />
           <div className="content">
-            <h2 className="content__title welcome">Bem vindo de volta, {username}</h2>
+            <div className='content__title__wrapper'>
+              <h2 className="content__title welcome">Bem vindo de volta, {username}</h2>
+            </div>
             <div className={groups.length !== 0 ? "card__wrapper": "card__wrapper any__group"}>
             {
               groups.length !== 0 ? 
