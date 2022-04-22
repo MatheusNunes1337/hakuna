@@ -9,7 +9,11 @@ function SearchBar() {
 
   const search = (e) => {
     e.preventDefault()
-    history.push(`/search?query=${filter}`)
+    
+    if(targetType === 'grupos')
+      history.push(`/search/groups?query=${filter}`)
+    else 
+      history.push(`/search/users?query=${filter}`)
   }
 
   return (

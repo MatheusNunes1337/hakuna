@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import { Link } from 'react-router-dom'
 import api from '../services/api'
 
-import { FaUserAlt } from "react-icons/fa"
+import { FaUserAlt, FaHandsHelping } from "react-icons/fa"
 import { HiUserGroup } from "react-icons/hi";
 import { BsFillChatLeftFill, BsFillGearFill } from "react-icons/bs";
 import { IoNotifications } from "react-icons/io5";
@@ -44,7 +44,7 @@ function Aside() {
           <li className="sidebar__links"><Link to={`/${id}`} className="sidebar__link"><FaUserAlt className="sidebar__link__icon"/>Perfil</Link></li>
           <li className="sidebar__links"><Link to="/home" className="sidebar__link"><HiUserGroup className="sidebar__link__icon"/>Grupos</Link></li>
           <li className="sidebar__links"><Link to="/home" className="sidebar__link"><BsFillChatLeftFill className="sidebar__link__icon"/>Conversas</Link></li>
-          <li className="sidebar__links"><Link to="/home" className="sidebar__link"><IoNotifications className="sidebar__link__icon"/>Notificações</Link></li>
+          {type == 'teacher'? <li className="sidebar__links"><Link to="/home" className="sidebar__link"><FaHandsHelping className="sidebar__link__icon"/>Solicitações de ajuda</Link></li> : ''}
           <li className="sidebar__links"><Link to="/user/config" className="sidebar__link"><BsFillGearFill className="sidebar__link__icon"/>Configurações</Link></li>
         </ul>
     </aside> 

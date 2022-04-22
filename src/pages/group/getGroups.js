@@ -66,7 +66,7 @@ function GetGroups() {
                   />)
                 }) : (
                   <>
-                    <HiUserGroup className="any__group__icon"/>
+                    <HiUserGroup className="any__user__icon"/>
                     <span>{`Nenhum grupo com a disciplina ou tópico "${filter}" foi encontrado`}</span>
                   </>
                 )

@@ -422,8 +422,8 @@ a.sidebar__links:focus {
     font-size: 1.2rem;
 }
 
-.any__group, .empty__files__container {
-    height: 400px;
+.any__group, .empty__files__container, .any__user {
+    min-height: 400px;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -432,12 +432,12 @@ a.sidebar__links:focus {
     gap: 18px;
 }
 
-.any__group .any__group__icon, .empty__files__container .any__file__icon {
+.any__group .any__group__icon, .empty__files__container .any__file__icon, .any__user__icon {
     font-size: 2.5rem;
     color: var(--ice-3);
 }
 
-.any__group > span, .empty__files__container span {
+.any__group > span, .empty__files__container span, .any__user > span {
     display: block;
     font-size: 1.2rem;
     font-weight: bold;
@@ -576,7 +576,8 @@ a.sidebar__links:focus {
 }
 
 .enter__group__form .form__btn {
-    width: 20%;
+    width: 15%;
+    border-radius: 5px;
 }
 
 .form__user__pic__wrapper {
@@ -773,13 +774,13 @@ input[type="file"] {
     font-size: 1.15rem;
 }
 
-.ranking__container, .member__container {
+.ranking__container, .member__container, .users__container {
     height: auto;
     width: 100%;
     margin-top: 30px;
 }
 
-.ranking__container .ranking__item, div.mod__item, div.others__item  {
+.ranking__container .ranking__item, div.mod__item, div.others__item, .users__container .user__item  {
     display: flex;
     align-items: center;
     margin: 10px 0px;
@@ -787,7 +788,7 @@ input[type="file"] {
     border: 0.8px solid var(--ice-3);
 }
 
-.ranking__container .ranking__item > span {
+.ranking__container .ranking__item > span, .users__container .user__item > span {
     display: block;
 }
 
@@ -796,17 +797,30 @@ input[type="file"] {
     font-weight: bold;
 }
 
-.ranking__item .ranking__user__img, .member__img {
+.ranking__item .ranking__user__img, .member__img, .user__item .user__img {
     width: 55px;
     height: 55px;
     border-radius: 50%;
     margin-left: 25px;
 }
 
-.ranking__item .ranking__user__name, .member__name {
+.user__item {
+    text-decoration: none;
+    color: var(--black);
+}
+
+.user__item .user__img {
+    margin-left: 0px;
+}
+
+.ranking__item .ranking__user__name, .member__name, .user__item .user__name {
     margin-left: 25px;
     font-size: clamp(14px, 2vw, 17px);
     font-weight: bold;
+}
+
+.user__item .user__name {
+    margin-left: 15px;
 }
 
 .ranking__item .ranking__user__medal {
@@ -815,7 +829,7 @@ input[type="file"] {
     margin-left: 10px;
 }
 
-.ranking__item .ranking__user__points {
+.ranking__item .ranking__user__points, .user__item .user__points {
     margin-left: auto;
     font-size: clamp(14px, 2vw, 17px);
     font-weight: bold;
@@ -825,25 +839,31 @@ input[type="file"] {
     color: #F6DA75;
 }
 
+/*
 .ranking__item:nth-child(1) .ranking__user__img {
     border: 4px solid #F6DA75;
 }
+*/
 
 .ranking__item:nth-child(2) .ranking__user__points {
     color: #DEDEDE;
 }
 
+/*
 .ranking__item:nth-child(2) .ranking__user__img {
     border: 4px solid #DEDEDE;
 }
+*/
 
 .ranking__item:nth-child(3) .ranking__user__points {
     color: #FE9737;
 }
 
+/*
 .ranking__item:nth-child(3) .ranking__user__img {
     border: 4px solid #FE9737;
 }
+*/
 
 h3.content__subtitle {
     font-size: 1.2rem;
@@ -1496,13 +1516,13 @@ h3.content__subtitle {
         margin: 0 auto 40px auto;
     }
 
-    .ranking__item .ranking__user__img, .member__img {
+    .ranking__item .ranking__user__img, .member__img, .user__item .user__img {
         height: 45px;
         width: 45px;
         margin-left: 8px;
     }
 
-    .ranking__item .ranking__user__name, .member__name {
+    .ranking__item .ranking__user__name, .member__name, .user__item .user__name {
         margin-left: 10px;
     }
 
@@ -1564,7 +1584,7 @@ h3.content__subtitle {
         margin-right: auto;
     }
 
-    .any__group {
+    .any__group, .any__user {
         align-items: center;
         justify-content: center;
         flex-direction: column;
