@@ -6,8 +6,10 @@ import NavBar from '../../components/NavBar'
 import Container from '../../components/Container'
 import Aside from '../../components/Aside'
 import SearchBar from '../../components/SearchBar'
+
 import {FaSave} from 'react-icons/fa'
 import { MdAddAPhoto } from "react-icons/md";
+import { BsFillGearFill } from "react-icons/bs";
 
 export default function UserConfig() {
     let [username, setUsername] = useState('')
@@ -105,7 +107,7 @@ export default function UserConfig() {
             <Aside />
             <div className="content">
                 <div className='content__title__wrapper'>
-                  <h2 className="content__title">Configurações da conta</h2>
+                  <h2 className="content__title"><BsFillGearFill />Configurações da conta</h2>
                 </div>
                 <form action="" className="user__form" onSubmit={handleUser}>
                 <picture className='form__user__pic__wrapper'>

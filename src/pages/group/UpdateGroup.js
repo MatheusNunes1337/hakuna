@@ -8,6 +8,7 @@ import Aside from '../../components/Aside'
 import SearchBar from '../../components/SearchBar'
 
 import {MdOutlineArrowBack} from 'react-icons/md'
+import {BsFillGearFill} from 'react-icons/bs'
 
 function CreateGroup() {
     let [name, setName] = useState('')
@@ -98,7 +99,7 @@ function CreateGroup() {
             <div className="content">
                 <div className='content__title__wrapper'>
                   <Link to={`group/${id}`} className="group__back" title='voltar' ><MdOutlineArrowBack className="back__icon"/></Link>
-                  <h2 className="content__title">Configurações do grupo</h2>
+                  <h2 className="content__title">Configurações do grupo <BsFillGearFill /></h2>
                 </div>
                 <form action="" className="group__form" onSubmit={handleGroup}>
                     <label htmlFor="name" className="form__label">Nome:</label>

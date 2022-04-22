@@ -93,7 +93,7 @@ export default function Files() {
                 <div className="content">
                     <div className='content__title__wrapper'>
                         <Link to={`group/${id}`} className="group__back" title='voltar' ><MdOutlineArrowBack className="back__icon"/></Link>
-                        <h2 className="content__title">Materiais</h2>
+                        <h2 className="content__title">Materiais <FaBook /></h2>
                     </div>
                     {
                         files.length !== 0 ? (

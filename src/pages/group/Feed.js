@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import { Link, useParams, useHistory } from 'react-router-dom'
 import api from '../../services/api'
 
-import { HiLogout, HiUsers } from "react-icons/hi"
+import { HiLogout, HiUsers, HiUserGroup } from "react-icons/hi"
 import { BsFillCameraVideoFill, BsFillGearFill, BsThreeDots, BsFillXCircleFill } from "react-icons/bs";
 import { AiFillDislike, AiFillLike, AiOutlineLike, AiOutlineDislike, AiFillDelete, AiOutlineHeart } from "react-icons/ai";
 import { MdEdit, MdUpload, MdClose } from "react-icons/md";
@@ -337,7 +337,7 @@ export default function Feed() {
                 <Aside />
                 <div className="content">
                     <div className='content__title__wrapper'>
-                        <h2 className="content__title">{groupName}</h2>
+                        <h2 className="content__title"><HiUserGroup />{groupName}</h2>
                     </div>
                     <div className="group__options">
                         <Link to={`/group/${id}/members`} className="group__options__link"><HiUsers className="group__options__icon"/>Membros</Link>

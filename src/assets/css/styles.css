@@ -397,6 +397,9 @@ a.sidebar__links:focus {
 
 .content__title {
     flex-grow: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .content__title, .group__back {
@@ -1359,14 +1362,16 @@ h3.content__subtitle {
     color: var(--ice-3);
 }
 
+/*
 .welcome::after {
-    /*font-family: "Font Awesome 5 Free";
-    font-weight: 800;*/
+    //font-family: "Font Awesome 5 Free"; EXCLUIR LINHA
+    //font-weight: 800; EXCLUIR LINHA
     content: url('../images/waving-hand.png');
     margin-left: 5px;
     margin-top: -3px;
     position: absolute;
 }
+*/
 
 .filter__btn {
     display: flex;

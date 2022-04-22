@@ -7,13 +7,16 @@ import Aside from '../components/Aside'
 import Card from '../components/Card'
 import SearchBar from '../components/SearchBar'
 
-import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
+import { BsChevronRight, BsChevronLeft, BsFillSunFill, BsFillMoonFill } from "react-icons/bs";
 import { HiUserGroup } from "react-icons/hi";
 import { FaSadCry } from "react-icons/fa";
+import getCurrentHour from '../utils/getCurrentHour'
 
 function Home() {
   let [groups, setGroups] = useState([])
   let [username, setUsername] = useState('')
+  let [greeting, setGreeting] = useState('')
+  let [greetingIcon, setGreetingIcon] = useState('')
   const [paginationIndex, setPaginationIndex] = useState(1)
   
   const id =  localStorage.getItem('userId')
@@ -25,9 +28,22 @@ function Home() {
       try {
         const {data} = await api.get(`users/${id}`, {headers})
         const {groups, username} = data
-        console.log(groups)
         setGroups(groups)
         setUsername(username)
+
+        const currentHour = getCurrentHour()
+
+        if(currentHour > 4 && currentHour < 12) {
+          setGreeting(`Bom dia, ${username}`)
+          setGreetingIcon(<BsFillSunFill />)
+        } else if(currentHour > 12 && currentHour < 18) {
+          setGreeting(`Boa tarde, ${username}`)
+          setGreetingIcon(<BsFillSunFill />)
+        } else {
+          setGreeting(`Boa noite, ${username}`)
+          setGreetingIcon(<BsFillMoonFill />)
+        }
+          
       } catch(err) {
         alert(err.response.data.name)
       }
@@ -51,7 +67,7 @@ function Home() {
           <Aside />
           <div className="content">
             <div className='content__title__wrapper'>
-              <h2 className="content__title welcome">Bem vindo de volta, {username}</h2>
+              <h2 className="content__title welcome">{greeting} {greetingIcon}</h2>
             </div>
             <div className={groups.length !== 0 ? "card__wrapper": "card__wrapper any__group"}>
             {

@@ -3,6 +3,7 @@ import {useHistory, useParams} from 'react-router-dom'
 import api from '../../services/api'
 
 import { MdBuild } from "react-icons/md";
+import {FaUserAlt} from 'react-icons/fa'
 
 import NavBar from '../../components/NavBar'
 import Container from '../../components/Container'
@@ -19,6 +20,7 @@ export default function Profile() {
     const history = useHistory()
     const { id } = useParams();
     const token = localStorage.getItem('userToken')
+    const userId =  localStorage.getItem('userId')
     const headers = { Authorization: `Bearer ${token}` }
 
     useEffect(() => {
@@ -48,7 +50,7 @@ export default function Profile() {
             <Aside />
             <div className="content">
               <div className='content__title__wrapper'>
-                  <h2 className="content__title">Perfil</h2>
+                  <h2 className="content__title"><FaUserAlt />{userId == id ? 'Meu perfil' : 'Perfil'}</h2>
               </div>
                 <div className='user__info__container'>
                     <img src={profilePic} className="user__profile__pic" />
