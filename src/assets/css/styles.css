@@ -425,7 +425,7 @@ a.sidebar__links:focus {
     font-size: 1.2rem;
 }
 
-.any__group, .empty__files__container, .any__user {
+.any__group, .empty__files__container, .any__user, .any__chat {
     min-height: 400px;
     width: 100%;
     display: flex;
@@ -777,18 +777,20 @@ input[type="file"] {
     font-size: 1.15rem;
 }
 
-.ranking__container, .member__container, .users__container {
+.ranking__container, .member__container, .users__container, .chat__container {
     height: auto;
     width: 100%;
     margin-top: 30px;
 }
 
-.ranking__container .ranking__item, div.mod__item, div.others__item, .users__container .user__item  {
+.ranking__container .ranking__item, div.mod__item, div.others__item, 
+.users__container .user__item, .chat__container .chat__item  {
     display: flex;
     align-items: center;
     margin: 10px 0px;
     padding: 12px;
     border: 0.8px solid var(--ice-3);
+    border-radius: 5px;
 }
 
 .ranking__container .ranking__item > span, .users__container .user__item > span {
@@ -800,30 +802,64 @@ input[type="file"] {
     font-weight: bold;
 }
 
-.ranking__item .ranking__user__img, .member__img, .user__item .user__img {
+.ranking__item .ranking__user__img, .member__img, 
+.user__item .user__img, 
+.chat__item .chat__user__img {
     width: 55px;
     height: 55px;
     border-radius: 50%;
     margin-left: 25px;
 }
 
-.user__item {
+.user__item, .chat__item {
     text-decoration: none;
     color: var(--black);
 }
 
-.user__item .user__img {
+.user__item .user__img, .chat__item .chat__user__img {
     margin-left: 0px;
 }
 
-.ranking__item .ranking__user__name, .member__name, .user__item .user__name {
+.ranking__item .ranking__user__name, .member__name, .user__item .user__name, .chat__item .chat__username {
     margin-left: 25px;
     font-size: clamp(14px, 2vw, 17px);
     font-weight: bold;
+    flex-grow: 1;
 }
 
 .user__item .user__name {
     margin-left: 15px;
+}
+
+.chat__item .chat__username {
+    margin-left: 0px;
+    font-size: 1rem;
+}
+
+.chat__item .chat__last__message, .chat__last__message__time {
+    font-size: 0.95rem;
+}
+
+.chat__item .chat__last__message {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.chat__message__wrapper {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    flex-grow: 1;
+    gap: 1.5px;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.chat__last__message__time {
+    font-size: 0.85rem;
 }
 
 .ranking__item .ranking__user__medal {
