@@ -2,15 +2,18 @@ import React, {useState, useEffect} from 'react'
 import { Link, useParams, useHistory } from 'react-router-dom'
 import api from '../services/api'
 
-import { BsFillChatFill } from "react-icons/bs";
+import { BsFillChatFill, BsThreeDots } from "react-icons/bs";
+import {IoSend} from 'react-icons/io5'
+import {RiChatDeleteFill} from 'react-icons/ri'
 
 import NavBar from '../components/NavBar'
 import Container from '../components/Container'
 import Aside from '../components/Aside'
 import SearchBar from '../components/SearchBar'
 
-export default function GetChats() {
-    let [chats, setChats] = useState([])
+export default function Chat() {
+    let [messages, setMessages] = useState([])
+    let [showChatMenu, setChatMenu] = useState(false)
 
     const { id } = useParams();
     const token = localStorage.getItem('userToken')
@@ -35,6 +38,14 @@ export default function GetChats() {
       }, [])
     */
 
+    const handleChatMenu = () => {
+        if(showChatMenu) {
+            setChatMenu(false)
+        } else {
+          setChatMenu(true)
+        }
+    }
+
     return (
         <>
         <NavBar />
@@ -43,30 +54,22 @@ export default function GetChats() {
                     <SearchBar />
                     <Aside />
                     <div className="content">
-                        <div className='content__title__wrapper'> 
-                          <h2 className="content__title"><BsFillChatFill />Minhas conversas</h2>
+                        <div className='content__title__wrapper' style={{display: 'flex', justifyContent: 'space-between', position: 'relative'}}> 
+                          <h2 className="content__title"><BsFillChatFill />JuliaRiter25</h2>
+                          <BsThreeDots className='chat__options__icon' onClick={handleChatMenu}/>
+                          {
+                            showChatMenu ? (
+                              <ul className='chat__options__menu'>
+                                <li className="delete__chat"><RiChatDeleteFill className='post__options__menu__icon' />Deletar</li>
+                              </ul>
+                            ) : ''
+                          }
                         </div>
-                        <div className={chats.length == 0 ? "chat__container" : "chat__container any__chat"}>
+                        <div className={messages.length !== 0 ? "messages__container" : "messages__container any__chat"}>
                             {
-                              chats.length == 0 ? (
+                              messages.length !== 0 ? (
                                 <>
-                                  <Link className='chat__item' to={`/chats/${1}`}>
-                                      <img src={`https://hakuna-1337.s3.amazonaws.com/user.png`} alt='user image' className='chat__user__img'/>
-                                      <div className='chat__message__wrapper'>
-                                        <span className='chat__username'>JuliaRiter25</span>
-                                        <span className='chat__last__message'>Tu sabe que independente do que tu selecionar na hora da prova, vai acabar que tu irá acertar tudo</span>
-                                      </div>
-                                      <span className='chat__last__message__time'>19:47</span>
-                                  </Link>
-                                  <Link className='chat__item' to={`/chats/${2}`}>
-                                      <img src={`https://hakuna-1337.s3.amazonaws.com/user.png`} alt='user image' className='chat__user__img'/>
-                                      <div className='chat__message__wrapper'>
-                                        <span className='chat__username'>JuliaRiter25</span>
-                                        <span className='chat__last__message'>Tu sabe que independente do que tu selecionar na hora da prova, vai acabar que tu irá acertar tudo</span>
-                                      </div>
-                                      <span className='chat__last__message__time'>19:47</span>
-                                  </Link>
-                                  <Link className='chat__item' to={`/chats/${3}`}>
+                                  <Link className='chat__item'>
                                       <img src={`https://hakuna-1337.s3.amazonaws.com/user.png`} alt='user image' className='chat__user__img'/>
                                       <div className='chat__message__wrapper'>
                                         <span className='chat__username'>JuliaRiter25</span>
@@ -78,10 +81,14 @@ export default function GetChats() {
                                 ) : (
                                     <>
                                         <BsFillChatFill className="any__user__icon"/>
-                                        <span>Parece que você ainda não trocou mensagens com nenhum usuário</span>
+                                        <span>Parece que você ainda não trocou mensagens com JuliaRiter25</span>
                                     </>
                                 ) 
                             }
+                            <div className='chat__message__send__wrapper'>
+                                <input type="text" className='chat__input' placeholder='Digite a sua mensagem aqui'/>
+                                <IoSend className='send__message__icon'/>
+                            </div>
                         </div>
                     </div>
                 </Container >  

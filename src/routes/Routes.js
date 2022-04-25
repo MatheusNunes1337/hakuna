@@ -18,6 +18,7 @@ import Files from '../pages/group/Files'
 import Profile from '../pages/user/Profile'
 import GetUsers from '../pages/user/getUsers'
 import GetChats from '../pages/getChats'
+import Chat from '../pages/Chat'
 
 function CustomRoute(props) {
 	const userToken = localStorage.getItem('userToken')
@@ -64,6 +65,9 @@ function Routes() {
                 </CustomRoute>
                 <CustomRoute private path="/search/users">
                     <GetUsers />
+                </CustomRoute>
+                <CustomRoute private path="/chats/:id">
+                    <Chat />
                 </CustomRoute>
                 <CustomRoute private path="/chats">
                     <GetChats />

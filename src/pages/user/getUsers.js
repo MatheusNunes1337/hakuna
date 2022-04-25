@@ -59,7 +59,7 @@ export default function GetUsers() {
                                     return (
                                         <Link className='user__item'>
                                             <img src={`https://hakuna-1337.s3.amazonaws.com/${user.profilePic}`} className='user__img'/>
-                                            <span className='user__name'>{user.username}</span>
+                                            <span className='chat__user__name'>{user.username}</span>
                                             <span className='user__points'>{user.contributionPoints} pontos</span>
                                         </Link>
                                     )
