@@ -784,17 +784,23 @@ input[type="file"] {
 }
 
 .messages__container {
-    min-height: 500px;
-    max-height: 500px;
+    min-height: 400px;
+    max-height: 400px;
+    overflow-y: scroll;
     border-radius: 5px;
     position: relative;
+    display: flex;
+}
+
+.messages__container::-webkit-scrollbar {
+    display: none;
 }
 
 .chat__message__send__wrapper {
     display: flex;
     align-items: center;
+    align-self: flex-end;
     gap: 10px;
-    position: absolute;
     bottom: 0;
     width: 100%;
     padding: 12px 10px;
@@ -1481,6 +1487,49 @@ h3.content__subtitle {
     padding: 14px 12px;
     margin-bottom: 20px;
     border-radius: 5px;
+}
+
+.message__item {
+    margin-bottom: 15px;
+    padding: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    color: white;
+    border-radius: 5px;
+    min-width: 20%;
+    width: fit-content;
+    max-width: 60%;
+    text-align: justify;
+}
+
+.you {
+    background-color: var(--blue);
+}
+
+.me {
+    background-color: var(--black);
+    margin-left: auto;
+}
+
+.message__item__author {
+    width: 100%;
+    font-size: 0.8rem;
+}
+
+.message__item__content {
+    width: 100%;
+    font-size: 0.9rem;
+    margin-bottom: 3.5px;
+}
+
+.message__item__creationTime {
+    margin-left: auto;
+    font-size: 0.8rem;
+}
+
+.any__message__yet {
+    font-style: italic;
 }
 
 @media (max-width: 1300px) {

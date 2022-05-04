@@ -11,6 +11,7 @@ import Aside from '../../components/Aside'
 import SearchBar from '../../components/SearchBar'
 
 export default function Profile() {
+    let [profileId, setProfileId] = useState('')
     let [username, setUsername] = useState('')
     let [type, setType] = useState('')
     let [area, setArea] = useState('')
@@ -27,12 +28,14 @@ export default function Profile() {
       const getUser = async () => {
         try {
           const {data} = await api.get(`users/${id}`, {headers})
-          const {username, type, area, contributionPoints, profilePic} = data
+          console.log('data', data)
+          const { _id, username, type, area, contributionPoints, profilePic} = data
           setUsername(username)
           setType(type)
           setArea(area)
           setPoints(contributionPoints)
           setProfilePic(`https://hakuna-1337.s3.amazonaws.com/${profilePic}`)
+          setProfileId(_id)
         } catch(err) {
           alert(err.response.data.name)
         }
@@ -40,6 +43,17 @@ export default function Profile() {
 
       getUser()
     }, [id])
+
+    const createChat = async (e) => {
+      try {
+        const targetId = e.currentTarget.value
+        const {data} = await api.post(`chats/${targetId}`, {}, {headers})
+        const {_id} = data
+        history.push(`/chats/${_id}`)
+      } catch(err) {
+        alert(err.response.data.name)
+      }
+    }
   
     return (
         <>
@@ -64,7 +78,7 @@ export default function Profile() {
                         <span className='user__profile__points'>{contributionPoints}</span>
                         <div className='action__btns__wrapper'>
                             <button>adicionar contato</button>
-                            <button>enviar mensagem</button>
+                            <button value={profileId} onClick={createChat}>enviar mensagem</button>
                         </div>
                     </div>
                 </div>

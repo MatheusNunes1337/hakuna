@@ -18,23 +18,19 @@ export default function GetChats() {
     const headers = { Authorization: `Bearer ${token}` }
     const history = useHistory()
 
-    /*
     useEffect(() => {
         const getUsers = async () => {
           try {
-            const {data} = await api.get(`users?username=${filter}`, {headers})
-            const {users} = data
-            setUsers(users)
+            const {data} = await api.get(`chats/`, {headers})
+            setChats(data)
           } catch(err) {
-            console.log(err.response)
             alert(err.response.data[0].name)
           }
         }
     
         getUsers()
       }, [])
-    */
-
+    
     return (
         <>
         <NavBar />
@@ -46,36 +42,22 @@ export default function GetChats() {
                         <div className='content__title__wrapper'> 
                           <h2 className="content__title"><BsFillChatFill />Minhas conversas</h2>
                         </div>
-                        <div className={chats.length == 0 ? "chat__container" : "chat__container any__chat"}>
+                        <div className={chats.length !== 0 ? "chat__container" : "chat__container any__chat"}>
                             {
-                              chats.length == 0 ? (
-                                <>
-                                  <Link className='chat__item' to={`/chats/${1}`}>
-                                      <img src={`https://hakuna-1337.s3.amazonaws.com/user.png`} alt='user image' className='chat__user__img'/>
-                                      <div className='chat__message__wrapper'>
-                                        <span className='chat__username'>JuliaRiter25</span>
-                                        <span className='chat__last__message'>Tu sabe que independente do que tu selecionar na hora da prova, vai acabar que tu irá acertar tudo</span>
-                                      </div>
-                                      <span className='chat__last__message__time'>19:47</span>
-                                  </Link>
-                                  <Link className='chat__item' to={`/chats/${2}`}>
-                                      <img src={`https://hakuna-1337.s3.amazonaws.com/user.png`} alt='user image' className='chat__user__img'/>
-                                      <div className='chat__message__wrapper'>
-                                        <span className='chat__username'>JuliaRiter25</span>
-                                        <span className='chat__last__message'>Tu sabe que independente do que tu selecionar na hora da prova, vai acabar que tu irá acertar tudo</span>
-                                      </div>
-                                      <span className='chat__last__message__time'>19:47</span>
-                                  </Link>
-                                  <Link className='chat__item' to={`/chats/${3}`}>
-                                      <img src={`https://hakuna-1337.s3.amazonaws.com/user.png`} alt='user image' className='chat__user__img'/>
-                                      <div className='chat__message__wrapper'>
-                                        <span className='chat__username'>JuliaRiter25</span>
-                                        <span className='chat__last__message'>Tu sabe que independente do que tu selecionar na hora da prova, vai acabar que tu irá acertar tudo</span>
-                                      </div>
-                                      <span className='chat__last__message__time'>19:47</span>
-                                  </Link>
-                                </>
-                                ) : (
+                              chats.length !== 0 ? 
+                                  chats.map((chat, key) => {
+                                    return (
+                                      <Link className='chat__item' to={`/chats/${chat._id}`} key={key}>
+                                          <img src={`https://hakuna-1337.s3.amazonaws.com/${chat.participants.find(participant => participant._id !== userId).profilePic}`} alt='user image' className='chat__user__img'/>
+                                          <div className='chat__message__wrapper'>
+                                            <span className='chat__username'>{chat.participants.find(participant => participant._id !== userId).username}</span>
+                                            {chat.messages.length > 0 ? <span className='chat__last__message'>{chat.messages[chat.messages.length - 1].message.author !== userId ? chat.participants.find(participant => participant._id !== userId).username : 'Você'}: {chat.messages[chat.messages.length - 1].message}</span> : <span className='any__message__yet'>Essa conversa ainda não possui nenhuma mensagem</span>}
+                                          </div>
+                                          {chat.messages.length > 0 ? <span className='chat__last__message__time'>{chat.messages[chat.messages.length - 1].creationTime}</span> : ''}
+                                      </Link>
+                                    )
+                                  })
+                                 : (
                                     <>
                                         <BsFillChatFill className="any__user__icon"/>
                                         <span>Parece que você ainda não trocou mensagens com nenhum usuário</span>
