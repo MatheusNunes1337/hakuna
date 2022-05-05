@@ -30,6 +30,7 @@ export default function GetUsers() {
         const getUsers = async () => {
           try {
             const {data} = await api.get(`users?username=${filter}`, {headers})
+            console.log('data', data)
             const {users} = data
             setUsers(users)
           } catch(err) {
@@ -57,9 +58,9 @@ export default function GetUsers() {
                               users.length > 0 ?
                                 users.map((user, index)  => {
                                     return (
-                                        <Link className='user__item'>
+                                        <Link className='user__item' to={`/${user._id}`}>
                                             <img src={`https://hakuna-1337.s3.amazonaws.com/${user.profilePic}`} className='user__img'/>
-                                            <span className='chat__user__name'>{user.username}</span>
+                                            <span className='user__name'>{user.username}</span>
                                             <span className='user__points'>{user.contributionPoints} pontos</span>
                                         </Link>
                                     )
