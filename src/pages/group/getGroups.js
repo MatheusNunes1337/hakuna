@@ -10,6 +10,7 @@ import Aside from '../../components/Aside'
 import Card from '../../components/Card'
 import SearchBar from '../../components/SearchBar'
 
+import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
 
 function useQuery() {
     const { search } = useLocation();
@@ -18,6 +19,9 @@ function useQuery() {
 
 function GetGroups() {
   let [groups, setGroups] = useState([])
+  const [paginationIndex, setPaginationIndex] = useState(1)
+  const [totalPages, setTotalPages] = useState(0)
+  const [offset, setOffset] = useState(0)
 
   let query = useQuery();
 
@@ -28,16 +32,27 @@ function GetGroups() {
   useEffect(() => {
     const getGroups = async () => {
       try {
-        const {data} = await api.get(`groups?discipline=${filter}&topics=${filter}`, {headers})
+        const {data} = await api.get(`groups?discipline=${filter}&topics=${filter}&offset=${offset}`, {headers})
         const {groups} = data
         setGroups(groups)
+        setTotalPages(Math.ceil(groups.length / 12))
       } catch(err) {
         alert(err.response.data.name)
       }
     }
 
     getGroups()
-  }, [filter])
+  }, [filter, paginationIndex])
+
+  const nextPage = () => {
+    setPaginationIndex(paginationIndex + 1)
+    setOffset(offset + 12)
+  }
+
+  const previousPage = () => {
+      setPaginationIndex(paginationIndex - 1)
+      setOffset(offset - 12)
+  }
 
   return (
     <>
@@ -72,6 +87,15 @@ function GetGroups() {
                 )
               }
             </div>
+            {
+              groups.length > 0 && totalPages > 1 ? (
+                <div className='pagination__wrapper'>
+                  <button disabled={paginationIndex === 1} className='pagination__btn' onClick={previousPage}><BsChevronLeft /></button>
+                  <span className='pagination__index'>{paginationIndex}</span>
+                  <button className='pagination__btn' onClick={nextPage}><BsChevronRight /></button>
+                </div>
+              ) : ''
+            }
           </div>
         </Container >  
       </main>  

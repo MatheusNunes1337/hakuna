@@ -19,8 +19,8 @@ function SearchBar() {
   return (
     <>
       <div className="searchbar">
-          <select className='searchbar__type__filter' onChange={e => setTargetType(e.target.value)}>
-            <option value="grupos" selected="selected">Grupos</option>
+          <select className='searchbar__type__filter' defaultValue="grupos" onChange={e => setTargetType(e.target.value)}>
+            <option value="grupos">Grupos</option>
             <option value="usuários">Usuários</option>
           </select>
           <input type="text" className="searchbar__input" onChange={e => setFilter(e.target.value)} placeholder={targetType == 'grupos' ? "Busque um grupo por disciplina ou tópico de estudo" : "Busque usuários pelo nome de usuário"}/>

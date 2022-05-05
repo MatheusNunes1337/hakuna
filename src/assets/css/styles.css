@@ -1021,13 +1021,17 @@ h3.content__subtitle {
     align-items: center;
     padding: 8px;
     font-size: 1rem;
-    /*
     border: none;
     background-color: var(--black);
     color: white;
-    */
     font-weight: bold;
     cursor: pointer;
+    border-radius: 5px;
+}
+
+.pagination__icon {
+    font-weight: bold;
+    font-size: 24px;
 }
 
 .post__item {
