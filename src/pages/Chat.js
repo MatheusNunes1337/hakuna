@@ -92,6 +92,17 @@ export default function Chat() {
       }
     }
 
+    const deleteChat = async () => {
+      try {
+        const confirmed = window.confirm('Você tem certeza que deseja deletar essa conversa? Todas as mensagens serão perdidas')
+        if(!confirmed) return 
+        await api.delete(`chats/${id}`, {headers})
+        history.push('/chats')
+      } catch(err) {
+        alert(err.response.data.name)
+      }
+    }
+
     return (
         <>
         <NavBar />
@@ -106,7 +117,7 @@ export default function Chat() {
                           {
                             showChatMenu ? (
                               <ul className='chat__options__menu'>
-                                <li className="delete__chat"><RiChatDeleteFill className='post__options__menu__icon' />Deletar</li>
+                                <li className="delete__chat" onClick={deleteChat}><RiChatDeleteFill className='post__options__menu__icon' />Deletar</li>
                               </ul>
                             ) : ''
                           }
