@@ -49,6 +49,7 @@ export default function Feed() {
     const [isPostsFiltered, setPostsFilteredStatus] = useState(false)
     const [filterButtonVisibility, setFilterButtonVisibility] = useState(false)
     const [searchModeOn, setSearchMode] = useState(false)
+    const [reloadComponents, setReloadComponents] = useState(false)
 
     const { id } = useParams();
     const token = localStorage.getItem('userToken')
@@ -65,13 +66,14 @@ export default function Feed() {
             const moderators = mods.map(mod => mod._id)
             if(moderators.includes(userId)) setMod(true)
             setGroupName(name)
-            setPosts(posts)
+            setPosts(posts.reverse())
+            setReloadComponents(false)
           } catch(err) {
             alert(err.response.data.name)
           }
         }
         getMods()
-      }, [postUpdatedTimes, searchModeOn])
+      }, [reloadComponents, searchModeOn])
 
     const getScreenWidth = () => window.screen.availWidth
         
@@ -102,6 +104,7 @@ export default function Feed() {
         const headers = { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data"}
         await api.post(`groups/${id}/posts`, formData, {headers})
         alert('Post criado com sucesso')
+        setReloadComponents(true)
     }
 
     const quitGroup = async () => {
@@ -144,7 +147,7 @@ export default function Feed() {
 
         try {
             await api.patch(`groups/${id}/posts/${postId}`, formData, {headers})
-            setPostUpdatedTimes(postUpdatedTimes + 1)
+            setReloadComponents(true)
         } catch(err) {
             alert(err.response.data.name)
         }
@@ -158,7 +161,7 @@ export default function Feed() {
 
         try {
             await api.patch(`groups/${id}/posts/${postId}`, formData, {headers})
-            setPostUpdatedTimes(postUpdatedTimes + 1)
+            setReloadComponents(true)
         } catch(err) {
             alert(err.response.data.name)
         }
@@ -172,7 +175,7 @@ export default function Feed() {
 
         try {
             await api.patch(`groups/${id}/posts/${postId}/comments/${commentId}`, formData, {headers})
-            setPostUpdatedTimes(postUpdatedTimes + 1)
+            setReloadComponents(true)
         } catch(err) {
             alert(err.response.data.name)
         }
@@ -186,7 +189,7 @@ export default function Feed() {
 
         try {
             await api.patch(`groups/${id}/posts/${postId}/comments/${commentId}`, formData, {headers})
-            setPostUpdatedTimes(postUpdatedTimes + 1)
+            setReloadComponents(true)
         } catch(err) {
             alert(err.response.data.name)
         }
@@ -263,6 +266,7 @@ export default function Feed() {
             const headers = { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data"}
             await api.post(`groups/${id}/posts/${postId}/comments`, formData, {headers})
             alert('Comentário criado com sucesso.')
+            setReloadComponents(true)
         } catch(err) {
             alert(err.response.data.name)
         }
@@ -282,6 +286,7 @@ export default function Feed() {
             if(!isConfirmed) return
             await api.delete(`groups/${id}/posts/${postId}/`, {headers})
             alert('Postagem excluída com sucesso.')
+            setReloadComponents(true)
         } catch(err) {
             alert(err.response.data.name)
         }
@@ -294,6 +299,7 @@ export default function Feed() {
             if(!isConfirmed) return 
             await api.delete(`groups/${id}/posts/${postId}/comments/${commentId}`, {headers})
             alert('Comentário excluído com sucesso.')
+            setReloadComponents(true)
         } catch(err) {
             alert(err.response.data.name)
         }
