@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react'
-
 import setFileButtonProperties from '../utils/setFileButtonProperties'
+import {TiDelete} from 'react-icons/ti'
 
-function FileButton ({file}) {
+function FileButton ({file, edit}) {
     let [icon, setIcon] = useState('')
     let [classname, setClassname] = useState('')
     let [filename, setFilename] = useState('')
@@ -15,8 +15,14 @@ function FileButton ({file}) {
         setClassname(classname)
       }, [])
 
+    const deleteFile = (e) => {
+        const {baseVal} = e.currentTarget.className
+        const [, fileKey] = baseVal.split(' ')
+        console.log('arquivo a ser deletado', fileKey)
+    }
+
     return (
-        <button className={classname}>{icon}{filename}</button>
+        <button type='button' className={classname + ' ' + file}>{icon}{filename}{edit == 'true' ? <TiDelete className={'delete__material__icon' + ' ' + file} onClick={deleteFile} /> : ''}</button>
     )
 }
 

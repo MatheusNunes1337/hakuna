@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect } from 'react'
 import { Link, useParams, useHistory } from 'react-router-dom'
 import api from '../../services/api'
 
@@ -50,6 +50,8 @@ export default function Feed() {
     const [filterButtonVisibility, setFilterButtonVisibility] = useState(false)
     const [searchModeOn, setSearchMode] = useState(false)
     const [reloadComponents, setReloadComponents] = useState(false)
+    const [postEditionMode, setPostEditionMode] = useState(false)
+    const [editablePost, setEditablePost] = useState({})
 
     const { id } = useParams();
     const token = localStorage.getItem('userToken')
@@ -216,10 +218,6 @@ export default function Feed() {
         }
     }
 
-    const boo = () => {
-        alert('oiii')
-    }
-
     const handlePostOptionsMenu = (e) => {
         setTargetId(e.currentTarget.value)
         if(showPostOptionsMenu) {
@@ -338,6 +336,37 @@ export default function Feed() {
         const [, id] = e.currentTarget.className.split(' ')
         history.push(`/${id}`)
     }
+
+    const enablePostEditionMode = async (e) => {
+        const postId = e.currentTarget.className
+        const input = document.getElementsByClassName('form__textarea')[0]
+        try {
+            const {data} = await api.get(`groups/${id}/posts/${postId}`, {headers})
+            const {content, files} = data
+            input.innerHTML = content
+            setContent(content)
+            setEditablePost(data)
+            setPostEditionMode(true)
+            setPostOptionsMenu(false)
+        } catch(err) {
+            alert(err.response.data.name)
+        }
+    }
+
+    const editPost = (e) => {
+        e.preventDefault()
+        console.log('post content', content)
+        console.log('oi')
+    }
+
+    const cancelPostEdition = () => {
+        const input = document.getElementsByClassName('form__textarea')[0]
+        input.innerHTML = ''
+        setPostEditionMode(false)
+        setEditablePost({})
+        setContent('')
+        setFiles([]) 
+    }
     
     return (
         <>
@@ -368,13 +397,33 @@ export default function Feed() {
                             </>
                         ) : ''
                     }
-                    <form action="" className="post__form" onSubmit={handlePost}>
+                    <form action="" className="post__form">
                         <textarea name="description" className="form__textarea" id="group__description" cols="30" rows="7" placeholder='Compartilhe algo com os seus colegas' onChange={e => setContent(e.target.value)}></textarea>
                         <div className='post__btn__wrapper'>
-                            <button className="form__btn">Postar</button>
+                            {
+                                !postEditionMode ? 
+                                <button className="form__btn" onClick={handlePost}>Postar</button> :
+                                <button className="form__btn" onClick={editPost}>Salvar</button>
+                            }
                             <input type="file" id="add_material__btn" name='files' onChange={e => setFiles(e.target.files)} multiple/>
-                            <label for="add_material__btn" className="material__btn"><MdUpload/>Material</label> 
+                            <label for="add_material__btn" className="material__btn"><MdUpload/>Materiais</label> 
+                            {postEditionMode ? <button type='button' className="cancel__post__edtion" onClick={cancelPostEdition}>Cancelar</button> : '' }
                         </div>
+                        {
+                            Object.keys(editablePost).length > 0 && editablePost.files.length > 0 ? 
+                            (
+                                <div className='post__files__wrapper'>
+                                    {
+                                        editablePost.files.length > 0 ?
+                                        editablePost.files.map(file => {
+                                            return (
+                                            <FileButton file={file} edit="true"/>  
+                                            )
+                                        }) : ''
+                                    }
+                                </div>
+                            ) : '' 
+                        }
                     </form>
                     <div className="group__posts">
                     {  posts.length !== 0 ?
@@ -386,14 +435,14 @@ export default function Feed() {
                                     showPostOptionsMenu && targetId == post._id ? 
                                     post.author._id === userId ? (
                                             <ul className='post__options__menu'>
-                                                <li onClick={boo}><MdEdit className='post__options__menu__icon' />Editar</li>
+                                                <li onClick={enablePostEditionMode} className={post._id}><MdEdit className='post__options__menu__icon'/>Editar</li>
                                                 <li onClick={deletePost} className={post._id}><AiFillDelete className='post__options__menu__icon' />Deletar</li>
-                                                <li onClick={boo}><FaHandsHelping className='post__options__menu__icon' />Solicitar ajuda</li>
+                                                <li><FaHandsHelping className='post__options__menu__icon' />Solicitar ajuda</li>
                                             </ul>
                                         ) : (
                                             <ul className='post__options__menu'>
                                                 <li onClick={deletePost} className={post._id}><AiFillDelete className='post__options__menu__icon' />Deletar</li>
-                                                <li onClick={boo}><FaHandsHelping className='post__options__menu__icon' />Solicitar ajuda</li>
+                                                <li><FaHandsHelping className='post__options__menu__icon' />Solicitar ajuda</li>
                                             </ul>
                                         )
                                      : '' 
@@ -466,7 +515,7 @@ export default function Feed() {
                                                             {
                                                                 showCommentOptionsMenu && targetId == comment._id ? (
                                                                     <ul className='comment__options__menu'>
-                                                                        <li onClick={boo}><MdEdit className='comment__options__menu__icon' />Editar comentário</li>
+                                                                        <li><MdEdit className='comment__options__menu__icon' />Editar comentário</li>
                                                                         <li onClick={deleteComment} className={comment._id + ' ' + comment.post}><AiFillDelete className='comment__options__menu__icon' />Deletar comentário</li>
                                                                     </ul>
                                                                 ) : ''

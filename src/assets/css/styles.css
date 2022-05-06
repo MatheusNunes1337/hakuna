@@ -700,7 +700,7 @@ form.user__form .overlay {
     margin-top: 15px;
 }
 
-.post__form .material__btn {
+.post__form .material__btn, .post__form .cancel__post__edtion {
     display: inline-flex;
     padding: 0.65rem 1.2rem;
     font-size: 1rem;
@@ -711,11 +711,16 @@ form.user__form .overlay {
     border-radius: 5px;
     align-items: center;
     gap: 5px;
+    font-weight: bold;
     cursor: pointer;
 }
 
 input[type="file"] {
     display: none;
+}
+
+.post__form .cancel__post__edtion {
+    background-color: var(--blue);
 }
 
 .group__posts {
@@ -1538,6 +1543,11 @@ h3.content__subtitle {
 
 .any__message__yet {
     font-style: italic;
+}
+
+.delete__material__icon {
+    margin-left: 5px;
+    font-size: 1.2rem;
 }
 
 @media (max-width: 1300px) {
