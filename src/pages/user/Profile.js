@@ -4,11 +4,13 @@ import api from '../../services/api'
 
 import { MdBuild } from "react-icons/md";
 import {FaUserAlt} from 'react-icons/fa'
+import {HiUserGroup} from 'react-icons/hi'
 
 import NavBar from '../../components/NavBar'
 import Container from '../../components/Container'
 import Aside from '../../components/Aside'
 import SearchBar from '../../components/SearchBar'
+import Card from '../../components/Card';
 
 export default function Profile() {
     let [profileId, setProfileId] = useState('')
@@ -17,6 +19,7 @@ export default function Profile() {
     let [area, setArea] = useState('')
     let [contributionPoints, setPoints] = useState(0)
     let [profilePic, setProfilePic] = useState('')
+    let [groupsInCommon, setGroups] = useState([])
 
     const history = useHistory()
     const { id } = useParams();
@@ -41,7 +44,18 @@ export default function Profile() {
         }
       }
 
+      const getGroupsInCommon = async () => {
+        try {
+          const {data} = await api.get(`groups?members=${id}`, {headers})
+          const {groups} = data
+          setGroups(groups)
+        } catch(err) {
+          alert(err.response.data.name)
+        }
+      }
+
       getUser()
+      getGroupsInCommon()
     }, [id])
 
     const createChat = async (e) => {
@@ -82,10 +96,29 @@ export default function Profile() {
                         </div>
                     </div>
                 </div>
+                <h3 className='groups__in__common__title'>Grupos em comum</h3>
                 <div className='user__groups__container'>
-                    <MdBuild className='building__icon'/>
-                    <span>Em desenvolvimento</span>
-                </div>
+                {
+                  groupsInCommon.length !== 0 ? 
+                  groupsInCommon.map((group, index) => {
+                    return (
+                    <Card key={index} 
+                    id={group._id} 
+                    title={group.name} 
+                    icon={group.discipline}
+                    members={group.members.length} 
+                    max_members={group.maxMembers}
+                    is_public={group.isPublic}
+                    cardType="search"
+                    />)
+                  }) : (
+                    <>
+                      <HiUserGroup className='any__group__icon'/>
+                      <span>Parece que você ainda não participa de nenhum grupo em comum com {username}</span>
+                    </>
+                  )
+                }
+            </div>
             </div>
           </Container >  
         </main>  

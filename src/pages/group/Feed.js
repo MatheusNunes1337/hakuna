@@ -8,6 +8,7 @@ import { AiFillDislike, AiFillLike, AiOutlineLike, AiOutlineDislike, AiFillDelet
 import { MdEdit, MdUpload, MdClose } from "react-icons/md";
 import {FaBook, FaCommentAlt, FaRegCommentAlt, FaHandsHelping, FaSearch} from 'react-icons/fa'
 import { CgFeed } from "react-icons/cg";
+import {TiDelete} from 'react-icons/ti'
 
 import NavBar from '../../components/NavBar'
 import Container from '../../components/Container'
@@ -51,7 +52,10 @@ export default function Feed() {
     const [searchModeOn, setSearchMode] = useState(false)
     const [reloadComponents, setReloadComponents] = useState(false)
     const [postEditionMode, setPostEditionMode] = useState(false)
+    const [commentEditionMode, setCommentEditionMode] = useState(false)
     const [editablePost, setEditablePost] = useState({})
+    const [editableComment, setEditableComment] = useState({})
+    const [editCommentIds, setEditCommentIds] = useState([])
 
     const { id } = useParams();
     const token = localStorage.getItem('userToken')
@@ -104,8 +108,16 @@ export default function Feed() {
             formData.append('files', file)
         })
         const headers = { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data"}
-        await api.post(`groups/${id}/posts`, formData, {headers})
-        alert('Post criado com sucesso')
+        if(!postEditionMode) {
+            await api.post(`groups/${id}/posts`, formData, {headers})
+            alert('Post criado com sucesso')
+        } else {
+            await api.patch(`groups/${id}/posts/${editablePost._id}`, formData, {headers})
+            alert('Post editado com sucesso')
+            setFiles([])
+            setContent('')
+            setPostEditionMode(false)
+        }
         setReloadComponents(true)
     }
 
@@ -254,7 +266,6 @@ export default function Feed() {
         try {
             const formData = new FormData()
             formData.append('content', commentContent)
-        
             if(Array.from(commentFiles).length > 0) {
                 Array.from(commentFiles).forEach(file => {
                     formData.append('files', file)
@@ -262,8 +273,17 @@ export default function Feed() {
             }
 
             const headers = { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data"}
-            await api.post(`groups/${id}/posts/${postId}/comments`, formData, {headers})
-            alert('Comentário criado com sucesso.')
+            if(!commentEditionMode) {
+                await api.post(`groups/${id}/posts/${postId}/comments`, formData, {headers})
+                alert('Comentário criado com sucesso.')
+            } else {
+                const [postId, commentId] = editCommentIds
+                await api.patch(`groups/${id}/posts/${postId}/comments/${commentId}`, formData, {headers})
+                alert('Comentário editado com sucesso.')
+            }
+            setCommentFiles([])
+            setCommentContent('')
+            setCommentEditionMode(false)
             setReloadComponents(true)
         } catch(err) {
             alert(err.response.data.name)
@@ -339,7 +359,7 @@ export default function Feed() {
 
     const enablePostEditionMode = async (e) => {
         const postId = e.currentTarget.className
-        const input = document.getElementsByClassName('form__textarea')[0]
+        const input = document.getElementsByClassName('form__textarea')[1]
         try {
             const {data} = await api.get(`groups/${id}/posts/${postId}`, {headers})
             const {content, files} = data
@@ -353,21 +373,35 @@ export default function Feed() {
         }
     }
 
-    const editPost = (e) => {
-        e.preventDefault()
-        console.log('post content', content)
-        console.log('oi')
+    const enableCommentEditionMode = async (e) => {
+        const [commentId, postId] = e.currentTarget.className.split(' ')
+        const input = document.getElementsByClassName('form__textarea')[1]
+        try {
+            const {data} = await api.get(`groups/${id}/posts/${postId}/comments/${commentId}`, {headers})
+            const {content, files} = data
+            input.innerHTML = content
+            setCommentContent(content)
+            setEditableComment(data)
+            setCommentEditionMode(true)
+            setCommentOptionsMenu(false)
+            setEditCommentIds([postId, commentId])
+        } catch(err) {
+            alert(err.response.data.name)
+        }
     }
 
-    const cancelPostEdition = () => {
+    const cancelContentEdition = () => {
         const input = document.getElementsByClassName('form__textarea')[0]
         input.innerHTML = ''
         setPostEditionMode(false)
+        setCommentEditionMode(false)
         setEditablePost({})
+        setEditableComment({})
         setContent('')
+        setCommentContent('')
         setFiles([]) 
     }
-    
+
     return (
         <>
         <NavBar />
@@ -399,31 +433,11 @@ export default function Feed() {
                     }
                     <form action="" className="post__form">
                         <textarea name="description" className="form__textarea" id="group__description" cols="30" rows="7" placeholder='Compartilhe algo com os seus colegas' onChange={e => setContent(e.target.value)}></textarea>
-                        <div className='post__btn__wrapper'>
-                            {
-                                !postEditionMode ? 
-                                <button className="form__btn" onClick={handlePost}>Postar</button> :
-                                <button className="form__btn" onClick={editPost}>Salvar</button>
-                            }
+                        <div className='post__btn__wrapper'> 
+                            <button className="form__btn" onClick={handlePost}>Postar</button>
                             <input type="file" id="add_material__btn" name='files' onChange={e => setFiles(e.target.files)} multiple/>
                             <label for="add_material__btn" className="material__btn"><MdUpload/>Materiais</label> 
-                            {postEditionMode ? <button type='button' className="cancel__post__edtion" onClick={cancelPostEdition}>Cancelar</button> : '' }
                         </div>
-                        {
-                            Object.keys(editablePost).length > 0 && editablePost.files.length > 0 ? 
-                            (
-                                <div className='post__files__wrapper'>
-                                    {
-                                        editablePost.files.length > 0 ?
-                                        editablePost.files.map(file => {
-                                            return (
-                                            <FileButton file={file} edit="true"/>  
-                                            )
-                                        }) : ''
-                                    }
-                                </div>
-                            ) : '' 
-                        }
                     </form>
                     <div className="group__posts">
                     {  posts.length !== 0 ?
@@ -515,7 +529,7 @@ export default function Feed() {
                                                             {
                                                                 showCommentOptionsMenu && targetId == comment._id ? (
                                                                     <ul className='comment__options__menu'>
-                                                                        <li><MdEdit className='comment__options__menu__icon' />Editar comentário</li>
+                                                                        <li onClick={enableCommentEditionMode} className={comment._id + ' ' + comment.post}><MdEdit className='comment__options__menu__icon' />Editar comentário</li>
                                                                         <li onClick={deleteComment} className={comment._id + ' ' + comment.post}><AiFillDelete className='comment__options__menu__icon' />Deletar comentário</li>
                                                                     </ul>
                                                                 ) : ''
@@ -573,6 +587,79 @@ export default function Feed() {
                     }
                     </div>
                 </div>
+                <div className={postEditionMode || commentEditionMode ? 'edit__content__modal show__div' : 'edit__content__modal hide__div'}>
+                    <div className='content__title__wrapper'>
+                        <h2 className="content__title">{postEditionMode ? 'Editar postagem' : 'Editar comentário'}</h2>
+                        <TiDelete onClick={cancelContentEdition} className='close__edit__modal' />
+                    </div>
+                    <form action="" className="post__form">
+                        {
+                            postEditionMode ? 
+                            <textarea name="description" className="form__textarea" id="group__description" cols="30" rows="7" onChange={e => setContent(e.target.value)}></textarea> :
+                            <textarea name="description" className="form__textarea" id="group__description" cols="30" rows="7" onChange={e => setCommentContent(e.target.value)}></textarea>
+                        }
+                        <div className='post__btn__wrapper'>
+                            {
+                                postEditionMode ? 
+                                    <button type='button' className="form__btn" onClick={handlePost}>Salvar</button> :
+                                    <button type='button' className="form__btn" onClick={createComment}>Salvar</button>
+                            }
+                            {
+                                postEditionMode ? 
+                                (
+                                    <>
+                                        <input type="file" id="add_material__btn" name='files' onChange={e => setFiles(e.target.files)} multiple/>
+                                        <label for="add_material__btn" className="material__btn"><MdUpload/>Materiais</label> 
+                                    </>
+                                ) :      
+                               (
+                                <>
+                                    <input type="file" id="add_material__comment__btn" name='files' onChange={e => setCommentFiles(e.target.files)} multiple/>
+                                    <label for="add_material__comment__btn" className="material__btn"><MdUpload/>Materiais</label>
+                                </>
+                               ) 
+                            }
+                        </div>
+                        {
+                            postEditionMode ? (
+                                Object.keys(editablePost).length > 0 && editablePost.files.length > 0 ? 
+                                (
+                                    <div className='post__files__wrapper'>
+                                        {
+                                            editablePost.files.length > 0 ?
+                                            editablePost.files.map(file => {
+                                                return (
+                                                <FileButton file={file} edit="true"/>  
+                                                )
+                                            }) : ''
+                                        }
+                                    </div>
+                                ) : ''
+                            ) : (
+                                Object.keys(editableComment).length > 0 && editableComment.files.length > 0 ? 
+                                (
+                                    <div className='post__files__wrapper'>
+                                        {
+                                            editableComment.files.length > 0 ?
+                                            editableComment.files.map(file => {
+                                                return (
+                                                <FileButton file={file} edit="true"/>  
+                                                )
+                                            }) : ''
+                                        }
+                                    </div>
+                                ) : ''
+                            )
+                        }
+                    </form>
+                </div>
+                {
+                    postEditionMode || commentEditionMode ? (
+                    <>
+                        <div className='overlay'></div>
+                    </>
+                    ) : ''
+                }
                 </Container >  
             </main>
         </>

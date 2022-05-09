@@ -1462,11 +1462,14 @@ h3.content__subtitle {
 .user__groups__container {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
     gap: 10px;
     height: 300px;
-    margin-top: 20px;
+    margin-top: 10px;
+}
+
+h3.groups__in__common__title {
+    color: var(--black);
+    margin-top: 50px;
 }
 
 .user__groups__container .building__icon {
@@ -1548,6 +1551,53 @@ h3.content__subtitle {
 .delete__material__icon {
     margin-left: 5px;
     font-size: 1.2rem;
+}
+
+.edit__content__modal {
+    position: fixed;
+    width: 55%;
+    min-height: 400px;
+    height: auto;
+    padding: 2rem 3rem;
+    background-color: white;
+    margin-left: auto; 
+    margin-right: auto; 
+    border-radius: 5px;
+    border: 2px solid var(--ice-2);
+    z-index: 10;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+}
+
+.edit__content__modal > form {
+    margin-top: 20px;
+}
+
+.overlay {
+    position: fixed; /* Sit on top of the page content */
+   /* Hidden by default */
+    width: 100%; /* Full width (cover the whole page) */
+    height: 100%; /* Full height (cover the whole page) */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+    z-index: 5;
+}
+
+.hide__div {
+    display: none;
+}
+
+.show__div {
+    display: block;
+}
+
+.close__edit__modal {
+    font-size: 1.7rem;
+    cursor: pointer;
 }
 
 @media (max-width: 1300px) {
@@ -1651,7 +1701,7 @@ h3.content__subtitle {
     }
 
     .post__form .post__btn__wrapper button.form__btn {
-        width: 15%;
+        width: 30%;
     }
 
     .group__options__link, .group__options__btn {
@@ -1761,6 +1811,10 @@ h3.content__subtitle {
         justify-content: center;
         flex-direction: column;
     }
+
+    .edit__content__modal {
+        width: 90%;
+    }
 }
 
 @media (max-width: 460px) {
@@ -1804,7 +1858,7 @@ h3.content__subtitle {
     }
 
     .post__form .post__btn__wrapper button.form__btn {
-        width: 30%;
+        width: 70%;
     }
 
     /*
