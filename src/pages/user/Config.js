@@ -70,7 +70,11 @@ export default function UserConfig() {
     }
 
     const showPasswordField = () => {
-      setVisibility('false')
+      if(hidePassField === 'true') {
+        setVisibility('false')
+      } else {
+        setVisibility('true')
+      }
     }
 
     const deleteAccount = async () => {
@@ -139,7 +143,7 @@ export default function UserConfig() {
                           <div className="form__group">
                             <label htmlFor="password" className="form__label">Senha:</label>
                             <input type="password" className="form__input" onChange={e => setPassword(e.target.value)} />
-                            <button type="button" className="password__btn" onClick={changePassword}><FaSave className="form__icon"/></button>
+                            {password && password.length >= 6 ? <button title='salvar senha' type="button" className="password__btn" onClick={changePassword}><FaSave className="form__icon"/></button> : ''}
                           </div>
                         </>    
                         ) 
