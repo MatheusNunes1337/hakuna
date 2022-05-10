@@ -638,6 +638,53 @@ form.user__form .overlay {
     font-weight: bold;
 }
 
+.topics__wrapper {
+    display: flex;
+}
+
+.add__tag__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 16px;
+    border: unset;
+    cursor: pointer;
+    margin-left: 10px;
+    border-radius: 5px;
+    background-color: var(--black);
+    color: white;
+    font-size: 1rem;
+}
+
+.create__group__topics__wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 1.1rem;
+    width: 75%;
+    gap: 5px;
+}
+
+.create__group__topic {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: .3rem .5rem;
+    background-color:var(--blue);
+    color: white;
+    font-size: .9rem;
+    font-weight: bold;
+    border-radius: 5px;
+    border: unset;
+    margin-right: 5px;
+}
+
+.delete__topic__icon {
+    align-self: center;
+    font-weight: bold;
+    cursor: pointer;
+}
+
 /* feed */
 
 .group__options{
@@ -1698,7 +1745,7 @@ h3.groups__in__common__title {
     .user__form .form__select,
     .user__form .form__btn,
     .post__form .form__textarea, 
-    .enter__group__form .form__btn, .enter__group__form .form__input {
+    .enter__group__form .form__btn, .enter__group__form .form__input, .create__group__topics__wrapper {
         width: 100%;
     }
 
