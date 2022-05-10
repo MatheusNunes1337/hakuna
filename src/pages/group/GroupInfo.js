@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useParams, useHistory, Redirect } from 'react-router-dom'
+import { useParams, useHistory, Redirect, Link } from 'react-router-dom'
 import api from '../../services/api'
 
 import NavBar from '../../components/NavBar'
@@ -66,7 +66,7 @@ function GroupInfo() {
                    {description}
                </p>
                {  topics.map(topic => {
-                      return (<span className="group__topic">#{topic}</span>)
+                      return (<Link className="group__topic" to={`/search/groups?query=${topic}`}>#{topic}</Link>)
                   })        
                }
                <form action="" className="enter__group__form" onSubmit={handleGroup}>

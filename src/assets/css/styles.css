@@ -562,6 +562,8 @@ a.sidebar__links:focus {
     font-size: .9rem;
     font-weight: bold;
     border-radius: 15px;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 .group__topic:not(:last-child) {
