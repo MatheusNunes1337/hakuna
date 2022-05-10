@@ -460,6 +460,7 @@ a.sidebar__links:focus {
     border: 0.8px solid var(--ice-3);
     background-color: white;
     text-decoration: none;
+    cursor: pointer;
     /*box-shadow: 1px 1px var(--ice-2);*/
 }
 
@@ -571,7 +572,7 @@ a.sidebar__links:focus {
 }
 
 .enter__group__form {
-    margin-top: 2.4rem;
+    margin-top: 15px;
 }
 
 .enter__group__form .form__input {
@@ -581,7 +582,11 @@ a.sidebar__links:focus {
 }
 
 .enter__group__form .form__btn {
-    width: 15%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 18%;
+    font-size: 1rem;
     border-radius: 5px;
 }
 
@@ -1602,7 +1607,7 @@ h3.groups__in__common__title {
     font-size: 1.2rem;
 }
 
-.edit__content__modal {
+.edit__content__modal, .group__info__modal {
     position: fixed;
     width: 55%;
     min-height: 400px;
@@ -1621,6 +1626,52 @@ h3.groups__in__common__title {
 
 .edit__content__modal > form {
     margin-top: 20px;
+}
+
+.group__info__modal .modal__body__description {
+    margin-top: 15px;
+    text-align: justify;
+}
+
+.group__info__modal .group__infos {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.group__info__modal .group__members {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.group__info__modal .group__favorites {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.group__info__modal .group__favorites::before {
+    content: url('../images/lover.png');
+}
+
+.group__info__modal .group__members::before {
+    content: url('../images/meeting.png');
+}
+
+.group__info__modal .group__privacy {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.group__info__modal .private::before {
+    content: url('../images/lock.png');
+}
+
+.group__info__modal .public::before {
+    content: url('../images/unlocked.png');
 }
 
 .overlay {

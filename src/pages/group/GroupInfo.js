@@ -8,6 +8,8 @@ import Aside from '../../components/Aside'
 import SearchBar from '../../components/SearchBar'
 import setGroupIcon from '../../utils/setGroupIcon'
 
+import {ImEnter} from 'react-icons/im'
+
 function GroupInfo() {
     let [name, setName] = useState('')
     let [description, setDescription] = useState('')

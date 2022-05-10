@@ -72,7 +72,9 @@ function GetGroups() {
                   return (
                   <Card key={index} 
                   id={group._id} 
-                  title={group.name} 
+                  title={group.name}
+                  description={group.description}
+                  topics={group.topics} 
                   icon={group.discipline}
                   members={group.members.length} 
                   max_members={group.maxMembers}
