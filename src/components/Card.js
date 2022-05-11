@@ -125,8 +125,8 @@ function Card({id, icon, title, max_members, is_public, members, topics, search,
         <img src={cardIcon} alt="card-image" className="card__image" />
         <div className="card__content">
             <h2 className="card__title">{title}</h2>
-            <div className="card__details">
-              {
+          <div className="card__details">
+                {
                 is_public.toString() === 'false' 
                 ? (
                   <span className="card__detail"><RiLock2Fill className="card__detail__icon" />Privado</span>

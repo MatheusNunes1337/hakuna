@@ -8,7 +8,7 @@ import { AiFillDislike, AiFillLike, AiOutlineLike, AiOutlineDislike, AiFillDelet
 import { MdEdit, MdUpload, MdClose } from "react-icons/md";
 import {FaBook, FaCommentAlt, FaRegCommentAlt, FaHandsHelping, FaSearch} from 'react-icons/fa'
 import { CgFeed } from "react-icons/cg";
-import {TiDelete} from 'react-icons/ti'
+import {IoClose} from 'react-icons/io5'
 
 import NavBar from '../../components/NavBar'
 import Container from '../../components/Container'
@@ -589,8 +589,8 @@ export default function Feed() {
                 </div>
                 <div className={postEditionMode || commentEditionMode ? 'edit__content__modal show__div' : 'edit__content__modal hide__div'}>
                     <div className='content__title__wrapper'>
-                        <h2 className="content__title">{postEditionMode ? 'Editar postagem' : 'Editar comentário'}</h2>
-                        <TiDelete onClick={cancelContentEdition} className='close__edit__modal' />
+                        <h2 className="content__title"><MdEdit />{postEditionMode ? 'Editar postagem' : 'Editar comentário'}</h2>
+                        <IoClose onClick={cancelContentEdition} className='close__edit__modal' />
                     </div>
                     <form action="" className="post__form">
                         {
