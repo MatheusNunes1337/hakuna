@@ -6,6 +6,8 @@ import { MdBuild } from "react-icons/md";
 import {FaUserAlt} from 'react-icons/fa'
 import {HiUserGroup} from 'react-icons/hi'
 
+import profile from '../../assets/images/profile.png'
+
 import NavBar from '../../components/NavBar'
 import Container from '../../components/Container'
 import Aside from '../../components/Aside'
@@ -78,7 +80,8 @@ export default function Profile() {
             <Aside />
             <div className="content">
               <div className='content__title__wrapper'>
-                  <h2 className="content__title"><FaUserAlt />{userId == id ? 'Meu perfil' : 'Perfil'}</h2>
+                <img src={profile} className='title__icon' />
+                <h2 className="content__title">{userId == id ? 'Meu perfil' : 'Perfil'}</h2>
               </div>
                 <div className='user__info__container'>
                     <img src={profilePic} className="user__profile__pic" />

@@ -10,6 +10,7 @@ import SearchBar from '../../components/SearchBar'
 import {FaSave} from 'react-icons/fa'
 import { MdAddAPhoto } from "react-icons/md";
 import { BsFillGearFill } from "react-icons/bs";
+import settings from '../../assets/images/config.png'
 
 export default function UserConfig() {
     let [username, setUsername] = useState('')
@@ -111,12 +112,13 @@ export default function UserConfig() {
             <Aside />
             <div className="content">
                 <div className='content__title__wrapper'>
-                  <h2 className="content__title"><BsFillGearFill />Configurações da conta</h2>
+                  <img src={settings} className='title__icon' />
+                  <h2 className="content__title">Configurações da conta</h2>
                 </div>
                 <form action="" className="user__form" onSubmit={handleUser}>
                 <picture className='form__user__pic__wrapper'>
                   <input type="file" id="add_pic__btn" name='profilePic' onChange={changeUserPic} />
-                  <label for="add_pic__btn" className="overlay"><MdAddAPhoto className='form__user__pic__icon' /></label>
+                  <label for="add_pic__btn" className="profile__pic__overlay"><MdAddAPhoto className='form__user__pic__icon' /></label>
                   {
                     showSavePicButton ? (<img src={URL.createObjectURL(profilePic)} alt="foto de perfil" className="user__form__pic"/>) : (
                     <img src={profilePic} className="user__form__pic"/>

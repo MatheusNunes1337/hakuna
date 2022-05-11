@@ -6,6 +6,8 @@ import api from '../services/api'
 import { BsFillChatFill, BsThreeDots } from "react-icons/bs";
 import {IoSend} from 'react-icons/io5'
 import {RiChatDeleteFill} from 'react-icons/ri'
+import {MdOutlineArrowBack} from 'react-icons/md'
+import chat from '../assets/images/chat.png'
 
 import NavBar from '../components/NavBar'
 import Container from '../components/Container'
@@ -111,8 +113,9 @@ export default function Chat() {
                     <SearchBar />
                     <Aside />
                     <div className="content">
-                        <div className='content__title__wrapper' style={{display: 'flex', justifyContent: 'space-between', position: 'relative'}}> 
-                          <h2 className="content__title"><BsFillChatFill />{messageTarget}</h2>
+                        <div className='content__title__wrapper' style={{display: 'flex', justifyContent: 'space-between', position: 'relative'}}>
+                          <Link to='/chats' className="group__back" title='voltar' ><MdOutlineArrowBack className="back__icon"/></Link> 
+                          <h2 className="content__title">{messageTarget}</h2>
                           <BsThreeDots className='chat__options__icon' onClick={handleChatMenu}/>
                           {
                             showChatMenu ? (
@@ -135,7 +138,7 @@ export default function Chat() {
                                 )
                               }) : (
                                     <>
-                                        <BsFillChatFill className="any__user__icon"/>
+                                        <img src={chat} className="any__user__icon"/>
                                         <span>Parece que você ainda não trocou mensagens com {messageTarget}</span>
                                     </>
                                 ) 

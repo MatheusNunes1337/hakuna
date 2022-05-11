@@ -2,11 +2,9 @@ import React, {useState, useEffect} from 'react'
 import { Link, useParams, useHistory } from 'react-router-dom'
 import api from '../../services/api'
 
-
 import {FaBook} from 'react-icons/fa'
 import {MdDownload} from 'react-icons/md'
 import {MdOutlineArrowBack} from 'react-icons/md'
-
 
 import NavBar from '../../components/NavBar'
 import Container from '../../components/Container'
@@ -14,6 +12,9 @@ import Aside from '../../components/Aside'
 import SearchBar from '../../components/SearchBar'
 import FileButton from '../../components/FileDownloadButton';
 import setFileButtonProperties from '../../utils/setFileButtonProperties';
+
+import book from '../../assets/images/books.png'
+import downloadIcon from '../../assets/images/download.png'
 
 const getFilename = (file) => {
     const [filename, ext] = file.split('.')
@@ -93,7 +94,7 @@ export default function Files() {
                 <div className="content">
                     <div className='content__title__wrapper'>
                         <Link to={`group/${id}`} className="group__back" title='voltar' ><MdOutlineArrowBack className="back__icon"/></Link>
-                        <h2 className="content__title">Materiais <FaBook /></h2>
+                        <h2 className="content__title">Materiais <img src={book} className='title__colorful__icon' /></h2>
                     </div>
                     {
                         files.length !== 0 ? (
@@ -115,7 +116,7 @@ export default function Files() {
                                                         <td>{getFilename(file.file)}</td>
                                                         <td>{getFileIcon(file.file)}</td>
                                                         <td>{file.creationDate}</td>
-                                                        <td><button className='download__file__btn' value={file.file} onClick={downloadFile}><MdDownload className='download__file__icon'/>download</button></td>
+                                                        <td><button className='download__file__btn' value={file.file} onClick={downloadFile}><img src={downloadIcon} className="group__options__icon"/>baixar</button></td>
                                                     </tr>
                                                 )
                                             })
@@ -125,7 +126,7 @@ export default function Files() {
                             </div>
                             ) : (
                                 <div className='empty__files__container'>
-                                    <FaBook className='any__file__icon'/>
+                                    <img src={book} className="any__user__icon"/>
                                     <span>Parece que ainda não foi compartilhado nenhum material nesse grupo</span>
                                 </div>
                             )

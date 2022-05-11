@@ -308,8 +308,12 @@ main {
     font-weight: bold;
 }
 
-.sidebar__menu, .user__menu {
+.user__menu {
     margin-top: 3rem;
+}
+
+.sidebar__menu {
+    margin-top: 2rem;
 }
 
 
@@ -347,6 +351,14 @@ a.sidebar__links:focus {
 
 .sidebar__link__icon,  .user__link__icon {
     margin-right: .8rem;
+    width: 25px;
+    height: 25px;
+}
+
+.title__colorful__icon {
+    margin-right: 0px;
+    width: 30px;
+    height: 30px;
 }
 
 .hidden__menu {
@@ -436,13 +448,15 @@ a.sidebar__links:focus {
 }
 
 .any__group .any__group__icon, .empty__files__container .any__file__icon, .any__user__icon {
-    font-size: 2.5rem;
-    color: var(--ice-3);
+    /*font-size: 2.5rem;
+    color: var(--ice-3);*/
+    width: 42px;
+    height: 42px;
 }
 
-.any__group > span, .empty__files__container span, .any__user > span {
+.any__group > span, .empty__files__container span, .any__user > span, .any__chat > span {
     display: block;
-    font-size: 1.2rem;
+    font-size: 1.15rem;
     font-weight: bold;
     text-align: center;
     color: var(--ice-3);
@@ -616,7 +630,7 @@ a.sidebar__links:focus {
     border: 5px solid var(--blue);
 }
 
-form.user__form .overlay {
+form.user__form .profile__pic__overlay {
     background-color: #7ADFBB;
     display: flex;
     align-items: center;
@@ -633,7 +647,7 @@ form.user__form .overlay {
     margin: 0 auto;
 }
 
-.form__user__pic__wrapper:hover .overlay {
+.form__user__pic__wrapper:hover .profile__pic__overlay {
     opacity: 1;
 }
 
@@ -726,13 +740,19 @@ form.user__form .overlay {
 
 .group__options__icon {
     margin-right: 5px;
+    width: 22px;
+    height: 22px;
 }
 
-.post__form .form__textarea {
+.post__form .form__textarea{
     width: 100%;
     text-indent: 10px;
     color: var(--black);
-    
+}
+
+.group__form input, .group__form .form__textarea, .user__form input {
+    text-indent: 10px;
+    color: var(--black);
 }
 
 .form__button__group {
@@ -769,6 +789,10 @@ form.user__form .overlay {
     cursor: pointer;
 }
 
+.post__form .material__btn {
+    gap: 0px;
+}
+
 input[type="file"] {
     display: none;
 }
@@ -795,7 +819,7 @@ input[type="file"] {
 .group__feed__message {
     font-size: clamp(1rem, 1vw + 0.5rem, 1.15rem);
     font-weight: bold;
-    color: var(--black);
+    color: var(--ice-3);
 }
 
 /*user config */
@@ -1146,6 +1170,8 @@ h3.content__subtitle {
 
 .post__options__menu__icon, .comment__options__menu__icon {
     margin-right: 6px;
+    width: 18px;
+    height: 18px;
 }
 
 .post__item .post__author__img, .comment__container .post__author__img {
@@ -1282,7 +1308,9 @@ h3.content__subtitle {
 .material__comment__icon {
     display: inline-block;
     position: absolute;
-    right: 15px;
+    right: 10px;
+    width: 18px;
+    height: 18px;
     font-size: 1rem;
     top: 50%;
     -ms-transform: translate(-50%, -50%);
@@ -1311,6 +1339,7 @@ h3.content__subtitle {
     font-size: 0.9rem;
     border-radius: 5px;
     color: white;
+    background-color: var(--black);
     cursor: pointer;
 }
 
@@ -1319,6 +1348,7 @@ h3.content__subtitle {
     font-size: .8rem;
 }
 
+/* 
 .pdf__file {
     background-color: red;
 }
@@ -1331,9 +1361,14 @@ h3.content__subtitle {
     background-color: #2AAE9A;
 }
 
+*/
+
 .file__btn__icon {
     margin-right: 4px;
+    width: 18px;
+    height: 18px;
 }
+
 
 .comment__container {
     width: 100%;
@@ -1406,6 +1441,7 @@ h3.content__subtitle {
    margin-top: 20px;
    border-collapse: collapse;
    border: 1px solid #ddd;
+   border-radius: 5px;
 }
 
 .files__container > table th {
@@ -1428,14 +1464,15 @@ h3.content__subtitle {
 
 .files__table td > button {
     display: inline-flex;
-    gap: 3px;
+    gap: 0px;
     align-items: center;
-    padding: 6px 8px;
+    padding: 6px 9px;
     background-color: var(--black);
     color: white;
     font-size: 0.9rem;
     border: none;
     cursor: pointer;
+    border-radius: 5px;
 }
 
 .files__table .file__btn__icon {
@@ -1471,6 +1508,7 @@ h3.content__subtitle {
     display: block;
     font-size: 1.65rem;
     font-weight: bold;
+    color: var(--black);
 }
 
 .user__info__container .user__profile__area {  
@@ -1699,6 +1737,26 @@ h3.groups__in__common__title {
 .close__edit__modal {
     font-size: 1.7rem;
     cursor: pointer;
+}
+
+.sunny, .moon, .title__icon {
+    width: 35px;
+    height: 35px;
+}
+
+.with__icon {
+    flex-grow: 0;
+}
+
+.crown {
+    width: 35px;
+    height: 35px;
+    background-color: red;
+}
+
+.post__reaction__icons {
+    width: 18px;
+    height: 18px;
 }
 
 @media (max-width: 1300px) {

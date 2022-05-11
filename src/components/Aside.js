@@ -8,6 +8,11 @@ import { BsFillChatLeftFill, BsFillGearFill, BsFillChatFill } from "react-icons/
 import { IoNotifications } from "react-icons/io5";
 
 import studentPic from '../assets/images/student.png'
+import profile from '../assets/images/profile.png'
+import favorite from '../assets/images/touch.png'
+import chat from '../assets/images/chat.png'
+import settings from '../assets/images/config.png'
+import help from '../assets/images/help.png'
 
 function Aside() {
   let [username, setUsername] = useState('')
@@ -41,11 +46,11 @@ function Aside() {
         </picture>
         <span className="sidebar__username">{username}</span>
         <ul className="sidebar__menu">
-          <li className="sidebar__links"><Link to={`/${id}`} className="sidebar__link"><FaUserAlt className="sidebar__link__icon"/>Perfil</Link></li>
-          <li className="sidebar__links"><Link to="/home" className="sidebar__link"><HiUserGroup className="sidebar__link__icon"/>Grupos</Link></li>
-          <li className="sidebar__links"><Link to="/chats" className="sidebar__link"><BsFillChatFill className="sidebar__link__icon"/>Conversas</Link></li>
-          {type == 'teacher'? <li className="sidebar__links"><Link to="/home" className="sidebar__link"><FaHandsHelping className="sidebar__link__icon"/>Solicitações de ajuda</Link></li> : ''}
-          <li className="sidebar__links"><Link to="/user/config" className="sidebar__link"><BsFillGearFill className="sidebar__link__icon"/>Configurações</Link></li>
+          <li className="sidebar__links"><Link to={`/${id}`} className="sidebar__link"><img src={profile} className="sidebar__link__icon"/>Perfil</Link></li>
+          <li className="sidebar__links"><Link to="/home" className="sidebar__link"><img src={favorite} className="sidebar__link__icon"/>Grupos favoritos</Link></li>
+          <li className="sidebar__links"><Link to="/chats" className="sidebar__link"><img src={chat} className="sidebar__link__icon"/>Conversas</Link></li>
+          {type == 'teacher'? <li className="sidebar__links"><Link to="/home" className="sidebar__link"><img src={help} className="sidebar__link__icon"/>Solicitações de ajuda</Link></li> : ''}
+          <li className="sidebar__links"><Link to="/user/config" className="sidebar__link"><img src={settings} className="sidebar__link__icon"/>Configurações</Link></li>
         </ul>
     </aside> 
   )

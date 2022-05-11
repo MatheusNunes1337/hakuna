@@ -12,10 +12,18 @@ import { BsFillChatLeftFill, BsFillGearFill } from "react-icons/bs";
 import { IoNotifications } from "react-icons/io5";
 
 import studentPic from '../assets/images/student.png'
+import crown from '../assets/images/crown.png'
+import profile from '../assets/images/profile.png'
+import favorite from '../assets/images/touch.png'
+import chat from '../assets/images/chat.png'
+import settings from '../assets/images/config.png'
+import help from '../assets/images/help.png'
+import addIcon from '../assets/images/add.png'
 
 function NavBar() {
   let [hiddenMenu, setVisibility] = useState(true)
   let [username, setUsername] = useState('')
+  let [type, setType] = useState('')
   const history = useHistory()
 
   const id =  localStorage.getItem('userId')
@@ -26,7 +34,8 @@ function NavBar() {
     const getUser = async () => {
       try {
         const {data} = await api.get(`users/${id}`, {headers})
-        const {username} = data
+        const {username, type} = data
+        setType(type)
         setUsername(username)
       } catch(err) {
         alert(err.response.data.error)
@@ -72,13 +81,13 @@ function NavBar() {
               </picture>
               <span className="hidden__menu__username">{username}</span>
               <ul className="user__menu">
-                <li className="user__links"><Link to="/create-group" className="user__link"><BiMessageSquareAdd className="user__link__icon"/>Grupo</Link></li>
-                <li className="user__links"><Link to="/home" className="user__link"><FaCrown className="user__link__icon" />Ranking</Link></li>
-                <li className="user__links"><Link to="/home" className="user__link"><FaUserAlt className="user__link__icon"/>Perfil</Link></li>
-                <li className="user__links"><Link to="/home" className="user__link"><HiUserGroup className="user__link__icon"/>Grupos</Link></li>
-                <li className="user__links"><Link to="/home" className="user__link"><BsFillChatLeftFill className="user__link__icon"/>Conversas</Link></li>
-                <li className="user__links"><Link to="/home" className="user__link"><IoNotifications className="user__link__icon"/>Notificações</Link></li>
-                <li className="user__links"><Link to="/user/config" className="user__link"><BsFillGearFill className="user__link__icon"/>Configurações</Link></li>
+                <li className="user__links"><Link to="/create-group" className="user__link"><img src={addIcon} className="user__link__icon"/>Novo grupo</Link></li>
+                <li className="user__links"><Link to="/home" className="user__link"><img src={crown} className="user__link__icon"/>Ranking</Link></li>
+                <li className="user__links"><Link to="/home" className="user__link"><img src={profile} className="user__link__icon"/>Perfil</Link></li>
+                <li className="user__links"><Link to="/home" className="user__link"><img src={favorite} className="user__link__icon"/>Grupos</Link></li>
+                <li className="user__links"><Link to="/home" className="user__link"><img src={chat} className="user__link__icon"/>Conversas</Link></li>
+                {type == 'teacher'? <li className="sidebar__links"><Link to="/home" className="sidebar__link"><img src={help} className="user__link__icon"/>Solicitações de ajuda</Link></li> : ''}
+                <li className="user__links"><Link to="/user/config" className="user__link"><img src={settings} className="user__link__icon"/>Configurações</Link></li>
                 <button className="user__menu__btn"><HiLogout className="user__menu__btn__icon" onClick={logout}/>Sair</button>
               </ul>
             </div>

@@ -3,6 +3,7 @@ import { Link, useParams, useHistory } from 'react-router-dom'
 import api from '../services/api'
 
 import { BsFillChatFill } from "react-icons/bs";
+import chat from '../assets/images/chat.png'
 
 import NavBar from '../components/NavBar'
 import Container from '../components/Container'
@@ -40,7 +41,7 @@ export default function GetChats() {
                     <Aside />
                     <div className="content">
                         <div className='content__title__wrapper'> 
-                          <h2 className="content__title"><BsFillChatFill />Minhas conversas</h2>
+                          <h2 className="content__title"><img src={chat} className='title__icon' />Minhas conversas</h2>
                         </div>
                         <div className={chats.length !== 0 ? "chat__container" : "chat__container any__chat"}>
                             {
@@ -59,7 +60,7 @@ export default function GetChats() {
                                   })
                                  : (
                                     <>
-                                        <BsFillChatFill className="any__user__icon"/>
+                                        <img src={chat} className="any__user__icon"/>
                                         <span>Parece que você ainda não trocou mensagens com nenhum usuário</span>
                                     </>
                                 ) 

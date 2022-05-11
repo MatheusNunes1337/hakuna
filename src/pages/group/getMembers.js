@@ -14,6 +14,8 @@ import {MdOutlineArrowBack} from 'react-icons/md'
 import { Alert } from 'bootstrap'
 import {HiUserGroup} from 'react-icons/hi'
 
+import group from '../../assets/images/group.png'
+
 export default function Membros() {
     const { id } = useParams();
     const token = localStorage.getItem('userToken')
@@ -152,7 +154,7 @@ export default function Membros() {
                     <div className="content">
                         <div className='content__title__wrapper'>
                             <Link to={`group/${id}`} className="group__back" title='voltar' ><MdOutlineArrowBack className="back__icon"/></Link>
-                            <h2 className="content__title">Membros <HiUserGroup /></h2>
+                            <h2 className="content__title">Membros <img src={group} className='title__colorful__icon' /></h2>
                         </div>
                         <div className='member__container'>
                             <div className='mod__container'>

@@ -16,6 +16,25 @@ import Aside from '../../components/Aside'
 import SearchBar from '../../components/SearchBar'
 import FileButton from '../../components/FileDownloadButton';
 
+import group from '../../assets/images/group.png'
+import searchIcon from '../../assets/images/search.png'
+import book from '../../assets/images/books.png'
+import settings from '../../assets/images/settings.png'
+import leave from '../../assets/images/leave.png'
+import upload from '../../assets/images/upload.png'
+import dislike from '../../assets/images/dislike.png'
+import dislike_outline from '../../assets/images/dislike_outline.png'
+import like from '../../assets/images/like.png'
+import like_outline from '../../assets/images/like_outline.png'
+import comment from '../../assets/images/comment.png'
+import comment_outline from '../../assets/images/comment_outline.png'
+import addMaterial from '../../assets/images/add_material.png'
+import editComment from '../../assets/images/edit_comment.png'
+import editPost from '../../assets/images/editing.png'
+import deleteIcon from '../../assets/images/trash.png'
+import requestHelp from '../../assets/images/request_help.png'
+import postIcon from '../../assets/images/post.png'
+
 export default function Feed() {
     const [posts, setPosts] = useState([])
     const [groupName, setGroupName] = useState('')
@@ -411,14 +430,14 @@ export default function Feed() {
                 <Aside />
                 <div className="content">
                     <div className='content__title__wrapper'>
-                        <h2 className="content__title"><HiUserGroup />{groupName}</h2>
+                        <h2 className="content__title"><img src={group} className='title__colorful__icon' />{groupName}</h2>
                     </div>
                     <div className="group__options">
-                        <Link to={`/group/${id}/members`} className="group__options__link"><HiUsers className="group__options__icon"/>Membros</Link>
-                        <button className="group__options__btn" style={showSearchInput ? {backgroundColor: '#3799CE'} : {backgroundColor: '#464646'}} onClick={handleSearchInput}><FaSearch className="group__options__icon"/>Buscar</button>
-                        <Link to={`/group/${id}/files`} className="group__options__link"><FaBook className="group__options__icon"/>Materiais</Link>
-                        {!isMod ? '' : <Link to={`/group/${id}/config`} className="group__options__link"><BsFillGearFill className="group__options__icon"/>Configurações</Link>}
-                        <button className="group__options__btn" onClick={quitGroup}><HiLogout className="group__options__icon"/>Sair</button>
+                        <Link to={`/group/${id}/members`} className="group__options__link"><img src={group} className="group__options__icon"/>Membros</Link>
+                        <button className="group__options__btn" style={showSearchInput ? {backgroundColor: '#3799CE'} : {backgroundColor: '#464646'}} onClick={handleSearchInput}><img src={searchIcon} className="group__options__icon"/>Buscar</button>
+                        <Link to={`/group/${id}/files`} className="group__options__link"><img src={book} className="group__options__icon"/>Materiais</Link>
+                        {!isMod ? '' : <Link to={`/group/${id}/config`} className="group__options__link"><img src={settings} className="group__options__icon"/>Configurações</Link>}
+                        <button className="group__options__btn" onClick={quitGroup}><img src={leave} className="group__options__icon"/>Sair</button>
                     </div>
                     {
                         showSearchInput ? (
@@ -436,7 +455,7 @@ export default function Feed() {
                         <div className='post__btn__wrapper'> 
                             <button className="form__btn" onClick={handlePost}>Postar</button>
                             <input type="file" id="add_material__btn" name='files' onChange={e => setFiles(e.target.files)} multiple/>
-                            <label for="add_material__btn" className="material__btn"><MdUpload/>Materiais</label> 
+                            <label for="add_material__btn" className="material__btn"><img src={upload} className="group__options__icon"/>Materiais</label> 
                         </div>
                     </form>
                     <div className="group__posts">
@@ -449,14 +468,14 @@ export default function Feed() {
                                     showPostOptionsMenu && targetId == post._id ? 
                                     post.author._id === userId ? (
                                             <ul className='post__options__menu'>
-                                                <li onClick={enablePostEditionMode} className={post._id}><MdEdit className='post__options__menu__icon'/>Editar</li>
-                                                <li onClick={deletePost} className={post._id}><AiFillDelete className='post__options__menu__icon' />Deletar</li>
-                                                <li><FaHandsHelping className='post__options__menu__icon' />Solicitar ajuda</li>
+                                                <li onClick={enablePostEditionMode} className={post._id}><img src={editPost} className='post__options__menu__icon' />Editar postagem</li>
+                                                <li onClick={deletePost} className={post._id}><img src={deleteIcon} className='post__options__menu__icon' />Deletar postagem</li>
+                                                <li><img src={requestHelp} className='post__options__menu__icon' />Solicitar ajuda</li>
                                             </ul>
                                         ) : (
                                             <ul className='post__options__menu'>
-                                                <li onClick={deletePost} className={post._id}><AiFillDelete className='post__options__menu__icon' />Deletar</li>
-                                                <li><FaHandsHelping className='post__options__menu__icon' />Solicitar ajuda</li>
+                                                <li onClick={deletePost} className={post._id}><img src={deleteIcon} className='post__options__menu__icon' />Deletar postagem</li>
+                                                <li><img src={requestHelp} className='post__options__menu__icon' />Solicitar ajuda</li>
                                             </ul>
                                         )
                                      : '' 
@@ -477,17 +496,17 @@ export default function Feed() {
                                     {
                                         screenWidth > 200 ? (
                                             <>
-                                                <button onClick={performPostLike} value={post._id}>{post.likes.includes(userId) ? <AiFillLike /> : <AiOutlineLike />}{post.likes.length}</button>
-                                                <button onClick={performPostDeslike} value={post._id}>{post.deslikes.includes(userId) ? <AiFillDislike /> : <AiOutlineDislike /> }{post.deslikes.length}</button>
-                                                <button onClick={handleCommentInput} value={post._id} >{commentTargetId == post._id ? <FaCommentAlt /> : <FaRegCommentAlt />}Comentar</button>
-                                                {post.files.length > 0 ? <button onClick={handlePostFilesSection} value={post._id}>{materialIcon}Materiais</button> : ''}
+                                                <button onClick={performPostLike} value={post._id}>{post.likes.includes(userId) ? <img src={like} style={{marginTop: '-5px', height: '20px', width: '20px'}} className="post__reaction__icons"/> : <img src={like_outline} style={{marginTop: '-5px', height: '20px', width: '20px'}} className="post__reaction__icons" />}{post.likes.length}</button>
+                                                <button onClick={performPostDeslike} value={post._id}>{post.deslikes.includes(userId) ? <img src={dislike} style={{marginTop: '3px'}} className="post__reaction__icons"/> : <img src={dislike_outline} style={{marginTop: '3px'}} className="post__reaction__icons" /> }{post.deslikes.length}</button>
+                                                <button onClick={handleCommentInput} value={post._id} ><img src={comment} style={{width: '22px', height: '22px'}} className="post__reaction__icons"/>Comentar</button>
+                                                {post.files.length > 0 ? <button onClick={handlePostFilesSection} value={post._id}><img src={book} className="post__reaction__icons" />Materiais</button> : ''}
                                             </>
                                         ) : (
                                             <>
-                                                <button onClick={performPostLike} value={post._id}>{post.likes.includes(userId) ? <AiFillLike /> : <AiOutlineLike />}{post.likes.length}</button>
-                                                <button onClick={performPostDeslike} value={post._id}>{isPostDesliked && targetId == post._id ? <AiFillDislike /> : <AiOutlineDislike /> }{post.deslikes.length}</button>
-                                                <button onClick={handleCommentInput} value={post._id}>{commentTargetId == post._id ? <FaCommentAlt /> : <FaRegCommentAlt />}</button>
-                                                {post.files.length > 0 ? <button onClick={handlePostFilesSection} value={post._id}>{materialIcon}</button> : ''}
+                                                <button onClick={performPostLike} value={post._id}>{post.likes.includes(userId) ? <img src={like} style={{marginTop: '-5px', height: '20px', width: '20px'}} className="post__reaction__icons"/> : <img src={like_outline} style={{marginTop: '-5px', height: '20px', width: '20px'}} className="post__reaction__icons" />}{post.likes.length}</button>
+                                                <button onClick={performPostDeslike} value={post._id}>{post.deslikes.includes(userId) ? <img src={dislike} style={{marginTop: '3px'}} className="post__reaction__icons"/> : <img src={dislike_outline} style={{marginTop: '3px'}} className="post__reaction__icons" /> }{post.deslikes.length}</button>
+                                                <button onClick={handleCommentInput} value={post._id} ><img src={comment} style={{width: '22px', height: '22px'}} className="post__reaction__icons"/></button>
+                                                {post.files.length > 0 ? <button onClick={handlePostFilesSection} value={post._id}><img src={book} className="post__reaction__icons" /></button> : ''}
                                             </>
                                         )
                                     }
@@ -498,7 +517,7 @@ export default function Feed() {
                                             <img src={`https://hakuna-1337.s3.amazonaws.com/${post.author.profilePic}`} className='post__author__img'/>
                                             <input type="text" placeholder='adicionar comentário' className={post._id} onKeyDown={submitComment} onChange={e => setCommentContent(e.target.value)}/>
                                             <input type="file" id="add_material__comment__btn" onChange={e => setCommentFiles(e.target.files)} name='files' multiple/>
-                                            <label for="add_material__comment__btn" className=""><FaBook className="material__comment__icon"/></label>
+                                            <label for="add_material__comment__btn" className=""><img src={addMaterial} className="material__comment__icon"/></label>
                                         </div>
                                     ) : ''
                                 }
@@ -529,8 +548,8 @@ export default function Feed() {
                                                             {
                                                                 showCommentOptionsMenu && targetId == comment._id ? (
                                                                     <ul className='comment__options__menu'>
-                                                                        <li onClick={enableCommentEditionMode} className={comment._id + ' ' + comment.post}><MdEdit className='comment__options__menu__icon' />Editar comentário</li>
-                                                                        <li onClick={deleteComment} className={comment._id + ' ' + comment.post}><AiFillDelete className='comment__options__menu__icon' />Deletar comentário</li>
+                                                                        <li onClick={enableCommentEditionMode} className={comment._id + ' ' + comment.post}><img src={editComment} className='comment__options__menu__icon' />Editar comentário</li>
+                                                                        <li onClick={deleteComment} className={comment._id + ' ' + comment.post}><img src={deleteIcon} className='comment__options__menu__icon' />Deletar comentário</li>
                                                                     </ul>
                                                                 ) : ''
                                                             }
@@ -545,9 +564,9 @@ export default function Feed() {
                                                                 </p>
                                                             </div>
                                                             <div className='comment__action__btns'>
-                                                                <button onClick={performCommentLike} className={comment._id + ' ' + comment.post}>{comment.likes.includes(userId) ? <AiFillLike /> : <AiOutlineLike />}{comment.likes.length}</button>
-                                                                <button onClick={performCommentDeslike} className={comment._id + ' ' + comment.post}>{post.deslikes.includes(userId) ? <AiFillDislike /> : <AiOutlineDislike />}{comment.deslikes.length}</button>
-                                                                {comment.files.length > 0 ? <button onClick={handleCommentFilesSection} value={comment._id}><FaBook className='comment__action__btn__icon' />Materiais</button> : ''}
+                                                                <button onClick={performCommentLike} className={comment._id + ' ' + comment.post}>{comment.likes.includes(userId) ? <img src={like} style={{marginTop: '-5px', height: '20px', width: '20px'}} className="post__reaction__icons"/> : <img src={like_outline} style={{marginTop: '-5px', height: '20px', width: '20px'}} className="post__reaction__icons" />}{comment.likes.length}</button>
+                                                                <button onClick={performCommentDeslike} className={comment._id + ' ' + comment.post}>{post.deslikes.includes(userId) ? <img src={dislike} style={{marginTop: '3px'}} className="post__reaction__icons"/> : <img src={dislike_outline} style={{marginTop: '3px'}} className="post__reaction__icons" />}{comment.deslikes.length}</button>
+                                                                {comment.files.length > 0 ? <button onClick={handleCommentFilesSection} value={comment._id}><img src={book} className="post__reaction__icons" />Materiais</button> : ''}
                                                             </div>
                                                             {
                                                                 showCommentFilesList && targetId == comment._id ? (
@@ -574,12 +593,12 @@ export default function Feed() {
                         : (
                             !isPostsFiltered ? (
                                 <>
-                                    <CgFeed className="group__feed__icon"/>
+                                    <img src={postIcon} className="any__user__icon"/>
                                     <p className="group__feed__message">Nenhuma publicação foi realizada ainda</p>
                                 </>
                             ) : (
                                 <>
-                                    <CgFeed className="group__feed__icon"/>
+                                    <img src={postIcon} className="any__user__icon"/>
                                     <p className="group__feed__message">{`Nenhuma publicação com a palavra-chave "${filter}" foi encontrada`}</p>
                                 </>
                             )
@@ -589,7 +608,7 @@ export default function Feed() {
                 </div>
                 <div className={postEditionMode || commentEditionMode ? 'edit__content__modal show__div' : 'edit__content__modal hide__div'}>
                     <div className='content__title__wrapper'>
-                        <h2 className="content__title"><MdEdit />{postEditionMode ? 'Editar postagem' : 'Editar comentário'}</h2>
+                        <h2 className="content__title">{postEditionMode ? <img src={editPost} className='title__icon' /> : <img src={editComment} className='title__icon' />}{postEditionMode ? 'Editar postagem' : 'Editar comentário'}</h2>
                         <IoClose onClick={cancelContentEdition} className='close__edit__modal' />
                     </div>
                     <form action="" className="post__form">
@@ -609,13 +628,13 @@ export default function Feed() {
                                 (
                                     <>
                                         <input type="file" id="add_material__btn" name='files' onChange={e => setFiles(e.target.files)} multiple/>
-                                        <label for="add_material__btn" className="material__btn"><MdUpload/>Materiais</label> 
+                                        <label for="add_material__btn" className="material__btn"><img src={upload} className="group__options__icon"/>Materiais</label> 
                                     </>
                                 ) :      
                                (
                                 <>
                                     <input type="file" id="add_material__comment__btn" name='files' onChange={e => setCommentFiles(e.target.files)} multiple/>
-                                    <label for="add_material__comment__btn" className="material__btn"><MdUpload/>Materiais</label>
+                                    <label for="add_material__comment__btn" className="material__btn"><img src={upload} className="group__options__icon"/>Materiais</label>
                                 </>
                                ) 
                             }

@@ -13,6 +13,8 @@ import {IoMdAdd} from 'react-icons/io'
 import {IoClose} from 'react-icons/io5'
 import {FaSave} from 'react-icons/fa'
 
+import settings from '../../assets/images/settings.png'
+
 function CreateGroup() {
     let [name, setName] = useState('')
     let [description, setDescription] = useState('')
@@ -146,7 +148,7 @@ function CreateGroup() {
             <div className="content">
                 <div className='content__title__wrapper'>
                   <Link to={`group/${id}`} className="group__back" title='voltar' ><MdOutlineArrowBack className="back__icon"/></Link>
-                  <h2 className="content__title">Configurações do grupo <BsFillGearFill /></h2>
+                  <h2 className="content__title">Configurações do grupo <img src={settings} className='title__colorful__icon' /></h2>
                 </div>
                 <form action="" className="group__form" onSubmit={handleGroup}>
                     <label htmlFor="name" className="form__label">Nome:</label>
