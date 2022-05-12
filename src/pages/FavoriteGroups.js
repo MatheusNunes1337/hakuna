@@ -1,38 +1,30 @@
 import React, {useState, useEffect} from 'react'
-import {useLocation} from 'react-router-dom'
-import api from '../../services/api'
+import api from '../services/api'
 
-import {HiUserGroup} from 'react-icons/hi'
-
-import NavBar from '../../components/NavBar'
-import Container from '../../components/Container'
-import Aside from '../../components/Aside'
-import Card from '../../components/Card'
-import SearchBar from '../../components/SearchBar'
+import NavBar from '../components/NavBar'
+import Container from '../components/Container'
+import Aside from '../components/Aside'
+import Card from '../components/Card'
+import SearchBar from '../components/SearchBar'
 
 import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
+import favoriteIcon from '../assets/images/touch.png'
 
-function useQuery() {
-    const { search } = useLocation();
-    return React.useMemo(() => new URLSearchParams(search), [search]);
-}
-
-function GetGroups() {
+function FavoriteGroups() {
   let [groups, setGroups] = useState([])
   const [paginationIndex, setPaginationIndex] = useState(1)
   const [totalPages, setTotalPages] = useState(0)
   const [offset, setOffset] = useState(0)
 
-  let query = useQuery();
-
   const token = localStorage.getItem('userToken')
   const headers = { Authorization: `Bearer ${token}` }
-  const filter = query.get("query")
+  const userId =  localStorage.getItem('userId')
  
   useEffect(() => {
     const getGroups = async () => {
       try {
-        const {data} = await api.get(`groups?discipline=${filter}&topics=${filter}&offset=${offset}`, {headers})
+        const {data} = await api.get(`groups?favorites=${userId}&offset=${offset}`, {headers})
+        console.log('data', data)
         const {groups} = data
         setGroups(groups)
         setTotalPages(Math.ceil(groups.length / 12))
@@ -42,7 +34,7 @@ function GetGroups() {
     }
 
     getGroups()
-  }, [filter, paginationIndex])
+  }, [paginationIndex])
 
   const nextPage = () => {
     setPaginationIndex(paginationIndex + 1)
@@ -63,7 +55,8 @@ function GetGroups() {
           <Aside />
           <div className="content">
             <div className='content__title__wrapper'>
-              <h2 className="content__title">Resultados para: {filter}</h2>
+              <img src={favoriteIcon} className='title__icon' />
+              <h2 className="content__title">Grupos favoritos</h2>
             </div>
             <div className={groups.length !== 0 ? "card__wrapper": "card__wrapper any__group"}>
               {
@@ -79,13 +72,12 @@ function GetGroups() {
                   members={group.members.length} 
                   max_members={group.maxMembers}
                   is_public={group.isPublic}
-                  search={true}
                   showFavoriteButton={false}
                   />)
                 }) : (
                   <>
-                    <HiUserGroup className="any__user__icon"/>
-                    <span>{`Nenhum grupo com a disciplina ou tópico "${filter}" foi encontrado`}</span>
+                    <img src={favoriteIcon} className="any__group__icon"/>
+                    <span>Parece que você não adicionou nenhum grupo aos favoritos</span>
                   </>
                 )
               }
@@ -107,4 +99,4 @@ function GetGroups() {
 }
 
 
-export default GetGroups
+export default FavoriteGroups

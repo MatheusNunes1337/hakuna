@@ -33,6 +33,7 @@ function Home() {
       try {
         const {data} = await api.get(`users/${id}`, {headers})
         const {groups, username} = data
+        console.log('groups', groups)
         setGroups(groups)
         setUsername(username)
 
@@ -87,7 +88,7 @@ function Home() {
                 members={group.members.length} 
                 max_members={group.maxMembers}
                 is_public={group.isPublic}
-                cardType="search"
+                showFavoriteButton={true}
                 />)
               }) : (
                 <>

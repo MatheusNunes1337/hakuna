@@ -47,7 +47,7 @@ function Aside() {
         <span className="sidebar__username">{username}</span>
         <ul className="sidebar__menu">
           <li className="sidebar__links"><Link to={`/${id}`} className="sidebar__link"><img src={profile} className="sidebar__link__icon"/>Perfil</Link></li>
-          <li className="sidebar__links"><Link to="/home" className="sidebar__link"><img src={favorite} className="sidebar__link__icon"/>Grupos favoritos</Link></li>
+          <li className="sidebar__links"><Link to="/favorite-groups" className="sidebar__link"><img src={favorite} className="sidebar__link__icon"/>Grupos favoritos</Link></li>
           <li className="sidebar__links"><Link to="/chats" className="sidebar__link"><img src={chat} className="sidebar__link__icon"/>Conversas</Link></li>
           {type == 'teacher'? <li className="sidebar__links"><Link to="/home" className="sidebar__link"><img src={help} className="sidebar__link__icon"/>Solicitações de ajuda</Link></li> : ''}
           <li className="sidebar__links"><Link to="/user/config" className="sidebar__link"><img src={settings} className="sidebar__link__icon"/>Configurações</Link></li>

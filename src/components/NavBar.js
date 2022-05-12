@@ -84,7 +84,7 @@ function NavBar() {
                 <li className="user__links"><Link to="/create-group" className="user__link"><img src={addIcon} className="user__link__icon"/>Novo grupo</Link></li>
                 <li className="user__links"><Link to="/home" className="user__link"><img src={crown} className="user__link__icon"/>Ranking</Link></li>
                 <li className="user__links"><Link to="/home" className="user__link"><img src={profile} className="user__link__icon"/>Perfil</Link></li>
-                <li className="user__links"><Link to="/home" className="user__link"><img src={favorite} className="user__link__icon"/>Grupos</Link></li>
+                <li className="user__links"><Link to="/favorite-groups" className="user__link"><img src={favorite} className="user__link__icon"/>Grupos favoritos</Link></li>
                 <li className="user__links"><Link to="/home" className="user__link"><img src={chat} className="user__link__icon"/>Conversas</Link></li>
                 {type == 'teacher'? <li className="sidebar__links"><Link to="/home" className="sidebar__link"><img src={help} className="user__link__icon"/>Solicitações de ajuda</Link></li> : ''}
                 <li className="user__links"><Link to="/user/config" className="user__link"><img src={settings} className="user__link__icon"/>Configurações</Link></li>

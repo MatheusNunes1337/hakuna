@@ -8,42 +8,54 @@ import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import {IoClose} from 'react-icons/io5'
 import {ImEnter} from 'react-icons/im'
 
+
 import setGroupIcon from '../utils/setGroupIcon';
 import api from '../services/api'
 
-function Card({id, icon, title, max_members, is_public, members, topics, search, description, cardType}) {
+function Card({id, icon, title, max_members, is_public, members, showFavoriteButton, topics, search, description}) {
   let [cardIcon, setIcon] = useState('')
   const [showModal, setModal] = useState(false)
+  const [favorites, setFavorites] = useState([])
   const [password, setPassword] = useState('')
+  const [reloadComponent, setReloadComponent] = useState(false)
 
   const history = useHistory()
   const userToken = localStorage.getItem('userToken')
+  const userId =  localStorage.getItem('userId')
   const headers = { Authorization: `Bearer ${userToken}` }
 
-  //let [isGroupFavorited, setGroupFavorite] = useState(false)
-  //let [favoriteIcon, setFavoriteIcon] = useState(<AiOutlineHeart className="card__detail__icon" onClick={performFavoriteGroup}/>)
   useEffect(() => {
     setIcon(setGroupIcon(icon))
-  }, [])
+    setReloadComponent(false)
+  }, [reloadComponent])
 
-  /*
-  const performFavoriteGroup = () => {
-    if(isGroupFavorited) {
-      setGroupFavorite(false)
-      setFavoriteIcon(<AiOutlineHeart className="card__detail__icon" onClick={performFavoriteGroup}/>)
-    } else {
-      setGroupFavorite(true)
-      setFavoriteIcon(<AiFillHeart className="card__detail__icon" onClick={performFavoriteGroup}/>)
+  useEffect(() => {
+    const updateFavorite = async () => {
+      const {data} = await api.get(`groups/${id}`, {headers})
+      const {favorites} = data
+      setFavorites(favorites)
+      
     }
-  }
-  */
+    updateFavorite()
+  }, [reloadComponent])
 
-  const oi = () => {
-    setModal(true)
+
+  const perfomFavorite = async (e) => {
+    e.preventDefault()
+    try {
+      await api.patch(`groups/${id}/favorite`, {}, {headers})
+      setReloadComponent(true)
+    } catch(err) {
+      alert(err.response.data.name)
+    }
   }
 
   const closeModal = () => {
     setModal(false)
+  }
+
+  const openModal = () => {
+    setModal(true)
   }
 
   const handleGroup = async (e) => {
@@ -61,7 +73,7 @@ function Card({id, icon, title, max_members, is_public, members, topics, search,
   return (
     search ? (
       <>
-      <div className="card" onClick={oi}>
+      <div className="card" onClick={openModal}>
         <img src={cardIcon} alt="card-image" className="card__image" />
         <div className="card__content">
             <h2 className="card__title">{title}</h2>
@@ -121,7 +133,13 @@ function Card({id, icon, title, max_members, is_public, members, topics, search,
       }
       </>
     ) : (
-      <Link className="card" to={!search ? `/group/${id}` : `/group-info/${id}`}>
+      <Link className="card" to={`/group/${id}`}>
+        {
+          showFavoriteButton ?
+          favorites.includes(userId) ? <AiFillHeart title='remover dos favoritos' className='card__favorite heart__fill' onClick={perfomFavorite} /> :
+          <AiOutlineHeart title='adicionar aos favoritos' className='card__favorite' onClick={perfomFavorite} /> : ''
+        
+        }
         <img src={cardIcon} alt="card-image" className="card__image" />
         <div className="card__content">
             <h2 className="card__title">{title}</h2>
