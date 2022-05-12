@@ -482,7 +482,7 @@ export default function Feed() {
                                 }
                                 <img src={`https://hakuna-1337.s3.amazonaws.com/${post.author.profilePic}`} className={`post__author__img ${post.author._id}`} onClick={goToProfile}/>
                                 <div className='post__infos'>
-                                    <span className={`post__author__name ${post.author._id}`} onClick={goToProfile}>{post.author.username}</span>
+                                    <span className={isMod ? `post__author__name is__mod ${post.author._id}` : `post__author__name ${post.author._id}`}>{post.author.username}</span>
                                     {post.author.type === 'teacher' ? <span className='post__author__title'>Professor de {post.author.area}</span> : ''}
                                     <span className='post__creation_time'>{post.creationTime}</span>
                                 </div>

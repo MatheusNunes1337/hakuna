@@ -8,7 +8,7 @@ import { BsFillChatLeftFill, BsFillGearFill, BsFillChatFill } from "react-icons/
 import { IoNotifications } from "react-icons/io5";
 
 import studentPic from '../assets/images/student.png'
-import profile from '../assets/images/profile.png'
+import profile from '../assets/images/user.png'
 import favorite from '../assets/images/touch.png'
 import chat from '../assets/images/chat.png'
 import settings from '../assets/images/config.png'

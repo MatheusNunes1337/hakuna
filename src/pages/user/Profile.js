@@ -6,7 +6,7 @@ import { MdBuild } from "react-icons/md";
 import {FaUserAlt} from 'react-icons/fa'
 import {HiUserGroup} from 'react-icons/hi'
 
-import profile from '../../assets/images/profile.png'
+import profile from '../../assets/images/user.png'
 
 import NavBar from '../../components/NavBar'
 import Container from '../../components/Container'

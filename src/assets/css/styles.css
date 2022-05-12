@@ -772,7 +772,7 @@ form.user__form .profile__pic__overlay {
 
 .post__btn__wrapper {
     display: flex;
-    align-items: center;
+    align-items: stretch;
     margin-top: 15px;
 }
 
@@ -801,6 +801,10 @@ input[type="file"] {
 
 .post__form .cancel__post__edtion {
     background-color: var(--blue);
+}
+
+span.member__type {
+    display: inline;
 }
 
 .group__posts {
@@ -1190,6 +1194,17 @@ h3.content__subtitle {
 
 .comment__author__name,  .post__author__name, .post__author__img {
     cursor: pointer;
+}
+
+.is__mod::after {
+    content: 'moderador';
+    margin-left: 6px;
+    background-color: var(--blue);
+    color: white;
+    padding: 2px 6px;
+    border-radius: 5px;
+    font-size: 0.7rem;
+    font-weight: bold;
 }
 
 .post__infos > span, .comment__infos > span {
