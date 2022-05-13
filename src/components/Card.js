@@ -107,7 +107,7 @@ function Card({id, icon, title, max_members, is_public, members, showFavoriteBut
                 }
                 <div className='group__infos'>
                   <span title='nº máximo de membros' className='group__members'>{`${members}/${max_members}`}</span>
-                  <span title='favoritos' className='group__favorites'>287</span>
+                  <span title='favoritos' className='group__favorites'>{favorites.length}</span>
                   {
                     is_public ? (<span title='privacidade' className='group__privacy public'>público</span>) : 
                     (<span title='privacidade' className='group__privacy private'>privado</span>)

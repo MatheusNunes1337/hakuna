@@ -83,6 +83,10 @@ export default function Files() {
             alert(err.response.data.error)
         }
     }
+
+    const showFileModal = () => {
+       alert('olá')
+    }
     
     return (
         <>
@@ -97,32 +101,15 @@ export default function Files() {
                         <h2 className="content__title">Materiais <img src={book} className='title__colorful__icon' /></h2>
                     </div>
                     {
-                        files.length !== 0 ? (
+                        files.length == 0 ? (
                             <div className='files__container'>
-                                <table className='files__table'>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Nome</th>
-                                        <th>Tipo</th>
-                                        <th>Data de criação</th>
-                                        <th>Ações</th>
-                                    </tr>
-                                    <tbody>
-                                        {
-                                            files.map((file, index) => {
-                                                return (
-                                                    <tr key={index}>
-                                                        <td>{index + 1}</td>
-                                                        <td>{getFilename(file.file)}</td>
-                                                        <td>{getFileIcon(file.file)}</td>
-                                                        <td>{file.creationDate}</td>
-                                                        <td><button className='download__file__btn' value={file.file} onClick={downloadFile}><img src={downloadIcon} className="group__options__icon"/>baixar</button></td>
-                                                    </tr>
-                                                )
-                                            })
-                                        }
-                                    </tbody>
-                                 </table>
+                               <button className='file__item' onClick={showFileModal}><img src={book} /><span>hakuna20220513_whcnc</span></button>
+                               <button className='file__item'>bom dia</button>
+                               <button className='file__item'>bom dia</button>
+                               <button className='file__item'>bom dia</button>
+                               <button className='file__item'>bom dia</button>
+                               <button className='file__item'>bom dia</button>
+                               <button className='file__item'>bom dia</button> 
                             </div>
                             ) : (
                                 <div className='empty__files__container'>
