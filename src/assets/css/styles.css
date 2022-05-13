@@ -1196,7 +1196,7 @@ h3.content__subtitle {
     cursor: pointer;
 }
 
-.is__mod::after {
+.is__mod::after, .updated__content::after {
     content: 'moderador';
     margin-left: 6px;
     background-color: var(--blue);
@@ -1205,6 +1205,11 @@ h3.content__subtitle {
     border-radius: 5px;
     font-size: 0.7rem;
     font-weight: bold;
+}
+
+.updated__content::after {
+    content: 'editado';
+    background-color: var(--black);
 }
 
 .post__infos > span, .comment__infos > span {

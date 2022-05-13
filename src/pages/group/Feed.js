@@ -34,10 +34,12 @@ import editPost from '../../assets/images/editing.png'
 import deleteIcon from '../../assets/images/trash.png'
 import requestHelp from '../../assets/images/request_help.png'
 import postIcon from '../../assets/images/post.png'
+import setGroupIcon from '../../utils/setGroupIcon';
 
 export default function Feed() {
     const [posts, setPosts] = useState([])
     const [groupName, setGroupName] = useState('')
+    const [discipline, setDiscipline] = useState('')
     const [isMod, setMod] = useState(false)
     const [comments, setComments] = useState(['oi', 'tchau'])
     const [showCommentInput, setCommentInput] = useState(false)
@@ -86,11 +88,12 @@ export default function Feed() {
         const getMods = async () => {
           try {
             const {data} = await api.get(`groups/${id}`, {headers})
-            const {mods, name, posts} = data
+            const {mods, name, posts, discipline} = data
             console.log('posts', posts)
             const moderators = mods.map(mod => mod._id)
             if(moderators.includes(userId)) setMod(true)
             setGroupName(name)
+            setDiscipline(discipline)
             setPosts(posts.reverse())
             setReloadComponents(false)
           } catch(err) {
@@ -137,6 +140,8 @@ export default function Feed() {
             setContent('')
             setPostEditionMode(false)
         }
+        const input = document.getElementsByClassName('form__textarea')[0]
+        input.value = ''
         setReloadComponents(true)
     }
 
@@ -430,7 +435,7 @@ export default function Feed() {
                 <Aside />
                 <div className="content">
                     <div className='content__title__wrapper'>
-                        <h2 className="content__title"><img src={group} className='title__colorful__icon' />{groupName}</h2>
+                        <h2 className="content__title"><img src={setGroupIcon(discipline)} className='title__colorful__icon' />{groupName}</h2>
                     </div>
                     <div className="group__options">
                         <Link to={`/group/${id}/members`} className="group__options__link"><img src={group} className="group__options__icon"/>Membros</Link>
@@ -484,7 +489,7 @@ export default function Feed() {
                                 <div className='post__infos'>
                                     <span className={isMod ? `post__author__name is__mod ${post.author._id}` : `post__author__name ${post.author._id}`}>{post.author.username}</span>
                                     {post.author.type === 'teacher' ? <span className='post__author__title'>Professor de {post.author.area}</span> : ''}
-                                    <span className='post__creation_time'>{post.creationTime}</span>
+                                    <span className={post.updated ? 'post__creation_time updated__content' : 'post__creation_time'}>{post.creationTime}</span>
                                 </div>
                                 {post.author._id == userId || isMod ? <button onClick={handlePostOptionsMenu} value={post._id} className='post__options__btn'><BsThreeDots /></button> : ''}
                                 <p className='post__content'>
@@ -554,9 +559,9 @@ export default function Feed() {
                                                                 ) : ''
                                                             }
                                                                 <div className='comment__infos'>
-                                                                    <span className='comment__author__name'>{comment.author.username}</span>
+                                                                    <span className={isMod ? 'comment__author__name is__mod' : 'comment__author__name'}>{comment.author.username}</span>
                                                                     {comment.author.type == 'teacher'? <span className='comment__author__title'>Professor de {comment.author.area}</span> : ''}
-                                                                    <span className='comment__creation_time'>{comment.creationTime}</span>
+                                                                    <span className={comment.updated ? 'comment__creation_time updated__content' : 'comment__creation_time'}>{comment.creationTime}</span>
                                                                 </div>
                                                                 <button className='comment__options__btn' value={comment._id} onClick={handleCommentOptionsMenu}><BsThreeDots /></button>
                                                                 <p className='comment__content'>
