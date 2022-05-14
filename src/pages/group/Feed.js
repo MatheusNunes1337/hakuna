@@ -40,6 +40,7 @@ export default function Feed() {
     const [posts, setPosts] = useState([])
     const [groupName, setGroupName] = useState('')
     const [discipline, setDiscipline] = useState('')
+    const [modsIdList, setModsIdLIst] = useState([])
     const [isMod, setMod] = useState(false)
     const [comments, setComments] = useState(['oi', 'tchau'])
     const [showCommentInput, setCommentInput] = useState(false)
@@ -91,6 +92,7 @@ export default function Feed() {
             const {mods, name, posts, discipline} = data
             console.log('posts', posts)
             const moderators = mods.map(mod => mod._id)
+            setModsIdLIst(moderators)
             if(moderators.includes(userId)) setMod(true)
             setGroupName(name)
             setDiscipline(discipline)
@@ -487,7 +489,7 @@ export default function Feed() {
                                 }
                                 <img src={`https://hakuna-1337.s3.amazonaws.com/${post.author.profilePic}`} className={`post__author__img ${post.author._id}`} onClick={goToProfile}/>
                                 <div className='post__infos'>
-                                    <span className={isMod ? `post__author__name is__mod ${post.author._id}` : `post__author__name ${post.author._id}`}>{post.author.username}</span>
+                                    <span className={modsIdList.includes(post.author._id) ? `post__author__name is__mod ${post.author._id}` : `post__author__name ${post.author._id}`}>{post.author.username}</span>
                                     {post.author.type === 'teacher' ? <span className='post__author__title'>Professor de {post.author.area}</span> : ''}
                                     <span className={post.updated ? 'post__creation_time updated__content' : 'post__creation_time'}>{post.creationTime}</span>
                                 </div>
@@ -559,7 +561,7 @@ export default function Feed() {
                                                                 ) : ''
                                                             }
                                                                 <div className='comment__infos'>
-                                                                    <span className={isMod ? 'comment__author__name is__mod' : 'comment__author__name'}>{comment.author.username}</span>
+                                                                    <span className={modsIdList.includes(comment.author._id) ? 'comment__author__name is__mod' : 'comment__author__name'}>{comment.author.username}</span>
                                                                     {comment.author.type == 'teacher'? <span className='comment__author__title'>Professor de {comment.author.area}</span> : ''}
                                                                     <span className={comment.updated ? 'comment__creation_time updated__content' : 'comment__creation_time'}>{comment.creationTime}</span>
                                                                 </div>
