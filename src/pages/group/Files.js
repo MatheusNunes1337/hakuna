@@ -5,6 +5,7 @@ import api from '../../services/api'
 import {FaBook} from 'react-icons/fa'
 import {MdDownload} from 'react-icons/md'
 import {MdOutlineArrowBack} from 'react-icons/md'
+import {IoClose} from 'react-icons/io5'
 
 import NavBar from '../../components/NavBar'
 import Container from '../../components/Container'
@@ -30,6 +31,8 @@ const getFileIcon = (file) => {
 export default function Files() {
     const [files, setFiles] = useState([])
     const [isMod, setMod] = useState(false)
+    const [showModal, setModal] = useState(false)
+    const [modalTarget, setModalTarget] = useState({})
 
     const { id } = useParams();
     const token = localStorage.getItem('userToken')
@@ -48,7 +51,7 @@ export default function Files() {
             let files_array = []
             posts.forEach(post => {
                 post.files.forEach(file => {
-                    files_array.push({file: file, creationDate: post.creationDate})
+                    files_array.push({file: file, creationDate: post.creationDate, creationTime: post.creationTime, author: post.author.username})
                 })
                 post.comments.forEach(comment => {
                     comment.files.forEach(file => {
@@ -84,8 +87,15 @@ export default function Files() {
         }
     }
 
-    const showFileModal = () => {
-       alert('olá')
+    const closeModal = () => {
+        setModal(false)
+    }
+
+    const showFileModal = (e) => {
+        const file = e.currentTarget.value
+        const target = files.find(arquivo => arquivo.file = file)
+        setModalTarget(target)
+        setModal(true)
     }
     
     return (
@@ -101,15 +111,13 @@ export default function Files() {
                         <h2 className="content__title">Materiais <img src={book} className='title__colorful__icon' /></h2>
                     </div>
                     {
-                        files.length == 0 ? (
+                        files.length !== 0 ? (
                             <div className='files__container'>
-                               <button className='file__item' onClick={showFileModal}><img src={book} /><span>hakuna20220513_whcnc</span></button>
-                               <button className='file__item'>bom dia</button>
-                               <button className='file__item'>bom dia</button>
-                               <button className='file__item'>bom dia</button>
-                               <button className='file__item'>bom dia</button>
-                               <button className='file__item'>bom dia</button>
-                               <button className='file__item'>bom dia</button> 
+                            {
+                                files.map((file, index) => {
+                                    return (<button key={index} value={file.file} className='file__item' onClick={showFileModal}>{getFileIcon(file.file)}<span>{getFilename(file.file)}</span></button>)
+                                })
+                            }
                             </div>
                             ) : (
                                 <div className='empty__files__container'>
@@ -118,7 +126,33 @@ export default function Files() {
                                 </div>
                             )
                     }
-                    
+                    {
+                        showModal ? (
+                        <>
+                            <div className='file__info__modal'>
+                                <div className='content__title__wrapper'>
+                                    <img src={book} alt="card-image" className="card__image" />
+                                    <h2 className="content__title">Informações do arquivo</h2>
+                                    <IoClose onClick={closeModal} className='close__edit__modal' />
+                                </div>
+                                <div className='modal__body'>
+                                    <div className='file__infos'>
+                                        <span title='nome do arquivo'>Nome: {getFilename(modalTarget.file)}</span>
+                                        <span title='formato do arquivo'>Formato: {getFileIcon(modalTarget.file)}</span>
+                                        <span title='data de criação'>Data do upload: {modalTarget.creationDate}</span>
+                                        <span title='hora de criação'>Hora do upload: {modalTarget.creationTime}</span>
+                                        <span title='feito por'>Upload feito por: {modalTarget.author}</span>
+                                    </div>
+                                </div>
+                                <div className='modal__buttons'>
+                                    <button>Baixar</button>
+                                    <button>Salvar</button>
+                                </div>
+                            </div>
+                            <div className='overlay'></div>
+                        </>
+                        ) : ''
+                    }  
                 </div>
                 </Container >  
             </main>

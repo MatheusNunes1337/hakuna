@@ -120,7 +120,7 @@ body {
 
 /* home */
 
-.navbar {
+.navbar, .index__navbar {
     display: flex;
     position: relative;
     justify-content: space-between;
@@ -129,7 +129,11 @@ body {
     background-color: white;
 }
 
-.navbar__brand {
+.index__navbar {
+    box-shadow: 0px 0px 2.5px rgba(0,0,0,0.5);
+}
+
+.navbar__brand, .index__navbar__brand {
     color: var(--blue);
     font-size: clamp(1.2rem, 1.2vw + 1rem, 1.5rem);
     font-weight: bold;
@@ -148,35 +152,55 @@ body {
     color: white;
 }
 
-.navbar__bars {
+.navbar__bars, .index__navbar__bars {
     display: none;
     color: var(--blue);
     font-size: 1.8rem;
     cursor: pointer;
 }
 
-.navbar__menu {
+.navbar__menu, .index__navbar__menu {
     display: flex;
 }
 
-.navbar__links {
+.navbar__links, .index__navbar__links {
     list-style: none;
     padding: 0.8rem 1.2rem;
 }
 
-.navbar__link {
+.navbar__link, .index__navbar__link {
     display: inline-flex;
     align-items: center;
+    position: relative;
     text-decoration: none;
     color: var(--black);
     font-weight: bold;
 }
 
-.navbar__link:hover, .navbar__link:hover .navbar__btn__icon  {
-    color: var(--blue);
+.navbar__link::after, .index__navbar__link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    width: 100%;
+    height: 2px;
+    background-color: var(--blue);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 250ms ease-in;
+} 
+
+.navbar__link:hover::after, .index__navbar__link:hover::after {
+    transform: scaleX(1);
 }
 
-.navbar__btn, .user__menu__btn {
+/*
+.navbar__link:hover, .navbar__link:hover .navbar__btn__icon, .index__navbar__link:hover  {
+    color: var(--blue);
+}
+*/
+
+.navbar__btn, .user__menu__btn, .index__navbar__btn {
     padding: 0 1.2rem;
     margin-left: 1rem;
     display: inline-flex;
@@ -268,6 +292,11 @@ main {
     flex-wrap: wrap;
     height: auto;
     padding: 3rem 0rem 1rem 0rem;
+}
+
+main.index__main {
+    padding: 0rem;
+    background-color: white;
 }
 
 .aside {
@@ -1707,7 +1736,7 @@ h3.groups__in__common__title {
     font-size: 1.2rem;
 }
 
-.edit__content__modal, .group__info__modal {
+.edit__content__modal, .group__info__modal, .file__info__modal {
     position: fixed;
     width: 55%;
     min-height: 400px;
@@ -1833,6 +1862,189 @@ h3.groups__in__common__title {
     color: var(--red);
 }
 
+.file__info__modal {
+    height: auto;
+}
+
+.file__info__modal .modal__body {
+    margin-top: 15px;
+}
+
+.file__info__modal .file__infos {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.file__info__modal .file__infos > span > img {
+    width: 24px;
+    height: 24px;
+}
+
+.file__info__modal .modal__buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    border-radius: 5px;
+    margin-top: 50px;
+}
+
+.file__info__modal .modal__buttons > button {
+    padding: 10px 20px;
+    font-size: 1.15rem;
+    color: var(--black);
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 28px;
+    width: 100%;
+    padding: 100px 8%;
+}
+
+.hero__content {
+    margin-top: -40px;
+}
+
+.hero__title {
+    font-size: 1.70rem;
+    text-transform: uppercase;
+    font-family: 'Roboto', sans-serif;
+    font-style: italic;
+    font-weight: 900;
+    color: var(--blue);
+    margin-bottom: 20px;
+}
+
+.hero__paragraph {
+    line-height: 1.4;
+    text-align: justify;
+    margin-bottom: 15px;
+}
+
+.hero__content > button {
+    padding: 8px;
+    border-radius: 5px;
+    font-size: 0.95rem;
+    outline: unset;
+    cursor: pointer;
+}
+
+.hero__content > button:not(:last-of-type) {
+    margin-right: 8px;
+}
+
+.hero__content > button:first-of-type {
+    font-weight: bold;
+    background-color: white;
+    color: black;
+    border: 2px solid black;
+    transition: ease-out 0.3s;
+    position: relative;
+    z-index: 1;
+}
+
+.hero__content > button:first-of-type > a {
+    color: black;
+    text-decoration: none;
+}
+
+.hero__content > button:first-of-type:hover a {
+    color: white;
+}
+
+.hero__content > button:first-of-type::before {
+    transition: 0.5s all ease;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    right: 50%;
+    bottom: 0;
+    opacity: 0;
+    content: '';
+    background-color: black;
+}
+
+.hero__content > button:first-of-type:hover::before {
+    transition: 0.5s all ease;
+    left: 0;
+    right: 0;
+    opacity: 1;
+    z-index: -1;
+}
+
+.hero__content > button:last-of-type {
+    color: white;
+    font-weight: bold;
+    background-color: var(--blue);
+    padding: 10px 18px;
+    border: none;
+}
+
+section.functionalities {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    width: 100%;
+    padding: 100px 8%;
+}
+
+section.functionalities > p {
+    position: relative;
+    text-align: center;
+    font-size: 1.15rem;
+    font-style: italic;
+}
+
+div.functionality__cards {
+    display: flex;
+    justify-content: flex-start;
+    justify-items: flex-end;
+    flex-wrap: wrap;
+    gap: 10px 3px;
+    width: 100%;
+    height: auto;
+}
+
+div.functionality__cards .functionality__card {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+    width: calc(25% - 3px);
+    height: 260px;
+    padding: 0px 10px;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    background-color: lightblue;
+    transition: background-color .2s ease;
+    cursor: pointer;
+}
+
+/*
+section.functionalities > p::after {
+    content: '';
+    position: absolute;
+    text-align: center;
+    left: 10%;
+    bottom: -5px;
+    width: 40%;
+    height: 3px;
+    background-color: var(--blue);
+    left:0;
+    right:0;
+    margin-left:auto;
+    margin-right:auto;
+}
+*/
+
 @media (max-width: 1300px) {
     .group__options {
         gap: 0.5rem;
@@ -1846,15 +2058,15 @@ h3.groups__in__common__title {
 
 @media (max-width: 768px) {
 
-    .container {
+    .container, .hero {
         padding: 0rem 7%;
     }
 
-    .navbar {
+    .navbar, .index__navbar {
         padding: .8rem 7%;
     }
 
-    .navbar__bars {
+    .navbar__bars, .index__navbar__bars {
         display: block;
     }
 
@@ -1863,7 +2075,7 @@ h3.groups__in__common__title {
         font-size: 0.7rem;
     }
 
-    .navbar__menu {
+    .navbar__menu, .index__navbar__menu {
         display: none;
     }
 

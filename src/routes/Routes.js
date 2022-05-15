@@ -20,6 +20,7 @@ import GetUsers from '../pages/user/getUsers'
 import GetChats from '../pages/getChats'
 import Chat from '../pages/Chat'
 import FavoriteGroups from '../pages/FavoriteGroups'
+import IndexPage from '../pages/index/IndexPage'
 
 function CustomRoute(props) {
 	const userToken = localStorage.getItem('userToken')
@@ -94,8 +95,11 @@ function Routes() {
                 <CustomRoute private path="/:id">
                     <Profile />
                 </CustomRoute>
-                <Route path="/">
+                <Route path="/register">
                     <Register />
+                </Route>
+                <Route path="/">
+                    <IndexPage />
                 </Route>
             </Switch>
         </Router>
