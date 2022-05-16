@@ -11,6 +11,12 @@ import Container from '../../components/Container'
 
 
 function IndexPage() {
+    const history = useHistory()
+
+    const goToLoginPage = () => {
+        history.push('/login')
+    }
+
     return (
         <>
             <IndexNavBar />
@@ -20,7 +26,7 @@ function IndexPage() {
                         <h1 className='hero__title'>Lorem ipsum dolor sit amet elit, consectetur adipiscing.</h1>
                         <p className='hero__paragraph'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eu dapibus ipsum, eu finibus metus. Proin a volutpat turpis. Etiam facilisis tincidunt cursus. Nullam a.</p>
                         <button><AnchorLink href='#functionalities__title'>Saiba mais</AnchorLink></button>
-                        <button>Login</button>
+                        <button onClick={goToLoginPage}>Login</button>
                     </div>
                     <img src={heroImage} alt="girl studying" className='hero__image' />
                 </section>

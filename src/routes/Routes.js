@@ -92,12 +92,12 @@ function Routes() {
                 <Route path="/login">
                     <Login />
                 </Route>
-                <CustomRoute private path="/:id">
-                    <Profile />
-                </CustomRoute>
                 <Route path="/register">
                     <Register />
                 </Route>
+                <CustomRoute private path="/:id">
+                    <Profile />
+                </CustomRoute>
                 <Route path="/">
                     <IndexPage />
                 </Route>

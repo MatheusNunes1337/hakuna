@@ -3,6 +3,7 @@ import { Link, useHistory } from 'react-router-dom'
 import api from '../../services/api'
 
 import { registerSchema } from '../../validations/authSchema'
+import LoginImage from '../../assets/images/girl_studying.png'
 
 import '../../assets/css/styles.css'
 
@@ -58,7 +59,33 @@ function Register() {
                     }    
                     <button className="form__btn">Cadastrar</button>
                 </form>
-                <Link to="/login" className="form__link">Já possui uma conta?</Link>
+                <section className='register__section'>
+                    <div className='register__image__wrapper'>
+                        <img src={LoginImage} alt='girl studying' className='register__image' />
+                    </div>
+                    <form action="" className="form__register">
+                        <h2 className="form__register__title">Nova Conta</h2>
+                        <input type="text" className="form__input" placeholder='Nome de usuário (6 a 12 caracteres)' onChange={e => setUsername(e.target.value)}/>
+                        <input type="email" className="form__input" placeholder='Email ex: johndoe@gmail.com' onChange={e => setEmail(e.target.value)} />
+                        <input type="password" className="form__input" placeholder='Senha (6 a 12 caracteres)' onChange={e => setPassword(e.target.value)} />
+                        
+                        <select name="type" className="form__select" onChange={e => setType(e.target.value)}>
+                        <option value="" disabled selected hidden>Eu sou...</option>
+                        <option value="student">estudante</option>
+                        <option value="teacher">professor</option>
+                        </select>
+                        { type === 'teacher' 
+                            ? (
+                            <>
+                                <input type="text" className="form__input" placeholder='Área de atuação. Ex: Matemática' onChange={e => setArea(e.target.value)} />
+                            </>    
+                            ) 
+                            : ''
+                        }    
+                        <button className="form__register__btn">Cadastrar</button>
+                        <Link to="/login" className="form__link">Já possui uma conta?</Link>
+                    </form>
+                </section>
             </div>
         </>
     )

@@ -51,48 +51,57 @@ body {
     display: none;
 }
 
-.login__section {
+.login__section, .register__section {
     display: flex;
     width: 70%;
     background-color: white;
     border-radius: 5px;
 }
 
-.login__image__wrapper {
+.login__image__wrapper, .register__image__wrapper {
     padding: 100px 50px;
     background-color: lightblue;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
 }
 
-.login__image {
+.register__image__wrapper {
+    background-color: var(--black);
+}
+
+.login__image, .register__image {
     width: 350px;
     height: 280px;
 }
 
-.form__login {
+.form__login, .form__register {
     width: 100%;
     padding: 70px 50px;
 }
 
-.form__login > input {
+.form__register {
+    padding: 45px 50px;
+}
+
+.form__login > input, .form__register > input, .form__register > select {
     border: 2px solid var(--ice-2);
     border-radius: 5px;
     padding-left: 8px;
     margin-bottom: 18px;
+    font-size: 0.9rem;
 }
 
-.form__login > input::placeholder {
+.form__login > input::placeholder, .form__register > input::placeholder, .form__register > select {
     font-size: 0.8rem;
     color: var(--ice-3);
 }
 
 
-.form__login > button {
+.form__login > button, .form__register > button {
     border-radius: 5px;
     outline: unset;
     border: none;
-    background-color: black;
+    background-color: var(--black);
     color: white;
     box-shadow: inset 0 0 0 0 var(--blue);
     padding: 12px 35px;
@@ -102,16 +111,41 @@ body {
     transition: ease-out 0.3s;
 }
 
+.form__register > button {
+    background-color: var(--blue);
+    box-shadow: inset 0 0 0 0 var(--black);
+}
+
 .form__login > button:hover {
     box-shadow: inset 150px 0 0 0 var(--blue);
 }
 
-.form__login > a {
-    font-size: 1.03rem;
+.form__register > button:hover {
+    box-shadow: inset 150px 0 0 0 var(--black);
+}
+
+.form__login > a, .form__register > a {
+    font-size: 0.88rem;
     display: block;
 }
 
-.form__login .form__login__title {
+.form__login > a:first-of-type {
+    margin-top: -14px;
+    margin-bottom: 18px;
+}
+
+.form__login > a:last-of-type {
+    text-align: center;
+    color: var(--blue);
+}
+
+.form__login > a:last-of-type::before {
+    content: 'Novo na plataforma?';
+    margin-right: 5px;
+    color: var(--black);
+}
+
+.form__login .form__login__title, .form__register .form__register__title {
     font-size: 1.35rem;
     text-transform: uppercase;
     letter-spacing: 1.3px;
@@ -2061,6 +2095,7 @@ section.functionalities {
     gap: 30px;
     width: 100%;
     padding: 100px 8%;
+    background-color: #f8fafb;
 }
 
 section.functionalities > p {
@@ -2075,7 +2110,7 @@ div.functionality__cards {
     justify-content: flex-start;
     justify-items: flex-end;
     flex-wrap: wrap;
-    gap: 10px 3px;
+    gap: 10px;
     width: 100%;
     height: auto;
 }
@@ -2086,7 +2121,7 @@ div.functionality__cards .functionality__card {
     flex-direction: column;
     justify-content: center;
     gap: 8px;
-    width: calc(25% - 3px);
+    width: calc(25% - 10px);
     height: 260px;
     padding: 0px 10px;
     outline: none;
@@ -2350,7 +2385,7 @@ section.functionalities > p::after {
         display: block;
     }
 
-    .login__section {
+    .login__section, .register__section {
         display: none;
     }
 
