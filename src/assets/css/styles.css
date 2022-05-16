@@ -48,6 +48,75 @@ body {
     width: 90%;
     max-width: 430px;
     padding: .5rem 2rem;
+    display: none;
+}
+
+.login__section {
+    display: flex;
+    width: 70%;
+    background-color: white;
+    border-radius: 5px;
+}
+
+.login__image__wrapper {
+    padding: 100px 50px;
+    background-color: lightblue;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.login__image {
+    width: 350px;
+    height: 280px;
+}
+
+.form__login {
+    width: 100%;
+    padding: 70px 50px;
+}
+
+.form__login > input {
+    border: 2px solid var(--ice-2);
+    border-radius: 5px;
+    padding-left: 8px;
+    margin-bottom: 18px;
+}
+
+.form__login > input::placeholder {
+    font-size: 0.8rem;
+    color: var(--ice-3);
+}
+
+
+.form__login > button {
+    border-radius: 5px;
+    outline: unset;
+    border: none;
+    background-color: black;
+    color: white;
+    box-shadow: inset 0 0 0 0 var(--blue);
+    padding: 12px 35px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: ease-out 0.3s;
+}
+
+.form__login > button:hover {
+    box-shadow: inset 150px 0 0 0 var(--blue);
+}
+
+.form__login > a {
+    font-size: 1.03rem;
+    display: block;
+}
+
+.form__login .form__login__title {
+    font-size: 1.35rem;
+    text-transform: uppercase;
+    letter-spacing: 1.3px;
+    margin-bottom: 40px;
+    color: var(--black);
 }
 
 .form__title {
@@ -2275,6 +2344,14 @@ section.functionalities > p::after {
         justify-content: center;
         align-items: center;
         gap: 8px;
+    }
+
+    .register__form, .login__form {
+        display: block;
+    }
+
+    .login__section {
+        display: none;
     }
 
 }
