@@ -51,30 +51,40 @@ body {
     display: none;
 }
 
-.login__section, .register__section {
+.login__section, .register__section, .recoverPass__section, .redefinePass__section {
     display: flex;
     width: 70%;
     background-color: white;
     border-radius: 5px;
 }
 
-.login__image__wrapper, .register__image__wrapper {
+.login__image__wrapper, .register__image__wrapper, 
+.recoverPass__image__wrapper, .redefinePass__image__wrapper {
     padding: 100px 50px;
     background-color: lightblue;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
 }
 
-.register__image__wrapper {
+.register__image__wrapper, .recoverPass__image__wrapper {
     background-color: var(--black);
 }
 
-.login__image, .register__image {
+.recoverPass__image__wrapper, .redefinePass__image__wrapper {
+    padding: 120px 130px;
+}
+
+.login__image, .register__image, .recoverPass__image {
     width: 350px;
     height: 280px;
 }
 
-.form__login, .form__register {
+.recoverPass__image, .redefinePass__image {
+    width: 180px;
+    height: 180px;
+}
+
+.form__login, .form__register, .form__recoverPass, .form__redefinePass {
     width: 100%;
     padding: 70px 50px;
 }
@@ -83,7 +93,8 @@ body {
     padding: 45px 50px;
 }
 
-.form__login > input, .form__register > input, .form__register > select {
+.form__login > input, .form__register > input, .form__register > select, 
+.form__recoverPass > input, .form__redefinePass > input {
     border: 2px solid var(--ice-2);
     border-radius: 5px;
     padding-left: 8px;
@@ -91,13 +102,15 @@ body {
     font-size: 0.9rem;
 }
 
-.form__login > input::placeholder, .form__register > input::placeholder, .form__register > select {
+.form__login > input::placeholder, .form__register > input::placeholder, 
+.form__register > select, .form__recoverPass > input::placeholder,
+.form__redefinePass > input::placeholder {
     font-size: 0.8rem;
     color: var(--ice-3);
 }
 
-
-.form__login > button, .form__register > button {
+.form__login > button, .form__register > button, .form__recoverPass > button,
+.form__redefinePass > button {
     border-radius: 5px;
     outline: unset;
     border: none;
@@ -111,16 +124,16 @@ body {
     transition: ease-out 0.3s;
 }
 
-.form__register > button {
+.form__register > button, .form__recoverPass > button {
     background-color: var(--blue);
     box-shadow: inset 0 0 0 0 var(--black);
 }
 
-.form__login > button:hover {
+.form__login > button:hover, .form__redefinePass > button:hover {
     box-shadow: inset 150px 0 0 0 var(--blue);
 }
 
-.form__register > button:hover {
+.form__register > button:hover, .form__recoverPass > button:hover {
     box-shadow: inset 150px 0 0 0 var(--black);
 }
 
@@ -135,7 +148,6 @@ body {
 }
 
 .form__login > a:last-of-type {
-    text-align: center;
     color: var(--blue);
 }
 
@@ -145,13 +157,28 @@ body {
     color: var(--black);
 }
 
-.form__login .form__login__title, .form__register .form__register__title {
+.form__login .form__login__title, .form__register .form__register__title,
+.form__recoverPass .form__recoverPass__title, .form__redefinePass .form__recoverPass__title {
     font-size: 1.35rem;
     text-transform: uppercase;
     letter-spacing: 1.3px;
     margin-bottom: 40px;
     color: var(--black);
 }
+
+.form__recoverPass .form__recoverPass__title {
+    margin-bottom: 10px;
+}
+
+.form__recoverPass .form__recoverPass__message {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--black);
+    font-style: italic;
+    text-align: justify;
+    margin-bottom: 30px;
+    line-height: 1.2;
+} 
 
 .form__title {
     text-align: center;

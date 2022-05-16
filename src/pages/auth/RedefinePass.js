@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import api from '../../services/api'
 
+import ForgotPassIcon from '../../assets/images/forgot_password.png'
+
 import '../../assets/css/styles.css'
 
 function RedefinePass() {
@@ -36,6 +38,19 @@ function RedefinePass() {
                     <input type="password" className="form__input" onChange={e => setPassword02(e.target.value)} />
                     <button className="form__btn" onClick={handleRedefinePass}>Redefinir</button>
                 </form>
+                <section className='redefinePass__section'>
+                    <div className='redefinePass__image__wrapper'>
+                        <img src={ForgotPassIcon} alt='girl studying' className='redefinePass__image' />
+                    </div>
+                    <form className="form__redefinePass">
+                        <h2 className="form__recoverPass__title">Redefinir senha</h2>
+                        <label htmlFor="password" className="form__label">Nova senha</label>
+                        <input type="password" className="form__input" onChange={e => setPassword(e.target.value)} />
+                        <label htmlFor="password" className="form__label">Digite sua senha novamente</label>
+                        <input type="password" className="form__input" onChange={e => setPassword02(e.target.value)} />
+                        <button className="form__recoverPass__btn" onClick={handleRedefinePass}>Redefinir</button>
+                    </form> 
+                </section>
             </div>
         </>
     )
