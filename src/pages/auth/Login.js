@@ -5,10 +5,13 @@ import api from '../../services/api'
 import '../../assets/css/styles.css'
 
 import LoginImage from '../../assets/images/girl_studying.png'
+import ErrorModal from '../../components/ErrorModal'
 
 function Login() {
     let [username, setUsername] = useState('')
     let [password, setPassword] = useState('')
+    let [showModal, setModalStatus] = useState(false)
+    let [modalMessage, setModalMessage] = useState('')
     const history = useHistory()
 
      const handleLogin = async (e) => {
@@ -16,14 +19,24 @@ function Login() {
 
         try {
             const userData = {username, password}
-            console.log(userData)
             const {data} = await api.post('authentication', userData)
             localStorage.setItem('userToken', data.token)
             localStorage.setItem('userId', data.id)
             history.push('/home')
         } catch(err) {
-            alert(err.response.data.name)
+            handleErrorModal(err.response.data.name)
         }
+    }
+
+    const closeModal = () => {
+        setModalStatus(false)
+    }
+
+    const handleErrorModal = (message) => {
+        console.log('message', message)
+        setModalMessage(message)
+        setModalStatus(true)
+        console.log('modal message', modalMessage)
     }
 
     return (
@@ -53,6 +66,14 @@ function Login() {
                         <Link to="/register" className="form__link">Crie uma conta</Link>
                     </form>
                 </section>
+                {
+                    showModal ? (
+                    <>
+                        <ErrorModal closeModal={closeModal} message="Você tem certeza que deseja comer uma bolachinha recheada agora?" />
+                        <div className='overlay'></div>
+                    </>
+                    ) : ''
+                }
             </div>
         </>
     )
