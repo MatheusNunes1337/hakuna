@@ -14,6 +14,9 @@ import {IoClose} from 'react-icons/io5'
 import {FaSave} from 'react-icons/fa'
 
 import settings from '../../assets/images/settings.png'
+import ErrorModal from '../../components/ErrorModal'
+import SucessModal from '../../components/SucessModal'
+import WarningModal from '../../components/WarningModal'
 
 function CreateGroup() {
     let [name, setName] = useState('')
@@ -26,6 +29,11 @@ function CreateGroup() {
     let [password, setPassword] = useState(null)
     const [isMod, setMod] = useState(false)
     const [showPasswordField, setShowPasswordField] = useState(false)
+    let [showErrorModal, setErrorModalStatus] = useState(false)
+    let [showSucessModal, setSucessModalStatus] = useState(false)
+    let [showWarningModal, setWarningModalStatus] = useState(false)
+    let [isOperationConfirmed, setConfirmOperation] = useState(false)
+    let [modalMessage, setModalMessage] = useState('')
 
     const { id } = useParams()
     const history = useHistory()
@@ -48,7 +56,7 @@ function CreateGroup() {
           const moderators = mods.map(mod => mod._id) 
           if(moderators.includes(userId)) setMod(true)
         } catch(err) {
-          alert(err.response.data.name)
+          handleErrorModal(err.response.data.name)   
         }
       }
       getGroup()
@@ -70,30 +78,27 @@ function CreateGroup() {
           }
 
           await api.patch(`groups/${id}`, payload, { headers })
-          alert('informações do grupo atualizadas com sucesso')
+          handleSucessModal('informações do grupo atualizadas com sucesso')
         } catch(err) {
-          const {name} = err.response.data[0]
-          alert(name)
+            if(!Array.isArray(err.response.data))
+              handleErrorModal(err.response.data.name)
+            else 
+              handleErrorModal(err.response.data[0].name)
         }
     }
 
     const deleteGroup = async () => {
       try {
-        await api.delete(`groups/${id}`, {headers})
-        history.push('/home')
+        handleWarningModal('Você tem certeza que deseja deletar esse grupo permanentemente? Todas as postagens e materiais serão perdidos')
+        if(isOperationConfirmed) {
+          await api.delete(`groups/${id}`, {headers})
+          history.push('/home')
+        }
       } catch(err) {
-        alert(err.response.data.name)
+        handleErrorModal(err.response.data.name)
       }
     }
 
-    const quitGroup = async () => {
-      try {
-          await api.delete(`members/group/${id}`, {headers})
-          history.push('/home')
-      } catch(err) {
-          alert(err.response.data.error)
-      }
-    }
 
     const addTopic = () => {
       const duplicate = topics.find(item => item === topic)
@@ -130,13 +135,42 @@ function CreateGroup() {
           return
         }
         await api.patch(`groups/${id}`, {password, isPublic: false}, {headers})
-        alert('Password updated successfully')
+        handleSucessModal('Password updated successfully')
         setShowPasswordField(false)
         setPassword(null)
       } catch(err) {
-        alert(err.response.data.name)
+          if(!Array.isArray(err.response.data))
+            handleErrorModal(err.response.data.name)
+          else 
+            handleErrorModal(err.response.data[0].name)
       }
     }
+
+    const closeModal = () => {
+      setErrorModalStatus(false)
+      setSucessModalStatus(false)
+      setWarningModalStatus(false)
+      setConfirmOperation(false)
+    }
+
+    const confirmOperation = () => {
+      setConfirmOperation(true)
+    }
+
+    const handleErrorModal = (message) => {
+        setModalMessage(message)
+        setErrorModalStatus(true)
+    }
+
+    const handleSucessModal = (message) => {
+        setModalMessage(message)
+        setSucessModalStatus(true)
+    }
+
+    const handleWarningModal = (message) => {
+      setModalMessage(message)
+      setWarningModalStatus(true)
+  }
 
     return (
       <>
@@ -195,6 +229,30 @@ function CreateGroup() {
                     </div>
                 </form>
             </div>
+            {
+                showErrorModal ? (
+                <>
+                    <ErrorModal closeModal={closeModal} message={modalMessage} />
+                    <div className='overlay'></div>
+                </>
+                ) : ''
+            }
+            {
+                showSucessModal ? (
+                <>
+                    <SucessModal closeModal={closeModal} message={modalMessage} />
+                    <div className='overlay'></div>
+                </>
+                ) : ''
+            }
+            {
+                showWarningModal ? (
+                <>
+                    <WarningModal closeModal={closeModal} cancelOperation={closeModal} confirmOperation={confirmOperation} message={modalMessage} />
+                    <div className='overlay'></div>
+                </>
+                ) : ''
+            }
           </Container >  
         </main>  
       </>  

@@ -33,10 +33,8 @@ function Login() {
     }
 
     const handleErrorModal = (message) => {
-        console.log('message', message)
         setModalMessage(message)
         setModalStatus(true)
-        console.log('modal message', modalMessage)
     }
 
     return (

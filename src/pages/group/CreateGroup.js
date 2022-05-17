@@ -9,6 +9,8 @@ import SearchBar from '../../components/SearchBar'
 
 import {IoMdAdd} from 'react-icons/io'
 import {IoClose} from 'react-icons/io5'
+import SucessModal from '../../components/SucessModal'
+import ErrorModal from '../../components/ErrorModal'
 
 function CreateGroup() {
     let [name, setName] = useState('')
@@ -18,6 +20,9 @@ function CreateGroup() {
     let [topics, setTopics] = useState([])
     let [isPublic, setType] = useState(true)
     let [password, setPassword] = useState(null)
+    let [showErrorModal, setErrorModalStatus] = useState(false)
+    let [showSucessModal, setSucessModalStatus] = useState(false)
+    let [modalMessage, setModalMessage] = useState('')
 
     const history = useHistory()
     const userToken = localStorage.getItem('userToken')
@@ -30,10 +35,13 @@ function CreateGroup() {
           }
           const headers = { Authorization: `Bearer ${userToken}` }
           const {data} = await api.post('groups', groupData, { headers })
-          alert('Grupo criado com sucesso')
+          handleSucessModal('Grupo criado com sucesso')
           history.push(`/group/${data._id}`)
         } catch(err) {
-          alert(err.response.data.name)
+            if(!Array.isArray(err.response.data))
+              handleErrorModal(err.response.data.name)
+            else 
+              handleErrorModal(err.response.data[0].name)
         }  
     }
 
@@ -55,6 +63,21 @@ function CreateGroup() {
         return item !== topic
       })
       setTopics([...topicos])
+    }
+
+    const closeModal = () => {
+      setErrorModalStatus(false)
+      setSucessModalStatus(false)
+    }
+
+    const handleErrorModal = (message) => {
+        setModalMessage(message)
+        setErrorModalStatus(true)
+    }
+
+    const handleSucessModal = (message) => {
+        setModalMessage(message)
+        setSucessModalStatus(true)
     }
 
     return (
@@ -104,6 +127,22 @@ function CreateGroup() {
                     <button className="form__btn">Criar</button>
                 </form>
             </div>
+            {
+                showErrorModal ? (
+                <>
+                    <ErrorModal closeModal={closeModal} message={modalMessage} />
+                    <div className='overlay'></div>
+                </>
+                ) : ''
+            }
+            {
+                showSucessModal ? (
+                <>
+                    <SucessModal closeModal={closeModal} message={modalMessage} />
+                    <div className='overlay'></div>
+                </>
+                ) : ''
+            }
           </Container >  
         </main>  
       </>  

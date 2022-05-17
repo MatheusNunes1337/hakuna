@@ -15,9 +15,9 @@ function SucessModal({message, closeModal}) {
                 <img src={SucessIcon} alt='sucess image' className='message__modal__icon' />
                 <h2 className='modal__title sucess__title'>Sucesso</h2>
             </div>
-            <div className='modal__message'>
-                <p>{message}</p>
-            </div>
+            <p className='modal__message'>
+                {message}
+            </p>
         </div>  
     </> 
   )
