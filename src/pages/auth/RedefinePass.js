@@ -5,10 +5,16 @@ import api from '../../services/api'
 import ForgotPassIcon from '../../assets/images/forgot_password.png'
 
 import '../../assets/css/styles.css'
+import SucessModal from '../../components/SucessModal'
+import ErrorModal from '../../components/ErrorModal'
 
 function RedefinePass() {
     let [password, setPassword] = useState('')
     let [password02, setPassword02] = useState('')
+    let [showErrorModal, setErrorModalStatus] = useState(false)
+    let [showSucessModal, setSucessModalStatus] = useState(false)
+    let [modalMessage, setModalMessage] = useState('')
+
     const history = useHistory()
 
     const handleRedefinePass = async (e) => {
@@ -16,15 +22,33 @@ function RedefinePass() {
 
         try {
             if(password !== password02) {
-                throw new Error('The two passwords you entered are different')
+                handleErrorModal('The two passwords you entered are different')
             }
             const email = localStorage.getItem('emailRecover')
             await api.patch(`recover/${email}`, { password })
-            alert('Senha redefinida com sucesso')
+            handleSucessModal('Senha redefinida com sucesso')
             history.push('/login')
         } catch(err) {
-            alert(err.response.data.name)
+            if(!Array.isArray(err.response.data))
+                handleErrorModal(err.response.data.name)
+            else 
+                handleErrorModal(err.response.data[0].name)
         }
+    }
+
+    const closeModal = () => {
+        setErrorModalStatus(false)
+        setSucessModalStatus(false)
+    }
+
+    const handleErrorModal = (message) => {
+        setModalMessage(message)
+        setErrorModalStatus(true)
+    }
+
+    const handleSucessModal = (message) => {
+        setModalMessage(message)
+        setSucessModalStatus(true)
     }
 
     return (
@@ -51,6 +75,22 @@ function RedefinePass() {
                         <button className="form__recoverPass__btn" onClick={handleRedefinePass}>Redefinir</button>
                     </form> 
                 </section>
+                {
+                    showErrorModal ? (
+                    <>
+                        <ErrorModal closeModal={closeModal} message={modalMessage} />
+                        <div className='overlay'></div>
+                    </>
+                    ) : ''
+                }
+                {
+                    showSucessModal ? (
+                    <>
+                        <SucessModal closeModal={closeModal} message={modalMessage} />
+                        <div className='overlay'></div>
+                    </>
+                    ) : ''
+                }
             </div>
         </>
     )

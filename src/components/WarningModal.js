@@ -4,7 +4,7 @@ import {IoClose} from 'react-icons/io5'
 
 import WarningIcon from '../assets/images/warning.png'
 
-function WarningModal({message, closeModal, cancelOperation, confirm}) {
+function WarningModal({message, closeModal, cancelOperation, confirmOperation}) {
   
 
   return (
@@ -18,8 +18,8 @@ function WarningModal({message, closeModal, cancelOperation, confirm}) {
             <div className='modal__message'>
                 <p>{message}</p>
                 <div className='modal__message__buttons'>
-                    <button type='button'>confirmar</button>
-                    <button type='button'>cancelar</button>
+                    <button type='button' onClick={confirmOperation}>confirmar</button>
+                    <button type='button' onClick={cancelOperation}>cancelar</button>
                 </div>
             </div>
         </div>  

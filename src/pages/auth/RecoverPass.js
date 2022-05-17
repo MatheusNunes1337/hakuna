@@ -4,9 +4,14 @@ import api from '../../services/api'
 import ForgotPassIcon from '../../assets/images/forgot_password.png'
 
 import '../../assets/css/styles.css'
+import ErrorModal from '../../components/ErrorModal'
+import MailModal from '../../components/MailModal'
 
 function RecoverPass() {
     let [email, setEmail] = useState('')
+    let [showErrorModal, setErrorModalStatus] = useState(false)
+    let [showMailModal, setMailModalStatus] = useState(false)
+    let [modalMessage, setModalMessage] = useState('')
     
 
     const handleRecoverPass = async (e) => {
@@ -15,11 +20,29 @@ function RecoverPass() {
         try {
             const data = { receiverEmail: email }
             await api.post('recover', data)
-            alert(`Foi enviado um e-mail para ${email} com orientações para a recuperação da sua conta. Verifique a sua caixa postal e caixa de spam.`)
+            handleMailModal(`Foi enviado um e-mail para ${email} com orientações para a recuperação da sua conta. Verifique a sua caixa postal e caixa de spam.`)
             localStorage.setItem('emailRecover', email)
         } catch(err) {
-            alert(err.response.data.name)
+            if(!Array.isArray(err.response.data))
+                handleErrorModal(err.response.data.name)
+            else 
+                handleErrorModal(err.response.data[0].name)
         }
+    }
+
+    const closeModal = () => {
+        setErrorModalStatus(false)
+        setMailModalStatus(false)
+    }
+
+    const handleErrorModal = (message) => {
+        setModalMessage(message)
+        setErrorModalStatus(true)
+    }
+
+    const handleMailModal = (message) => {
+        setModalMessage(message)
+        setMailModalStatus(true)
     }
 
     return (
@@ -43,6 +66,22 @@ function RecoverPass() {
                         <button className="recoverPass__btn">Recuperar</button>
                     </form> 
                 </section>
+                {
+                    showErrorModal ? (
+                    <>
+                        <ErrorModal closeModal={closeModal} message={modalMessage} />
+                        <div className='overlay'></div>
+                    </>
+                    ) : ''
+                }
+                {
+                    showMailModal ? (
+                    <>
+                        <MailModal closeModal={closeModal} message={modalMessage} />
+                        <div className='overlay'></div>
+                    </>
+                    ) : ''
+                }
             </div>
         </>
     )

@@ -2045,6 +2045,10 @@ h3.groups__in__common__title {
     color: #FFC048;
 }
 
+.mail__title {
+    color: var(--blue);
+}
+
 .sunny, .moon, .title__icon {
     width: 35px;
     height: 35px;

@@ -69,7 +69,7 @@ function Login() {
                 {
                     showModal ? (
                     <>
-                        <ErrorModal closeModal={closeModal} message="Você tem certeza que deseja comer uma bolachinha recheada agora?" />
+                        <ErrorModal closeModal={closeModal} message={modalMessage} />
                         <div className='overlay'></div>
                     </>
                     ) : ''

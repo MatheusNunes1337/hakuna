@@ -6,6 +6,7 @@ import { registerSchema } from '../../validations/authSchema'
 import LoginImage from '../../assets/images/girl_studying.png'
 
 import '../../assets/css/styles.css'
+import ErrorModal from '../../components/ErrorModal'
 
 function Register() {
     let [username, setUsername] = useState('')
@@ -13,6 +14,8 @@ function Register() {
     let [password, setPassword] = useState('')
     let [type, setType] = useState('student')
     let [area, setArea] = useState(null)
+    let [showModal, setModalStatus] = useState(false)
+    let [modalMessage, setModalMessage] = useState('')
     const history = useHistory()
 
     const handleRegister = async (e) => {
@@ -28,8 +31,20 @@ function Register() {
             await api.post('users', userData)
             history.push('/login')
         } catch(err) {
-            alert(err.response.data.name)
+            if(!Array.isArray(err.response.data))
+                handleErrorModal(err.response.data.name)
+            else 
+                handleErrorModal(err.response.data[0].name) 
         }
+    }
+
+    const closeModal = () => {
+        setModalStatus(false)
+    }
+
+    const handleErrorModal = (message) => {
+        setModalMessage(message)
+        setModalStatus(true)
     }
 
     return (
@@ -86,6 +101,14 @@ function Register() {
                         <Link to="/login" className="form__link">Já possui uma conta?</Link>
                     </form>
                 </section>
+                {
+                    showModal ? (
+                    <>
+                        <ErrorModal closeModal={closeModal} message={modalMessage} />
+                        <div className='overlay'></div>
+                    </>
+                    ) : ''
+                }
             </div>
         </>
     )
