@@ -16,13 +16,16 @@ import { BsChevronRight, BsChevronLeft, BsFillSunFill, BsFillMoonFill } from "re
 import { HiUserGroup } from "react-icons/hi";
 import { FaSadCry } from "react-icons/fa";
 import getCurrentHour from '../utils/getCurrentHour'
+import ErrorModal from '../components/ErrorModal'
 
 function Home() {
   let [groups, setGroups] = useState([])
   let [username, setUsername] = useState('')
   let [greeting, setGreeting] = useState('')
   let [greetingIcon, setGreetingIcon] = useState('')
-  const [paginationIndex, setPaginationIndex] = useState(1)
+  const [groupPaginationIndex, setGroupPaginationIndex] = useState(1)
+  const [allGroups, setAllGroups] = useState([])
+  const [totalGroupPages, setTotalGroupPages] = useState(0)
   let [showErrorModal, setErrorModalStatus] = useState(false)
   let [modalMessage, setModalMessage] = useState('')
   
@@ -35,8 +38,9 @@ function Home() {
       try {
         const {data} = await api.get(`users/${id}`, {headers})
         const {groups, username} = data
-        console.log('groups', groups)
-        setGroups(groups)
+        setTotalGroupPages(Math.ceil(groups.length / 12))
+        setAllGroups(groups)
+        setGroups(paginate(groups, groupPaginationIndex))
         setUsername(username)
 
         const currentHour = getCurrentHour()
@@ -53,19 +57,38 @@ function Home() {
         }
           
       } catch(err) {
-        alert(err.response.data.name)
+        handleErrorModal(err.response.data.name)
       }
     }
     getGroups()
   }, [])
 
-  const nextPage = () => {
-    setPaginationIndex(paginationIndex + 1)
+  const paginate = (array, page_number, page_size = 12) => {
+    return array.slice((page_number - 1) * page_size, page_number * page_size);
+  } 
+
+    const nextPage = (e) => {
+      const nextIndex = groupPaginationIndex + 1
+      setGroupPaginationIndex(groupPaginationIndex + 1)
+      setGroups(paginate(allGroups, nextIndex))
+    }
+
+    const previousPage = (e) => {
+      const previousIndex = groupPaginationIndex - 1
+      setGroupPaginationIndex(groupPaginationIndex - 1)
+      setGroups(paginate(allGroups, previousIndex))
+        
+    }
+
+  const closeErrorModal = () => {
+    setErrorModalStatus(false)
   }
 
-  const previousPage = () => {
-      setPaginationIndex(paginationIndex - 1)
+  const handleErrorModal = (message) => {
+      setModalMessage(message)
+      setErrorModalStatus(true)
   }
+
   return (
     <>
       <NavBar />
@@ -100,7 +123,24 @@ function Home() {
               )
             }
             </div>
+            {
+              groups.length !== 0 && totalGroupPages > 1 ? (
+                  <div className='pagination__wrapper'>
+                      <button disabled={groupPaginationIndex === 1}  className='pagination__btn' onClick={previousPage}><BsChevronLeft /></button>
+                      <span className='pagination__index'>{groupPaginationIndex}</span>
+                      <button className='pagination__btn' onClick={nextPage}><BsChevronRight /></button>
+                  </div>
+              ) : ''
+            }
           </div>
+          {
+            showErrorModal ? (
+            <>
+                <ErrorModal closeModal={closeErrorModal} message={modalMessage} />
+                <div className='overlay'></div>
+            </>
+            ) : ''
+          }
         </Container >  
       </main>  
     </>  
