@@ -969,7 +969,7 @@ span.member__type {
 .group__posts {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     margin-top: 2.5rem;
     min-height: 400px;
@@ -1883,6 +1883,11 @@ h3.groups__in__common__title {
     transform: translate(-50%,-50%);
 }
 
+.group__info__modal {
+    min-height: 0px;
+    height: auto;
+}
+
 .edit__content__modal > form {
     margin-top: 20px;
 }
@@ -2095,25 +2100,36 @@ h3.groups__in__common__title {
     gap: 10px;
 }
 
+.file__info__modal .file__infos > span {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
 .file__info__modal .file__infos > span > img {
     width: 24px;
     height: 24px;
 }
 
+
 .file__info__modal .modal__buttons {
     display: flex;
     justify-content: center;
-    gap: 15px;
     border-radius: 5px;
     margin-top: 50px;
 }
 
 .file__info__modal .modal__buttons > button {
-    padding: 10px 20px;
-    font-size: 1.15rem;
-    color: var(--black);
+    padding: 14px 25px;
+    font-size: 1.05rem;
+    background-color: var(--black);
+    color: white;
+    border-radius: 5px;
     border: none;
     outline: none;
+    font-weight: bold;
     cursor: pointer;
 }
 
@@ -2477,7 +2493,7 @@ section.functionalities > p::after {
         flex-direction: column;
     }
 
-    .edit__content__modal, .group__info__modal, .message__modal {
+    .edit__content__modal, .group__info__modal, .message__modal, .file__info__modal {
         width: 70%;
     }
 
@@ -2595,8 +2611,8 @@ section.functionalities > p::after {
         width: calc(33.33333% - 3px);
     }
 
-    .edit__content__modal, .group__info__modal, .message__modal {
-        width: 70%;
+    .edit__content__modal, .group__info__modal, .message__modal, .file__info__modal {
+        width: 90%;
     }
 }
 

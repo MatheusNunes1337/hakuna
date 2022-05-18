@@ -170,7 +170,7 @@ function CreateGroup() {
     const handleWarningModal = (message) => {
       setModalMessage(message)
       setWarningModalStatus(true)
-  }
+    }
 
     return (
       <>

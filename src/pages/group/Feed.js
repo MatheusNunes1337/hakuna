@@ -36,6 +36,9 @@ import requestHelp from '../../assets/images/request_help.png'
 import postIcon from '../../assets/images/post.png'
 import setGroupIcon from '../../utils/setGroupIcon';
 import ErrorModal from '../../components/ErrorModal';
+import SucessModal from '../../components/SucessModal';
+import WarningModal from '../../components/WarningModal';
+
 
 export default function Feed() {
     const [posts, setPosts] = useState([])
@@ -329,6 +332,8 @@ export default function Feed() {
                 await api.patch(`groups/${id}/posts/${postId}/comments/${commentId}`, formData, {headers})
                 handleSucessModal('Comentário editado com sucesso.')
             }
+            const input = document.getElementsByClassName(postId)[0]
+            input.value = ''
             setCommentFiles([])
             setCommentContent('')
             setCommentEditionMode(false)
@@ -752,6 +757,22 @@ export default function Feed() {
                     showErrorModal ? (
                     <>
                         <ErrorModal closeModal={closeModal} message={modalMessage} />
+                        <div className='overlay'></div>
+                    </>
+                    ) : ''
+                }
+                {
+                    showSucessModal ? (
+                    <>
+                        <SucessModal closeModal={closeModal} message={modalMessage} />
+                        <div className='overlay'></div>
+                    </>
+                    ) : ''
+                }
+                {
+                    showWarningModal ? (
+                    <>
+                        <WarningModal closeModal={closeModal} cancelOperation={closeModal} confirmOperation={confirmOperation} message={modalMessage} />
                         <div className='overlay'></div>
                     </>
                     ) : ''

@@ -16,11 +16,21 @@ import setFileButtonProperties from '../../utils/setFileButtonProperties';
 
 import book from '../../assets/images/books.png'
 import downloadIcon from '../../assets/images/download.png'
+import calendar from '../../assets/images/calendar.png'
+import clock from '../../assets/images/clock.png'
+import uploadIcon from '../../assets/images/upload.png'
+import material from '../../assets/images/book.png'
+
 import ErrorModal from '../../components/ErrorModal'
 
 const getFilename = (file) => {
     const [filename, ext] = file.split('.')
     return filename
+}
+
+const getExtension = (file) => {
+    const [filename, ext] = file.split('.')
+    return ext
 }
 
 const getFileIcon = (file) => {
@@ -138,16 +148,15 @@ export default function Files() {
                                 </div>
                                 <div className='modal__body'>
                                     <div className='file__infos'>
-                                        <span title='nome do arquivo'>Nome: {getFilename(modalTarget.file)}</span>
-                                        <span title='formato do arquivo'>Formato: {getFileIcon(modalTarget.file)}</span>
-                                        <span title='data de criação'>Data do upload: {modalTarget.creationDate}</span>
-                                        <span title='hora de criação'>Hora do upload: {modalTarget.creationTime}</span>
-                                        <span title='feito por'>Upload feito por: {modalTarget.author}</span>
+                                        <span title='nome do arquivo'><img src={material} alt='material' /> Nome: {getFilename(modalTarget.file)}</span>
+                                        <span title='formato do arquivo'>{getFileIcon(modalTarget.file)}Formato: {'.' + getExtension(modalTarget.file)}</span>
+                                        <span title='data de criação'><img src={calendar} alt='calendar' /> Data do upload: {modalTarget.creationDate}</span>
+                                        <span title='hora de criação'><img src={clock} alt='clock' />Hora do upload: {modalTarget.creationTime}</span>
+                                        <span title='feito por'><img src={uploadIcon} alt='upload file' />Upload feito por: {modalTarget.author}</span>
                                     </div>
                                 </div>
                                 <div className='modal__buttons'>
                                     <button>Baixar</button>
-                                    <button>Salvar</button>
                                 </div>
                             </div>
                             <div className='overlay'></div>

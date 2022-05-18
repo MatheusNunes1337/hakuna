@@ -13,11 +13,14 @@ import favorite from '../assets/images/touch.png'
 import chat from '../assets/images/chat.png'
 import settings from '../assets/images/config.png'
 import help from '../assets/images/help.png'
+import ErrorModal from './ErrorModal';
 
 function Aside() {
   let [username, setUsername] = useState('')
   let [profilePic, setProfilePic] = useState('')
   let [type, setType] = useState('')
+  let [showErrorModal, setErrorModalStatus] = useState(false)
+  let [modalMessage, setModalMessage] = useState('')
 
   const id =  localStorage.getItem('userId')
   const token = localStorage.getItem('userToken')
@@ -32,12 +35,21 @@ function Aside() {
         setProfilePic(`https://hakuna-1337.s3.amazonaws.com/${profilePic}`)
         setType(type)
       } catch(err) {
-        alert(err.response.data.name)
+        handleErrorModal(err.response.data.name)
       }
     }
 
     getUser()
   }, [])
+
+  const closeErrorModal = () => {
+    setErrorModalStatus(false)
+  }
+
+  const handleErrorModal = (message) => {
+      setModalMessage(message)
+      setErrorModalStatus(true)
+  }
 
   return (
     <aside className="aside">
@@ -52,6 +64,14 @@ function Aside() {
           {type == 'teacher'? <li className="sidebar__links"><Link to="/home" className="sidebar__link"><img src={help} className="sidebar__link__icon"/>Solicitações de ajuda</Link></li> : ''}
           <li className="sidebar__links"><Link to="/user/config" className="sidebar__link"><img src={settings} className="sidebar__link__icon"/>Configurações</Link></li>
         </ul>
+        {
+            showErrorModal ? (
+            <>
+                <ErrorModal closeModal={closeErrorModal} message={modalMessage} />
+                <div className='overlay'></div>
+            </>
+            ) : ''
+        }
     </aside> 
   )
 }
