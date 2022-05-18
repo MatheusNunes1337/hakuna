@@ -5,6 +5,13 @@ import api from '../../services/api'
 
 import IndexNavBar from '../../components/IndexNavBar'
 import heroImage from '../../assets/images/girl_studying.png'
+import groupIcon from '../../assets/images/group.png'
+import rankingIcon from '../../assets/images/crown.png'
+import booksIcon from '../../assets/images/book.png'
+import teacherIcon from '../../assets/images/teacher.png'
+import chatIcon from '../../assets/images/chat.png'
+import postIcon from '../../assets/images/post.png'
+import pointIcon from '../../assets/images/point.png'
 
 import '../../assets/css/styles.css'
 import Container from '../../components/Container'
@@ -34,28 +41,56 @@ function IndexPage() {
                     <p id="functionalities__title">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eu dapibus ipsum, eu finibus metus.</p>
                     <div className='functionality__cards'>
                         <div className='functionality__card'>
-                            <span>Lorem ipsum</span>
+                            <img className='functionality__card__icon' src={groupIcon} alt='group' />
+                            <h2 className='functionality__card__title'>Criação de grupos de estudo</h2>
+                            <p className='functionality__card__message'>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sit amet purus nec justo mattis ultricies. Morbi enim erat, viverra.
+                            </p>
+                        </div>
+                        <div className='functionality__card'>
+                            <img className='functionality__card__icon' src={postIcon} alt='group' />
+                            <h2 className='functionality__card__title'>Criação de postagens</h2>
+                            <p className='functionality__card__message'>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sit amet purus nec justo mattis ultricies. Morbi enim erat, viverra.
+                            </p>
+                        </div>
+                        <div className='functionality__card'>
+                            <img className='functionality__card__icon' src={booksIcon} alt='group' />
+                            <h2 className='functionality__card__title'>Compartilhamento de materiais</h2>
+                            <p className='functionality__card__message'>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sit amet purus nec justo mattis ultricies. Morbi enim erat, viverra.
+                            </p>
+                        </div>
+                        <div className='functionality__card'>
+                            <img className='functionality__card__icon' src={rankingIcon} alt='group' />
+                            <h2 className='functionality__card__title'>Ranking</h2>
+                            <p className='functionality__card__message'>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sit amet purus nec justo mattis ultricies. Morbi enim erat, viverra.
+                            </p>
+                        </div>
+                        <div className='functionality__card'>
+                            <img className='functionality__card__icon' src={teacherIcon} alt='group' />
+                            <h2 className='functionality__card__title'>Professores especializados</h2>
+                            <p className='functionality__card__message'>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sit amet purus nec justo mattis ultricies. Morbi enim erat, viverra.
+                            </p>
+                        </div>
+                        <div className='functionality__card'>
+                            <img className='functionality__card__icon' src={chatIcon} alt='group' />
+                            <h2 className='functionality__card__title'>Bate-papo privado</h2>
+                            <p className='functionality__card__message'>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sit amet purus nec justo mattis ultricies. Morbi enim erat, viverra.
+                            </p>
                         </div>
                         <div className='functionality__card'>
                             <span>Lorem ipsum</span>
                         </div>
                         <div className='functionality__card'>
-                            <span>Lorem ipsum</span>
-                        </div>
-                        <div className='functionality__card'>
-                            <span>Lorem ipsum</span>
-                        </div>
-                        <div className='functionality__card'>
-                            <span>Lorem ipsum</span>
-                        </div>
-                        <div className='functionality__card'>
-                            <span>Lorem ipsum</span>
-                        </div>
-                        <div className='functionality__card'>
-                            <span>Lorem ipsum</span>
-                        </div>
-                        <div className='functionality__card'>
-                            <span>Lorem ipsum</span>
+                            <img className='functionality__card__icon' src={pointIcon} alt='group' />
+                            <h2 className='functionality__card__title'>Pontos de contribuição</h2>
+                            <p className='functionality__card__message'>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sit amet purus nec justo mattis ultricies. Morbi enim erat, viverra.
+                            </p>
                         </div>
                     </div>
                 </section>
