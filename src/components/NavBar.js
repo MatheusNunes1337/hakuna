@@ -19,11 +19,14 @@ import chat from '../assets/images/chat.png'
 import settings from '../assets/images/config.png'
 import help from '../assets/images/help.png'
 import addIcon from '../assets/images/add.png'
+import ErrorModal from './ErrorModal'
 
 function NavBar() {
   let [hiddenMenu, setVisibility] = useState(true)
   let [username, setUsername] = useState('')
   let [type, setType] = useState('')
+  let [showErrorModal, setErrorModalStatus] = useState(false)
+  let [modalMessage, setModalMessage] = useState('')
   const history = useHistory()
 
   const id =  localStorage.getItem('userId')
@@ -38,7 +41,7 @@ function NavBar() {
         setType(type)
         setUsername(username)
       } catch(err) {
-        alert(err.response.data.error)
+        handleErrorModal(err.response.data.name)
       }
     }
 
@@ -57,6 +60,15 @@ function NavBar() {
       } else {
         setVisibility(true)
       }
+    }
+
+    const closeErrorModal = () => {
+      setErrorModalStatus(false)
+    }
+
+    const handleErrorModal = (message) => {
+        setModalMessage(message)
+        setErrorModalStatus(true)
     }
 
     return (
@@ -94,6 +106,14 @@ function NavBar() {
           </>    
           ) 
           : ''
+          }
+          {
+            showErrorModal ? (
+            <>
+                <ErrorModal closeModal={closeErrorModal} message={modalMessage} />
+                <div className='overlay'></div>
+            </>
+            ) : ''
           }
         </header>   
       </> 

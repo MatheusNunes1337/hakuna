@@ -9,6 +9,8 @@ import Container from '../../components/Container'
 import Aside from '../../components/Aside'
 import SearchBar from '../../components/SearchBar'
 
+import userIcon from '../../assets/images/user.png'
+
 import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
 import ErrorModal from '../../components/ErrorModal'
 
@@ -42,7 +44,6 @@ export default function GetUsers() {
             setUsers(users)
             setTotalPages(Math.ceil(users.length / 10))
           } catch(err) {
-            console.log(err.response)
             handleErrorModal(err.response.data[0].name)
           }
         }
@@ -93,7 +94,7 @@ export default function GetUsers() {
                                     )
                                 }) : (
                                     <>
-                                        <HiUser className="any__user__icon"/>
+                                        <img src={userIcon} className="any__user__icon"/>
                                         <span>{`Nenhum usuário com o nome de "${filter}" foi encontrado`}</span>
                                     </>
                                 ) 

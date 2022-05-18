@@ -11,6 +11,7 @@ import {ImEnter} from 'react-icons/im'
 
 import setGroupIcon from '../utils/setGroupIcon';
 import api from '../services/api'
+import ErrorModal from './ErrorModal';
 
 function Card({id, icon, title, max_members, is_public, members, showFavoriteButton, topics, search, description}) {
   let [cardIcon, setIcon] = useState('')
@@ -18,6 +19,8 @@ function Card({id, icon, title, max_members, is_public, members, showFavoriteBut
   const [favorites, setFavorites] = useState([])
   const [password, setPassword] = useState('')
   const [reloadComponent, setReloadComponent] = useState(false)
+  let [showErrorModal, setErrorModalStatus] = useState(false)
+  let [modalMessage, setModalMessage] = useState('')
 
   const history = useHistory()
   const userToken = localStorage.getItem('userToken')
@@ -31,9 +34,13 @@ function Card({id, icon, title, max_members, is_public, members, showFavoriteBut
 
   useEffect(() => {
     const updateFavorite = async () => {
-      const {data} = await api.get(`groups/${id}`, {headers})
-      const {favorites} = data
-      setFavorites(favorites)
+      try {
+        const {data} = await api.get(`groups/${id}`, {headers})
+        const {favorites} = data
+        setFavorites(favorites)
+      } catch(err) {
+        handleErrorModal(err.response.data.name)
+      }
       
     }
     updateFavorite()
@@ -46,7 +53,7 @@ function Card({id, icon, title, max_members, is_public, members, showFavoriteBut
       await api.patch(`groups/${id}/favorite`, {}, {headers})
       setReloadComponent(true)
     } catch(err) {
-      alert(err.response.data.name)
+      handleErrorModal(err.response.data.name)
     }
   }
 
@@ -66,8 +73,17 @@ function Card({id, icon, title, max_members, is_public, members, showFavoriteBut
         await api.patch(`groups/${id}/join`, payload, {headers})
         history.push(`/group/${id}`)
       } catch(err) {
-        alert(err.response.data.name)
+        handleErrorModal(err.response.data.name)
       }
+  }
+
+  const closeErrorModal = () => {
+    setErrorModalStatus(false)
+  }
+
+  const handleErrorModal = (message) => {
+      setModalMessage(message)
+      setErrorModalStatus(true)
   }
 
   return (
@@ -89,6 +105,14 @@ function Card({id, icon, title, max_members, is_public, members, showFavoriteBut
               <span className="card__detail"><FaUserAlt className="card__detail__icon" />{members}/{max_members}</span>
             </div>
           </div>
+          {
+            showErrorModal ? (
+            <>
+                <ErrorModal closeModal={closeErrorModal} message={modalMessage} />
+                <div className='overlay'></div>
+            </>
+            ) : ''
+          }
       </div>
       {
         showModal ? (
@@ -155,6 +179,14 @@ function Card({id, icon, title, max_members, is_public, members, showFavoriteBut
               <span className="card__detail"><FaUserAlt className="card__detail__icon" />{members}/{max_members}</span>
             </div>
           </div>
+          {
+            showErrorModal ? (
+            <>
+                <ErrorModal closeModal={closeErrorModal} message={modalMessage} />
+                <div className='overlay'></div>
+            </>
+            ) : ''
+          }
     </Link>
     )
   )
