@@ -9,9 +9,12 @@ import NavBar from '../components/NavBar'
 import Container from '../components/Container'
 import Aside from '../components/Aside'
 import SearchBar from '../components/SearchBar'
+import ErrorModal from '../components/ErrorModal';
 
 export default function GetChats() {
     let [chats, setChats] = useState([])
+    let [showErrorModal, setErrorModalStatus] = useState(false)
+    let [modalMessage, setModalMessage] = useState('')
 
     const { id } = useParams();
     const token = localStorage.getItem('userToken')
@@ -25,12 +28,21 @@ export default function GetChats() {
             const {data} = await api.get(`chats/`, {headers})
             setChats(data)
           } catch(err) {
-            alert(err.response.data[0].name)
+            handleErrorModal(err.response.data[0].name)
           }
         }
     
         getUsers()
-      }, [])
+    }, [])
+
+    const closeErrorModal = () => {
+      setErrorModalStatus(false)
+    }
+  
+    const handleErrorModal = (message) => {
+        setModalMessage(message)
+        setErrorModalStatus(true)
+    }
     
     return (
         <>
@@ -67,6 +79,14 @@ export default function GetChats() {
                             }
                         </div>
                     </div>
+                    {
+                      showErrorModal ? (
+                      <>
+                          <ErrorModal closeModal={closeErrorModal} message={modalMessage} />
+                          <div className='overlay'></div>
+                      </>
+                      ) : ''
+                    }
                 </Container >  
             </main>
         </>

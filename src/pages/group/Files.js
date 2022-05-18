@@ -16,6 +16,7 @@ import setFileButtonProperties from '../../utils/setFileButtonProperties';
 
 import book from '../../assets/images/books.png'
 import downloadIcon from '../../assets/images/download.png'
+import ErrorModal from '../../components/ErrorModal'
 
 const getFilename = (file) => {
     const [filename, ext] = file.split('.')
@@ -33,6 +34,8 @@ export default function Files() {
     const [isMod, setMod] = useState(false)
     const [showModal, setModal] = useState(false)
     const [modalTarget, setModalTarget] = useState({})
+    let [showErrorModal, setErrorModalStatus] = useState(false)
+    let [modalMessage, setModalMessage] = useState('')
 
     const { id } = useParams();
     const token = localStorage.getItem('userToken')
@@ -61,7 +64,7 @@ export default function Files() {
             })
             setFiles(files_array.flat())
           } catch(err) {
-            alert(err)
+            handleErrorModal(err.response.data.error)
           }
         }
         getFiles()
@@ -72,18 +75,7 @@ export default function Files() {
             const fileKey = e.currentTarget.value
             await api.get(`files/download/${fileKey}`, {headers})
         } catch(err) {
-            alert(err.response.data.error)
-        }
-    }
-
-    const quitGroup = async () => {
-        try {
-            const isConfirmed = window.confirm('Are you sure that you want to leave this group?')
-            if(!isConfirmed) return
-            await api.delete(`members/group/${id}`, {headers})
-            history.push('/home')
-        } catch(err) {
-            alert(err.response.data.error)
+            handleErrorModal(err.response.data.error)
         }
     }
 
@@ -98,6 +90,15 @@ export default function Files() {
         setModal(true)
     }
     
+    const closeErrorModal = () => {
+        setErrorModalStatus(false)
+    }
+
+    const handleErrorModal = (message) => {
+        setModalMessage(message)
+        setErrorModalStatus(true)
+    }
+
     return (
         <>
         <NavBar />
@@ -154,6 +155,14 @@ export default function Files() {
                         ) : ''
                     }  
                 </div>
+                {
+                    showErrorModal ? (
+                    <>
+                        <ErrorModal closeModal={closeErrorModal} message={modalMessage} />
+                        <div className='overlay'></div>
+                    </>
+                    ) : ''
+                }
                 </Container >  
             </main>
         </>

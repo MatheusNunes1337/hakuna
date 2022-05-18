@@ -23,6 +23,8 @@ function Home() {
   let [greeting, setGreeting] = useState('')
   let [greetingIcon, setGreetingIcon] = useState('')
   const [paginationIndex, setPaginationIndex] = useState(1)
+  let [showErrorModal, setErrorModalStatus] = useState(false)
+  let [modalMessage, setModalMessage] = useState('')
   
   const id =  localStorage.getItem('userId')
   const token = localStorage.getItem('userToken')

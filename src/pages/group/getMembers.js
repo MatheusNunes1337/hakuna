@@ -11,10 +11,12 @@ import { FaSearch, FaArrowDown, FaArrowUp } from "react-icons/fa";
 import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
 import { AiFillDelete } from "react-icons/ai";
 import {MdOutlineArrowBack} from 'react-icons/md'
-import { Alert } from 'bootstrap'
 import {HiUserGroup} from 'react-icons/hi'
 
 import group from '../../assets/images/group.png'
+import ErrorModal from '../../components/ErrorModal'
+import SucessModal from '../../components/SucessModal'
+import WarningModal from '../../components/WarningModal'
 
 export default function Membros() {
     const { id } = useParams();
@@ -33,6 +35,11 @@ export default function Membros() {
     const [totalModsPages, setTotalModsPages] = useState(0)
     const [totalMembersPages, setTotalMembersPages] = useState(0)
     const [reloadComponents, setReloadComponents] = useState(false)
+    let [showErrorModal, setErrorModalStatus] = useState(false)
+    let [showSucessModal, setSucessModalStatus] = useState(false)
+    let [showWarningModal, setWarningModalStatus] = useState(false)
+    let [isOperationConfirmed, setConfirmOperation] = useState(false)
+    let [modalMessage, setModalMessage] = useState('')
 
     useEffect(() => {
         const getMembers = async () => {
@@ -57,8 +64,7 @@ export default function Membros() {
             setMods(paginate(mods, modPaginationIndex))
             setReloadComponents(false)
           } catch(err) {
-            //const {name} = err.response.data[0]
-            alert(err.response.data[0].name)
+            handleErrorModal(err.response.data[0].name)
           }
         }
         getMembers()
@@ -67,41 +73,41 @@ export default function Membros() {
 
     const deleteMember = async (event) => {
         const memberId = event.currentTarget.value
-        const confirmed = window.confirm('Are you sure you want to remove this member from the group?')
-        if(confirmed) {
+        handleWarningModal('Você tem certeza que deseja remover esse usuário do grupo?')
+        if(isOperationConfirmed) {
             try {
                 await api.delete(`groups/${id}/members/${memberId}`, { headers })
-                Alert('Member removed successfully')
+                handleSucessModal('Usuário removido com sucesso')
             } catch(err) {
-                alert(err.response.data.name)
+                handleErrorModal(err.response.data.name)
             }
         } 
     }
 
     const makeMod = async (event) => {
         const memberId = event.currentTarget.value
-        const confirmed = window.confirm('Are you sure you want to make this member a moderator?')
-        if(confirmed) {
+        handleWarningModal('Você tem certeza que deseja tornar esse membro um moderador?')
+        if(isOperationConfirmed) {
             try {
                 await api.patch(`groups/${id}/mods/${memberId}`, {}, { headers })
-                alert('Operação realizada com sucesso')
+                handleSucessModal('Operação realizada com sucesso')
                 setReloadComponents(true)
             } catch(err) {
-                alert(err.response.data.name)
+                handleErrorModal(err.response.data.name)
             }
         } 
     }
 
     const revokeMod = async (event) => {
         const modId = event.currentTarget.value
-        const confirmed = window.confirm('Are you sure you want to revoke moderator privileges from this member?')
-        if(confirmed) {
+        handleWarningModal('Você tem certeza que deseja revogar os privilégios de moderador desse membro?')
+        if(isOperationConfirmed) {
             try {
                 await api.delete(`groups/${id}/mods/${modId}`, { headers })
-                alert('Operação realizada com sucesso')
+                handleSucessModal('Operação realizada com sucesso')
                 setReloadComponents(true)
             } catch(err) {
-                alert(err.response.data.name)
+                handleErrorModal(err.response.data.name)
             }
         }  
     }
@@ -142,6 +148,32 @@ export default function Membros() {
 
         const id = event.currentTarget.value
         history.push(`/${id}`)
+    }
+
+    const closeModal = () => {
+        setErrorModalStatus(false)
+        setSucessModalStatus(false)
+        setWarningModalStatus(false)
+        setConfirmOperation(false)
+      }
+  
+      const confirmOperation = () => {
+        setConfirmOperation(true)
+      }
+  
+      const handleErrorModal = (message) => {
+          setModalMessage(message)
+          setErrorModalStatus(true)
+      }
+  
+      const handleSucessModal = (message) => {
+          setModalMessage(message)
+          setSucessModalStatus(true)
+      }
+  
+      const handleWarningModal = (message) => {
+        setModalMessage(message)
+        setWarningModalStatus(true)
     }
 
     return (
@@ -224,6 +256,30 @@ export default function Membros() {
                             ) : ''
                         }
                     </div>
+                    {
+                        showErrorModal ? (
+                        <>
+                            <ErrorModal closeModal={closeModal} message={modalMessage} />
+                            <div className='overlay'></div>
+                        </>
+                        ) : ''
+                    }
+                    {
+                        showSucessModal ? (
+                        <>
+                            <SucessModal closeModal={closeModal} message={modalMessage} />
+                            <div className='overlay'></div>
+                        </>
+                        ) : ''
+                    }
+                    {
+                        showWarningModal ? (
+                        <>
+                            <WarningModal closeModal={closeModal} cancelOperation={closeModal} confirmOperation={confirmOperation} message={modalMessage} />
+                            <div className='overlay'></div>
+                        </>
+                        ) : ''
+                    }
                 </Container >  
             </main>
         </>

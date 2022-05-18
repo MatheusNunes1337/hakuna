@@ -10,9 +10,12 @@ import SearchBar from '../components/SearchBar'
 import goldMedal from '../assets/images/gold_medal.png'
 import silverMedal from '../assets/images/silver_medal.png'
 import bronzeMedal from '../assets/images/bronze_medal.png'
+import ErrorModal from '../components/ErrorModal'
 
 export default function Ranking() {
     let [users, setUsers] = useState([])
+    let [showErrorModal, setErrorModalStatus] = useState(false)
+    let [modalMessage, setModalMessage] = useState('')
 
     const { id } = useParams();
     const token = localStorage.getItem('userToken')
@@ -27,12 +30,21 @@ export default function Ranking() {
             const {users} = data
             setUsers(users)
           } catch(err) {
-            alert(err.response.data.name)
+            handleErrorModal(err.response.data.name)
           }
         }
     
         getUsers()
-      }, [])
+    }, [])
+
+    const closeErrorModal = () => {
+      setErrorModalStatus(false)
+    }
+  
+    const handleErrorModal = (message) => {
+        setModalMessage(message)
+        setErrorModalStatus(true)
+    }
 
     return (
         <>
@@ -69,6 +81,14 @@ export default function Ranking() {
                             }
                         </div>
                     </div>
+                    {
+                      showErrorModal ? (
+                      <>
+                          <ErrorModal closeModal={closeErrorModal} message={modalMessage} />
+                          <div className='overlay'></div>
+                      </>
+                      ) : ''
+                    }
                 </Container >  
             </main>
         </>

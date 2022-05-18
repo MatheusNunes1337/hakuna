@@ -11,6 +11,7 @@ import Card from '../../components/Card'
 import SearchBar from '../../components/SearchBar'
 
 import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
+import ErrorModal from '../../components/ErrorModal'
 
 function useQuery() {
     const { search } = useLocation();
@@ -22,6 +23,8 @@ function GetGroups() {
   const [paginationIndex, setPaginationIndex] = useState(1)
   const [totalPages, setTotalPages] = useState(0)
   const [offset, setOffset] = useState(0)
+  let [showErrorModal, setErrorModalStatus] = useState(false)
+  let [modalMessage, setModalMessage] = useState('')
 
   let query = useQuery();
 
@@ -37,7 +40,7 @@ function GetGroups() {
         setGroups(groups)
         setTotalPages(Math.ceil(groups.length / 12))
       } catch(err) {
-        alert(err.response.data.name)
+        handleErrorModal(err.response.data.name)
       }
     }
 
@@ -52,6 +55,15 @@ function GetGroups() {
   const previousPage = () => {
       setPaginationIndex(paginationIndex - 1)
       setOffset(offset - 12)
+  }
+
+  const closeErrorModal = () => {
+    setErrorModalStatus(false)
+  }
+
+  const handleErrorModal = (message) => {
+      setModalMessage(message)
+      setErrorModalStatus(true)
   }
 
   return (
@@ -100,6 +112,14 @@ function GetGroups() {
               ) : ''
             }
           </div>
+          {
+            showErrorModal ? (
+            <>
+                <ErrorModal closeModal={closeErrorModal} message={modalMessage} />
+                <div className='overlay'></div>
+            </>
+            ) : ''
+          }
         </Container >  
       </main>  
     </>  

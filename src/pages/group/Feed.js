@@ -35,6 +35,7 @@ import deleteIcon from '../../assets/images/trash.png'
 import requestHelp from '../../assets/images/request_help.png'
 import postIcon from '../../assets/images/post.png'
 import setGroupIcon from '../../utils/setGroupIcon';
+import ErrorModal from '../../components/ErrorModal';
 
 export default function Feed() {
     const [posts, setPosts] = useState([])
@@ -78,6 +79,11 @@ export default function Feed() {
     const [editablePost, setEditablePost] = useState({})
     const [editableComment, setEditableComment] = useState({})
     const [editCommentIds, setEditCommentIds] = useState([])
+    let [showErrorModal, setErrorModalStatus] = useState(false)
+    let [showSucessModal, setSucessModalStatus] = useState(false)
+    let [showWarningModal, setWarningModalStatus] = useState(false)
+    let [isOperationConfirmed, setConfirmOperation] = useState(false)
+    let [modalMessage, setModalMessage] = useState('')
 
     const { id } = useParams();
     const token = localStorage.getItem('userToken')
@@ -99,7 +105,7 @@ export default function Feed() {
             setPosts(posts.reverse())
             setReloadComponents(false)
           } catch(err) {
-            alert(err.response.data.name)
+            handleErrorModal(err.response.data.name)
           }
         }
         getMods()
@@ -115,15 +121,16 @@ export default function Feed() {
         e.preventDefault()
 
         if(content.length == 0) {
-            alert('The post content cannot be null.')
+            handleErrorModal('The post content cannot be null.')
             return 
         } else if(content.length > 2000) {
-            alert('The post content must be a maximum of 2000 characters.')
+            handleErrorModal('The post content must be a maximum of 2000 characters.')
             return 
         }
 
         if(Array.from(files).length > 3) {
-            alert('You can only upload a maximum of three files per post.')
+            handleErrorModal('You can only upload a maximum of three files per post.')
+            return 
         }
 
         const formData = new FormData()
@@ -133,14 +140,28 @@ export default function Feed() {
         })
         const headers = { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data"}
         if(!postEditionMode) {
-            await api.post(`groups/${id}/posts`, formData, {headers})
-            alert('Post criado com sucesso')
+            try {
+                await api.post(`groups/${id}/posts`, formData, {headers})
+                handleSucessModal('Postagem criada com sucesso')
+            } catch(err) {
+                if(!Array.isArray(err.response.data))
+                    handleErrorModal(err.response.data.name)
+                else 
+                    handleErrorModal(err.response.data[0].name)
+            }
         } else {
-            await api.patch(`groups/${id}/posts/${editablePost._id}`, formData, {headers})
-            alert('Post editado com sucesso')
-            setFiles([])
-            setContent('')
-            setPostEditionMode(false)
+            try {
+                await api.patch(`groups/${id}/posts/${editablePost._id}`, formData, {headers})
+                handleSucessModal('Post editado com sucesso')
+                setFiles([])
+                setContent('')
+                setPostEditionMode(false)
+            } catch(err) {
+                if(!Array.isArray(err.response.data))
+                    handleErrorModal(err.response.data.name)
+                else 
+                    handleErrorModal(err.response.data[0].name)
+            }
         }
         const input = document.getElementsByClassName('form__textarea')[0]
         input.value = ''
@@ -149,12 +170,13 @@ export default function Feed() {
 
     const quitGroup = async () => {
         try {
-            const isConfirmed = window.confirm('Are you sure that you want to leave this group?')
-            if(!isConfirmed) return
-            await api.delete(`members/group/${id}`, {headers})
-            history.push('/home')
+            handleWarningModal('Você tem certeza que deseja deixar esse grupo? Você não terá acesso as postagens e materiais')
+            if(isOperationConfirmed) {
+                await api.delete(`members/group/${id}`, {headers})
+                history.push('/home')
+            }
         } catch(err) {
-            alert(err.response.data.error)
+            handleErrorModal(err.response.data.error)
         }
     }
 
@@ -189,7 +211,7 @@ export default function Feed() {
             await api.patch(`groups/${id}/posts/${postId}`, formData, {headers})
             setReloadComponents(true)
         } catch(err) {
-            alert(err.response.data.name)
+            handleErrorModal(err.response.data.name)
         }
     }
 
@@ -203,7 +225,7 @@ export default function Feed() {
             await api.patch(`groups/${id}/posts/${postId}`, formData, {headers})
             setReloadComponents(true)
         } catch(err) {
-            alert(err.response.data.name)
+            handleErrorModal(err.response.data.name)
         }
     }
 
@@ -217,7 +239,7 @@ export default function Feed() {
             await api.patch(`groups/${id}/posts/${postId}/comments/${commentId}`, formData, {headers})
             setReloadComponents(true)
         } catch(err) {
-            alert(err.response.data.name)
+            handleErrorModal(err.response.data.name)
         }
     }
 
@@ -231,7 +253,7 @@ export default function Feed() {
             await api.patch(`groups/${id}/posts/${postId}/comments/${commentId}`, formData, {headers})
             setReloadComponents(true)
         } catch(err) {
-            alert(err.response.data.name)
+            handleErrorModal(err.response.data.name)
         }
     }
 
@@ -278,15 +300,15 @@ export default function Feed() {
 
     const createComment = async (postId) => {
         if(commentContent.length == 0) {
-            alert('The comment content cannot be null.')
+            handleErrorModal('The comment content cannot be null.')
             return 
+            
         } else if(content.length > 300) {
-            alert('The comment content must be a maximum of 300 characters.')
+            handleErrorModal('The comment content must be a maximum of 300 characters.')
             return 
-        }
-
-        if(Array.from(commentFiles).length > 3) {
-            alert('You can only upload a maximum of three files per comment.')
+        } else if(Array.from(commentFiles).length > 3) {
+            handleErrorModal('You can only upload a maximum of three files per comment.')
+            return
         }
 
         try {
@@ -301,18 +323,21 @@ export default function Feed() {
             const headers = { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data"}
             if(!commentEditionMode) {
                 await api.post(`groups/${id}/posts/${postId}/comments`, formData, {headers})
-                alert('Comentário criado com sucesso.')
+                handleSucessModal('Comentário criado com sucesso.')
             } else {
                 const [postId, commentId] = editCommentIds
                 await api.patch(`groups/${id}/posts/${postId}/comments/${commentId}`, formData, {headers})
-                alert('Comentário editado com sucesso.')
+                handleSucessModal('Comentário editado com sucesso.')
             }
             setCommentFiles([])
             setCommentContent('')
             setCommentEditionMode(false)
             setReloadComponents(true)
         } catch(err) {
-            alert(err.response.data.name)
+            if(!Array.isArray(err.response.data))
+                handleErrorModal(err.response.data.name)
+            else 
+                handleErrorModal(err.response.data[0].name)
         }
     }
 
@@ -326,26 +351,28 @@ export default function Feed() {
     const deletePost = async (e) => {
         const postId = e.target.className
         try {
-            const isConfirmed = window.confirm('Are you sure that you want to delete this post?')
-            if(!isConfirmed) return
-            await api.delete(`groups/${id}/posts/${postId}/`, {headers})
-            alert('Postagem excluída com sucesso.')
-            setReloadComponents(true)
+            handleWarningModal('Você tem certeza que deseja excluir essa postagem?')
+            if(isOperationConfirmed) {
+                await api.delete(`groups/${id}/posts/${postId}/`, {headers})
+                alert('Postagem excluída com sucesso.')
+                setReloadComponents(true)   
+            }
         } catch(err) {
-            alert(err.response.data.name)
+            handleErrorModal(err.response.data.name)
         }
     }
 
     const deleteComment = async(e) => {
         const [commentId, postId] = e.target.className.split(' ')
         try {
-            const isConfirmed = window.confirm('Are you sure that you want to delete this comment?')
-            if(!isConfirmed) return 
-            await api.delete(`groups/${id}/posts/${postId}/comments/${commentId}`, {headers})
-            alert('Comentário excluído com sucesso.')
-            setReloadComponents(true)
+            handleWarningModal('Você tem certeza que deseja excluir esse comentário?')
+            if(isOperationConfirmed) {
+                await api.delete(`groups/${id}/posts/${postId}/comments/${commentId}`, {headers})
+                alert('Comentário excluído com sucesso.')
+                setReloadComponents(true)
+            }
         } catch(err) {
-            alert(err.response.data.name)
+            handleErrorModal(err.response.data.name)
         }
     }
 
@@ -367,8 +394,11 @@ export default function Feed() {
             const {posts} = data
             setPosts(posts)
           } catch(err) {
-            alert(err.response.data.name)
-          }
+            if(!Array.isArray(err.response.data))
+                handleErrorModal(err.response.data.name)
+            else 
+                handleErrorModal(err.response.data[0].name)
+            }
     }
 
     const removeFilter = () => {
@@ -395,7 +425,10 @@ export default function Feed() {
             setPostEditionMode(true)
             setPostOptionsMenu(false)
         } catch(err) {
-            alert(err.response.data.name)
+            if(!Array.isArray(err.response.data))
+                handleErrorModal(err.response.data.name)
+            else 
+                handleErrorModal(err.response.data[0].name)
         }
     }
 
@@ -412,7 +445,10 @@ export default function Feed() {
             setCommentOptionsMenu(false)
             setEditCommentIds([postId, commentId])
         } catch(err) {
-            alert(err.response.data.name)
+            if(!Array.isArray(err.response.data))
+                handleErrorModal(err.response.data.name)
+            else 
+                handleErrorModal(err.response.data[0].name)
         }
     }
 
@@ -427,6 +463,32 @@ export default function Feed() {
         setCommentContent('')
         setFiles([]) 
     }
+
+    const closeModal = () => {
+        setErrorModalStatus(false)
+        setSucessModalStatus(false)
+        setWarningModalStatus(false)
+        setConfirmOperation(false)
+      }
+  
+      const confirmOperation = () => {
+        setConfirmOperation(true)
+      }
+  
+      const handleErrorModal = (message) => {
+          setModalMessage(message)
+          setErrorModalStatus(true)
+      }
+  
+      const handleSucessModal = (message) => {
+          setModalMessage(message)
+          setSucessModalStatus(true)
+      }
+  
+      const handleWarningModal = (message) => {
+        setModalMessage(message)
+        setWarningModalStatus(true)
+      }
 
     return (
         <>
@@ -682,6 +744,14 @@ export default function Feed() {
                 {
                     postEditionMode || commentEditionMode ? (
                     <>
+                        <div className='overlay'></div>
+                    </>
+                    ) : ''
+                }
+                {
+                    showErrorModal ? (
+                    <>
+                        <ErrorModal closeModal={closeModal} message={modalMessage} />
                         <div className='overlay'></div>
                     </>
                     ) : ''

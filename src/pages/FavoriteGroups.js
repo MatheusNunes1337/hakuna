@@ -9,12 +9,15 @@ import SearchBar from '../components/SearchBar'
 
 import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
 import favoriteIcon from '../assets/images/touch.png'
+import ErrorModal from '../components/ErrorModal'
 
 function FavoriteGroups() {
   let [groups, setGroups] = useState([])
   const [paginationIndex, setPaginationIndex] = useState(1)
   const [totalPages, setTotalPages] = useState(0)
   const [offset, setOffset] = useState(0)
+  let [showErrorModal, setErrorModalStatus] = useState(false)
+  let [modalMessage, setModalMessage] = useState('')
 
   const token = localStorage.getItem('userToken')
   const headers = { Authorization: `Bearer ${token}` }
@@ -29,7 +32,7 @@ function FavoriteGroups() {
         setGroups(groups)
         setTotalPages(Math.ceil(groups.length / 12))
       } catch(err) {
-        alert(err.response.data.name)
+        handleErrorModal(err.response.data.name)
       }
     }
 
@@ -44,6 +47,15 @@ function FavoriteGroups() {
   const previousPage = () => {
       setPaginationIndex(paginationIndex - 1)
       setOffset(offset - 12)
+  }
+
+  const closeErrorModal = () => {
+    setErrorModalStatus(false)
+  }
+
+  const handleErrorModal = (message) => {
+      setModalMessage(message)
+      setErrorModalStatus(true)
   }
 
   return (
@@ -92,6 +104,14 @@ function FavoriteGroups() {
               ) : ''
             }
           </div>
+          {
+            showErrorModal ? (
+            <>
+                <ErrorModal closeModal={closeErrorModal} message={modalMessage} />
+                <div className='overlay'></div>
+            </>
+            ) : ''
+          }
         </Container >  
       </main>  
     </>  

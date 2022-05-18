@@ -15,6 +15,8 @@ import Aside from '../components/Aside'
 import SearchBar from '../components/SearchBar'
 
 import io from 'socket.io-client'
+import WarningModal from '../components/WarningModal';
+import ErrorModal from '../components/ErrorModal';
 const socket = io.connect('http://localhost:8080')
 
 export default function Chat() {
@@ -22,6 +24,10 @@ export default function Chat() {
     let [currentMessage, setCurrentMessage] = useState('')
     let [showChatMenu, setChatMenu] = useState(false)
     let [messageTarget, setMessageTarget] = useState('')
+    let [showErrorModal, setErrorModalStatus] = useState(false)
+    let [showWarningModal, setWarningModalStatus] = useState(false)
+    let [isOperationConfirmed, setConfirmOperation] = useState(false)
+    let [modalMessage, setModalMessage] = useState('')
 
     const { id } = useParams();
     const token = localStorage.getItem('userToken')
@@ -44,7 +50,7 @@ export default function Chat() {
           const target = participants.find(participant => participant._id !== userId)
           setMessageTarget(target.username)
         } catch(err) {
-          alert(err.response.data.name)
+          handleErrorModal(err.response.data.name)
         }
       }
       getChatUserInfo()
@@ -59,7 +65,7 @@ export default function Chat() {
         const {data} = await api.get(`chats/${id}/messages`, {headers})
         setMessageList(data)
       } catch(err) {
-        alert(err.response.data.name)
+        handleErrorModal(err.response.data.name)
       }
     }
 
@@ -89,20 +95,41 @@ export default function Chat() {
           setCurrentMessage('');
           getMessages()
         } catch(err) {
-          alert(err.response.data.name)
+          handleErrorModal(err.response.data.name)
         }
       }
     }
 
     const deleteChat = async () => {
       try {
-        const confirmed = window.confirm('Você tem certeza que deseja deletar essa conversa? Todas as mensagens serão perdidas')
-        if(!confirmed) return 
-        await api.delete(`chats/${id}`, {headers})
-        history.push('/chats')
+        handleWarningModal('Você tem certeza que deseja deletar essa conversa? Todas as mensagens serão perdidas')
+        if(isOperationConfirmed) {
+          await api.delete(`chats/${id}`, {headers})
+          history.push('/chats')
+        } 
       } catch(err) {
-        alert(err.response.data.name)
+        handleErrorModal(err.response.data.name)
       }
+    }
+
+    const closeModal = () => {
+      setErrorModalStatus(false)
+      setWarningModalStatus(false)
+      setConfirmOperation(false)
+    }
+
+    const confirmOperation = () => {
+      setConfirmOperation(true)
+    }
+
+    const handleErrorModal = (message) => {
+      setModalMessage(message)
+      setErrorModalStatus(true)
+    }
+
+    const handleWarningModal = (message) => {
+      setModalMessage(message)
+      setWarningModalStatus(true)
     }
 
     return (
@@ -151,6 +178,22 @@ export default function Chat() {
                             <IoSend className='send__message__icon' onClick={sendMessage}/>
                         </div>
                     </div>
+                    {
+                     showErrorModal ? (
+                        <>
+                            <ErrorModal closeModal={closeModal} message={modalMessage} />
+                            <div className='overlay'></div>
+                        </>
+                        ) : ''
+                    }
+                    {
+                        showWarningModal ? (
+                        <>
+                            <WarningModal closeModal={closeModal} cancelOperation={closeModal} confirmOperation={confirmOperation} message={modalMessage} />
+                            <div className='overlay'></div>
+                        </>
+                        ) : ''
+                    }
                 </Container >  
             </main>
         </>

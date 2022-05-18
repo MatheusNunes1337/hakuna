@@ -10,6 +10,7 @@ import Aside from '../../components/Aside'
 import SearchBar from '../../components/SearchBar'
 
 import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
+import ErrorModal from '../../components/ErrorModal'
 
 function useQuery() {
     const { search } = useLocation();
@@ -21,6 +22,8 @@ export default function GetUsers() {
     const [paginationIndex, setPaginationIndex] = useState(1)
     const [totalPages, setTotalPages] = useState(0)
     const [offset, setOffset] = useState(0)
+    let [showErrorModal, setErrorModalStatus] = useState(false)
+    let [modalMessage, setModalMessage] = useState('')
 
     let query = useQuery();
 
@@ -40,7 +43,7 @@ export default function GetUsers() {
             setTotalPages(Math.ceil(users.length / 10))
           } catch(err) {
             console.log(err.response)
-            alert(err.response.data[0].name)
+            handleErrorModal(err.response.data[0].name)
           }
         }
     
@@ -55,6 +58,15 @@ export default function GetUsers() {
     const previousPage = () => {
         setPaginationIndex(paginationIndex - 1)
         setOffset(offset - 10)
+    }
+
+    const closeErrorModal = () => {
+        setErrorModalStatus(false)
+    }
+
+    const handleErrorModal = (message) => {
+        setModalMessage(message)
+        setErrorModalStatus(true)
     }
 
     return (
@@ -97,6 +109,14 @@ export default function GetUsers() {
                             ) : ''
                         }
                     </div>
+                    {
+                    showErrorModal ? (
+                        <>
+                            <ErrorModal closeModal={closeErrorModal} message={modalMessage} />
+                            <div className='overlay'></div>
+                        </>
+                        ) : ''
+                    }
                 </Container >  
             </main>
         </>

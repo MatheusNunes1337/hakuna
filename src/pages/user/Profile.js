@@ -13,6 +13,7 @@ import Container from '../../components/Container'
 import Aside from '../../components/Aside'
 import SearchBar from '../../components/SearchBar'
 import Card from '../../components/Card';
+import ErrorModal from '../../components/ErrorModal';
 
 export default function Profile() {
     let [profileId, setProfileId] = useState('')
@@ -22,6 +23,8 @@ export default function Profile() {
     let [contributionPoints, setPoints] = useState(0)
     let [profilePic, setProfilePic] = useState('')
     let [groupsInCommon, setGroups] = useState([])
+    let [showErrorModal, setErrorModalStatus] = useState(false)
+    let [modalMessage, setModalMessage] = useState('')
 
     const history = useHistory()
     const { id } = useParams();
@@ -42,7 +45,7 @@ export default function Profile() {
           setProfilePic(`https://hakuna-1337.s3.amazonaws.com/${profilePic}`)
           setProfileId(_id)
         } catch(err) {
-          alert(err.response.data.name)
+          handleErrorModal(err.response.data.name)
         }
       }
 
@@ -52,7 +55,7 @@ export default function Profile() {
           const {groups} = data
           setGroups(groups)
         } catch(err) {
-          alert(err.response.data.name)
+          handleErrorModal(err.response.data.name)
         }
       }
 
@@ -67,8 +70,17 @@ export default function Profile() {
         const {_id} = data
         history.push(`/chats/${_id}`)
       } catch(err) {
-        alert(err.response.data.name)
+        handleErrorModal(err.response.data.name)
       }
+    }
+
+    const closeErrorModal = () => {
+      setErrorModalStatus(false)
+    }
+
+    const handleErrorModal = (message) => {
+        setModalMessage(message)
+        setErrorModalStatus(true)
     }
   
     return (
@@ -123,6 +135,14 @@ export default function Profile() {
                 }
             </div>
             </div>
+            {
+              showErrorModal ? (
+              <>
+                  <ErrorModal closeModal={closeErrorModal} message={modalMessage} />
+                  <div className='overlay'></div>
+              </>
+              ) : ''
+            }
           </Container >  
         </main>  
         </>

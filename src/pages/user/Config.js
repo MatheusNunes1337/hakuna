@@ -11,6 +11,9 @@ import {FaSave} from 'react-icons/fa'
 import { MdAddAPhoto } from "react-icons/md";
 import { BsFillGearFill } from "react-icons/bs";
 import settings from '../../assets/images/config.png'
+import WarningModal from '../../components/WarningModal'
+import SucessModal from '../../components/SucessModal'
+import ErrorModal from '../../components/ErrorModal'
 
 export default function UserConfig() {
     let [username, setUsername] = useState('')
@@ -23,6 +26,11 @@ export default function UserConfig() {
     let [endImg] = useState('')
     let [isImageSave, setImageStatus] = useState(false)
     const [showSavePicButton, setSavePicButtonStatus] = useState(false)
+    let [showErrorModal, setErrorModalStatus] = useState(false)
+    let [showSucessModal, setSucessModalStatus] = useState(false)
+    let [showWarningModal, setWarningModalStatus] = useState(false)
+    let [isOperationConfirmed, setConfirmOperation] = useState(false)
+    let [modalMessage, setModalMessage] = useState('')
 
     const history = useHistory()
     const id =  localStorage.getItem('userId')
@@ -41,7 +49,7 @@ export default function UserConfig() {
           setArea(area)
           setProfilePic(`https://hakuna-1337.s3.amazonaws.com/${profilePic}`)
         } catch(err) {
-          alert(err.response.data.name)
+            handleErrorModal(err.response.data.name)
         }
       }
 
@@ -54,19 +62,25 @@ export default function UserConfig() {
       try {
         const payload =  {username, email, type, area}
         await api.patch(`users/${id}`, payload, {headers})
-        alert('informações alteradas com sucesso')
+        handleSucessModal('informações atualizadas com sucesso')
       } catch(err) {
-        alert(err.response.data.name)
+          if(!Array.isArray(err.response.data))
+            handleErrorModal(err.response.data.name)
+          else 
+            handleErrorModal(err.response.data[0].name)
       }
     }
 
     const changePassword = async () => {
       try {
         await api.patch(`users/${id}`, {password}, {headers})
-        alert('Senha modificada com sucesso')
+        handleSucessModal('Senha modificada com sucesso')
         setVisibility('true')
       } catch(err) {
-        alert(err.response.data.name)
+          if(!Array.isArray(err.response.data))
+            handleErrorModal(err.response.data.name)
+          else 
+            handleErrorModal(err.response.data[0].name)
       }
     }
 
@@ -80,10 +94,13 @@ export default function UserConfig() {
 
     const deleteAccount = async () => {
       try {
-        await api.delete(`users/${id}`, {headers})
-        history.push('/register')
+        handleWarningModal('Você tem certeza que deseja excluir permanentemente a sua conta?')
+        if(isOperationConfirmed) {
+          await api.delete(`users/${id}`, {headers})
+          history.push('/register')
+        }
       } catch(err) {
-        alert(err.response.data.name)
+          handleErrorModal(err.response.data.name)
       }
     }
 
@@ -97,10 +114,40 @@ export default function UserConfig() {
       const formData = new FormData()
       formData.append('profilePic', profilePic)
 
-      await api.patch(`users/${id}`, formData, {headers})
-      setSavePicButtonStatus(false)
-      setImageStatus(true)
-      alert('Imagem de perfil atualizada com sucesso.')
+      try {
+        await api.patch(`users/${id}`, formData, {headers})
+        setSavePicButtonStatus(false)
+        setImageStatus(true)
+        handleSucessModal('Imagem de perfil atualizada com sucesso.')
+      } catch(err) {
+        handleErrorModal(err.response.data.name)
+      }
+    }
+
+    const closeModal = () => {
+      setErrorModalStatus(false)
+      setSucessModalStatus(false)
+      setWarningModalStatus(false)
+      setConfirmOperation(false)
+    }
+
+    const confirmOperation = () => {
+      setConfirmOperation(true)
+    }
+
+    const handleErrorModal = (message) => {
+        setModalMessage(message)
+        setErrorModalStatus(true)
+    }
+
+    const handleSucessModal = (message) => {
+        setModalMessage(message)
+        setSucessModalStatus(true)
+    }
+
+    const handleWarningModal = (message) => {
+      setModalMessage(message)
+      setWarningModalStatus(true)
     }
 
     return (
@@ -158,6 +205,30 @@ export default function UserConfig() {
                     </div>
                 </form>
             </div>
+            {
+                showErrorModal ? (
+                <>
+                    <ErrorModal closeModal={closeModal} message={modalMessage} />
+                    <div className='overlay'></div>
+                </>
+                ) : ''
+            }
+            {
+                showSucessModal ? (
+                <>
+                    <SucessModal closeModal={closeModal} message={modalMessage} />
+                    <div className='overlay'></div>
+                </>
+                ) : ''
+            }
+            {
+                showWarningModal ? (
+                <>
+                    <WarningModal closeModal={closeModal} cancelOperation={closeModal} confirmOperation={confirmOperation} message={modalMessage} />
+                    <div className='overlay'></div>
+                </>
+                ) : ''
+            }
           </Container >  
         </main>  
         </>
