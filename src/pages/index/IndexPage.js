@@ -3,6 +3,10 @@ import { Link, useHistory } from 'react-router-dom'
 import AnchorLink from 'react-anchor-link-smooth-scroll'
 import api from '../../services/api'
 
+import {BsGithub, BsLinkedin, BsInstagram, BsFacebook} from 'react-icons/bs'
+import { IoIosArrowUp } from "react-icons/io";
+import {GrMail} from 'react-icons/gr'
+
 import IndexNavBar from '../../components/IndexNavBar'
 import heroImage from '../../assets/images/girl_studying.png'
 import groupIcon from '../../assets/images/group.png'
@@ -13,8 +17,10 @@ import chatIcon from '../../assets/images/chat.png'
 import postIcon from '../../assets/images/post.png'
 import pointIcon from '../../assets/images/point.png'
 
+
 import '../../assets/css/styles.css'
 import Container from '../../components/Container'
+import Footer from '../../components/Footer'
 
 
 function IndexPage() {
@@ -94,6 +100,7 @@ function IndexPage() {
                         </div>
                     </div>
                 </section>
+                <Footer />
             </main>
         </>
     )

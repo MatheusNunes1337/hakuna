@@ -19,7 +19,7 @@ function IndexNavBar() {
     return (
       <>
         <header>
-          <nav className="index__navbar">
+          <nav className="index__navbar" id='index__nav'>
               <Link to="/" className="index__navbar__brand">Hakuna</Link>
               <span className='hakuna__version'>Beta</span>
               <FaBars onClick={toggleMenu} className="index__navbar__bars"/>
