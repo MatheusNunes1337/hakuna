@@ -6,7 +6,6 @@ import { FaBars } from "react-icons/fa"
 
 function IndexNavBar() {
   let [hiddenMenu, setVisibility] = useState(true)
-  const history = useHistory()
 
     const toggleMenu = () => {
       if(hiddenMenu) {
@@ -30,6 +29,21 @@ function IndexNavBar() {
                   <li className="index__navbar__links"><Link to="/ranking" className="index__navbar__link">Ipsum</Link></li>
               </ul> 
           </nav>
+          {!hiddenMenu
+            ? (
+          <>
+            <div className="index__hidden__menu">
+              <ul className="index__menu">
+                  <li className="index__menu__links"><Link to="/create-group" className="index__menu__link">Sobre</Link></li>
+                  <li className="index__menu__links"><Link to="/ranking" className="index__menu__link">Contato</Link></li>
+                  <li className="index__menu__links"><Link to="/ranking" className="index__menu__link">Lorem</Link></li>
+                  <li className="index__menu__links"><Link to="/ranking" className="index__menu__link">Ipsum</Link></li>
+              </ul>
+            </div>
+          </>    
+          ) 
+          : ''
+          }
         </header>   
       </> 
     )

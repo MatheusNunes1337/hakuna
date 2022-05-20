@@ -2403,10 +2403,6 @@ div.footer__support > a {
     padding: 10px 12px;
 }
 
-section.footer__header .footer__about > span {
-
-}
-
 div.footer__social__medias a:hover {
     background-color: red;
 }
@@ -2443,6 +2439,35 @@ footer p, footer span {
     color: var(--ice-3);
     font-size: 0.9rem;
 }
+
+.index__menu {
+    padding: 1.5rem 0px;
+    margin: 0 auto;
+    background-color: white;
+    margin-bottom: 2rem;
+}
+
+.index__menu > li {
+    padding: .9rem 8%;
+    list-style: none;
+}
+
+.index__menu > li:hover {
+    background-color: var(--blue);
+}
+
+.index__menu > li:hover > a {
+    color: white;
+}
+
+.index__menu > li .index__menu__link {
+    font-size: 1.1rem;
+    color: var(--black);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+
 
 @media (max-width: 1300px) {
     .group__options {
