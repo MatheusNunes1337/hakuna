@@ -3,7 +3,7 @@ import { Link, useParams, useHistory } from 'react-router-dom'
 import api from '../../services/api'
 
 import { HiLogout, HiUsers, HiUserGroup } from "react-icons/hi"
-import { BsFillCameraVideoFill, BsFillGearFill, BsThreeDots, BsFillXCircleFill } from "react-icons/bs";
+import { BsFillCameraVideoFill, BsFillGearFill, BsThreeDots, BsFillXCircleFill, BsThreeDotsVertical } from "react-icons/bs";
 import { AiFillDislike, AiFillLike, AiOutlineLike, AiOutlineDislike, AiFillDelete, AiOutlineHeart } from "react-icons/ai";
 import { MdEdit, MdUpload, MdClose } from "react-icons/md";
 import {FaBook, FaCommentAlt, FaRegCommentAlt, FaHandsHelping, FaSearch} from 'react-icons/fa'
