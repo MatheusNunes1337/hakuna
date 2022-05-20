@@ -34,6 +34,16 @@ function Footer() {
                         <Link to={{pathname:'https://react-icons.github.io/react-icons/'}} className='footer__icon' target='_blank'><img src={reactIcon} alt='freepik' className='react__icon' /></Link>
                     </div>
                 </div>
+                <div className='footer__medias'>
+                    <h2>Redes sociais</h2>
+                    <div className='footer__social__medias'>
+                        <Link to='/'><GrMail /></Link>
+                        <Link to='/'><BsGithub /></Link>
+                        <Link to='/'><BsLinkedin /></Link>
+                        <Link to='/'><BsInstagram /></Link>
+                        <Link to='/'><BsFacebook /></Link>
+                    </div>
+                </div>
             </section>
             <section className='footer__footer'>
                 <p className='footer__copyright'>Copyright &copy; 2022 Hakuna | Todos os direitos reservados</p>
