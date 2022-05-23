@@ -10,9 +10,11 @@ import Aside from '../../components/Aside'
 import SearchBar from '../../components/SearchBar'
 
 import userIcon from '../../assets/images/user.png'
+import cPoints from '../../assets/images/point.png'
 
 import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
 import ErrorModal from '../../components/ErrorModal'
+import ProfileModal from '../../components/ProfileModal'
 
 function useQuery() {
     const { search } = useLocation();
@@ -21,11 +23,13 @@ function useQuery() {
 
 export default function GetUsers() {
     let [users, setUsers] = useState([])
+    let [targetUser, setTargetUser] = useState('')
     const [paginationIndex, setPaginationIndex] = useState(1)
     const [totalPages, setTotalPages] = useState(0)
     const [offset, setOffset] = useState(0)
     let [showErrorModal, setErrorModalStatus] = useState(false)
     let [modalMessage, setModalMessage] = useState('')
+    let [showProfileModal, setProfileModalStatus] = useState(false)
 
     let query = useQuery();
 
@@ -70,6 +74,16 @@ export default function GetUsers() {
         setErrorModalStatus(true)
     }
 
+    const handleProfileModal = (e) => {
+        const targetId = e.currentTarget.value
+        setTargetUser(targetId)
+        setProfileModalStatus(true)
+    }
+
+    const closeProfileModal = () => {
+        setProfileModalStatus(false)
+    }
+
     return (
         <>
         <NavBar />
@@ -86,11 +100,14 @@ export default function GetUsers() {
                               users.length > 0 ?
                                 users.map((user, index)  => {
                                     return (
-                                        <Link className='user__item' to={`/${user._id}`} key={index}>
+                                        <button className='user__item' value={user._id} onClick={handleProfileModal} key={index}>
                                             <img src={`https://hakuna-1337.s3.amazonaws.com/${user.profilePic}`} className='user__img'/>
                                             <span className='user__name'>{user.username}</span>
-                                            <span className='user__points'>{user.contributionPoints} pontos</span>
-                                        </Link>
+                                            <div className='user__points'>
+                                                <img src={cPoints} alt='pontos de contribuição' />
+                                                <span>{user.contributionPoints}</span>
+                                            </div>
+                                        </button>
                                     )
                                 }) : (
                                     <>
@@ -114,6 +131,14 @@ export default function GetUsers() {
                     showErrorModal ? (
                         <>
                             <ErrorModal closeModal={closeErrorModal} message={modalMessage} />
+                            <div className='overlay'></div>
+                        </>
+                        ) : ''
+                    }
+                    {
+                     showProfileModal ? (
+                        <>
+                            <ProfileModal closeModal={closeProfileModal} targetId={targetUser} />
                             <div className='overlay'></div>
                         </>
                         ) : ''
