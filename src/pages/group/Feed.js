@@ -356,12 +356,15 @@ export default function Feed() {
     const deletePost = async (e) => {
         const postId = e.target.className
         try {
-            handleWarningModal('Você tem certeza que deseja excluir essa postagem?')
+            /*handleWarningModal('Você tem certeza que deseja excluir essa postagem?')
             if(isOperationConfirmed) {
                 await api.delete(`groups/${id}/posts/${postId}/`, {headers})
                 alert('Postagem excluída com sucesso.')
                 setReloadComponents(true)   
-            }
+            }*/
+            await api.delete(`groups/${id}/posts/${postId}/`, {headers})
+            alert('Postagem excluída com sucesso.')
+            setReloadComponents(true)
         } catch(err) {
             handleErrorModal(err.response.data.name)
         }

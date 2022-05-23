@@ -34,6 +34,7 @@ function CreateGroup() {
     let [showWarningModal, setWarningModalStatus] = useState(false)
     let [isOperationConfirmed, setConfirmOperation] = useState(false)
     let [modalMessage, setModalMessage] = useState('')
+    const [reloadComponents, setReloadComponents] = useState(false)
 
     const { id } = useParams()
     const history = useHistory()
@@ -60,25 +61,23 @@ function CreateGroup() {
         }
       }
       getGroup()
-    }, [])
+    }, [reloadComponents])
 
      const handleGroup = async (e) => {
         e.preventDefault()
         
         try {
           const payload = {
-            name, description, discipline, topics, maxMembers, isPublic, password
+            name, description, discipline, topics, maxMembers, isPublic
           }
   
-          if(payload.isPublic === 'true') {
+          if(payload.isPublic) {
             payload.password = null
-            payload.isPublic = true
-          } else {
-            payload.isPublic = false
           }
 
           await api.patch(`groups/${id}`, payload, { headers })
           handleSucessModal('informações do grupo atualizadas com sucesso')
+          setReloadComponents(true)
         } catch(err) {
             if(!Array.isArray(err.response.data))
               handleErrorModal(err.response.data.name)
@@ -89,11 +88,13 @@ function CreateGroup() {
 
     const deleteGroup = async () => {
       try {
-        handleWarningModal('Você tem certeza que deseja deletar esse grupo? Todas as postagens e materiais serão perdidos')
+        /*handleWarningModal('Você tem certeza que deseja deletar esse grupo? Todas as postagens e materiais serão perdidos')
         if(isOperationConfirmed) {
           await api.delete(`groups/${id}`, {headers})
           history.push('/home')
-        }
+         }*/
+        await api.delete(`groups/${id}`, {headers})
+        history.push('/home')
       } catch(err) {
         handleErrorModal(err.response.data.name)
       }
@@ -138,6 +139,7 @@ function CreateGroup() {
         handleSucessModal('Password updated successfully')
         setShowPasswordField(false)
         setPassword(null)
+        setReloadComponents(true)
       } catch(err) {
           if(!Array.isArray(err.response.data))
             handleErrorModal(err.response.data.name)
@@ -207,8 +209,8 @@ function CreateGroup() {
                     <input type="text" className="form__input" value={maxMembers} onChange={e => setMembers(e.target.value)} />
                     <label htmlFor="type" className="form__label">Tipo:</label>
                     <select name="type" className="form__select" value={isPublic} onChange={e => setType(e.target.value)}>
-                      <option value="true">público</option>
-                      <option value="false" selected="selected">privado</option>
+                      <option value={true}>público</option>
+                      <option value={false} selected="selected">privado</option>
                     </select>
                     {  showPasswordField
                          ? (
@@ -224,7 +226,7 @@ function CreateGroup() {
                     }
                      <div className="button__group">
                       <button className="form__btn">Salvar</button>
-                      {isPublic.toString() === 'false' ? <button type='button' className="form__btn" onClick={handlePasswordField}>Alterar senha</button> : ''}
+                      {isPublic.toString() === 'false' ? <button type='button' className="form__btn" onClick={handlePasswordField}>Definir senha</button> : ''}
                       <button type="button" className="form__btn" onClick={deleteGroup}>Excluir grupo</button>
                     </div>
                 </form>
