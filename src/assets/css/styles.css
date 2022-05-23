@@ -345,6 +345,10 @@ body {
     cursor: pointer;
 }
 
+.navbar__btn {
+    font-size: 0.9rem;
+}
+
 
 .navbar__link__icon, .navbar__btn__icon, .user__menu__btn__icon {
     margin-right: .35rem;
@@ -464,6 +468,30 @@ main.index__main {
     color: var(--black);
     font-size: 1.1rem;
     text-align: center;
+    font-weight: bold;
+}
+
+.navbar__cPoints__wrapper, .user__cPoints__wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    margin-right: 10px;
+}
+
+.user__cPoints__wrapper {
+    margin-right: 0px;
+    margin-top: 5px;
+}
+
+.navbar__cPoints__wrapper > img, .user__cPoints__wrapper > img {
+    width: 25px;
+    height: 25px;
+}
+
+.navbar__cPoints, .user__cPoints {
+    color: var(--black);
+    font-size: 1rem;
     font-weight: bold;
 }
 
@@ -640,8 +668,8 @@ a.sidebar__links:focus {
 }
 
 .card__image {
-    height: 36px;
-    width: 36px;
+    height: 40px;
+    width: 40px;
     margin-bottom: 10px;
     display: block;
 }
