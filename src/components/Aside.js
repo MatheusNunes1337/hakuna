@@ -13,6 +13,7 @@ import favorite from '../assets/images/touch.png'
 import chat from '../assets/images/chat.png'
 import settings from '../assets/images/config.png'
 import help from '../assets/images/help.png'
+import addIcon from '../assets/images/add.png'
 import ErrorModal from './ErrorModal';
 
 function Aside() {
@@ -30,7 +31,7 @@ function Aside() {
     const getUser = async () => {
       try {
         const {data} = await api.get(`users/${id}`, {headers})
-        const {username, type, profilePic} = data
+        const {username, type, profilePic, contributionPoints} = data
         setUsername(username)
         setProfilePic(`https://hakuna-1337.s3.amazonaws.com/${profilePic}`)
         setType(type)
@@ -58,7 +59,7 @@ function Aside() {
         </picture>
         <span className="sidebar__username">{username}</span>
         <ul className="sidebar__menu">
-          <li className="sidebar__links"><Link to={`/${id}`} className="sidebar__link"><img src={profile} className="sidebar__link__icon"/>Perfil</Link></li>
+        <li className="sidebar__links"><Link to="/create-group" className="sidebar__link"><img src={addIcon} className="sidebar__link__icon"/>Novo grupo</Link></li>
           <li className="sidebar__links"><Link to="/favorite-groups" className="sidebar__link"><img src={favorite} className="sidebar__link__icon"/>Grupos favoritos</Link></li>
           <li className="sidebar__links"><Link to="/chats" className="sidebar__link"><img src={chat} className="sidebar__link__icon"/>Conversas</Link></li>
           {type == 'teacher'? <li className="sidebar__links"><Link to="/home" className="sidebar__link"><img src={help} className="sidebar__link__icon"/>Solicitações de ajuda</Link></li> : ''}
