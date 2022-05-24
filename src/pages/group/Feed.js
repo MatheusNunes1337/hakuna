@@ -38,6 +38,7 @@ import setGroupIcon from '../../utils/setGroupIcon';
 import ErrorModal from '../../components/ErrorModal';
 import SucessModal from '../../components/SucessModal';
 import WarningModal from '../../components/WarningModal';
+import ProfileModal from '../../components/ProfileModal';
 
 
 export default function Feed() {
@@ -87,6 +88,8 @@ export default function Feed() {
     let [showWarningModal, setWarningModalStatus] = useState(false)
     let [isOperationConfirmed, setConfirmOperation] = useState(false)
     let [modalMessage, setModalMessage] = useState('')
+    let [showProfileModal, setProfileModalStatus] = useState(false)
+    let [targetUser, setTargetUser] = useState('')
 
     const { id } = useParams();
     const token = localStorage.getItem('userToken')
@@ -173,13 +176,15 @@ export default function Feed() {
 
     const quitGroup = async () => {
         try {
-            handleWarningModal('Você tem certeza que deseja deixar esse grupo? Você não terá acesso as postagens e materiais')
+            /*handleWarningModal('Você tem certeza que deseja deixar esse grupo? Você não terá acesso as postagens e materiais')
             if(isOperationConfirmed) {
                 await api.delete(`members/group/${id}`, {headers})
                 history.push('/home')
-            }
+            }*/
+            await api.patch(`groups/${id}/quit`, {}, {headers})
+            history.push('/home')
         } catch(err) {
-            handleErrorModal(err.response.data.error)
+            handleErrorModal(err.response.data.name)
         }
     }
 
@@ -498,6 +503,16 @@ export default function Feed() {
         setWarningModalStatus(true)
       }
 
+      const handleProfileModal = (e) => {
+        const [, id] = e.currentTarget.className.split(' ')
+        setTargetUser(id)
+        setProfileModalStatus(true)
+      }
+
+      const closeProfileModal = () => {
+        setProfileModalStatus(false)
+      }
+
     return (
         <>
         <NavBar />
@@ -557,9 +572,9 @@ export default function Feed() {
                                         )
                                      : '' 
                                 }
-                                <img src={`https://hakuna-1337.s3.amazonaws.com/${post.author.profilePic}`} className={`post__author__img ${post.author._id}`} onClick={goToProfile}/>
+                                <img src={`https://hakuna-1337.s3.amazonaws.com/${post.author.profilePic}`} className={`post__author__img ${post.author._id}`} onClick={handleProfileModal}/>
                                 <div className='post__infos'>
-                                    <span className={modsIdList.includes(post.author._id) ? `post__author__name is__mod ${post.author._id}` : `post__author__name ${post.author._id}`}>{post.author.username}</span>
+                                    <span className={modsIdList.includes(post.author._id) ? `post__author__name is__mod ${post.author._id}` : `post__author__name ${post.author._id}`} onClick={handleProfileModal}>{post.author.username}</span>
                                     {post.author.type === 'teacher' ? <span className='post__author__title'>Professor de {post.author.area}</span> : ''}
                                     <span className={post.updated ? 'post__creation_time updated__content' : 'post__creation_time'}>{post.creationTime}</span>
                                 </div>
@@ -776,6 +791,14 @@ export default function Feed() {
                     showWarningModal ? (
                     <>
                         <WarningModal closeModal={closeModal} cancelOperation={closeModal} confirmOperation={confirmOperation} message={modalMessage} />
+                        <div className='overlay'></div>
+                    </>
+                    ) : ''
+                }
+                {
+                    showProfileModal ? (
+                    <>
+                        <ProfileModal closeModal={closeProfileModal} targetId={targetUser} />
                         <div className='overlay'></div>
                     </>
                     ) : ''

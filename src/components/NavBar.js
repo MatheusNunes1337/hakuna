@@ -30,11 +30,12 @@ function NavBar() {
   let [showErrorModal, setErrorModalStatus] = useState(false)
   let [contributionPoints, setCPoints] = useState('')
   let [modalMessage, setModalMessage] = useState('')
-  const history = useHistory()
-
+  
   const id =  localStorage.getItem('userId')
   const token = localStorage.getItem('userToken')
   const headers = { Authorization: `Bearer ${token}` }
+
+  const history = useHistory()
 
   useEffect(() => {
     const getUser = async () => {
@@ -88,7 +89,7 @@ function NavBar() {
                     <span className="navbar__cPoints">{contributionPoints}</span>
                   </div>
                   <li className="navbar__links"><Link to="/ranking" className="navbar__link"><FaCrown className="navbar__link__icon" />Ranking</Link></li>
-                  <button className="navbar__btn"><AiOutlineLogout className="navbar__btn__icon" onClick={logout}/>Logout</button>
+                  <button className="navbar__btn" onClick={logout}><AiOutlineLogout className="navbar__btn__icon"/>Logout</button>
               </ul> 
           </nav>
           {!hiddenMenu

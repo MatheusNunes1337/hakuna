@@ -17,6 +17,7 @@ import group from '../../assets/images/group.png'
 import ErrorModal from '../../components/ErrorModal'
 import SucessModal from '../../components/SucessModal'
 import WarningModal from '../../components/WarningModal'
+import ProfileModal from '../../components/ProfileModal'
 
 export default function Membros() {
     const { id } = useParams();
@@ -40,6 +41,8 @@ export default function Membros() {
     let [showWarningModal, setWarningModalStatus] = useState(false)
     let [isOperationConfirmed, setConfirmOperation] = useState(false)
     let [modalMessage, setModalMessage] = useState('')
+    let [showProfileModal, setProfileModalStatus] = useState(false)
+    let [targetUser, setTargetUser] = useState('')
 
     useEffect(() => {
         const getMembers = async () => {
@@ -174,6 +177,16 @@ export default function Membros() {
       const handleWarningModal = (message) => {
         setModalMessage(message)
         setWarningModalStatus(true)
+      }
+
+    const handleProfileModal = (e) => {
+        const targetId = e.currentTarget.value
+        setTargetUser(targetId)
+        setProfileModalStatus(true)
+    }
+
+    const closeProfileModal = () => {
+        setProfileModalStatus(false)
     }
 
     return (
@@ -234,7 +247,7 @@ export default function Membros() {
                                                 {
                                                     member._id !== userId ? (
                                                         <div className='member__action__btns'>
-                                                            <button className='member__action__btn' title='Ver perfil' value={member._id} onClick={goToProfile}><FaSearch /></button>
+                                                            <button className='member__action__btn' title='Ver perfil' value={member._id} onClick={handleProfileModal}><FaSearch /></button>
                                                             <button className='member__action__btn' title='Tornar moderador' onClick={makeMod} value={member._id}><FaArrowUp /></button>
                                                             <button className='member__action__btn' title='Remover membro' onClick={deleteMember} value={member._id}><AiFillDelete /></button>
                                                         </div>
@@ -276,6 +289,14 @@ export default function Membros() {
                         showWarningModal ? (
                         <>
                             <WarningModal closeModal={closeModal} cancelOperation={closeModal} confirmOperation={confirmOperation} message={modalMessage} />
+                            <div className='overlay'></div>
+                        </>
+                        ) : ''
+                    }
+                    {
+                     showProfileModal ? (
+                        <>
+                            <ProfileModal closeModal={closeProfileModal} targetId={targetUser} />
                             <div className='overlay'></div>
                         </>
                         ) : ''

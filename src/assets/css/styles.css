@@ -1160,6 +1160,12 @@ span.member__type {
     border-radius: 5px;
 }
 
+.users__container .user__item {
+    border: none;
+    outline: unset;
+    width: 100%;
+}
+
 .ranking__container .ranking__item > span, .users__container .user__item > span {
     display: block;
 }
@@ -1172,8 +1178,8 @@ span.member__type {
 .ranking__item .ranking__user__img, .member__img, 
 .user__item .user__img, 
 .chat__item .chat__user__img {
-    width: 55px;
-    height: 55px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     margin-left: 25px;
 }
@@ -1189,13 +1195,15 @@ span.member__type {
 
 .ranking__item .ranking__user__name, .member__name, .user__item .user__name, .chat__item .chat__username {
     margin-left: 25px;
-    font-size: clamp(14px, 2vw, 17px);
+    font-size: clamp(14px, 1.30vw, 17px);
     font-weight: bold;
     flex-grow: 1;
 }
 
 .user__item .user__name {
     margin-left: 15px;
+    justify-self: flex-start;
+    flex-grow: 0;
 }
 
 .chat__item .chat__username {
@@ -1236,9 +1244,19 @@ span.member__type {
 }
 
 .ranking__item .ranking__user__points, .user__item .user__points {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
     margin-left: auto;
-    font-size: clamp(14px, 2vw, 17px);
+    font-size: clamp(14px, 1.30vw, 17px);
     font-weight: bold;
+}
+
+.ranking__item > img, 
+.user__item .user__points > img {
+    width: 25px;
+    height: 25px;
+    justify-self: flex-end;
 }
 
 .ranking__item:nth-child(1) .ranking__user__points {
@@ -1915,7 +1933,7 @@ h3.groups__in__common__title {
     font-size: 1.2rem;
 }
 
-.edit__content__modal, .group__info__modal, .file__info__modal, .message__modal {
+.edit__content__modal, .group__info__modal, .file__info__modal, .message__modal, .profile__modal {
     position: fixed;
     width: 55%;
     min-height: 400px;
@@ -2009,12 +2027,12 @@ h3.groups__in__common__title {
     display: block;
 }
 
-.close__edit__modal, .close__message__modal {
+.close__edit__modal, .close__message__modal, .close__profile__modal {
     font-size: 1.7rem;
     cursor: pointer;
 }
 
-.message__modal {
+.message__modal, .profile__modal {
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
@@ -2034,7 +2052,7 @@ h3.groups__in__common__title {
     position: relative;
 }
 
-.message__modal .close__message__modal {
+.message__modal .close__message__modal, .close__profile__modal {
     right: 0px;
     top: 0px;
     position: absolute;
@@ -2058,7 +2076,7 @@ h3.groups__in__common__title {
     color: var(--black);
 }
 
-.close__message__modal {
+.close__message__modal, .close__profile__modal {
     position: absolute;
     margin-top: 15px;
     margin-right: 15px;
@@ -2522,6 +2540,60 @@ footer p, footer span {
     font-weight: bold;
 }
 
+.profile__modal {
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.profile__modal__header {
+    display: flex;
+    justify-content: center;
+}
+
+.profile__modal__header > img {
+    width: 115px;
+    height: 115px;
+    border-radius: 50%;
+}
+
+.profile__modal__user__info {
+    margin-top: 10px;
+}
+
+.profile__modal__user__info span {
+    display: flex;
+    justify-content: center;
+    font-size: clamp(14px, 1.30vw, 17px);
+    font-weight: bold;
+    color: var(--black);
+}
+
+.profile__modal__user__info > div.profile__modal__points {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    margin-top: 5px;
+}
+
+.profile__modal__points > img {
+    width: 25px;
+    height: 25px;
+}
+
+.profile__modal > button {
+    margin-top: 12px;
+    border: none;
+    outline: unset;
+    padding: 8px 12px;
+    border-radius: 5px;
+    color: white;
+    background-color: var(--blue);
+    font-weight: bold;
+    cursor: pointer;
+}
+
 @media (max-width: 1300px) {
     .group__options {
         gap: 0.5rem;
@@ -2735,11 +2807,16 @@ footer p, footer span {
         flex-direction: column;
     }
 
-    .edit__content__modal, .group__info__modal, .message__modal, .file__info__modal {
+    .edit__content__modal, .group__info__modal, .message__modal, .file__info__modal, .profile__modal {
         width: 70%;
     }
 
-    .message__modal {
+    .profile__modal__header > img {
+        width: 100px;
+        height: 100px;
+    }
+
+    .message__modal, .profile__modal {
         padding: 2rem;
     }
 
@@ -2927,7 +3004,7 @@ footer p, footer span {
         width: calc(33.33333% - 3px);
     }
 
-    .edit__content__modal, .group__info__modal, .message__modal, .file__info__modal {
+    .edit__content__modal, .group__info__modal, .message__modal, .file__info__modal, .profile__modal {
         width: 90%;
     }
 
