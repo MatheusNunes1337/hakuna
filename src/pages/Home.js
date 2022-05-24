@@ -128,7 +128,7 @@ function Home() {
                   <div className='pagination__wrapper'>
                       <button disabled={groupPaginationIndex === 1}  className='pagination__btn' onClick={previousPage}><BsChevronLeft /></button>
                       <span className='pagination__index'>{groupPaginationIndex}</span>
-                      <button className='pagination__btn' onClick={nextPage}><BsChevronRight /></button>
+                      <button disabled={groupPaginationIndex === totalGroupPages} className='pagination__btn' onClick={nextPage}><BsChevronRight /></button>
                   </div>
               ) : ''
             }

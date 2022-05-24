@@ -1100,8 +1100,8 @@ span.member__type {
     gap: 10px;
     bottom: 0;
     width: 100%;
-    padding: 12px 10px;
-    background-color: var(--ice-2);
+    padding: 12px 0px;
+    background-color: transparent;
 }
 
 .chat__message__send__wrapper .chat__input {
@@ -1113,7 +1113,7 @@ span.member__type {
     border-right: none;
     border-top: 2px solid var(--ice-2);
     border-radius: 5px;
-    background-color: white;
+    background-color: var(--ice-2);
     outline: none;
     font-size: 0.95rem;
     font-family: 'Roboto', sans-serif;

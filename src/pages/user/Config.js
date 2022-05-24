@@ -31,6 +31,7 @@ export default function UserConfig() {
     let [showWarningModal, setWarningModalStatus] = useState(false)
     let [isOperationConfirmed, setConfirmOperation] = useState(false)
     let [modalMessage, setModalMessage] = useState('')
+    const [reloadComponents, setReloadComponents] = useState(false)
 
     const history = useHistory()
     const id =  localStorage.getItem('userId')
@@ -48,13 +49,14 @@ export default function UserConfig() {
           setType(type)
           setArea(area)
           setProfilePic(`https://hakuna-1337.s3.amazonaws.com/${profilePic}`)
+          setReloadComponents(false)
         } catch(err) {
             handleErrorModal(err.response.data.name)
         }
       }
 
       getUser()
-    }, [isImageSave])
+    }, [isImageSave, setReloadComponents])
 
     const handleUser = async (e) => {
       e.preventDefault()
@@ -63,6 +65,7 @@ export default function UserConfig() {
         const payload =  {username, email, type, area}
         await api.patch(`users/${id}`, payload, {headers})
         handleSucessModal('informações atualizadas com sucesso')
+        setReloadComponents(false)
       } catch(err) {
           if(!Array.isArray(err.response.data))
             handleErrorModal(err.response.data.name)

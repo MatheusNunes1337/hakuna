@@ -33,12 +33,25 @@ function GetGroups() {
   const filter = query.get("query")
  
   useEffect(() => {
-    const getGroups = async () => {
+    const getTotalPages = async () => {
       try {
         const {data} = await api.get(`groups?discipline=${filter}&topics=${filter}&offset=${offset}`, {headers})
         const {groups} = data
-        setGroups(groups)
         setTotalPages(Math.ceil(groups.length / 12))
+      } catch(err) {
+        handleErrorModal(err.response.data.name)
+      }
+    }
+
+    getTotalPages()
+  }, [])
+
+  useEffect(() => {
+    const getGroups = async () => {
+      try {
+        const {data} = await api.get(`groups?discipline=${filter}&topics=${filter}&offset=${offset}&limit=${12}`, {headers})
+        const {groups} = data
+        setGroups(groups)
       } catch(err) {
         handleErrorModal(err.response.data.name)
       }
@@ -107,7 +120,7 @@ function GetGroups() {
                 <div className='pagination__wrapper'>
                   <button disabled={paginationIndex === 1} className='pagination__btn' onClick={previousPage}><BsChevronLeft /></button>
                   <span className='pagination__index'>{paginationIndex}</span>
-                  <button className='pagination__btn' onClick={nextPage}><BsChevronRight /></button>
+                  <button disabled={paginationIndex === totalPages} className='pagination__btn' onClick={nextPage}><BsChevronRight /></button>
                 </div>
               ) : ''
             }

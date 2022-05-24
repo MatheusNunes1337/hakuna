@@ -41,12 +41,26 @@ export default function GetUsers() {
     const filter = query.get("query")
 
     useEffect(() => {
-        const getUsers = async () => {
+        const getTotalPages = async () => {
           try {
             const {data} = await api.get(`users?username=${filter}&offset=${offset}`, {headers})
             const {users} = data
             setUsers(users)
             setTotalPages(Math.ceil(users.length / 10))
+          } catch(err) {
+            handleErrorModal(err.response.data[0].name)
+          }
+        }
+    
+        getTotalPages()
+      }, [])
+
+    useEffect(() => {
+        const getUsers = async () => {
+          try {
+            const {data} = await api.get(`users?username=${filter}&offset=${offset}&limit=${10}`, {headers})
+            const {users} = data
+            setUsers(users)
           } catch(err) {
             handleErrorModal(err.response.data[0].name)
           }
@@ -122,7 +136,7 @@ export default function GetUsers() {
                                 <div className='pagination__wrapper'>
                                     <button disabled={paginationIndex === 1} className='pagination__btn' onClick={previousPage}><BsChevronLeft /></button>
                                     <span className='pagination__index'>{paginationIndex}</span>
-                                    <button className='pagination__btn' onClick={nextPage}><BsChevronRight /></button>
+                                    <button disabled={paginationIndex === totalPages} className='pagination__btn' onClick={nextPage}><BsChevronRight /></button>
                                 </div>
                             ) : ''
                         }

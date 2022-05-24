@@ -16,7 +16,7 @@ import help from '../assets/images/help.png'
 import addIcon from '../assets/images/add.png'
 import ErrorModal from './ErrorModal';
 
-function Aside() {
+function Aside({updatePic}) {
   let [username, setUsername] = useState('')
   let [profilePic, setProfilePic] = useState('')
   let [type, setType] = useState('')
@@ -41,7 +41,7 @@ function Aside() {
     }
 
     getUser()
-  }, [])
+  }, [updatePic])
 
   const closeErrorModal = () => {
     setErrorModalStatus(false)
