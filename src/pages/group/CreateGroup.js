@@ -11,6 +11,7 @@ import {IoMdAdd} from 'react-icons/io'
 import {IoClose} from 'react-icons/io5'
 import SucessModal from '../../components/SucessModal'
 import ErrorModal from '../../components/ErrorModal'
+import groupIcon from '../../assets/images/group.png'
 
 function CreateGroup() {
     let [name, setName] = useState('')
@@ -89,18 +90,18 @@ function CreateGroup() {
             <Aside />
             <div className="content">
                 <div className='content__title__wrapper'>
-                  <h2 className="content__title">Novo grupo</h2>
+                  <h2 className="content__title"><img src={groupIcon} className='title__colorful__icon' />Novo grupo</h2>
                 </div>
                 <form action="" className="group__form" onSubmit={handleGroup}>
                     <label htmlFor="name" className="form__label">Nome:</label>
-                    <input type="text" className="form__input" onChange={e => setName(e.target.value)} />
+                    <input type="text" className="form__input" onChange={e => setName(e.target.value)} placeholder='Máx. 25 caracteres'/>
                     <label htmlFor="description" className="form__label">Descrição:</label>
-                    <textarea name="description" className="form__textarea" id="group__description" cols="30" rows="7" onChange={e => setDescription(e.target.value)}></textarea>
+                    <textarea name="description" className="form__textarea" id="group__description" cols="30" rows="7" placeholder='Uma breve descrição sobre o seu grupo' onChange={e => setDescription(e.target.value)}></textarea>
                     <label htmlFor="discipline" className="form__label">Disciplina:</label>
-                    <input type="text" className="form__input" onChange={e => setDiscipline(e.target.value)} />
+                    <input type="text" placeholder='Ex: Matemática' className="form__input" onChange={e => setDiscipline(e.target.value)} />
                     <label htmlFor="topics" className="form__label">Tópicos:</label>
                     <div className='topics__wrapper'>
-                        <input type="text" className="form__input" id="topic__input" onChange={e => setTopic(e.target.value)} />
+                        <input type="text" placeholder='Ex: Análise combinatória' className="form__input" id="topic__input" onChange={e => setTopic(e.target.value)} />
                         <button type='button' disabled={topics.length === 5} className='add__tag__button' onClick={addTopic}><IoMdAdd /></button>
                     </div>
                     <div className='create__group__topics__wrapper'>

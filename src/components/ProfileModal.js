@@ -46,12 +46,17 @@ function ProfileModal({targetId, closeModal}) {
       } catch(err) {
         alert(err.response.data.name)
       }
-    } 
+    }
+    
+    const goToConfig = () => {
+      history.push('/user/config')
+    }
 
 
   return (
     <>
       <div className='profile__modal'>
+            <div className='profile__modal__background'></div>
             <IoClose onClick={closeModal} className='close__profile__modal' />
             <div className='profile__modal__header'>
                 <img src={profilePic} />
@@ -64,7 +69,7 @@ function ProfileModal({targetId, closeModal}) {
                     <span>{contributionPoints}</span>
                 </div>
             </div>
-            <button onClick={createChat}>Enviar mensagem</button>
+            {targetId !== id ? <button onClick={createChat}>Enviar mensagem</button> : <button onClick={goToConfig}>Configurações</button>}
         </div>  
     </> 
   )

@@ -47,7 +47,6 @@ export default function Membros() {
     useEffect(() => {
         const getMembers = async () => {
           try {
-            console.log('oi')
             const {data} = await api.get(`groups/${id}`, {headers})
             const {mods, members} = data
             const moderators = mods.map(mod => mod._id)
@@ -215,8 +214,14 @@ export default function Membros() {
                                                     mod._id !== userId ? (
                                                         <div className='member__action__btns'>
                                                             <button className='member__action__btn' title='Ver perfil' value={mod._id} onClick={goToProfile}><FaSearch /></button>
-                                                            <button className='member__action__btn' title='Remover moderador' value={mod._id} onClick={revokeMod}><FaArrowDown /></button>
-                                                            <button className='member__action__btn' title='Remover membro' value={mod._id} onClick={deleteMember}><AiFillDelete /></button>
+                                                            {
+                                                                allMods.includes(userId) ? (
+                                                                    <>
+                                                                        <button className='member__action__btn' title='Remover moderador' value={mod._id} onClick={revokeMod}><FaArrowDown /></button>
+                                                                        <button className='member__action__btn' title='Remover membro' value={mod._id} onClick={deleteMember}><AiFillDelete /></button>
+                                                                    </>
+                                                                ) : ''
+                                                            }
                                                         </div>
                                                     ) : ''
                                                 }
@@ -248,8 +253,14 @@ export default function Membros() {
                                                     member._id !== userId ? (
                                                         <div className='member__action__btns'>
                                                             <button className='member__action__btn' title='Ver perfil' value={member._id} onClick={handleProfileModal}><FaSearch /></button>
-                                                            <button className='member__action__btn' title='Tornar moderador' onClick={makeMod} value={member._id}><FaArrowUp /></button>
-                                                            <button className='member__action__btn' title='Remover membro' onClick={deleteMember} value={member._id}><AiFillDelete /></button>
+                                                            {
+                                                                allMods.includes(userId) ? (
+                                                                    <>
+                                                                        <button className='member__action__btn' title='Tornar moderador' onClick={makeMod} value={member._id}><FaArrowUp /></button>
+                                                                        <button className='member__action__btn' title='Remover membro' onClick={deleteMember} value={member._id}><AiFillDelete /></button>
+                                                                    </>
+                                                                ) : ''
+                                                            }
                                                         </div>
                                                     ) : ''
                                                 }
