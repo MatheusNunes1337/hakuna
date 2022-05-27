@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { Link, useParams, useHistory } from 'react-router-dom'
 import api from '../../services/api'
+import download from 'downloadjs'
 
 import {FaBook} from 'react-icons/fa'
 import {MdDownload} from 'react-icons/md'
@@ -83,7 +84,7 @@ export default function Files() {
     const downloadFile = async (e) => {
         try {
             const fileKey = e.currentTarget.value
-            await api.get(`files/download/${fileKey}`, {headers})
+            download(`https://hakuna-1337.s3.amazonaws.com/${fileKey}`, fileKey, 'image/png')
         } catch(err) {
             handleErrorModal(err.response.data.error)
         }
@@ -156,7 +157,7 @@ export default function Files() {
                                     </div>
                                 </div>
                                 <div className='modal__buttons'>
-                                    <button>Baixar</button>
+                                    <button onClick={downloadFile} value={modalTarget.file}>Baixar</button>
                                 </div>
                             </div>
                             <div className='overlay'></div>

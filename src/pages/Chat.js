@@ -165,8 +165,10 @@ export default function Chat() {
                                 )
                               }) : (
                                     <>
-                                        <img src={chat} className="any__user__icon"/>
-                                        <span>Parece que você ainda não trocou mensagens com {messageTarget}</span>
+                                        <div className='any__chat__wrapper'>
+                                          <img src={chat} className="any__user__icon"/>
+                                          <span>Parece que você ainda não trocou mensagens com {messageTarget}</span>
+                                        </div>
                                     </>
                                 ) 
                             }
