@@ -84,6 +84,11 @@ body {
     height: 180px;
 }
 
+.recoverPass__image {
+    width: 220px;
+    height: 220px;
+}
+
 .form__login, .form__register, .form__recoverPass, .form__redefinePass {
     width: 100%;
     padding: 70px 50px;
@@ -2243,6 +2248,11 @@ h3.groups__in__common__title {
     padding: 100px 8%;
 }
 
+.hero > img {
+    width: 600px;
+    height: 400px;
+}
+
 .hero__content {
     margin-top: -40px;
 }
@@ -2526,7 +2536,10 @@ footer section.footer__footer > button {
     padding: 8px 10px;
     border-radius: 5px;
     font-weight: bold;
+    outline: none;
+    border: none;
     background-color: #181818;
+    cursor: pointer;
 }
 
 footer section.footer__footer > button > a {

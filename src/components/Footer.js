@@ -37,22 +37,20 @@ function Footer() {
                 <div className='footer__medias'>
                     <h2>Redes sociais</h2>
                     <div className='footer__social__medias'>
-                        <Link to='/'><GrMail /></Link>
-                        <Link to='/'><BsGithub /></Link>
-                        <Link to='/'><BsLinkedin /></Link>
-                        <Link to='/'><BsInstagram /></Link>
-                        <Link to='/'><BsFacebook /></Link>
+                    <Link to={{pathname:'https://github.com/MatheusNunes1337'}} target='_blank'><BsGithub /></Link>
+                    <Link to={{pathname:'https://www.linkedin.com/in/matheus-nunes-3585a6188/'}} target='_blank'><BsLinkedin /></Link>
+                    <Link to={{pathname:'https://www.instagram.com/_matheusnunesz/'}} target='_blank'><BsInstagram /></Link>
+                    <Link to={{pathname:'https://www.facebook.com/matheus.nunes.547389'}} target='_blank'><BsFacebook /></Link>
                     </div>
                 </div>
             </section>
             <section className='footer__footer'>
                 <p className='footer__copyright'>Copyright &copy; 2022 Hakuna | Todos os direitos reservados</p>
                 <div className='footer__social__medias'>
-                    <Link to='/'><GrMail /></Link>
-                    <Link to='/'><BsGithub /></Link>
-                    <Link to='/'><BsLinkedin /></Link>
-                    <Link to='/'><BsInstagram /></Link>
-                    <Link to='/'><BsFacebook /></Link>
+                    <Link to={{pathname:'https://github.com/MatheusNunes1337'}} target='_blank'><BsGithub /></Link>
+                    <Link to={{pathname:'https://www.linkedin.com/in/matheus-nunes-3585a6188/'}} target='_blank'><BsLinkedin /></Link>
+                    <Link to={{pathname:'https://www.instagram.com/_matheusnunesz/'}} target='_blank'><BsInstagram /></Link>
+                    <Link to={{pathname:'https://www.facebook.com/matheus.nunes.547389'}} target='_blank'><BsFacebook /></Link>
                 </div>
                 <button><AnchorLink href='#index__nav'><IoIosArrowUp /></AnchorLink></button>
             </section>

@@ -4,7 +4,7 @@ import api from '../../services/api'
 
 import '../../assets/css/styles.css'
 
-import LoginImage from '../../assets/images/girl_studying.png'
+import LoginImage from '../../assets/images/girl-studying.png'
 import ErrorModal from '../../components/ErrorModal'
 
 function Login() {

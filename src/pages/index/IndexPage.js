@@ -8,7 +8,7 @@ import { IoIosArrowUp } from "react-icons/io";
 import {GrMail} from 'react-icons/gr'
 
 import IndexNavBar from '../../components/IndexNavBar'
-import heroImage from '../../assets/images/girl_studying.png'
+import heroImage from '../../assets/images/people_studying.png'
 import groupIcon from '../../assets/images/group.png'
 import rankingIcon from '../../assets/images/crown.png'
 import booksIcon from '../../assets/images/book.png'

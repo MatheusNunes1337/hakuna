@@ -3,7 +3,7 @@ import { Link, useHistory } from 'react-router-dom'
 import api from '../../services/api'
 
 import { registerSchema } from '../../validations/authSchema'
-import LoginImage from '../../assets/images/girl_studying.png'
+import LoginImage from '../../assets/images/sign_up.png'
 
 import '../../assets/css/styles.css'
 import ErrorModal from '../../components/ErrorModal'

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import api from '../../services/api'
 
-import ForgotPassIcon from '../../assets/images/forgot_password.png'
+import ForgotPassIcon from '../../assets/images/forgot-password.png'
 
 import '../../assets/css/styles.css'
 import ErrorModal from '../../components/ErrorModal'
