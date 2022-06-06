@@ -12,6 +12,9 @@ import silverMedal from '../assets/images/silver_medal.png'
 import bronzeMedal from '../assets/images/bronze_medal.png'
 import ErrorModal from '../components/ErrorModal'
 
+import favoriteIcon from '../assets/images/crown.png'
+import pointIcon from '../assets/images/point.png'
+
 export default function Ranking() {
     let [users, setUsers] = useState([])
     let [showErrorModal, setErrorModalStatus] = useState(false)
@@ -55,6 +58,7 @@ export default function Ranking() {
                     <Aside />
                     <div className="content">
                         <div className='content__title__wrapper'> 
+                          <img src={favoriteIcon} className='title__icon' />
                           <h2 className="content__title">Ranking</h2>
                         </div>
                         <div className='ranking__container'>

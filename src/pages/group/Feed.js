@@ -632,7 +632,7 @@ export default function Feed() {
                                     showCommentList ? (
                                         <div className='comment__container'>
                                             {
-                                                post.comments.map(comment => {
+                                                post.comments.reverse().map(comment => {
                                                     return (
                                                         <div className="comment__item">
                                                             <img src={`https://hakuna-1337.s3.amazonaws.com/${comment.author.profilePic}`} className={`post__author__img ${comment.author._id}`} onClick={goToProfile}/>
@@ -650,7 +650,7 @@ export default function Feed() {
                                                                     {comment.author.type == 'teacher'? <span className='comment__author__title'>Professor de {comment.author.area}</span> : ''}
                                                                     <span className={comment.updated ? 'comment__creation_time updated__content' : 'comment__creation_time'}>{comment.creationTime}</span>
                                                                 </div>
-                                                                <button className='comment__options__btn' value={comment._id} onClick={handleCommentOptionsMenu}><BsThreeDots /></button>
+                                                                {comment.author._id == userId || isMod ? <button className='comment__options__btn' value={comment._id} onClick={handleCommentOptionsMenu}><BsThreeDots /></button> : ''}
                                                                 <p className='comment__content'>
                                                                     {comment.content}
                                                                 </p>

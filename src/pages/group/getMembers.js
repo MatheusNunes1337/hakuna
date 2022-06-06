@@ -50,20 +50,20 @@ export default function Membros() {
             const {data} = await api.get(`groups/${id}`, {headers})
             const {mods, members} = data
             const moderators = mods.map(mod => mod._id)
+            const membersOnly = members.filter(member => !moderators.includes(member._id))
+   
             if(moderators.includes(userId)) {
                 setMod(true)
-                const membersOnly = members.filter(member => !moderators.includes(member._id))
-                setTotalMembersPages(Math.ceil(membersOnly.length / 10))
-                setAllMembers(membersOnly)
-                setMembers(paginate(membersOnly, memberPaginationIndex))
-            } else {
-                setTotalMembersPages(Math.ceil(members.length / 10))
-                setAllMembers(members)
-                setMembers(paginate(members, memberPaginationIndex))
-            }
+            } 
+
             setTotalModsPages(Math.ceil(mods.length / 10))
             setAllMods(mods)
             setMods(paginate(mods, modPaginationIndex))
+
+            setTotalMembersPages(Math.ceil(members.length / 10))
+            setAllMembers(members)
+            setMembers(paginate(membersOnly, memberPaginationIndex))
+            
             setReloadComponents(false)
           } catch(err) {
             handleErrorModal(err.response.data[0].name)
@@ -213,7 +213,7 @@ export default function Membros() {
                                                 {
                                                     mod._id !== userId ? (
                                                         <div className='member__action__btns'>
-                                                            <button className='member__action__btn' title='Ver perfil' value={mod._id} onClick={goToProfile}><FaSearch /></button>
+                                                            <button className='member__action__btn' title='Ver perfil' value={mod._id} onClick={handleProfileModal}><FaSearch /></button>
                                                             {
                                                                 allMods.includes(userId) ? (
                                                                     <>
