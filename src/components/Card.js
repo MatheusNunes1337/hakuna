@@ -17,7 +17,7 @@ import setGroupIcon from '../utils/setGroupIcon';
 import api from '../services/api'
 import ErrorModal from './ErrorModal';
 
-function Card({id, icon, title, max_members, is_public, members, showFavoriteButton, topics, search, description}) {
+function Card({id, icon, title, max_members, is_public, favoritos, members, showFavoriteButton, topics, search, description}) {
   let [cardIcon, setIcon] = useState('')
   const [showModal, setModal] = useState(false)
   const [favorites, setFavorites] = useState([])
@@ -41,6 +41,7 @@ function Card({id, icon, title, max_members, is_public, members, showFavoriteBut
       try {
         const {data} = await api.get(`groups/${id}`, {headers})
         const {favorites} = data
+        console.log('favorites', favorites)
         setFavorites(favorites)
       } catch(err) {
         handleErrorModal(err.response.data.name)
@@ -97,7 +98,6 @@ function Card({id, icon, title, max_members, is_public, members, showFavoriteBut
         <img src={cardIcon} alt="card-image" className="card__image" />
         <div className="card__content">
             <h2 className="card__title">{title}</h2>
-            <p className='card__description'>{description}</p>
             <div className="card__details">
               {
                 is_public.toString() === 'false' 
@@ -107,7 +107,7 @@ function Card({id, icon, title, max_members, is_public, members, showFavoriteBut
                 : 
                   <span className="card__detail"><img src={unlockedIcon} className="card__detail__icon" />Público</span>
               }    
-              <span className="card__detail"><img src={heartIcon} className="card__detail__icon" />{favorites.length}</span>
+              <span className="card__detail"><img src={heartIcon} className="card__detail__icon" />2</span>
             </div>
           </div>
           {

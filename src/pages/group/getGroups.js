@@ -51,6 +51,7 @@ function GetGroups() {
       try {
         const {data} = await api.get(`groups?discipline=${filter}&topics=${filter}&offset=${offset}&limit=${12}`, {headers})
         const {groups} = data
+        console.log('groups', groups)
         setGroups(groups)
       } catch(err) {
         handleErrorModal(err.response.data.name)
