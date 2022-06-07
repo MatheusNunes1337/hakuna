@@ -2646,6 +2646,10 @@ footer p, footer span {
     cursor: pointer;
 }
 
+.iframe__downloader {
+    display: none;
+}
+
 @media (max-width: 1300px) {
     .group__options {
         gap: 0.5rem;

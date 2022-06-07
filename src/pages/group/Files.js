@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 import { Link, useParams, useHistory } from 'react-router-dom'
 import api from '../../services/api'
 import download from 'downloadjs'
+import {saveAs} from 'file-saver'
 
 import {FaBook} from 'react-icons/fa'
 import {MdDownload} from 'react-icons/md'
@@ -45,8 +46,10 @@ export default function Files() {
     const [isMod, setMod] = useState(false)
     const [showModal, setModal] = useState(false)
     const [modalTarget, setModalTarget] = useState({})
+    const [fileDownloadUrl, setFileDownloadUrl] = useState('')
     let [showErrorModal, setErrorModalStatus] = useState(false)
     let [modalMessage, setModalMessage] = useState('')
+    const [count, setCount] = useState(0)
 
     const { id } = useParams();
     const token = localStorage.getItem('userToken')
@@ -84,9 +87,10 @@ export default function Files() {
     const downloadFile = async (e) => {
         try {
             const fileKey = e.currentTarget.value
-            download(`https://hakuna-1337.s3.amazonaws.com/${fileKey}`, fileKey, 'image/png')
+            const {data} = await api.get(`files/download/${fileKey}`, {headers})
+            saveAs(data, "image.png")
         } catch(err) {
-            handleErrorModal(err.response.data.error)
+            handleErrorModal(err.response.data.name)
         }
     }
 
@@ -173,6 +177,7 @@ export default function Files() {
                     </>
                     ) : ''
                 }
+                {<iframe className='iframe__downloader' src={fileDownloadUrl}></iframe>}
                 </Container >  
             </main>
         </>
