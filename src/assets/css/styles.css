@@ -2402,7 +2402,7 @@ div.functionality__cards .functionality__card > h2 {
 }
 
 div.functionality__cards .functionality__card > p {
-    text-align: justify;
+    text-align: center;
     -moz-text-align-last: center;
     text-align-last: center;
     font-weight: 400;

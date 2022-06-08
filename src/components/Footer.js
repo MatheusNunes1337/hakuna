@@ -18,7 +18,7 @@ function Footer() {
             <section className='footer__header'>
                 <div className='footer__about'>
                     <h2>Sobre</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec scelerisque felis eu nisi malesuada, id tristique libero ultricies. Pellentesque purus erat, fringilla sed laoreet ac, iaculis et ligula. Cras interdum molestie dolor, eget bibendum ligula bibendum eu. Aenean cursus maximus justo at dapibus. Aliquam id mattis purus, nec sollicitudin erat. Sed.</p>
+                    <p>O Hakuna é uma plataforma de criação de grupos de estudo que tem como objetivo proporcionar aos estudantes um ambiente que os possibilitará de estudar conteúdos sobre determinada área de estudo por meio da criação de postagens, comentários e compartilhamento de materiais de estudo.</p>
                     <h2>Suporte</h2>
                     <div className='footer__support'>
                         <Link to='/'><GrMail /></Link>
