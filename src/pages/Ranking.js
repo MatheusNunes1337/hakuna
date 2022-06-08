@@ -61,27 +61,28 @@ export default function Ranking() {
                           <img src={favoriteIcon} className='title__icon' />
                           <h2 className="content__title">Ranking</h2>
                         </div>
-                        <div className='ranking__container'>
+                        <div className={users.length > 0 ? 'ranking__container' : 'ranking__container container__null'}>
                             {
+                              users.length > 0 ?
                               users.map((user, index)  => {
-                                  return (
-                                    <div className='ranking__item'>
-                                        <span className='ranking__user__placement'>#{index + 1}</span>
-                                        <img src={`https://hakuna-1337.s3.amazonaws.com/${user.profilePic}`} className='ranking__user__img'/>
-                                        <span className='ranking__user__name'>{user.username}</span>
-                                        {
-                                            index + 1 === 1 ? <img src={goldMedal} className='ranking__user__medal'/> : ''
-                                        }
-                                        {
-                                          index + 1 === 2 ? <img src={silverMedal} className='ranking__user__medal'/> : ''  
-                                        }
-                                        {
-                                          index + 1 === 3 ? <img src={bronzeMedal} className='ranking__user__medal'/> : ''  
-                                        }
-                                        <span className='ranking__user__points'>{user.contributionPoints} pontos</span>
-                                    </div>
-                                  )
-                              })  
+                                return (
+                                  <div className='ranking__item'>
+                                      <span className='ranking__user__placement'>#{index + 1}</span>
+                                      <img src={`https://hakuna-1337.s3.amazonaws.com/${user.profilePic}`} className='ranking__user__img'/>
+                                      <span className='ranking__user__name'>{user.username}</span>
+                                      {
+                                          index + 1 === 1 ? <img src={goldMedal} className='ranking__user__medal'/> : ''
+                                      }
+                                      {
+                                        index + 1 === 2 ? <img src={silverMedal} className='ranking__user__medal'/> : ''  
+                                      }
+                                      {
+                                        index + 1 === 3 ? <img src={bronzeMedal} className='ranking__user__medal'/> : ''  
+                                      }
+                                      <span className='ranking__user__points'>{user.contributionPoints} pontos</span>
+                                  </div>
+                                )
+                              }) : <div className="loader"></div> 
                             }
                         </div>
                     </div>
