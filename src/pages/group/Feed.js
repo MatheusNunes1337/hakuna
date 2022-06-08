@@ -168,7 +168,7 @@ export default function Feed() {
                 else 
                     handleErrorModal(err.response.data[0].name)
             }
-        }
+        }handleWarningModal
         const input = document.getElementsByClassName('form__textarea')[0]
         input.value = ''
         setReloadComponents(true)
@@ -574,7 +574,7 @@ export default function Feed() {
                                 }
                                 <img src={`https://hakuna-1337.s3.amazonaws.com/${post.author.profilePic}`} className={`post__author__img ${post.author._id}`} onClick={handleProfileModal}/>
                                 <div className='post__infos'>
-                                    <span className={modsIdList.includes(post.author._id) ? `post__author__name is__mod ${post.author._id}` : `post__author__name ${post.author._id}`} onClick={handleProfileModal}>{post.author.username}</span>
+                                    <span className={modsIdList.includes(post.author._id) ? `post__author__name is__mod ${post.author._id}` : `post__author__name ${post.author._id}`}>{post.author.username}</span>
                                     {post.author.type === 'teacher' ? <span className='post__author__title'>Professor de {post.author.area}</span> : ''}
                                     <span className={post.updated ? 'post__creation_time updated__content' : 'post__creation_time'}>{post.creationTime}</span>
                                 </div>
@@ -632,7 +632,7 @@ export default function Feed() {
                                     showCommentList ? (
                                         <div className='comment__container'>
                                             {
-                                                post.comments.reverse().map(comment => {
+                                                post.comments.map(comment => {
                                                     return (
                                                         <div className="comment__item">
                                                             <img src={`https://hakuna-1337.s3.amazonaws.com/${comment.author.profilePic}`} className={`post__author__img ${comment.author._id}`} onClick={goToProfile}/>
