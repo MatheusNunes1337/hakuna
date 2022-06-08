@@ -2904,8 +2904,12 @@ footer p, footer span {
         padding: 50px 7%;
     }
 
+    .div.functionality__cards {
+        justify-content: space-between;
+    }
+
     div.functionality__cards .functionality__card {
-        width: calc(50% - 10px);
+        width: calc(50% - 5px);
     }
 
     footer section.footer__header {
@@ -3065,7 +3069,7 @@ footer p, footer span {
     }
 
     div.functionality__cards .functionality__card {
-        width: 90%;
+        width: 100%;
     }
 }
 
