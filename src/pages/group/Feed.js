@@ -168,7 +168,7 @@ export default function Feed() {
                 else 
                     handleErrorModal(err.response.data[0].name)
             }
-        }handleWarningModal
+        }
         const input = document.getElementsByClassName('form__textarea')[0]
         input.value = ''
         setReloadComponents(true)
