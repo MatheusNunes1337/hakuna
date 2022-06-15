@@ -75,7 +75,7 @@ export default function Membros() {
 
     const deleteMember = async (event) => {
         const memberId = event.currentTarget.value
-        handleWarningModal('Você tem certeza que deseja remover esse usuário do grupo?')
+        const isOperationConfirmed = window.confirm('Você tem certeza que deseja remover esse usuário do grupo?')
         if(isOperationConfirmed) {
             try {
                 await api.delete(`groups/${id}/members/${memberId}`, { headers })
@@ -88,7 +88,7 @@ export default function Membros() {
 
     const makeMod = async (event) => {
         const memberId = event.currentTarget.value
-        handleWarningModal('Você tem certeza que deseja tornar esse membro um moderador?')
+        const isOperationConfirmed = window.confirm('Você tem certeza que deseja tornar esse membro um moderador?')
         if(isOperationConfirmed) {
             try {
                 await api.patch(`groups/${id}/mods/${memberId}`, {}, { headers })
@@ -102,7 +102,7 @@ export default function Membros() {
 
     const revokeMod = async (event) => {
         const modId = event.currentTarget.value
-        handleWarningModal('Você tem certeza que deseja revogar os privilégios de moderador desse membro?')
+        const isOperationConfirmed = window.confirm('Você tem certeza que deseja revogar os privilégios de moderador desse membro?')
         if(isOperationConfirmed) {
             try {
                 await api.delete(`groups/${id}/mods/${modId}`, { headers })

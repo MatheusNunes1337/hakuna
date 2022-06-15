@@ -97,7 +97,7 @@ export default function UserConfig() {
 
     const deleteAccount = async () => {
       try {
-        handleWarningModal('Você tem certeza que deseja excluir permanentemente a sua conta?')
+        const isOperationConfirmed = window.confirm('Você tem certeza que deseja excluir permanentemente a sua conta?')
         if(isOperationConfirmed) {
           await api.delete(`users/${id}`, {headers})
           history.push('/register')

@@ -176,13 +176,12 @@ export default function Feed() {
 
     const quitGroup = async () => {
         try {
-            /*handleWarningModal('Você tem certeza que deseja deixar esse grupo? Você não terá acesso as postagens e materiais')
+            const isOperationConfirmed =  window.confirm('Você tem certeza que deseja deixar esse grupo? Você não terá acesso as postagens e materiais')
             if(isOperationConfirmed) {
                 await api.delete(`members/group/${id}`, {headers})
+                await api.patch(`groups/${id}/quit`, {}, {headers})
                 history.push('/home')
-            }*/
-            await api.patch(`groups/${id}/quit`, {}, {headers})
-            history.push('/home')
+            }
         } catch(err) {
             handleErrorModal(err.response.data.name)
         }
@@ -361,15 +360,12 @@ export default function Feed() {
     const deletePost = async (e) => {
         const postId = e.target.className
         try {
-            /*handleWarningModal('Você tem certeza que deseja excluir essa postagem?')
+            const isOperationConfirmed = window.confirm('Você tem certeza que deseja excluir essa postagem?')
             if(isOperationConfirmed) {
                 await api.delete(`groups/${id}/posts/${postId}/`, {headers})
                 alert('Postagem excluída com sucesso.')
                 setReloadComponents(true)   
-            }*/
-            await api.delete(`groups/${id}/posts/${postId}/`, {headers})
-            alert('Postagem excluída com sucesso.')
-            setReloadComponents(true)
+            }
         } catch(err) {
             handleErrorModal(err.response.data.name)
         }
@@ -378,7 +374,7 @@ export default function Feed() {
     const deleteComment = async(e) => {
         const [commentId, postId] = e.target.className.split(' ')
         try {
-            handleWarningModal('Você tem certeza que deseja excluir esse comentário?')
+            const isOperationConfirmed = window.confirm('Você tem certeza que deseja excluir esse comentário?')
             if(isOperationConfirmed) {
                 await api.delete(`groups/${id}/posts/${postId}/comments/${commentId}`, {headers})
                 alert('Comentário excluído com sucesso.')

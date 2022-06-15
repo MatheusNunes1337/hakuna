@@ -102,7 +102,7 @@ export default function Chat() {
 
     const deleteChat = async () => {
       try {
-        handleWarningModal('Você tem certeza que deseja deletar essa conversa? Todas as mensagens serão perdidas')
+        const isOperationConfirmed = window.confirm('Você tem certeza que deseja deletar essa conversa? Todas as mensagens serão perdidas')
         if(isOperationConfirmed) {
           await api.delete(`chats/${id}`, {headers})
           history.push('/chats')

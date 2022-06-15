@@ -88,13 +88,11 @@ function CreateGroup() {
 
     const deleteGroup = async () => {
       try {
-        /*handleWarningModal('Você tem certeza que deseja deletar esse grupo? Todas as postagens e materiais serão perdidos')
+       const isOperationConfirmed = window.confirm('Você tem certeza que deseja deletar esse grupo? Todas as postagens e materiais serão perdidos')
         if(isOperationConfirmed) {
           await api.delete(`groups/${id}`, {headers})
           history.push('/home')
-         }*/
-        await api.delete(`groups/${id}`, {headers})
-        history.push('/home')
+         }
       } catch(err) {
         handleErrorModal(err.response.data.name)
       }
