@@ -18,6 +18,7 @@ function FavoriteGroups() {
   const [offset, setOffset] = useState(0)
   let [showErrorModal, setErrorModalStatus] = useState(false)
   let [modalMessage, setModalMessage] = useState('')
+  let [contentLoaded, setContentLoaded] = useState(false)
 
   const token = localStorage.getItem('userToken')
   const headers = { Authorization: `Bearer ${token}` }
@@ -27,9 +28,9 @@ function FavoriteGroups() {
     const getGroups = async () => {
       try {
         const {data} = await api.get(`groups?favorites=${userId}&offset=${offset}`, {headers})
-        console.log('data', data)
         const {groups} = data
         setGroups(groups)
+        setContentLoaded(true)
         setTotalPages(Math.ceil(groups.length / 12))
       } catch(err) {
         handleErrorModal(err.response.data.name)
@@ -70,9 +71,9 @@ function FavoriteGroups() {
               <img src={favoriteIcon} className='title__icon' />
               <h2 className="content__title">Grupos favoritos</h2>
             </div>
-            <div className={groups.length !== 0 ? "card__wrapper": "card__wrapper any__group"}>
+            <div className={groups.length !== 0 && contentLoaded ? "card__wrapper": "card__wrapper any__group"}>
               {
-                groups.length !== 0 ? 
+                groups.length !== 0 && contentLoaded ? 
                 groups.map((group, index) => {
                   return (
                   <Card key={index} 
@@ -87,12 +88,15 @@ function FavoriteGroups() {
                   showFavoriteButton={false}
                   />)
                 }) : (
+                  
+                  !contentLoaded ? <div className="loader"></div> : 
                   <>
                     <img src={favoriteIcon} className="any__group__icon"/>
                     <span>Parece que você não adicionou nenhum grupo aos favoritos</span>
                   </>
                 )
               }
+
             </div>
             {
               groups.length > 0 && totalPages > 1 ? (

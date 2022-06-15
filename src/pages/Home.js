@@ -28,6 +28,7 @@ function Home() {
   const [totalGroupPages, setTotalGroupPages] = useState(0)
   let [showErrorModal, setErrorModalStatus] = useState(false)
   let [modalMessage, setModalMessage] = useState('')
+  let [contentLoaded, setContentLoaded] = useState(false)
   
   const id =  localStorage.getItem('userId')
   const token = localStorage.getItem('userToken')
@@ -42,6 +43,7 @@ function Home() {
         setAllGroups(groups)
         setGroups(paginate(groups, groupPaginationIndex))
         setUsername(username)
+        setContentLoaded(true)
 
         const currentHour = getCurrentHour()
 
@@ -55,7 +57,6 @@ function Home() {
           setGreeting(`Boa noite, ${username}`)
           setGreetingIcon(<img src={moon} className="title__icon" />)
         }
-          
       } catch(err) {
         handleErrorModal(err.response.data.name)
       }
@@ -98,10 +99,10 @@ function Home() {
           <Aside />
           <div className="content">
             <div className='content__title__wrapper'>
-              <h2 className="content__title welcome with__icon">{greeting}</h2>
+              {contentLoaded ? <h2 className="content__title welcome with__icon">{greeting}</h2> : ''}
               <img src={sunny} className="title__icon" />
             </div>
-            <div className={groups.length !== 0 ? "card__wrapper": "card__wrapper any__group"}>
+            <div className={groups.length !== 0 && contentLoaded ? "card__wrapper": "card__wrapper any__group"}>
             {
               groups.length !== 0 ? 
               groups.map((group, index) => {
@@ -116,6 +117,7 @@ function Home() {
                 showFavoriteButton={true}
                 />)
               }) : (
+                !contentLoaded ? <div className="loader"></div> : 
                 <>
                   <img src={groupIcon} className="any__group__icon"/>
                   <span>Parece que você ainda não participa de nenhum grupo</span>

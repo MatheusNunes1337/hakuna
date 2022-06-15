@@ -35,6 +35,7 @@ function CreateGroup() {
     let [isOperationConfirmed, setConfirmOperation] = useState(false)
     let [modalMessage, setModalMessage] = useState('')
     const [reloadComponents, setReloadComponents] = useState(false)
+    let [contentLoaded, setContentLoaded] = useState(false)
 
     const { id } = useParams()
     const history = useHistory()
@@ -54,6 +55,7 @@ function CreateGroup() {
           setTopics([...topics])
           setMembers(maxMembers)
           setType(isPublic)
+          setContentLoaded(true)
           const moderators = mods.map(mod => mod._id) 
           if(moderators.includes(userId)) setMod(true)
         } catch(err) {
@@ -184,7 +186,9 @@ function CreateGroup() {
                   <Link to={`group/${id}`} className="group__back" title='voltar' ><MdOutlineArrowBack className="back__icon"/></Link>
                   <h2 className="content__title">Configurações do grupo <img src={settings} className='title__colorful__icon' /></h2>
                 </div>
-                <form action="" className="group__form" onSubmit={handleGroup}>
+                {
+                    contentLoaded ?
+                    <form action="" className="group__form" onSubmit={handleGroup}>
                     <label htmlFor="name" className="form__label">Nome:</label>
                     <input type="text" className="form__input" value={name} onChange={e => setName(e.target.value)} />
                     <label htmlFor="description" className="form__label">Descrição:</label>
@@ -211,7 +215,7 @@ function CreateGroup() {
                       <option value={false} selected="selected">privado</option>
                     </select>
                     {  showPasswordField
-                         ? (
+                        ? (
                         <>
                             <label htmlFor="password" className="form__label">Senha:</label>
                             <div className='topics__wrapper'>
@@ -222,12 +226,13 @@ function CreateGroup() {
                         ) 
                         : ''
                     }
-                     <div className="button__group">
+                    <div className="button__group">
                       <button className="form__btn">Salvar</button>
                       {isPublic.toString() === 'false' ? <button type='button' className="form__btn" onClick={handlePasswordField}>Definir senha</button> : ''}
                       <button type="button" className="form__btn" onClick={deleteGroup}>Excluir grupo</button>
                     </div>
-                </form>
+                  </form> : ''
+                }
             </div>
             {
                 showErrorModal ? (

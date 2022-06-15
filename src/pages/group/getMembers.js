@@ -43,6 +43,7 @@ export default function Membros() {
     let [modalMessage, setModalMessage] = useState('')
     let [showProfileModal, setProfileModalStatus] = useState(false)
     let [targetUser, setTargetUser] = useState('')
+    let [contentLoaded, setContentLoaded] = useState(false)
 
     useEffect(() => {
         const getMembers = async () => {
@@ -63,7 +64,7 @@ export default function Membros() {
             setTotalMembersPages(Math.ceil(members.length / 10))
             setAllMembers(members)
             setMembers(paginate(membersOnly, memberPaginationIndex))
-            
+            setContentLoaded(true)
             setReloadComponents(false)
           } catch(err) {
             handleErrorModal(err.response.data[0].name)
@@ -80,6 +81,7 @@ export default function Membros() {
             try {
                 await api.delete(`groups/${id}/members/${memberId}`, { headers })
                 handleSucessModal('Usuário removido com sucesso')
+                setReloadComponents(true)
             } catch(err) {
                 handleErrorModal(err.response.data.name)
             }
@@ -200,7 +202,7 @@ export default function Membros() {
                             <Link to={`group/${id}`} className="group__back" title='voltar' ><MdOutlineArrowBack className="back__icon"/></Link>
                             <h2 className="content__title">Membros <img src={group} className='title__colorful__icon' /></h2>
                         </div>
-                        <div className='member__container'>
+                        {contentLoaded ? <div className='member__container'>
                             <div className='mod__container'>
                                 <h3 className="content__subtitle">Moderadores</h3>
                                 {
@@ -269,7 +271,8 @@ export default function Membros() {
                                     }) : ''
                                 }
                             </div>
-                        </div>
+                        </div> : <div className="container__null"><div className="loader"></div></div>
+                        }
                         {
                             members.length !== 0 && totalMembersPages > 1 ? (
                                 <div className='pagination__wrapper'>

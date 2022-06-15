@@ -32,6 +32,7 @@ export default function UserConfig() {
     let [isOperationConfirmed, setConfirmOperation] = useState(false)
     let [modalMessage, setModalMessage] = useState('')
     const [reloadComponents, setReloadComponents] = useState(false)
+    let [contentLoaded, setContentLoaded] = useState(false)
 
     const history = useHistory()
     const id =  localStorage.getItem('userId')
@@ -50,6 +51,7 @@ export default function UserConfig() {
           setArea(area)
           setProfilePic(`https://hakuna-1337.s3.amazonaws.com/${profilePic}`)
           setReloadComponents(false)
+          setContentLoaded(true)
         } catch(err) {
             handleErrorModal(err.response.data.name)
         }
@@ -165,48 +167,54 @@ export default function UserConfig() {
                   <img src={settings} className='title__icon' />
                   <h2 className="content__title">Configurações da conta</h2>
                 </div>
-                <form action="" className="user__form" onSubmit={handleUser}>
-                <picture className='form__user__pic__wrapper'>
-                  <input type="file" id="add_pic__btn" name='profilePic' onChange={changeUserPic} />
-                  <label for="add_pic__btn" className="profile__pic__overlay"><MdAddAPhoto className='form__user__pic__icon' /></label>
-                  {
-                    showSavePicButton ? (<img src={URL.createObjectURL(profilePic)} alt="foto de perfil" className="user__form__pic"/>) : (
-                    <img src={profilePic} className="user__form__pic"/>
-                    )
-                  }
-                </picture>
-                    {showSavePicButton ? (<button type='button' onClick={savePic} className='form__user__save__pic'>salvar</button>): ''}
-                    <label htmlFor="username" className="form__label">Usuário:</label>
-                    <input type="text" className="form__input" value={username} onChange={e => setUsername(e.target.value)}/>
-                    <label htmlFor="email" className="form__label">Email:</label>
-                    <input type="email" className="form__input" value={email} onChange={e => setEmail(e.target.value)} />
-                    { type === 'teacher' 
-                         ? (
-                        <>
-                            <label htmlFor="type" className="form__label">Área</label>
-                            <input type="text" className="form__input" value={area} onChange={e => setArea(e.target.value)} />
-                        </>    
-                        ) 
-                        : ''
-                    }
-                    { hidePassField === 'false' 
-                         ? (
-                        <>
-                          <div className="form__group">
-                            <label htmlFor="password" className="form__label">Senha:</label>
-                            <input type="password" className="form__input" onChange={e => setPassword(e.target.value)} />
-                            {password && password.length >= 6 ? <button title='salvar senha' type="button" className="password__btn" onClick={changePassword}><FaSave className="form__icon"/></button> : ''}
-                          </div>
-                        </>    
-                        ) 
-                        : ''
-                    }    
-                    <div className="button__group">
-                      <button className="form__btn">Salvar</button>
-                      <button type="button" className="form__btn" onClick={showPasswordField}>Alterar senha</button>
-                      <button type="button" className="form__btn" onClick={deleteAccount}>Excluir conta</button>
+                {
+                  contentLoaded ? 
+                  <form action="" className="user__form" onSubmit={handleUser}>
+                    <picture className='form__user__pic__wrapper'>
+                      <input type="file" id="add_pic__btn" name='profilePic' onChange={changeUserPic} />
+                      <label for="add_pic__btn" className="profile__pic__overlay"><MdAddAPhoto className='form__user__pic__icon' /></label>
+                      {
+                        showSavePicButton ? (<img src={URL.createObjectURL(profilePic)} alt="foto de perfil" className="user__form__pic"/>) : (
+                        <img src={profilePic} className="user__form__pic"/>
+                        )
+                      }
+                    </picture>
+                        {showSavePicButton ? (<button type='button' onClick={savePic} className='form__user__save__pic'>salvar</button>): ''}
+                        <label htmlFor="username" className="form__label">Usuário:</label>
+                        <input type="text" className="form__input" value={username} onChange={e => setUsername(e.target.value)}/>
+                        <label htmlFor="email" className="form__label">Email:</label>
+                        <input type="email" className="form__input" value={email} onChange={e => setEmail(e.target.value)} />
+                        { type === 'teacher' 
+                            ? (
+                            <>
+                                <label htmlFor="type" className="form__label">Área</label>
+                                <input type="text" className="form__input" value={area} onChange={e => setArea(e.target.value)} />
+                            </>    
+                            ) 
+                            : ''
+                        }
+                        { hidePassField === 'false' 
+                            ? (
+                            <>
+                              <div className="form__group">
+                                <label htmlFor="password" className="form__label">Senha:</label>
+                                <input type="password" className="form__input" onChange={e => setPassword(e.target.value)} />
+                                {password && password.length >= 6 ? <button title='salvar senha' type="button" className="password__btn" onClick={changePassword}><FaSave className="form__icon"/></button> : ''}
+                              </div>
+                            </>    
+                            ) 
+                            : ''
+                        }    
+                        <div className="button__group">
+                          <button className="form__btn">Salvar</button>
+                          <button type="button" className="form__btn" onClick={showPasswordField}>Alterar senha</button>
+                          <button type="button" className="form__btn" onClick={deleteAccount}>Excluir conta</button>
+                        </div>
+                    </form> : 
+                    <div className='container__null'>
+                      <div className="loader"></div>
                     </div>
-                </form>
+                }
             </div>
             {
                 showErrorModal ? (

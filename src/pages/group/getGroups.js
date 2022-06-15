@@ -25,6 +25,7 @@ function GetGroups() {
   const [offset, setOffset] = useState(0)
   let [showErrorModal, setErrorModalStatus] = useState(false)
   let [modalMessage, setModalMessage] = useState('')
+  let [contentLoaded, setContentLoaded] = useState(false)
 
   let query = useQuery();
 
@@ -51,8 +52,8 @@ function GetGroups() {
       try {
         const {data} = await api.get(`groups?discipline=${filter}&topics=${filter}&offset=${offset}&limit=${12}`, {headers})
         const {groups} = data
-        console.log('groups', groups)
         setGroups(groups)
+        setContentLoaded(true)
       } catch(err) {
         handleErrorModal(err.response.data.name)
       }
@@ -91,7 +92,7 @@ function GetGroups() {
             <div className='content__title__wrapper'>
               <h2 className="content__title">Resultados para: {filter}</h2>
             </div>
-            <div className={groups.length !== 0 ? "card__wrapper": "card__wrapper any__group"}>
+            <div className={groups.length !== 0 && contentLoaded ? "card__wrapper": "card__wrapper any__group"}>
               {
                 groups.length !== 0 ? 
                 groups.map((group, index) => {
@@ -109,6 +110,7 @@ function GetGroups() {
                   showFavoriteButton={false}
                   />)
                 }) : (
+                  !contentLoaded ? <div className="loader"></div> :
                   <>
                     <HiUserGroup className="any__user__icon"/>
                     <span>{`Nenhum grupo com a disciplina ou tópico "${filter}" foi encontrado`}</span>

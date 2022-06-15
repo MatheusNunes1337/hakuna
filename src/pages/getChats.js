@@ -15,6 +15,7 @@ export default function GetChats() {
     let [chats, setChats] = useState([])
     let [showErrorModal, setErrorModalStatus] = useState(false)
     let [modalMessage, setModalMessage] = useState('')
+    let [contentLoaded, setContentLoaded] = useState(false)
 
     const { id } = useParams();
     const token = localStorage.getItem('userToken')
@@ -27,6 +28,7 @@ export default function GetChats() {
           try {
             const {data} = await api.get(`chats/`, {headers})
             setChats(data)
+            setContentLoaded(true)
           } catch(err) {
             handleErrorModal(err.response.data[0].name)
           }
@@ -55,7 +57,7 @@ export default function GetChats() {
                         <div className='content__title__wrapper'> 
                           <h2 className="content__title"><img src={chat} className='title__icon' />Minhas conversas</h2>
                         </div>
-                        <div className={chats.length !== 0 ? "chat__container" : "chat__container any__chat"}>
+                        <div className={chats.length !== 0 && contentLoaded ? "chat__container" : "chat__container any__chat"}>
                             {
                               chats.length !== 0 ? 
                                   chats.map((chat, key) => {
@@ -71,6 +73,7 @@ export default function GetChats() {
                                     )
                                   })
                                  : (
+                                    !contentLoaded ? <div className="loader"></div> : 
                                     <>
                                         <img src={chat} className="any__user__icon"/>
                                         <span>Parece que você ainda não trocou mensagens com nenhum usuário</span>

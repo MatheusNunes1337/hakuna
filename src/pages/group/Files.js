@@ -49,7 +49,7 @@ export default function Files() {
     const [fileDownloadUrl, setFileDownloadUrl] = useState('')
     let [showErrorModal, setErrorModalStatus] = useState(false)
     let [modalMessage, setModalMessage] = useState('')
-    const [count, setCount] = useState(0)
+    let [contentLoaded, setContentLoaded] = useState(false)
 
     const { id } = useParams();
     const token = localStorage.getItem('userToken')
@@ -77,6 +77,7 @@ export default function Files() {
                 })
             })
             setFiles(files_array.flat())
+            setContentLoaded(true)
           } catch(err) {
             handleErrorModal(err.response.data.error)
           }
@@ -127,7 +128,7 @@ export default function Files() {
                         <h2 className="content__title">Materiais <img src={book} className='title__colorful__icon' /></h2>
                     </div>
                     {
-                        files.length !== 0 ? (
+                        files.length !== 0 && contentLoaded ? (
                             <div className='files__container'>
                             {
                                 files.map((file, index) => {
@@ -136,6 +137,7 @@ export default function Files() {
                             }
                             </div>
                             ) : (
+                                !contentLoaded ? <div className="container__null"><div className="loader"></div></div> : 
                                 <div className='empty__files__container'>
                                     <img src={book} className="any__user__icon"/>
                                     <span>Parece que ainda não foi compartilhado nenhum material nesse grupo</span>

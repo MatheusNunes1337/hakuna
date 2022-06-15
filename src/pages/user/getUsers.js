@@ -30,6 +30,7 @@ export default function GetUsers() {
     let [showErrorModal, setErrorModalStatus] = useState(false)
     let [modalMessage, setModalMessage] = useState('')
     let [showProfileModal, setProfileModalStatus] = useState(false)
+    let [contentLoaded, setContentLoaded] = useState(false)
 
     let query = useQuery();
 
@@ -46,6 +47,7 @@ export default function GetUsers() {
             const {data} = await api.get(`users?username=${filter}&offset=${offset}`, {headers})
             const {users} = data
             setUsers(users)
+            setContentLoaded(true)
             setTotalPages(Math.ceil(users.length / 10))
           } catch(err) {
             handleErrorModal(err.response.data[0].name)
@@ -61,6 +63,7 @@ export default function GetUsers() {
             const {data} = await api.get(`users?username=${filter}&offset=${offset}&limit=${10}`, {headers})
             const {users} = data
             setUsers(users)
+            setContentLoaded(true)
           } catch(err) {
             handleErrorModal(err.response.data[0].name)
           }
@@ -109,7 +112,7 @@ export default function GetUsers() {
                         <div className='content__title__wrapper'> 
                           <h2 className="content__title">Resultados para: {filter}</h2>
                         </div>
-                        <div className={users.length !== 0 ? "users__container" : "users__container any__user"}>
+                        <div className={users.length !== 0 && contentLoaded ? "users__container" : "users__container any__user"}>
                             {
                               users.length > 0 ?
                                 users.map((user, index)  => {
@@ -124,6 +127,7 @@ export default function GetUsers() {
                                         </button>
                                     )
                                 }) : (
+                                    !contentLoaded ? <div className="loader"></div> : 
                                     <>
                                         <img src={userIcon} className="any__user__icon"/>
                                         <span>{`Nenhum usuário com o nome de "${filter}" foi encontrado`}</span>

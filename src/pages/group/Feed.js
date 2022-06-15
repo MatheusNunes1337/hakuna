@@ -90,6 +90,7 @@ export default function Feed() {
     let [modalMessage, setModalMessage] = useState('')
     let [showProfileModal, setProfileModalStatus] = useState(false)
     let [targetUser, setTargetUser] = useState('')
+    let [contentLoaded, setContentLoaded] = useState(false)
 
     const { id } = useParams();
     const token = localStorage.getItem('userToken')
@@ -110,6 +111,7 @@ export default function Feed() {
             setDiscipline(discipline)
             setPosts(posts.reverse())
             setReloadComponents(false)
+            setContentLoaded(true)
           } catch(err) {
             handleErrorModal(err.response.data.name)
           }
@@ -397,11 +399,13 @@ export default function Feed() {
         setPostsFilteredStatus(true)
         setFilterButtonVisibility(true)
         setSearchMode(true)
+        setContentLoaded(false)
 
         try {
             const {data} = await api.get(`groups/${id}/posts?content=${filter}`, {headers})
             const {posts} = data
             setPosts(posts)
+            setContentLoaded(true)
           } catch(err) {
             if(!Array.isArray(err.response.data))
                 handleErrorModal(err.response.data.name)
@@ -415,6 +419,7 @@ export default function Feed() {
         searchInput.value = ''
         setFilterButtonVisibility(false)
         setSearchMode(false)
+        setContentLoaded(false)
     }
 
     const goToProfile = (e) => {
@@ -680,11 +685,13 @@ export default function Feed() {
                        }) 
                         : (
                             !isPostsFiltered ? (
+                                !contentLoaded ? <div className="loader"></div> :
                                 <>
                                     <img src={postIcon} className="any__user__icon"/>
                                     <p className="group__feed__message">Nenhuma publicação foi realizada ainda</p>
                                 </>
                             ) : (
+                                !contentLoaded ? <div className="loader"></div> :
                                 <>
                                     <img src={postIcon} className="any__user__icon"/>
                                     <p className="group__feed__message">{`Nenhuma publicação com a palavra-chave "${filter}" foi encontrada`}</p>
