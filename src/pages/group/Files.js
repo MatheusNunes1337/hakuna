@@ -83,13 +83,16 @@ export default function Files() {
           }
         }
         getFiles()
-      }, [])
+      }, [showModal])
 
     const downloadFile = async (e) => {
         try {
             const fileKey = e.currentTarget.value
             const {data} = await api.get(`files/download/${fileKey}`, {headers})
-            saveAs(data, "image.png")
+            //const iframeDownload = document.getElementById('iframe__download')
+            //iframeDownload.href = data
+            //iframeDownload.click()
+            saveAs(data)
         } catch(err) {
             handleErrorModal(err.response.data.name)
         }
@@ -179,7 +182,7 @@ export default function Files() {
                     </>
                     ) : ''
                 }
-                {<iframe className='iframe__downloader' src={fileDownloadUrl}></iframe>}
+                {<a className='iframe__downloader' id='iframe__download' href={fileDownloadUrl} download>oi</a>}
                 </Container >  
             </main>
         </>
