@@ -81,6 +81,7 @@ export default function Membros() {
             try {
                 await api.delete(`groups/${id}/members/${memberId}`, { headers })
                 handleSucessModal('Usuário removido com sucesso')
+                setContentLoaded(false)
                 setReloadComponents(true)
             } catch(err) {
                 handleErrorModal(err.response.data.name)
@@ -95,6 +96,7 @@ export default function Membros() {
             try {
                 await api.patch(`groups/${id}/mods/${memberId}`, {}, { headers })
                 handleSucessModal('Operação realizada com sucesso')
+                setContentLoaded(false)
                 setReloadComponents(true)
             } catch(err) {
                 handleErrorModal(err.response.data.name)
@@ -109,6 +111,7 @@ export default function Membros() {
             try {
                 await api.delete(`groups/${id}/mods/${modId}`, { headers })
                 handleSucessModal('Operação realizada com sucesso')
+                setContentLoaded(false)
                 setReloadComponents(true)
             } catch(err) {
                 handleErrorModal(err.response.data.name)
