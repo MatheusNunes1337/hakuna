@@ -83,6 +83,12 @@ export default function Chat() {
         }
     }
 
+    const handleMessage = (e) => {
+        if(e.key === 'Enter') {
+            sendMessage(e)
+        }
+    }
+
     const sendMessage = async (e) => {
       e.preventDefault()
 
@@ -174,7 +180,8 @@ export default function Chat() {
                             }
                         </ScrollToBottom>
                         <div className='chat__message__send__wrapper'>
-                            <input type="text" className='chat__input' 
+                            <input type="text" className='chat__input'
+                            onKeyDown={handleMessage} 
                             onChange={e => setCurrentMessage(e.target.value)}
                             placeholder='Digite a sua mensagem aqui'/>
                             <IoSend className='send__message__icon' onClick={sendMessage}/>

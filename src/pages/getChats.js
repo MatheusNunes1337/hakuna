@@ -66,7 +66,7 @@ export default function GetChats() {
                                           <img src={`https://hakuna-1337.s3.amazonaws.com/${chat.participants.find(participant => participant._id !== userId).profilePic}`} alt='user image' className='chat__user__img'/>
                                           <div className='chat__message__wrapper'>
                                             <span className='chat__username'>{chat.participants.find(participant => participant._id !== userId).username}</span>
-                                            {chat.messages.length > 0 ? <span className='chat__last__message'>{chat.messages[chat.messages.length - 1].message.author !== userId ? chat.participants.find(participant => participant._id !== userId).username : 'Você'}: {chat.messages[chat.messages.length - 1].message}</span> : <span className='any__message__yet'>Essa conversa ainda não possui nenhuma mensagem</span>}
+                                            {chat.messages.length > 0 ? <span className='chat__last__message'>{chat.messages[chat.messages.length - 1].author !== userId ? chat.participants.find(participant => participant._id !== userId).username : 'Você'}: {chat.messages[chat.messages.length - 1].message}</span> : <span className='any__message__yet'>Essa conversa ainda não possui nenhuma mensagem</span>}
                                           </div>
                                           {chat.messages.length > 0 ? <span className='chat__last__message__time'>{chat.messages[chat.messages.length - 1].creationTime}</span> : ''}
                                       </Link>
