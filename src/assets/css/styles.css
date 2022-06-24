@@ -2666,6 +2666,11 @@ footer p, footer span {
     -webkit-animation: spin 2s linear infinite; /* Safari */
     animation: spin 1s linear infinite;
   }
+
+  .post__item .post__action__btns > button.is__disabled, 
+  .comment__action__btns > button.is__disabled {
+    cursor: not-allowed;
+  }
   
   /* Safari */
   @-webkit-keyframes spin {
