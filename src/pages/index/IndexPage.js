@@ -8,7 +8,7 @@ import { IoIosArrowUp } from "react-icons/io";
 import {GrMail} from 'react-icons/gr'
 
 import IndexNavBar from '../../components/IndexNavBar'
-import heroImage from '../../assets/images/people_studying.png'
+import heroImage from '../../assets/images/people_studying2.png'
 import groupIcon from '../../assets/images/group.png'
 import rankingIcon from '../../assets/images/crown.png'
 import booksIcon from '../../assets/images/book.png'
@@ -86,7 +86,7 @@ function IndexPage() {
                             <img className='functionality__card__icon' src={chatIcon} alt='group' />
                             <h2 className='functionality__card__title'>Bate-papo privado</h2>
                             <p className='functionality__card__message'>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sit amet purus nec justo mattis ultricies. Morbi enim erat, viverra.
+                            Bate-papo privado entre usuários para uma maior privacidade na hora de debater tópicos de estudo.
                             </p>
                         </div>
                         <div className='functionality__card'>

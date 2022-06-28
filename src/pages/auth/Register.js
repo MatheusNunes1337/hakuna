@@ -3,7 +3,7 @@ import { Link, useHistory } from 'react-router-dom'
 import api from '../../services/api'
 
 import { registerSchema } from '../../validations/authSchema'
-import LoginImage from '../../assets/images/sign_up.png'
+import RegisterImage from '../../assets/images/boy_studying.png'
 
 import '../../assets/css/styles.css'
 import ErrorModal from '../../components/ErrorModal'
@@ -76,7 +76,7 @@ function Register() {
                 </form>
                 <section className='register__section'>
                     <div className='register__image__wrapper'>
-                        <img src={LoginImage} alt='girl studying' className='register__image' />
+                        <img src={RegisterImage} alt='girl studying' className='register__image' />
                     </div>
                     <form action="" className="form__register">
                         <h2 className="form__register__title">Nova Conta</h2>
