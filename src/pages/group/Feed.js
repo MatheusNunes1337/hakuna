@@ -568,7 +568,6 @@ export default function Feed() {
                                         ) : (
                                             <ul className='post__options__menu'>
                                                 <li onClick={deletePost} className={post._id}><img src={deleteIcon} className='post__options__menu__icon' />Deletar postagem</li>
-                                                <li><img src={requestHelp} className='post__options__menu__icon' />Solicitar ajuda</li>
                                             </ul>
                                         )
                                      : '' 
