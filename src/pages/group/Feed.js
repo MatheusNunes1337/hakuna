@@ -91,6 +91,7 @@ export default function Feed() {
     let [showProfileModal, setProfileModalStatus] = useState(false)
     let [targetUser, setTargetUser] = useState('')
     let [contentLoaded, setContentLoaded] = useState(false)
+    const [postFilter, setPostFilter] = useState('todas')
 
     const { id } = useParams();
     const token = localStorage.getItem('userToken')
@@ -103,13 +104,17 @@ export default function Feed() {
           try {
             const {data} = await api.get(`groups/${id}`, {headers})
             const {mods, name, posts, discipline} = data
-            console.log('posts', posts)
             const moderators = mods.map(mod => mod._id)
             setModsIdLIst(moderators)
             if(moderators.includes(userId)) setMod(true)
             setGroupName(name)
             setDiscipline(discipline)
-            setPosts(posts.reverse())
+            if(postFilter !== 'todas') {
+                const filteredPosts = posts.filter(post => post.author._id == userId)
+                setPosts(filteredPosts.reverse())
+            } else {
+                setPosts(posts.reverse())
+            }
             setReloadComponents(false)
             setContentLoaded(true)
           } catch(err) {
@@ -117,7 +122,7 @@ export default function Feed() {
           }
         }
         getMods()
-      }, [reloadComponents, searchModeOn])
+      }, [reloadComponents, searchModeOn, postFilter])
 
     const getScreenWidth = () => window.screen.availWidth
         
@@ -551,6 +556,12 @@ export default function Feed() {
                             <label for="add_material__btn" className="material__btn"><img src={upload} className="group__options__icon"/>Materiais</label> 
                         </div>
                     </form>
+                    <div className='post__filter__wrapper'>
+                        <select className='post__filter' defaultValue="todos" onChange={e => setPostFilter(e.target.value)}>
+                            <option title='mostrar todas as postagens' value="todas">todas</option>
+                            <option title='mostrar postagens criadas por mim' value="minhas">minhas</option>
+                        </select>
+                    </div>
                     <div className="group__posts">
                     {  posts.length !== 0 ?
                        posts.map((post, index) => {
