@@ -1517,6 +1517,19 @@ h3.content__subtitle {
 }
 */
 
+.file__status {
+    margin: 10px 0px 0px 0px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.file__status > img {
+    width: 23px;
+    height: 23px;
+}
+
 .post__item .post__content {
     width: 100%;
     height: auto;

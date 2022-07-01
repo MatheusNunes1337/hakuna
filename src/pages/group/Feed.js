@@ -22,6 +22,7 @@ import book from '../../assets/images/books.png'
 import settings from '../../assets/images/settings.png'
 import leave from '../../assets/images/leave.png'
 import upload from '../../assets/images/upload.png'
+import sucess from '../../assets/images/sucess.png'
 import dislike from '../../assets/images/dislike.png'
 import dislike_outline from '../../assets/images/dislike_outline.png'
 import like from '../../assets/images/like.png'
@@ -550,6 +551,7 @@ export default function Feed() {
                     }
                     <form action="" className="post__form">
                         <textarea name="description" className="form__textarea" id="group__description" cols="30" rows="7" placeholder='Compartilhe algo com os seus colegas' onChange={e => setContent(e.target.value)}></textarea>
+                        {files.length > 0 ? <p className='file__status'><img src={sucess} alt='sucess icon' /> materiais selecionados</p> : ''}
                         <div className='post__btn__wrapper'> 
                             <button className="form__btn" onClick={handlePost}>Postar</button>
                             <input type="file" id="add_material__btn" name='files' onChange={e => setFiles(e.target.files)} multiple/>
@@ -722,6 +724,7 @@ export default function Feed() {
                             <textarea name="description" className="form__textarea" id="group__description" cols="30" rows="7" onChange={e => setContent(e.target.value)}></textarea> :
                             <textarea name="description" className="form__textarea" id="group__description" cols="30" rows="7" onChange={e => setCommentContent(e.target.value)}></textarea>
                         }
+                        {files.length > 0 || commentFiles.length > 0 ? <p className='file__status'><img src={sucess} alt='sucess icon' /> materiais selecionados</p> : ''}
                         <div className='post__btn__wrapper'>
                             {
                                 postEditionMode ? 
