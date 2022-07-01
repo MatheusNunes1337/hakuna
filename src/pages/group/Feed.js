@@ -40,6 +40,7 @@ import ErrorModal from '../../components/ErrorModal';
 import SucessModal from '../../components/SucessModal';
 import WarningModal from '../../components/WarningModal';
 import ProfileModal from '../../components/ProfileModal';
+import badWordCatcher from '../../utils/badWordCatcher';
 
 
 export default function Feed() {
@@ -145,6 +146,12 @@ export default function Feed() {
         if(Array.from(files).length > 3) {
             handleErrorModal('You can only upload a maximum of three files per post.')
             return 
+        }
+
+        const badWordsCount =  badWordCatcher(content)
+        if(badWordsCount > 0) {
+            handleErrorModal('Não são permitidas palavras impróprias no conteúdo de uma postagem.')
+            return
         }
 
         const formData = new FormData()
@@ -318,11 +325,17 @@ export default function Feed() {
             handleErrorModal('The comment content cannot be null.')
             return 
             
-        } else if(content.length > 300) {
+        } else if(commentContent.length > 300) {
             handleErrorModal('The comment content must be a maximum of 300 characters.')
             return 
         } else if(Array.from(commentFiles).length > 3) {
             handleErrorModal('You can only upload a maximum of three files per comment.')
+            return
+        }
+
+        const badWordsCount =  badWordCatcher(commentContent)
+        if(badWordsCount > 0) {
+            handleErrorModal('Não são permitidas palavras impróprias no conteúdo de um comentário.')
             return
         }
 
@@ -371,7 +384,7 @@ export default function Feed() {
             const isOperationConfirmed = window.confirm('Você tem certeza que deseja excluir essa postagem?')
             if(isOperationConfirmed) {
                 await api.delete(`groups/${id}/posts/${postId}/`, {headers})
-                alert('Postagem excluída com sucesso.')
+                handleSucessModal('Postagem excluída com sucesso.')
                 setReloadComponents(true)   
             }
         } catch(err) {
@@ -385,7 +398,7 @@ export default function Feed() {
             const isOperationConfirmed = window.confirm('Você tem certeza que deseja excluir esse comentário?')
             if(isOperationConfirmed) {
                 await api.delete(`groups/${id}/posts/${postId}/comments/${commentId}`, {headers})
-                alert('Comentário excluído com sucesso.')
+                handleSucessModal('Comentário excluído com sucesso.')
                 setReloadComponents(true)
             }
         } catch(err) {

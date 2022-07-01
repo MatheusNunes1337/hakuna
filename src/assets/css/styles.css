@@ -378,7 +378,7 @@ body {
     border: 2px solid var(--ice-2);
 }
 
-.post__filter__wrapper {
+.post__filter__wrapper  {
     display: flex;
     justify-content: flex-end;
     width: 100%;
@@ -1107,7 +1107,8 @@ span.member__type {
     font-size: 1.15rem;
 }
 
-.ranking__container, .member__container, .users__container, .chat__container, .messages__container {
+.ranking__container, .member__container, .help__container, .users__container, 
+.chat__container, .messages__container {
     height: auto;
     width: 100%;
     margin-top: 30px;
@@ -1194,7 +1195,7 @@ span.member__type {
 }
 
 .ranking__container .ranking__item, div.mod__item, div.others__item, 
-.users__container .user__item, .chat__container .chat__item  {
+.users__container .user__item, .chat__container .chat__item, .chat__container .help__item  {
     display: flex;
     align-items: center;
     margin: 10px 0px;
@@ -1202,6 +1203,10 @@ span.member__type {
     border: 0.8px solid var(--ice-3);
     border-radius: 5px;
     background-color: white;
+}
+
+.chat__container .help__item {
+    width: 100%;
 }
 
 .users__container .user__item {
@@ -1223,7 +1228,7 @@ span.member__type {
 
 .ranking__item .ranking__user__img, .member__img, 
 .user__item .user__img, 
-.chat__item .chat__user__img {
+.chat__item .chat__user__img, .help__item .help__user__img {
     width: 48px;
     height: 48px;
     border-radius: 50%;
@@ -1235,11 +1240,12 @@ span.member__type {
     color: var(--black);
 }
 
-.user__item .user__img, .chat__item .chat__user__img {
+.user__item .user__img, .chat__item .chat__user__img, .help__item .help__user__img {
     margin-left: 0px;
 }
 
-.ranking__item .ranking__user__name, .member__name, .user__item .user__name, .chat__item .chat__username {
+.ranking__item .ranking__user__name, .member__name, 
+.user__item .user__name, .chat__item .chat__username, .help__item .help__username {
     margin-left: 25px;
     font-size: clamp(14px, 1.30vw, 17px);
     font-weight: bold;
@@ -1252,16 +1258,17 @@ span.member__type {
     flex-grow: 0;
 }
 
-.chat__item .chat__username {
+.help__item {
+    cursor: pointer;
+}
+
+.chat__item .chat__username, .help__item .help__username {
     margin-left: 0px;
     font-size: 1rem;
 }
 
-.chat__item .chat__last__message, .chat__last__message__time {
-    font-size: 0.95rem;
-}
-
-.chat__item .chat__last__message {
+.help__item .help__username {
+    text-align: left;
     display: -webkit-box;
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
@@ -1269,7 +1276,23 @@ span.member__type {
     text-overflow: ellipsis;
 }
 
-.chat__message__wrapper {
+.chat__item .chat__last__message, .chat__last__message__time {
+    font-size: 0.95rem;
+}
+
+.chat__item .chat__last__message, .help__item .help__content {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.help__item .help__content {
+    text-align: left;
+}
+
+.chat__message__wrapper, .help__item__wrapper {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
@@ -1279,8 +1302,16 @@ span.member__type {
     margin-right: 15px;
 }
 
-.chat__last__message__time {
+.help__item__wrapper {
+    justify-content: flex-start;
+}
+
+.chat__last__message__time, .request__time {
     font-size: 0.85rem;
+}
+
+.request__time {
+    margin-left: auto;
 }
 
 .ranking__item .ranking__user__medal {
