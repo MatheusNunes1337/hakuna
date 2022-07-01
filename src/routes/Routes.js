@@ -21,6 +21,7 @@ import GetChats from '../pages/getChats'
 import Chat from '../pages/Chat'
 import FavoriteGroups from '../pages/FavoriteGroups'
 import IndexPage from '../pages/index/IndexPage'
+import HelpRequests from '../pages/HelpRequests'
 
 function CustomRoute(props) {
 	const userToken = localStorage.getItem('userToken')
@@ -73,6 +74,9 @@ function Routes() {
                 </CustomRoute>
                 <CustomRoute private path="/chats">
                     <GetChats />
+                </CustomRoute>
+                <CustomRoute private path="/help-requests">
+                    <HelpRequests />
                 </CustomRoute>
                 <CustomRoute private path="/group-info/:id">
                     <GroupInfo />
