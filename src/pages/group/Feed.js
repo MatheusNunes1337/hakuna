@@ -34,6 +34,7 @@ import editComment from '../../assets/images/edit_comment.png'
 import editPost from '../../assets/images/editing.png'
 import deleteIcon from '../../assets/images/trash.png'
 import requestHelp from '../../assets/images/request_help.png'
+import requestIcon from '../../assets/images/request.png'
 import postIcon from '../../assets/images/post.png'
 import setGroupIcon from '../../utils/setGroupIcon';
 import ErrorModal from '../../components/ErrorModal';
@@ -94,6 +95,8 @@ export default function Feed() {
     let [targetUser, setTargetUser] = useState('')
     let [contentLoaded, setContentLoaded] = useState(false)
     const [postFilter, setPostFilter] = useState('todas')
+    const [showHelpRequestModal, setHelpRequestModal] = useState(false)
+    let [helpRequestContent, setHelpRequestContent] = useState('')
 
     const { id } = useParams();
     const token = localStorage.getItem('userToken')
@@ -111,11 +114,15 @@ export default function Feed() {
             if(moderators.includes(userId)) setMod(true)
             setGroupName(name)
             setDiscipline(discipline)
-            if(postFilter !== 'todas') {
+
+            if(postFilter === 'minhas') {
                 const filteredPosts = posts.filter(post => post.author._id == userId)
                 setPosts(filteredPosts.reverse())
+            } else if (postFilter === 'duvidas') {
+                const filteredPosts = posts.filter(post => post.isHelpRequired == true)
+                setPosts(filteredPosts.reverse())
             } else {
-                setPosts(posts.reverse())
+                setPosts(posts.reverse()) 
             }
             setReloadComponents(false)
             setContentLoaded(true)
@@ -533,6 +540,49 @@ export default function Feed() {
         setProfileModalStatus(false)
       }
 
+      const helpRequest = async (e) => {
+        const postId = e.currentTarget.className
+        const formData = new FormData()
+        formData.append('isHelpRequired', true)
+        const headers = { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data"}
+
+        try {
+            await api.patch(`groups/${id}/posts/${postId}`, formData, {headers})
+            handleSucessModal('Sua postagem foi adicionada na fila de duvidas')
+            setReloadComponents(true)
+        } catch(err) {
+            handleErrorModal(err.response.data.name)
+        }
+
+      }
+      const openHelpRequestModal = () => {
+        setHelpRequestModal(true)
+      }
+
+      const closeHelpRequestModal = () => {
+        setHelpRequestModal(false)
+      }
+
+      const inviteTeachers = async () => {
+        if(helpRequestContent.length === 0) {
+            handleErrorModal('É obrigatório adicionar uma mensagem no convite de solicitação de ajuda aos professores')
+        }
+        try {
+            const data = {
+                content: helpRequestContent,
+                group: id
+            }
+            await api.post(`help-requests`, data, {headers})
+            closeHelpRequestModal()
+            handleSucessModal('Solicitação de ajuda enviada com sucesso. Verifique se o grupo possui capacidade para novos membros')
+        } catch(err) {
+            if(!Array.isArray(err.response.data))
+                handleErrorModal(err.response.data.name)
+            else 
+                handleErrorModal(err.response.data[0].name)
+        }
+      }
+
     return (
         <>
         <NavBar />
@@ -568,13 +618,15 @@ export default function Feed() {
                         <div className='post__btn__wrapper'> 
                             <button className="form__btn" onClick={handlePost}>Postar</button>
                             <input type="file" id="add_material__btn" name='files' onChange={e => setFiles(e.target.files)} multiple/>
-                            <label for="add_material__btn" className="material__btn"><img src={upload} className="group__options__icon"/>Materiais</label> 
+                            <label for="add_material__btn" className="material__btn"><img src={upload} className="group__options__icon"/>Materiais</label>
+                            <button className="form__btn" type='button' onClick={openHelpRequestModal}>Solicitar ajuda</button> 
                         </div>
                     </form>
                     <div className='post__filter__wrapper'>
                         <select className='post__filter' defaultValue="todos" onChange={e => setPostFilter(e.target.value)}>
                             <option title='mostrar todas as postagens' value="todas">todas</option>
                             <option title='mostrar postagens criadas por mim' value="minhas">minhas</option>
+                            <option title='mostrar todas as duvidas' value="duvidas">duvidas</option>
                         </select>
                     </div>
                     <div className="group__posts">
@@ -589,7 +641,7 @@ export default function Feed() {
                                             <ul className='post__options__menu'>
                                                 <li onClick={enablePostEditionMode} className={post._id}><img src={editPost} className='post__options__menu__icon' />Editar postagem</li>
                                                 <li onClick={deletePost} className={post._id}><img src={deleteIcon} className='post__options__menu__icon' />Deletar postagem</li>
-                                                <li><img src={requestHelp} className='post__options__menu__icon' />Solicitar ajuda</li>
+                                                {post.isHelpRequired ? '' : <li onClick={helpRequest} className={post._id}><img src={requestHelp} className='post__options__menu__icon' />Solicitar ajuda</li>}
                                             </ul>
                                         ) : (
                                             <ul className='post__options__menu'>
@@ -793,8 +845,21 @@ export default function Feed() {
                         }
                     </form>
                 </div>
+                <div className={showHelpRequestModal ? 'helpRequest__modal show__div' : 'helpRequest__modal hide__div'}>
+                    <div className='content__title__wrapper'>
+                        <h2 className="content__title"><img src={requestIcon} className='title__icon' />Solicitação de ajuda</h2>
+                        <IoClose onClick={closeHelpRequestModal} className='close__edit__modal' />
+                    </div>
+                    <p>Ao criar uma solicitação de ajuda, todos os professores da área na qual seu grupo pertence receberão um convite para participar do grupo e tirar as dúvidas dos alunos.</p>
+                    <form action="" className="post__form">
+                        <textarea name="description" className="form__textarea" id="group__description" cols="30" rows="7" placeholder='adicione uma mensagem a solicitação' onChange={e => setHelpRequestContent(e.target.value)}></textarea>
+                        <div className='post__btn__wrapper'>
+                            <button type='button' className="form__btn" onClick={inviteTeachers}>Enviar</button>
+                        </div>     
+                    </form>
+                </div>
                 {
-                    postEditionMode || commentEditionMode ? (
+                    postEditionMode || commentEditionMode || showHelpRequestModal ? (
                     <>
                         <div className='overlay'></div>
                     </>

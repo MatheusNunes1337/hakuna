@@ -11,21 +11,76 @@ import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
 import helpIcon from '../assets/images/help.png'
 import userImage from '../assets/images/student.png'
 import ErrorModal from '../components/ErrorModal'
+import setGroupIcon from '../utils/setGroupIcon'
+import { IoClose } from 'react-icons/io5'
 
 function HelpRequests() {
   let [helpRequests, setHelpRequests] = useState([])
+  let [request, setRequest] = useState({})
   const [paginationIndex, setPaginationIndex] = useState(1)
   const [totalPages, setTotalPages] = useState(0)
   const [offset, setOffset] = useState(0)
   let [showErrorModal, setErrorModalStatus] = useState(false)
   let [modalMessage, setModalMessage] = useState('')
   let [contentLoaded, setContentLoaded] = useState(false)
-  let [RequestHelpFilter, setRequestHelpFilter] = useState(false)
+  const [reloadComponents, setReloadComponents] = useState(false)
+  let [showRequestModal, setRequestModal] = useState(false)
 
   const token = localStorage.getItem('userToken')
   const headers = { Authorization: `Bearer ${token}` }
   const userId =  localStorage.getItem('userId')
  
+  useEffect(() => {
+    const getHelpRequests = async () => {
+      try {
+        const {data} = await api.get(`users/${userId}`, {headers})
+        const {helpRequests, username} = data
+        setHelpRequests(helpRequests)
+        setReloadComponents(false)
+        setContentLoaded(true)
+      } catch(err) {
+          handleErrorModal(err.response.data.name)
+      }
+    }
+
+    getHelpRequests()
+  }, [reloadComponents])
+
+  const closeModal = () => {
+    setErrorModalStatus(false)
+  }
+
+  const handleErrorModal = (message) => {
+    setModalMessage(message)
+    setErrorModalStatus(true)
+  }
+
+  const openRequestModal = (e) => {
+    const requestId = e.currentTarget.value
+    const request = helpRequests.find(request => request._id == requestId)
+    setRequest(request)
+    setRequestModal(true)
+  }
+
+  const closeRequestModal = () => {
+    setRequestModal(false)
+  }
+
+  const declineRequest = async (e) => {
+    const requestId = e.currentTarget.value
+    try {
+        const confirm = window.confirm('Você tem certeza que deseja recusar participar desse grupo?')
+        if(!confirm) return
+        await api.delete(`help-requests/${requestId}`, {headers})
+        closeRequestModal()
+        setReloadComponents(true)
+    } catch(err) {  
+        handleErrorModal(err.response.data.name)
+    }
+ }
+
+
+  /*
   useEffect(() => {
     const getHelpRequests = async () => {
       try {
@@ -58,6 +113,7 @@ function HelpRequests() {
       setModalMessage(message)
       setErrorModalStatus(true)
   }
+  */
 
   return (
     <>
@@ -71,25 +127,18 @@ function HelpRequests() {
                 <img src={helpIcon} className='title__icon' />
                 <h2 className="content__title">Solicitações de ajuda</h2>
             </div>
-            <div className='help__filter__wrapper'>
-                <select className='post__filter' defaultValue="todos" onChange={e => setRequestHelpFilter(e.target.value)}>
-                    <option title='mostrar todas as postagens' value="todas">pendentes</option>
-                    <option title='mostrar postagens criadas por mim' value="minhas">respondidas</option>
-                    <option title='mostrar postagens criadas por mim' value="minhas">solucionadas</option>
-                </select>
-            </div>
             <div className={helpRequests.length !== 0 && contentLoaded ? 'chat__container' : 'chat__container any__chat'}>
             {
                 helpRequests.length !== 0 ? 
                 helpRequests.map((request, index) => {
                     return (
-                        <button className='help__item' key={index}>
-                            <img src={userImage} alt='user image' className='help__user__img'/>
+                        <button className='help__item' key={index} value={request._id} onClick={openRequestModal}>
+                            <img src={setGroupIcon(request.group.discipline)} alt='group image' className='help__group__img'/>
                             <div className='help__item__wrapper'>
-                                <span className='help__username'>Matheus1337 - Grupo do Dok2</span>
-                                <span className='help__content'>Gostaria de saber qual é a raiz quadrada de 20</span>
+                                <span className='help__username'>{request.group.name}</span>
+                                <span className='help__content'>{request.content}</span>
                             </div>
-                            <span className='request__time'>13:17</span>
+                            <span className='request__time'>{request.creationDate}</span>
                         </button>
                     )
                 }) : (
@@ -102,11 +151,33 @@ function HelpRequests() {
                 )
               }
             </div>
+            {
+                showRequestModal ? (
+                <>
+                  <div className='request__modal'>
+                    <IoClose onClick={closeRequestModal} className='close__request__modal' />
+                    <div className='request__modal__header'>
+                        <img src={helpIcon} alt='help image' className='request__modal__icon' />
+                        <h2 className='request__modal__title'>{request.group.name}</h2>
+                    </div>
+                    <p className='request__modal__message'>
+                        {request.content}
+                    </p>
+                    <p className='request__modal__confirm'>Você deseja fazer parte deste grupo?</p>
+                    <div className='request__btns__wrapper'>
+                      <button>sim</button>
+                      <button value={request._id} onClick={declineRequest}>não</button>
+                    </div>
+                  </div>
+                  <div className='overlay'></div>
+                </>
+                ) : ''
+            }
            </div>
             {
                 showErrorModal ? (
                 <>
-                    <ErrorModal closeModal={closeErrorModal} message={modalMessage} />
+                    <ErrorModal closeModal={closeModal} message={modalMessage} />
                     <div className='overlay'></div>
                 </>
                 ) : ''

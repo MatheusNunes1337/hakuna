@@ -1228,10 +1228,17 @@ span.member__type {
 
 .ranking__item .ranking__user__img, .member__img, 
 .user__item .user__img, 
-.chat__item .chat__user__img, .help__item .help__user__img {
+.chat__item .chat__user__img {
     width: 48px;
     height: 48px;
     border-radius: 50%;
+    margin-left: 25px;
+}
+
+.help__item .help__group__img {
+    border-radius: 0%;
+    width: 32px;
+    height: 32px;
     margin-left: 25px;
 }
 
@@ -1240,9 +1247,10 @@ span.member__type {
     color: var(--black);
 }
 
-.user__item .user__img, .chat__item .chat__user__img, .help__item .help__user__img {
+.user__item .user__img, .chat__item .chat__user__img, .help__item .help__group__img {
     margin-left: 0px;
 }
+
 
 .ranking__item .ranking__user__name, .member__name, 
 .user__item .user__name, .chat__item .chat__username, .help__item .help__username {
@@ -2023,7 +2031,8 @@ h3.groups__in__common__title {
     font-size: 1.2rem;
 }
 
-.edit__content__modal, .group__info__modal, .file__info__modal, .message__modal, .profile__modal {
+.edit__content__modal, .group__info__modal, .file__info__modal, 
+.message__modal, .profile__modal, .helpRequest__modal, .request__modal {
     position: fixed;
     width: 55%;
     min-height: 400px;
@@ -2045,8 +2054,13 @@ h3.groups__in__common__title {
     height: auto;
 }
 
-.edit__content__modal > form {
+.edit__content__modal > form, .helpRequest__modal > form {
     margin-top: 20px;
+}
+
+.helpRequest__modal p {
+    margin-top: 10px;
+    text-align: justify;
 }
 
 .group__info__modal .modal__body__description {
@@ -2117,12 +2131,13 @@ h3.groups__in__common__title {
     display: block;
 }
 
-.close__edit__modal, .close__message__modal, .close__profile__modal {
+.close__edit__modal, .close__message__modal, 
+.close__profile__modal, .close__request__modal {
     font-size: 1.7rem;
     cursor: pointer;
 }
 
-.message__modal, .profile__modal {
+.message__modal, .profile__modal, .request__modal {
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
@@ -2142,7 +2157,7 @@ h3.groups__in__common__title {
     z-index: -1;
 }
 
-.message__modal  .message__modal__header {
+.message__modal  .message__modal__header, .request__modal .request__modal__header {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -2152,7 +2167,8 @@ h3.groups__in__common__title {
     position: relative;
 }
 
-.message__modal .close__message__modal, .close__profile__modal {
+.message__modal .close__message__modal, .close__profile__modal,
+.close__request__modal {
     right: 0px;
     top: 0px;
     position: absolute;
@@ -2164,19 +2180,61 @@ h3.groups__in__common__title {
     text-align: center;
 }
 
+.request__modal .request__modal__icon {
+    width: 48px;
+    height: 48px;
+    text-align: center;
+}
+
+.request__modal__confirm {
+    margin-top: 10px;
+    width: 100%;
+}
+
+.request__modal > p {
+    text-align: center;
+}
+
+.request__modal .request__btns__wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    width: 100%;
+    margin-top: 8px;
+}
+
+.request__modal .request__btns__wrapper > button {
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
 .modal__title {
     margin-top: 15px;
 }
 
-.modal__message {
+.request__modal__title {
+    margin-top: 10px;
+    font-size: 1.3rem;
+}
+
+.modal__message, .request__modal__message {
     width: 100%;
     margin-top: 20px;
-    text-align: center;
+    text-align: center; 
+    -moz-text-align-last: center; 
+    text-align-last: center;
     font-weight: 500;
     color: var(--black);
 }
 
-.close__message__modal, .close__profile__modal {
+.request__modal__message {
+    margin-top: 8px;
+}
+
+.close__message__modal, .close__profile__modal, .close__request__modal {
     position: absolute;
     margin-top: 15px;
     margin-right: 15px;
@@ -2956,7 +3014,8 @@ footer p, footer span {
         flex-direction: column;
     }
 
-    .edit__content__modal, .group__info__modal, .message__modal, .file__info__modal, .profile__modal {
+    .edit__content__modal, .group__info__modal, .message__modal,
+     .file__info__modal, .profile__modal, .request__modal, .helpRequest__modal {
         width: 70%;
     }
 
@@ -3157,7 +3216,8 @@ footer p, footer span {
         width: calc(33.33333% - 3px);
     }
 
-    .edit__content__modal, .group__info__modal, .message__modal, .file__info__modal, .profile__modal {
+    .edit__content__modal, .group__info__modal, .message__modal, 
+    .file__info__modal, .profile__modal, .helpRequest__modal, .request__modal {
         width: 90%;
     }
 
