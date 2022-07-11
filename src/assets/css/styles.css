@@ -2189,6 +2189,7 @@ h3.groups__in__common__title {
 .request__modal__confirm {
     margin-top: 10px;
     width: 100%;
+    color: var(--black);
 }
 
 .request__modal > p {
@@ -2205,10 +2206,30 @@ h3.groups__in__common__title {
 }
 
 .request__modal .request__btns__wrapper > button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
     border: none;
-    padding: 5px 10px;
+    padding: 10px 15px;
     border-radius: 5px;
+    font-size: 0.95rem;
     cursor: pointer;
+}
+
+.request__modal .request__btns__wrapper > button:first-child {
+    background-color: #32BEA6;
+    color: white;
+}
+
+.request__modal .request__btns__wrapper > button:last-child {
+    background-color: #E04F5F;
+    color: white;
+}
+
+.request__modal .request__btns__wrapper > button > img {
+    width: 18px;
+    height: 18px;
 }
 
 .modal__title {
@@ -2223,7 +2244,7 @@ h3.groups__in__common__title {
 .modal__message, .request__modal__message {
     width: 100%;
     margin-top: 20px;
-    text-align: center; 
+    text-align: justify; 
     -moz-text-align-last: center; 
     text-align-last: center;
     font-weight: 500;
@@ -2232,6 +2253,7 @@ h3.groups__in__common__title {
 
 .request__modal__message {
     margin-top: 8px;
+    font-weight: 400;
 }
 
 .close__message__modal, .close__profile__modal, .close__request__modal {

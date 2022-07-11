@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react'
+import { useHistory } from 'react-router-dom'
 import api from '../services/api'
 
 import NavBar from '../components/NavBar'
@@ -9,6 +10,8 @@ import SearchBar from '../components/SearchBar'
 
 import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
 import helpIcon from '../assets/images/help.png'
+import sucessIcon from '../assets/images/sucess.png'
+import errorIcon from '../assets/images/error.png'
 import userImage from '../assets/images/student.png'
 import ErrorModal from '../components/ErrorModal'
 import setGroupIcon from '../utils/setGroupIcon'
@@ -29,6 +32,7 @@ function HelpRequests() {
   const token = localStorage.getItem('userToken')
   const headers = { Authorization: `Bearer ${token}` }
   const userId =  localStorage.getItem('userId')
+  const history = useHistory()
  
   useEffect(() => {
     const getHelpRequests = async () => {
@@ -78,6 +82,20 @@ function HelpRequests() {
         handleErrorModal(err.response.data.name)
     }
  }
+
+ const acceptRequest = async (e) => {
+  const groupId = e.currentTarget.className
+  const requestId = e.currentTarget.value
+  try {
+      const confirm = window.confirm('Uma vez confirmado, você fará parte desse grupo e poderá ter acesso as postagens, materiais de estudo e dúvidas dos estudantes. Tem certeza que deseja continuar?')
+      if(!confirm) return
+      await api.patch(`groups/${groupId}/join`, {}, {headers})
+      await api.delete(`help-requests/${requestId}`, {headers})
+      history.push(`/group/${groupId}`)
+  } catch(err) {  
+      handleErrorModal(err.response.data.name)
+  }
+}
 
 
   /*
@@ -165,8 +183,8 @@ function HelpRequests() {
                     </p>
                     <p className='request__modal__confirm'>Você deseja fazer parte deste grupo?</p>
                     <div className='request__btns__wrapper'>
-                      <button>sim</button>
-                      <button value={request._id} onClick={declineRequest}>não</button>
+                      <button className={request.group._id} value={request._id} onClick={acceptRequest}><img src={sucessIcon} alt='sucess icon' />sim</button>
+                      <button value={request._id} onClick={declineRequest}><img src={errorIcon} alt='error icon' />não</button>
                     </div>
                   </div>
                   <div className='overlay'></div>
