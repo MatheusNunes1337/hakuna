@@ -200,7 +200,6 @@ export default function Feed() {
         try {
             const isOperationConfirmed =  window.confirm('Você tem certeza que deseja deixar esse grupo? Você não terá acesso as postagens e materiais')
             if(isOperationConfirmed) {
-                await api.delete(`members/group/${id}`, {headers})
                 await api.patch(`groups/${id}/quit`, {}, {headers})
                 history.push('/home')
             }
@@ -566,7 +565,14 @@ export default function Feed() {
       const inviteTeachers = async () => {
         if(helpRequestContent.length === 0) {
             handleErrorModal('É obrigatório adicionar uma mensagem no convite de solicitação de ajuda aos professores')
+            return
         }
+
+        if(helpRequestContent.replace(/ /g, "").length > 280) {
+            handleErrorModal('A mensagem deve conter no máximo 280 caracteres')
+            return 
+        }
+
         try {
             const data = {
                 content: helpRequestContent,
@@ -575,6 +581,7 @@ export default function Feed() {
             await api.post(`help-requests`, data, {headers})
             closeHelpRequestModal()
             handleSucessModal('Solicitação de ajuda enviada com sucesso. Verifique se o grupo possui capacidade para novos membros')
+            setHelpRequestContent('')
         } catch(err) {
             if(!Array.isArray(err.response.data))
                 handleErrorModal(err.response.data.name)

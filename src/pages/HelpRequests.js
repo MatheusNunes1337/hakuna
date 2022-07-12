@@ -39,7 +39,7 @@ function HelpRequests() {
       try {
         const {data} = await api.get(`users/${userId}`, {headers})
         const {helpRequests, username} = data
-        setHelpRequests(helpRequests)
+        setHelpRequests(helpRequests.reverse())
         setReloadComponents(false)
         setContentLoaded(true)
       } catch(err) {
