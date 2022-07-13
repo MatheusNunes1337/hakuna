@@ -21,6 +21,7 @@ import searchIcon from '../../assets/images/search.png'
 import book from '../../assets/images/books.png'
 import settings from '../../assets/images/settings.png'
 import leave from '../../assets/images/leave.png'
+import solvedIcon from '../../assets/images/solved.png'
 import upload from '../../assets/images/upload.png'
 import sucess from '../../assets/images/sucess.png'
 import dislike from '../../assets/images/dislike.png'
@@ -221,7 +222,8 @@ export default function Feed() {
         }
     }
 
-    const handleCommentList = () => {
+    const handleCommentList = (e) => {
+        setTargetId(e.currentTarget.value)
         if(showCommentList) {
             setCommentList(false)
         } else {
@@ -590,6 +592,26 @@ export default function Feed() {
         }
       }
 
+      const resolveQuestion = async (e) => {
+        const [commentId, postId, authorId] = e.target.className.split(' ')
+
+        const formData = new FormData()
+        formData.append('resolvedBy', commentId)
+        formData.append('author', authorId)
+        const headers = { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data"}
+
+        try {
+            const confirm = window.confirm('Uma vez que você confirmar que esse comentário solucionou a sua dúvida, ela sairá da fila de dúvida e será dada como resolvida.')
+            if(!confirm) return
+            await api.patch(`groups/${id}/posts/${postId}`, formData, {headers})
+            handleSucessModal('Sua postagem foi adicionada na fila de duvidas')
+            setReloadComponents(true)
+        } catch(err) {
+            handleErrorModal(err.response.data.name)
+        }
+
+      }
+
     return (
         <>
         <NavBar />
@@ -667,7 +689,7 @@ export default function Feed() {
                                 <p className='post__content'>
                                     {post.content}
                                 </p>
-                                {post.comments.length > 0 ? <button onClick={handleCommentList} className="handleComments__btn">{post.comments.length > 1 ? `${post.comments.length} comentários` : `${post.comments.length} comentário`}</button> : ''}
+                                {post.comments.length > 0 ? <button onClick={handleCommentList} value={post._id} className="handleComments__btn">{post.comments.length > 1 ? `${post.comments.length} comentários` : `${post.comments.length} comentário`}</button> : ''}
                                 <hr />
                                 <div className='post__action__btns'>
                                     {
@@ -725,8 +747,12 @@ export default function Feed() {
                                                             {
                                                                 showCommentOptionsMenu && targetId == comment._id ? (
                                                                     <ul className='comment__options__menu'>
-                                                                        <li onClick={enableCommentEditionMode} className={comment._id + ' ' + comment.post}><img src={editComment} className='comment__options__menu__icon' />Editar comentário</li>
-                                                                        <li onClick={deleteComment} className={comment._id + ' ' + comment.post}><img src={deleteIcon} className='comment__options__menu__icon' />Deletar comentário</li>
+                                                                        {comment.author._id == userId || isMod ?<li onClick={enableCommentEditionMode} className={comment._id + ' ' + comment.post}><img src={editComment} className='comment__options__menu__icon' />Editar comentário</li> : ''}
+                                                                        {comment.author._id == userId || isMod ? <li onClick={deleteComment} className={comment._id + ' ' + comment.post}><img src={deleteIcon} className='comment__options__menu__icon' />Deletar comentário</li> : ''}
+                                                                        {
+                                                                            post.author._id == userId && post.isHelpRequired == true &&  comment.author._id !== userId && postFilter == 'duvidas' ? 
+                                                                            <li onClick={resolveQuestion} className={comment._id + ' ' + comment.post + ' ' + comment.author._id}><img src={solvedIcon} className='comment__options__menu__icon' />Solucionou minha dúvida</li> : ''
+                                                                        }
                                                                     </ul>
                                                                 ) : ''
                                                             }
@@ -735,7 +761,7 @@ export default function Feed() {
                                                                     {comment.author.type == 'teacher'? <span className='comment__author__title'>Professor de {comment.author.area}</span> : ''}
                                                                     <span className={comment.updated ? 'comment__creation_time updated__content' : 'comment__creation_time'}>{comment.creationTime}</span>
                                                                 </div>
-                                                                {comment.author._id == userId || isMod ? <button className='comment__options__btn' value={comment._id} onClick={handleCommentOptionsMenu}><BsThreeDots /></button> : ''}
+                                                                {comment.author._id == userId || isMod || (post.author._id == userId && post.isHelpRequired == true) ? <button className='comment__options__btn' value={comment._id} onClick={handleCommentOptionsMenu}><BsThreeDots /></button> : ''}
                                                                 <p className='comment__content'>
                                                                     {comment.content}
                                                                 </p>
