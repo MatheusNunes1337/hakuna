@@ -110,6 +110,7 @@ export default function Feed() {
           try {
             const {data} = await api.get(`groups/${id}`, {headers})
             const {mods, name, posts, discipline} = data
+            console.log('POSTAGENS', posts)
             const moderators = mods.map(mod => mod._id)
             setModsIdLIst(moderators)
             if(moderators.includes(userId)) setMod(true)
@@ -319,10 +320,10 @@ export default function Feed() {
     }
 
     const handleCommentOptionsMenu = (e) => {
-        setTargetId(e.currentTarget.value)
+        setCommentTargetId(e.currentTarget.value)
         if(showCommentOptionsMenu) {
             setCommentOptionsMenu(false)
-            setTargetId('')
+            setCommentTargetId('')
         } else {
             setCommentOptionsMenu(true)
         }
@@ -598,13 +599,14 @@ export default function Feed() {
         const formData = new FormData()
         formData.append('resolvedBy', commentId)
         formData.append('author', authorId)
+        formData.append('isHelpRequired', false)
         const headers = { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data"}
 
         try {
             const confirm = window.confirm('Uma vez que você confirmar que esse comentário solucionou a sua dúvida, ela sairá da fila de dúvida e será dada como resolvida.')
             if(!confirm) return
             await api.patch(`groups/${id}/posts/${postId}`, formData, {headers})
-            handleSucessModal('Sua postagem foi adicionada na fila de duvidas')
+            handleSucessModal('Sua dúvida foi dada como concluída.')
             setReloadComponents(true)
         } catch(err) {
             handleErrorModal(err.response.data.name)
@@ -736,7 +738,7 @@ export default function Feed() {
                                     ) : '' 
                                 }
                                 {
-                                    showCommentList ? (
+                                    showCommentList && targetId == post._id ? (
                                         <div className='comment__container'>
                                             {
                                                 post.comments.map(comment => {
@@ -745,19 +747,19 @@ export default function Feed() {
                                                             <img src={`https://hakuna-1337.s3.amazonaws.com/${comment.author.profilePic}`} className={`post__author__img ${comment.author._id}`} onClick={goToProfile}/>
                                                             <div className='comment_body'>
                                                             {
-                                                                showCommentOptionsMenu && targetId == comment._id ? (
+                                                                showCommentOptionsMenu && commentTargetId == comment._id ? (
                                                                     <ul className='comment__options__menu'>
-                                                                        {comment.author._id == userId || isMod ?<li onClick={enableCommentEditionMode} className={comment._id + ' ' + comment.post}><img src={editComment} className='comment__options__menu__icon' />Editar comentário</li> : ''}
+                                                                        {comment.author._id == userId ? <li onClick={enableCommentEditionMode} className={comment._id + ' ' + comment.post}><img src={editComment} className='comment__options__menu__icon' />Editar comentário</li> : ''}
                                                                         {comment.author._id == userId || isMod ? <li onClick={deleteComment} className={comment._id + ' ' + comment.post}><img src={deleteIcon} className='comment__options__menu__icon' />Deletar comentário</li> : ''}
                                                                         {
-                                                                            post.author._id == userId && post.isHelpRequired == true &&  comment.author._id !== userId && postFilter == 'duvidas' ? 
+                                                                            post.author._id == userId && post.isHelpRequired == true &&  comment.author._id !== userId ? 
                                                                             <li onClick={resolveQuestion} className={comment._id + ' ' + comment.post + ' ' + comment.author._id}><img src={solvedIcon} className='comment__options__menu__icon' />Solucionou minha dúvida</li> : ''
                                                                         }
                                                                     </ul>
                                                                 ) : ''
                                                             }
                                                                 <div className='comment__infos'>
-                                                                    <span className={modsIdList.includes(comment.author._id) ? 'comment__author__name is__mod' : 'comment__author__name'}>{comment.author.username}</span>
+                                                                    <span className={modsIdList.includes(comment.author._id) ? 'comment__author__name is__mod' : 'comment__author__name' + ' ' + comment._id == post.resolvedBy ? 'best__answer' : ''}>{comment.author.username}</span>
                                                                     {comment.author.type == 'teacher'? <span className='comment__author__title'>Professor de {comment.author.area}</span> : ''}
                                                                     <span className={comment.updated ? 'comment__creation_time updated__content' : 'comment__creation_time'}>{comment.creationTime}</span>
                                                                 </div>
