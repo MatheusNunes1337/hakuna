@@ -100,6 +100,9 @@ export default function Feed() {
     const [showHelpRequestModal, setHelpRequestModal] = useState(false)
     let [helpRequestContent, setHelpRequestContent] = useState('')
     let [currentUserPic, setCurrentUserPic] = useState('')
+    let [commentInputTargetId, setCommentInputTargetId] = useState('')
+    let [commentListTargetId, setCommentListTargetId] = useState('')
+    let [commentOptionsMenuTargetId, setCommentOptionsMenuTargetId] = useState('')
 
     const { id } = useParams();
     const token = localStorage.getItem('userToken')
@@ -215,10 +218,10 @@ export default function Feed() {
     }
 
     const handleCommentInput = (e) => {
-        setCommentTargetId(e.currentTarget.value)
+        setCommentInputTargetId(e.currentTarget.value)
         if(showCommentInput) {
             setCommentInput(false)
-            setCommentTargetId('')
+            setCommentInputTargetId('')
             //setCommentIcon(<FaRegCommentAlt />)
         } else {
             setCommentInput(true)
@@ -228,9 +231,10 @@ export default function Feed() {
     }
 
     const handleCommentList = (e) => {
-        setCommentTargetId(e.currentTarget.value)
+        setCommentListTargetId(e.currentTarget.value)
         if(showCommentList) {
             setCommentList(false)
+            setCommentListTargetId('')
         } else {
             setCommentList(true)
         }
@@ -324,10 +328,10 @@ export default function Feed() {
     }
 
     const handleCommentOptionsMenu = (e) => {
-        setCommentTargetId(e.currentTarget.value)
+        setCommentOptionsMenuTargetId(e.currentTarget.value)
         if(showCommentOptionsMenu) {
             setCommentOptionsMenu(false)
-            setCommentTargetId('')
+            setCommentOptionsMenuTargetId('')
         } else {
             setCommentOptionsMenu(true)
         }
@@ -717,7 +721,7 @@ export default function Feed() {
                                     }
                                 </div>
                                 {
-                                    showCommentInput && commentTargetId == post._id? (
+                                    showCommentInput && commentInputTargetId == post._id? (
                                         <div className='post__comment__input'>
                                             <img src={`https://hakuna-1337.s3.amazonaws.com/${currentUserPic}`} style={post.author.type == 'teacher' ? {border: '2px solid black'} : {border: '2px solid #3799CE'}} className='post__author__img'/>
                                             <input type="text" placeholder='adicionar comentário' className={post._id} onKeyDown={submitComment} onChange={e => setCommentContent(e.target.value)}/>
@@ -742,7 +746,7 @@ export default function Feed() {
                                     ) : '' 
                                 }
                                 {
-                                    showCommentList && commentTargetId == post._id ? (
+                                    showCommentList && commentListTargetId == post._id ? (
                                         <div className='comment__container'>
                                             {
                                                 post.comments.map(comment => {
@@ -751,7 +755,7 @@ export default function Feed() {
                                                             <img src={`https://hakuna-1337.s3.amazonaws.com/${comment.author.profilePic}`} style={comment.author.type === 'teacher' ? {border: '2px solid black'} : {border: '2px solid #3799CE'}} className={`post__author__img ${comment.author._id}`} onClick={goToProfile}/>
                                                             <div className='comment_body'>
                                                             {
-                                                                showCommentOptionsMenu && commentTargetId == comment._id ? (
+                                                                showCommentOptionsMenu && commentOptionsMenuTargetId == comment._id ? (
                                                                     <ul className='comment__options__menu'>
                                                                         {comment.author._id == userId ? <li onClick={enableCommentEditionMode} className={comment._id + ' ' + comment.post}><img src={editComment} className='comment__options__menu__icon' />Editar comentário</li> : ''}
                                                                         {comment.author._id == userId || isMod ? <li onClick={deleteComment} className={comment._id + ' ' + comment.post}><img src={deleteIcon} className='comment__options__menu__icon' />Deletar comentário</li> : ''}
