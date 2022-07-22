@@ -107,6 +107,7 @@ function GetGroups() {
                   max_members={group.maxMembers}
                   is_public={group.isPublic}
                   search={true}
+                  favoritos={group.favorites.length}
                   showFavoriteButton={false}
                   />)
                 }) : (

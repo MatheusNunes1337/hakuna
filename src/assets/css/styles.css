@@ -1494,6 +1494,7 @@ h3.content__subtitle {
 .post__item .post__author__img, .comment__container .post__author__img {
     width: 45px;
     height: 45px;
+    padding: 2px;
     border-radius: 50%;
 }
 
@@ -1507,7 +1508,7 @@ h3.content__subtitle {
     cursor: pointer;
 }
 
-.is__mod::after, .updated__content::after, .best__answer::after {
+.is__modd::after, .updated__content::after, .best__answer {
     content: 'moderador';
     margin-left: 6px;
     background-color: var(--blue);
@@ -1523,10 +1524,20 @@ h3.content__subtitle {
     background-color: var(--black);
 }
 
-.best__answer::after {
-    content: 'melhor resposta';
-    background-color: lightgreen;
+.best__answer {
+    margin-left: 6px;
+    background-color: #32BEA6;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 5px;
+    font-size: 0.7rem;
+    font-weight: bold;
 }
+
+.teacher__border {
+    border: 2px solid var(--black);
+}
+
 
 .post__infos > span, .comment__infos > span {
     display: block;
@@ -1637,7 +1648,7 @@ h3.content__subtitle {
     align-items: center;
     position: relative;
     width: 100%;
-    gap: 5px;
+    gap: 0px;
     margin-top: 15px;
 }
 
@@ -1647,6 +1658,7 @@ h3.content__subtitle {
     background-color: var(--ice-2);
     border: none;
     height: 90%;
+    margin-left: 12px;
     border-radius: 5px;
     transition: 0.3s ease;
     padding: 0px 35px 0px 0px;
@@ -1740,7 +1752,8 @@ h3.content__subtitle {
     position: relative;
     flex-wrap: wrap;
     background-color: var(--ice-2);
-    width: 91%;
+    flex-grow: 1;
+    margin-left: 12px;
     padding: 8px;
     border-radius: 5px;
 }
@@ -2136,6 +2149,11 @@ h3.groups__in__common__title {
     display: block;
 }
 
+.flag__icon {
+    width: 23px;
+    height: 23px;
+}
+
 .close__edit__modal, .close__message__modal, 
 .close__profile__modal, .close__request__modal {
     font-size: 1.7rem;
@@ -2336,6 +2354,8 @@ h3.groups__in__common__title {
     right: 1.2rem;
     z-index: 5;
     text-decoration: none;
+    outline: none;
+    color: black;
 }
 
 .heart__fill {

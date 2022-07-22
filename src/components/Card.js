@@ -41,7 +41,6 @@ function Card({id, icon, title, max_members, is_public, favoritos, members, show
       try {
         const {data} = await api.get(`groups/${id}`, {headers})
         const {favorites} = data
-        console.log('favorites', favorites)
         setFavorites(favorites)
       } catch(err) {
         handleErrorModal(err.response.data.name)
@@ -107,7 +106,7 @@ function Card({id, icon, title, max_members, is_public, favoritos, members, show
                 : 
                   <span className="card__detail"><img src={unlockedIcon} className="card__detail__icon" />Público</span>
               }    
-              <span className="card__detail"><img src={heartIcon} className="card__detail__icon" />2</span>
+              <span className="card__detail"><img src={heartIcon} className="card__detail__icon" />{favoritos}</span>
             </div>
           </div>
           {

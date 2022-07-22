@@ -58,7 +58,7 @@ export default function Membros() {
             } 
 
             setTotalModsPages(Math.ceil(mods.length / 10))
-            setAllMods(mods)
+            setAllMods(moderators)
             setMods(paginate(mods, modPaginationIndex))
 
             setTotalMembersPages(Math.ceil(members.length / 10))

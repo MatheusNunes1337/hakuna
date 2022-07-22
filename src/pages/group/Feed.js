@@ -34,6 +34,7 @@ import addMaterial from '../../assets/images/add_material.png'
 import editComment from '../../assets/images/edit_comment.png'
 import editPost from '../../assets/images/editing.png'
 import deleteIcon from '../../assets/images/trash.png'
+import flagIcon from '../../assets/images/flag.png'
 import requestHelp from '../../assets/images/request_help.png'
 import requestIcon from '../../assets/images/request.png'
 import postIcon from '../../assets/images/post.png'
@@ -98,6 +99,7 @@ export default function Feed() {
     const [postFilter, setPostFilter] = useState('todas')
     const [showHelpRequestModal, setHelpRequestModal] = useState(false)
     let [helpRequestContent, setHelpRequestContent] = useState('')
+    let [currentUserPic, setCurrentUserPic] = useState('')
 
     const { id } = useParams();
     const token = localStorage.getItem('userToken')
@@ -109,8 +111,10 @@ export default function Feed() {
         const getMods = async () => {
           try {
             const {data} = await api.get(`groups/${id}`, {headers})
-            const {mods, name, posts, discipline} = data
-            console.log('POSTAGENS', posts)
+            const {mods, name, posts, discipline, members} = data
+
+            const currentUser = members.find(member => member._id == userId)
+            setCurrentUserPic(currentUser.profilePic)
             const moderators = mods.map(mod => mod._id)
             setModsIdLIst(moderators)
             if(moderators.includes(userId)) setMod(true)
@@ -224,7 +228,7 @@ export default function Feed() {
     }
 
     const handleCommentList = (e) => {
-        setTargetId(e.currentTarget.value)
+        setCommentTargetId(e.currentTarget.value)
         if(showCommentList) {
             setCommentList(false)
         } else {
@@ -606,7 +610,7 @@ export default function Feed() {
             const confirm = window.confirm('Uma vez que você confirmar que esse comentário solucionou a sua dúvida, ela sairá da fila de dúvida e será dada como resolvida.')
             if(!confirm) return
             await api.patch(`groups/${id}/posts/${postId}`, formData, {headers})
-            handleSucessModal('Sua dúvida foi dada como concluída.')
+            handleSucessModal('Sua dúvida foi dada como solucionada.')
             setReloadComponents(true)
         } catch(err) {
             handleErrorModal(err.response.data.name)
@@ -650,7 +654,7 @@ export default function Feed() {
                             <button className="form__btn" onClick={handlePost}>Postar</button>
                             <input type="file" id="add_material__btn" name='files' onChange={e => setFiles(e.target.files)} multiple/>
                             <label for="add_material__btn" className="material__btn"><img src={upload} className="group__options__icon"/>Materiais</label>
-                            <button className="form__btn" type='button' onClick={openHelpRequestModal}>Solicitar ajuda</button> 
+                            <button className="form__btn" type='button' onClick={openHelpRequestModal}>Ajuda</button> 
                         </div>
                     </form>
                     <div className='post__filter__wrapper'>
@@ -672,7 +676,7 @@ export default function Feed() {
                                             <ul className='post__options__menu'>
                                                 <li onClick={enablePostEditionMode} className={post._id}><img src={editPost} className='post__options__menu__icon' />Editar postagem</li>
                                                 <li onClick={deletePost} className={post._id}><img src={deleteIcon} className='post__options__menu__icon' />Deletar postagem</li>
-                                                {post.isHelpRequired ? '' : <li onClick={helpRequest} className={post._id}><img src={requestHelp} className='post__options__menu__icon' />Solicitar ajuda</li>}
+                                                {post.isHelpRequired || post.hasOwnProperty('resolvedBy') ? '' : <li onClick={helpRequest} className={post._id}><img src={requestHelp} className='post__options__menu__icon' />Solicitar ajuda</li>}
                                             </ul>
                                         ) : (
                                             <ul className='post__options__menu'>
@@ -681,9 +685,9 @@ export default function Feed() {
                                         )
                                      : '' 
                                 }
-                                <img src={`https://hakuna-1337.s3.amazonaws.com/${post.author.profilePic}`} className={`post__author__img ${post.author._id}`} onClick={handleProfileModal}/>
+                                <img src={`https://hakuna-1337.s3.amazonaws.com/${post.author.profilePic}`} className={`post__author__img ${post.author._id}`} style={post.author.type === 'teacher' ? {border: '2px solid black'} : {border: '2px solid #3799CE'}} onClick={handleProfileModal}/>
                                 <div className='post__infos'>
-                                    <span className={modsIdList.includes(post.author._id) ? `post__author__name is__mod ${post.author._id}` : `post__author__name ${post.author._id}`}>{post.author.username}</span>
+                                    <span className={modsIdList.includes(post.author._id) ? `post__author__name is__mod ${post.author._id}` : `post__author__name ${post.author._id}`}>{post.author.username} {post.isHelpRequired ? <img src={flagIcon} className='flag__icon' /> : ''}</span>
                                     {post.author.type === 'teacher' ? <span className='post__author__title'>Professor de {post.author.area}</span> : ''}
                                     <span className={post.updated ? 'post__creation_time updated__content' : 'post__creation_time'}>{post.creationTime}</span>
                                 </div>
@@ -715,7 +719,7 @@ export default function Feed() {
                                 {
                                     showCommentInput && commentTargetId == post._id? (
                                         <div className='post__comment__input'>
-                                            <img src={`https://hakuna-1337.s3.amazonaws.com/${post.author.profilePic}`} className='post__author__img'/>
+                                            <img src={`https://hakuna-1337.s3.amazonaws.com/${currentUserPic}`} style={post.author.type == 'teacher' ? {border: '2px solid black'} : {border: '2px solid #3799CE'}} className='post__author__img'/>
                                             <input type="text" placeholder='adicionar comentário' className={post._id} onKeyDown={submitComment} onChange={e => setCommentContent(e.target.value)}/>
                                             <input type="file" id="add_material__comment__btn" onChange={e => setCommentFiles(e.target.files)} name='files' multiple/>
                                             <label for="add_material__comment__btn" className=""><img src={addMaterial} className="material__comment__icon"/></label>
@@ -738,13 +742,13 @@ export default function Feed() {
                                     ) : '' 
                                 }
                                 {
-                                    showCommentList && targetId == post._id ? (
+                                    showCommentList && commentTargetId == post._id ? (
                                         <div className='comment__container'>
                                             {
                                                 post.comments.map(comment => {
                                                     return (
                                                         <div className="comment__item">
-                                                            <img src={`https://hakuna-1337.s3.amazonaws.com/${comment.author.profilePic}`} className={`post__author__img ${comment.author._id}`} onClick={goToProfile}/>
+                                                            <img src={`https://hakuna-1337.s3.amazonaws.com/${comment.author.profilePic}`} style={comment.author.type === 'teacher' ? {border: '2px solid black'} : {border: '2px solid #3799CE'}} className={`post__author__img ${comment.author._id}`} onClick={goToProfile}/>
                                                             <div className='comment_body'>
                                                             {
                                                                 showCommentOptionsMenu && commentTargetId == comment._id ? (
@@ -759,7 +763,7 @@ export default function Feed() {
                                                                 ) : ''
                                                             }
                                                                 <div className='comment__infos'>
-                                                                    <span className={modsIdList.includes(comment.author._id) ? 'comment__author__name is__mod' : 'comment__author__name' + ' ' + comment._id == post.resolvedBy ? 'best__answer' : ''}>{comment.author.username}</span>
+                                                                    <span className={modsIdList.includes(comment.author._id) ? 'comment__author__name is__mod' : 'comment__author__name'}>{comment.author.username}{comment._id == post.resolvedBy ? <span className='best__answer'>solução</span> : ''}</span>
                                                                     {comment.author.type == 'teacher'? <span className='comment__author__title'>Professor de {comment.author.area}</span> : ''}
                                                                     <span className={comment.updated ? 'comment__creation_time updated__content' : 'comment__creation_time'}>{comment.creationTime}</span>
                                                                 </div>

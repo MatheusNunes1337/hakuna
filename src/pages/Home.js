@@ -53,7 +53,7 @@ function Home() {
         } else if(currentHour > 12 && currentHour < 18) {
           setGreeting(`Boa tarde, ${username}`)
           setGreetingIcon(<img src={sunny} className="title__icon" />)
-        } else {
+        } else if(currentHour > 18 || currentHour < 4) {
           setGreeting(`Boa noite, ${username}`)
           setGreetingIcon(<img src={moon} className="title__icon" />)
         }
