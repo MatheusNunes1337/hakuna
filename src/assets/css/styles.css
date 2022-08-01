@@ -201,6 +201,10 @@ body {
     margin: 1.1rem 0 0.4rem 0;
 }
 
+.searchbar {
+    margin-top: 15px;
+}
+
 .form__input, .searchbar__input, .search__post__input {
     text-indent: 5px;
 }
@@ -958,16 +962,15 @@ form.user__form .profile__pic__overlay {
 
 
 .group__options__link, .group__options__btn {
+    width: 100%;
     display: flex;
     align-items: center;
     padding: .8rem;
-    font-weight: bold;
-    border-radius: 5px;
     /*color: var(--black);*/
     /*border: 2px solid var(--blue);*/
     border: none;
-    background-color: var(--black);
-    color: white;
+    background-color: transparent;
+    color: var(--black);
     text-decoration: none;
     cursor: pointer;
     transition: 0.6s ease;
@@ -978,11 +981,11 @@ form.user__form .profile__pic__overlay {
 }
 
 .group__options__link:hover, .group__options__btn:hover {
-    background-color: var(--blue);
+    background-color: var(--ice-2);
 }
 
 .group__options__icon {
-    margin-right: 5px;
+    margin-right: 8px;
     width: 22px;
     height: 22px;
 }
@@ -991,6 +994,7 @@ form.user__form .profile__pic__overlay {
     width: 100%;
     text-indent: 10px;
     color: var(--black);
+    margin-top: 15px;
 }
 
 .group__form input, .group__form .form__textarea, .user__form input {
@@ -1540,7 +1544,8 @@ h3.content__subtitle {
 
 
 .post__infos > span, .comment__infos > span {
-    display: block;
+    display: flex;
+    align-items: center;
     font-size: 0.8rem;
 }
 
@@ -2570,6 +2575,33 @@ div.functionality__cards .functionality__card > p {
     -moz-text-align-last: center;
     text-align-last: center;
     font-weight: 400;
+    color: var(--black);
+}
+
+.content__title__wrapper .dots__icon {
+    font-size: 22px;
+    cursor: pointer;
+    align-self: center;
+}
+
+.feed {
+    position: relative;
+}
+
+.group__options__menu {
+    position: absolute;
+    background-color: white;
+    top: 50px;
+    right: 0px;
+    border-radius: 5px;
+    border: 0.8px solid var(--ice-3);
+}
+
+.group__options__menu > li {
+    list-style: none;
+}
+
+.group__options__menu > li > a {
     color: var(--black);
 }
 

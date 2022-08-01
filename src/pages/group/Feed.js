@@ -3,7 +3,7 @@ import { Link, useParams, useHistory } from 'react-router-dom'
 import api from '../../services/api'
 
 import { HiLogout, HiUsers, HiUserGroup } from "react-icons/hi"
-import { BsFillCameraVideoFill, BsFillGearFill, BsThreeDots, BsFillXCircleFill, BsThreeDotsVertical } from "react-icons/bs";
+import { BsFillCameraVideoFill, BsFillGearFill, BsThreeDots, BsDot, BsFillXCircleFill, BsThreeDotsVertical } from "react-icons/bs";
 import { AiFillDislike, AiFillLike, AiOutlineLike, AiOutlineDislike, AiFillDelete, AiOutlineHeart } from "react-icons/ai";
 import { MdEdit, MdUpload, MdClose } from "react-icons/md";
 import {FaBook, FaCommentAlt, FaRegCommentAlt, FaHandsHelping, FaSearch} from 'react-icons/fa'
@@ -77,7 +77,7 @@ export default function Feed() {
     const [postUpdatedTimes, setPostUpdatedTimes] = useState(0)
     const [targetId, setTargetId] = useState('') 
     const [commentTargetId, setCommentTargetId] = useState('') 
-    const [showSearchInput, setSearchInputVisibility] = useState(false) 
+    const [showSearchInput, setSearchInputVisibility] = useState(true) 
     const [filter, setFilter] = useState('')
     const [isPostsFiltered, setPostsFilteredStatus] = useState(false)
     const [filterButtonVisibility, setFilterButtonVisibility] = useState(false)
@@ -103,6 +103,7 @@ export default function Feed() {
     let [commentInputTargetId, setCommentInputTargetId] = useState('')
     let [commentListTargetId, setCommentListTargetId] = useState('')
     let [commentOptionsMenuTargetId, setCommentOptionsMenuTargetId] = useState('')
+    let [showGroupOptionsMenu, setGroupOptionsMenuStatus] = useState(false)
 
     const { id } = useParams();
     const token = localStorage.getItem('userToken')
@@ -622,6 +623,14 @@ export default function Feed() {
 
       }
 
+      const handleGroupOptionsMenu = () => {
+        if(showGroupOptionsMenu) {
+            setGroupOptionsMenuStatus(false)
+        } else {
+            setGroupOptionsMenuStatus(true)
+        }
+      }
+
     return (
         <>
         <NavBar />
@@ -630,15 +639,19 @@ export default function Feed() {
                 <SearchBar />
                 <Aside />
                 <div className="content">
-                    <div className='content__title__wrapper'>
+                    <div className='content__title__wrapper feed'>
                         <h2 className="content__title"><img src={setGroupIcon(discipline)} className='title__colorful__icon' />{groupName}</h2>
-                    </div>
-                    <div className="group__options">
-                        <Link to={`/group/${id}/members`} className="group__options__link"><img src={group} className="group__options__icon"/>Membros</Link>
-                        <button className="group__options__btn" style={showSearchInput ? {backgroundColor: '#3799CE'} : {backgroundColor: '#464646'}} onClick={handleSearchInput}><img src={searchIcon} className="group__options__icon"/>Buscar</button>
-                        <Link to={`/group/${id}/files`} className="group__options__link"><img src={book} className="group__options__icon"/>Materiais</Link>
-                        {!isMod ? '' : <Link to={`/group/${id}/config`} className="group__options__link"><img src={settings} className="group__options__icon"/>Configurações</Link>}
-                        <button className="group__options__btn" onClick={quitGroup}><img src={leave} className="group__options__icon"/>Sair</button>
+                        <BsThreeDots className='dots__icon' onClick={handleGroupOptionsMenu} />
+                        {
+                            showGroupOptionsMenu ? 
+                            <ul className='group__options__menu'>
+                                <li><Link to={`/group/${id}/members`} className="group__options__link"><img src={group} className="group__options__icon"/>Membros</Link></li>
+                                <li><button className="group__options__btn" onClick={openHelpRequestModal}><img src={searchIcon} className="group__options__icon"/>Solicitar ajuda</button></li>
+                                <li><Link to={`/group/${id}/files`} className="group__options__link"><img src={book} className="group__options__icon"/>Materiais</Link></li>
+                                {!isMod ? '' : <li><Link to={`/group/${id}/config`} className="group__options__link"><img src={settings} className="group__options__icon"/>Configurações</Link></li>}
+                                <li><button className="group__options__btn" onClick={quitGroup}><img src={leave} className="group__options__icon"/>Sair</button></li>
+                            </ul> : ''
+                        }
                     </div>
                     {
                         showSearchInput ? (
@@ -658,7 +671,6 @@ export default function Feed() {
                             <button className="form__btn" onClick={handlePost}>Postar</button>
                             <input type="file" id="add_material__btn" name='files' onChange={e => setFiles(e.target.files)} multiple/>
                             <label for="add_material__btn" className="material__btn"><img src={upload} className="group__options__icon"/>Materiais</label>
-                            <button className="form__btn" type='button' onClick={openHelpRequestModal}>Ajuda</button> 
                         </div>
                     </form>
                     <div className='post__filter__wrapper'>
@@ -680,7 +692,7 @@ export default function Feed() {
                                             <ul className='post__options__menu'>
                                                 <li onClick={enablePostEditionMode} className={post._id}><img src={editPost} className='post__options__menu__icon' />Editar postagem</li>
                                                 <li onClick={deletePost} className={post._id}><img src={deleteIcon} className='post__options__menu__icon' />Deletar postagem</li>
-                                                {post.isHelpRequired || post.hasOwnProperty('resolvedBy') ? '' : <li onClick={helpRequest} className={post._id}><img src={requestHelp} className='post__options__menu__icon' />Solicitar ajuda</li>}
+                                                {post.isHelpRequired || post.hasOwnProperty('resolvedBy') ? '' : <li onClick={helpRequest} className={post._id}><img src={flagIcon} className='post__options__menu__icon' />Estou com dúvida</li>}
                                             </ul>
                                         ) : (
                                             <ul className='post__options__menu'>
@@ -693,7 +705,7 @@ export default function Feed() {
                                 <div className='post__infos'>
                                     <span className={modsIdList.includes(post.author._id) ? `post__author__name is__mod ${post.author._id}` : `post__author__name ${post.author._id}`}>{post.author.username} {post.isHelpRequired ? <img src={flagIcon} className='flag__icon' /> : ''}</span>
                                     {post.author.type === 'teacher' ? <span className='post__author__title'>Professor de {post.author.area}</span> : ''}
-                                    <span className={post.updated ? 'post__creation_time updated__content' : 'post__creation_time'}>{post.creationTime}</span>
+                                    <span className={post.updated ? 'post__creation_time updated__content' : 'post__creation_time'}>{post.creationDate}<BsDot />{post.creationTime}</span>
                                 </div>
                                 {post.author._id == userId || isMod ? <button onClick={handlePostOptionsMenu} value={post._id} className='post__options__btn'><BsThreeDots /></button> : ''}
                                 <p className='post__content'>
