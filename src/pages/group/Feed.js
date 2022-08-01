@@ -35,6 +35,7 @@ import editComment from '../../assets/images/edit_comment.png'
 import editPost from '../../assets/images/editing.png'
 import deleteIcon from '../../assets/images/trash.png'
 import flagIcon from '../../assets/images/flag.png'
+import questionIcon from '../../assets/images/question.png'
 import requestHelp from '../../assets/images/request_help.png'
 import requestIcon from '../../assets/images/request.png'
 import postIcon from '../../assets/images/post.png'
@@ -692,7 +693,7 @@ export default function Feed() {
                                             <ul className='post__options__menu'>
                                                 <li onClick={enablePostEditionMode} className={post._id}><img src={editPost} className='post__options__menu__icon' />Editar postagem</li>
                                                 <li onClick={deletePost} className={post._id}><img src={deleteIcon} className='post__options__menu__icon' />Deletar postagem</li>
-                                                {post.isHelpRequired || post.hasOwnProperty('resolvedBy') ? '' : <li onClick={helpRequest} className={post._id}><img src={flagIcon} className='post__options__menu__icon' />Estou com dúvida</li>}
+                                                {post.isHelpRequired || post.hasOwnProperty('resolvedBy') ? '' : <li onClick={helpRequest} className={post._id}><img src={questionIcon} className='post__options__menu__icon' />Estou com dúvida</li>}
                                             </ul>
                                         ) : (
                                             <ul className='post__options__menu'>

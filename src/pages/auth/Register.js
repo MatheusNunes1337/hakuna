@@ -27,6 +27,7 @@ function Register() {
             }
             if(area) {
                 userData.area = area
+                if(area == 'Área de atuação') userData.area = null
             } 
             await api.post('users', userData)
             history.push('/login')
@@ -92,7 +93,22 @@ function Register() {
                         { type === 'teacher' 
                             ? (
                             <>
-                                <input type="text" className="form__input" placeholder='Área de atuação. Ex: Matemática' onChange={e => setArea(e.target.value)} />
+                                <select name="type" className="form__input" defaultValue="Área de atuação" onChange={e => setArea(e.target.value)}>
+                                    {area == null ? <option value="Área de atuação">Área de atuação</option> : ''}
+                                    <option value="matemática">Matemática</option>
+                                    <option value="geografia">Geografia</option>
+                                    <option value="física">Física</option>
+                                    <option value="quimica">Química</option>
+                                    <option value="filosofia">Filosofia</option>
+                                    <option value="design">Design</option>
+                                    <option value="programação">Programação</option>
+                                    <option value="astronomia">Astronomia</option>
+                                    <option value="inglês">Lingua estrangeira - inglês</option>
+                                    <option value="espanhol">Lingua estrangeira - espanhol</option>
+                                    <option value="coreano">Lingua estrangeira - coreano</option>
+                                    <option value="música">Música</option>
+                                    <option value="direito">Direito</option>
+                                </select>
                             </>    
                             ) 
                             : ''
