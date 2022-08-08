@@ -88,7 +88,11 @@ function NavBar() {
                     <img src={cPoints} alt='pontos de contribuição' title='pontos de contribuição'/>
                     <span className="navbar__cPoints">{contributionPoints}</span>
                   </div>
-                  <li className="navbar__links"><Link to="/ranking" className="navbar__link"><FaCrown className="navbar__link__icon" />Ranking</Link></li>
+                  <div className="navbar__cPoints__wrapper">
+                    <img src={crown} alt='ranking' title='ranking'/>
+                    <Link to="/ranking" className="navbar__link">Ranking</Link>
+                  </div>
+                  <li className="navbar__links"></li>
                   <button className="navbar__btn" onClick={logout}><AiOutlineLogout className="navbar__btn__icon"/>Logout</button>
               </ul> 
           </nav>
@@ -107,7 +111,6 @@ function NavBar() {
               <ul className="user__menu">
                 <li className="user__links"><Link to="/create-group" className="user__link"><img src={addIcon} className="user__link__icon"/>Novo grupo</Link></li>
                 <li className="user__links"><Link to="/ranking" className="user__link"><img src={crown} className="user__link__icon"/>Ranking</Link></li>
-                <li className="user__links"><Link to="/user/config" className="user__link"><img src={profile} className="user__link__icon"/>Perfil</Link></li>
                 <li className="user__links"><Link to="/favorite-groups" className="user__link"><img src={favorite} className="user__link__icon"/>Grupos favoritos</Link></li>
                 <li className="user__links"><Link to="/chats" className="user__link"><img src={chat} className="user__link__icon"/>Conversas</Link></li>
                 {type == 'teacher'? <li className="sidebar__links"><Link to="/help-requests" className="sidebar__link"><img src={help} className="user__link__icon"/>Solicitações de ajuda</Link></li> : ''}

@@ -11,7 +11,7 @@ import {IoMdAdd} from 'react-icons/io'
 import {IoClose} from 'react-icons/io5'
 import SucessModal from '../../components/SucessModal'
 import ErrorModal from '../../components/ErrorModal'
-import groupIcon from '../../assets/images/group.png'
+import groupIcon from '../../assets/images/add.png'
 
 function CreateGroup() {
     let [name, setName] = useState('')

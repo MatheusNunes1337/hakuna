@@ -37,7 +37,7 @@ function IndexPage() {
             <main className='index__main'>
                 <section className='hero'>
                     <div className='hero__content'>
-                        <h1 className='hero__title'>Hakuna, uma plataforma para criação de grupos de estudo.</h1>
+                        <h1 className='hero__title'>Hakuna, uma plataforma para criação de grupos de estudo</h1>
                         <p className='hero__paragraph'>Crie ou faça parte de diversos grupos de estudo e alavanque o seu conhecimento junto a outros usuários.</p>
                         <button><AnchorLink href='#functionalities__title'>Saiba mais</AnchorLink></button>
                         <button onClick={goToLoginPage}>Login</button>
@@ -45,7 +45,7 @@ function IndexPage() {
                     <img src={heroImage} alt="girl studying" className='hero__image' />
                 </section>
                 <section className='functionalities'>
-                    <p id="functionalities__title">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eu dapibus ipsum, eu finibus metus.</p>
+                    <p id="functionalities__title">O Hakuna te oferece uma gama de funcionalidades que irão auxiliar nos seus estudos.</p>
                     <div className='functionality__cards'>
                         <div className='functionality__card'>
                             <img className='functionality__card__icon' src={groupIcon} alt='group' />

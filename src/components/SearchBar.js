@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import { useHistory } from 'react-router-dom'
 import { BsSearch } from "react-icons/bs"
+import {FaSearch} from 'react-icons/fa'
 
 function SearchBar() {
   const [filter, setFilter] = useState('')
@@ -24,7 +25,7 @@ function SearchBar() {
             <option value="usuários">Usuários</option>
           </select>
           <input type="text" className="searchbar__input" onChange={e => setFilter(e.target.value)} placeholder={targetType == 'grupos' ? "Busque um grupo por disciplina ou tópico de estudo" : "Busque usuários pelo nome de usuário"}/>
-          <button className="searchbar__btn" onClick={search}><BsSearch className="searchbar__icon"/></button>
+          <button className="searchbar__btn" onClick={search}><FaSearch className="searchbar__icon"/></button>
       </div>  
     </> 
   )

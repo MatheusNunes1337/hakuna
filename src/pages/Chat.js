@@ -17,7 +17,7 @@ import SearchBar from '../components/SearchBar'
 import io from 'socket.io-client'
 import WarningModal from '../components/WarningModal';
 import ErrorModal from '../components/ErrorModal';
-const socket = io.connect('http://localhost:8080')
+const socket = io.connect('https://hakunah.herokuapp.com')
 
 export default function Chat() {
     let [messageList, setMessageList] = useState([])

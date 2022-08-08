@@ -34,6 +34,10 @@ body {
     background-color: var(--ice);
 }
 
+button:hover {
+    cursor: pointer;
+}
+
 .form__container {
     display: flex;
     flex-direction: column;
@@ -305,6 +309,19 @@ body {
 .navbar__links, .index__navbar__links {
     list-style: none;
     padding: 0.8rem 1.2rem;
+}
+
+.navbar__menu {
+    padding-left: 1.5rem;
+}
+
+.navbar__cPoints__wrapper {
+    padding: 0.8rem 0rem;
+    margin-left: 20px;
+}
+
+.navbar__cPoints__wrapper img {
+    margin-right: 5px;
 }
 
 .navbar__link, .index__navbar__link {
@@ -3236,7 +3253,7 @@ footer p, footer span {
     }
 
     .feed_searchbar .searchbar__btn {
-        width: 15%;
+        width: 15px;
     }
 
     .card__wrapper {
@@ -3245,7 +3262,7 @@ footer p, footer span {
 
     .card {
         width: 100%;
-        padding: 1.5rem 3rem;
+        padding: 1.5rem 2rem;
         justify-content: space-around;
     }
 
@@ -3313,6 +3330,10 @@ footer p, footer span {
 
     div.functionality__cards .functionality__card {
         width: 100%;
+    }
+
+    .card__favorite {
+        right: 2rem;
     }
 }
 
