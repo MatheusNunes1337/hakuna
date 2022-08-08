@@ -647,7 +647,7 @@ export default function Feed() {
                             showGroupOptionsMenu ? 
                             <ul className='group__options__menu'>
                                 <li><Link to={`/group/${id}/members`} className="group__options__link"><img src={group} className="group__options__icon"/>Membros</Link></li>
-                                <li><button className="group__options__btn" onClick={openHelpRequestModal}><img src={searchIcon} className="group__options__icon"/>Solicitar ajuda</button></li>
+                                {!isMod ? '' : <li><button className="group__options__btn" onClick={openHelpRequestModal}><img src={requestIcon} className="group__options__icon"/>Solicitar ajuda</button></li>}
                                 <li><Link to={`/group/${id}/files`} className="group__options__link"><img src={book} className="group__options__icon"/>Materiais</Link></li>
                                 {!isMod ? '' : <li><Link to={`/group/${id}/config`} className="group__options__link"><img src={settings} className="group__options__icon"/>Configurações</Link></li>}
                                 <li><button className="group__options__btn" onClick={quitGroup}><img src={leave} className="group__options__icon"/>Sair</button></li>
@@ -657,7 +657,7 @@ export default function Feed() {
                     {
                         showSearchInput ? (
                             <>
-                                <div className="searchbar">
+                                <div className="feed_searchbar">
                                     <input type="text" className="search__post__input" onChange={e => setFilter(e.target.value)} placeholder="Busque uma postagem por palavra-chave"/>
                                     <button className="searchbar__btn" onClick={searchPost}><FaSearch className="searchbar__icon"/></button>
                                 </div>

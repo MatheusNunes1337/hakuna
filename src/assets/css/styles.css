@@ -201,7 +201,7 @@ body {
     margin: 1.1rem 0 0.4rem 0;
 }
 
-.searchbar {
+.searchbar, .feed_searchbar {
     margin-top: 15px;
 }
 
@@ -367,7 +367,7 @@ body {
     color: white;
 }
 
-.searchbar {
+.searchbar, .feed_searchbar {
     display: flex;
     width: 100%;
     margin-bottom: 1.2rem;
@@ -2549,7 +2549,7 @@ div.functionality__cards .functionality__card {
 
 div.functionality__cards .functionality__card:hover {
     background-color: lightblue;
-    transform: scale(1.1);
+    transform: scale(1.05);
     z-index: 2;
 }
 
@@ -3220,12 +3220,23 @@ footer p, footer span {
        border: none;
     }
 
-    .searchbar {
+    .searchbar, .feed_searchbar {
         margin: 0px 8% 1.2rem 8%;
+    }
+
+    .feed_searchbar {
+        background-color: red;
+        margin-top: 15px;
+        margin-right: 0;
+        margin-left: 0;
     }
 
     .searchbar__btn {
         width: 25%;  
+    }
+
+    .feed_searchbar .searchbar__btn {
+        width: 15%;
     }
 
     .card__wrapper {
