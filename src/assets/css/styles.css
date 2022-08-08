@@ -2941,6 +2941,7 @@ footer p, footer span {
 
     .content {
         width: 100%;
+        height: 100%;
     }
 
     .searchbar__input, .search__post__input {
@@ -3242,7 +3243,6 @@ footer p, footer span {
     }
 
     .feed_searchbar {
-        background-color: red;
         margin-top: 15px;
         margin-right: 0;
         margin-left: 0;
@@ -3253,7 +3253,7 @@ footer p, footer span {
     }
 
     .feed_searchbar .searchbar__btn {
-        width: 15px;
+        width: 15%;
     }
 
     .card__wrapper {
@@ -3279,8 +3279,8 @@ footer p, footer span {
         font-size: 0.7rem;
     }
 
-    .post__form .post__btn__wrapper button.form__btn {
-        width: 70%;
+    .post__form .post__btn__wrapper button.form__btn, .material__btn {
+        width: 40%;
     }
 
     /*
