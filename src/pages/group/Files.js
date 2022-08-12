@@ -72,7 +72,7 @@ export default function Files() {
                 })
                 post.comments.forEach(comment => {
                     comment.files.forEach(file => {
-                        files_array.push({file: file, creationDate: comment.creationDate})
+                        files_array.push({file: file, creationDate: comment.creationDate, creationTime: comment.creationTime, author: comment.author.username})
                     })
                 })
             })
@@ -89,9 +89,6 @@ export default function Files() {
         try {
             const fileKey = e.currentTarget.value
             const {data} = await api.get(`files/download/${fileKey}`, {headers})
-            //const iframeDownload = document.getElementById('iframe__download')
-            //iframeDownload.href = data
-            //iframeDownload.click()
             saveAs(data)
         } catch(err) {
             handleErrorModal(err.response.data.name)
@@ -100,12 +97,13 @@ export default function Files() {
 
     const closeModal = () => {
         setModal(false)
+        setModalTarget({})
     }
 
     const showFileModal = (e) => {
         const file = e.currentTarget.value
-        const target = files.find(arquivo => arquivo.file = file)
-        setModalTarget(target)
+        const target = files.filter(arquivo => arquivo.file == file)
+        setModalTarget(target[0])
         setModal(true)
     }
     

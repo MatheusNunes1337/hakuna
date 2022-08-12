@@ -36,6 +36,7 @@ import editPost from '../../assets/images/editing.png'
 import deleteIcon from '../../assets/images/trash.png'
 import flagIcon from '../../assets/images/flag.png'
 import questionIcon from '../../assets/images/question.png'
+import cancelIcon from '../../assets/images/cancel.png'
 import requestHelp from '../../assets/images/request_help.png'
 import requestIcon from '../../assets/images/request.png'
 import postIcon from '../../assets/images/post.png'
@@ -52,6 +53,7 @@ export default function Feed() {
     const [groupName, setGroupName] = useState('')
     const [discipline, setDiscipline] = useState('')
     const [modsIdList, setModsIdLIst] = useState([])
+    const [membersIdList, setMembersIdLIst] = useState([])
     const [isMod, setMod] = useState(false)
     const [comments, setComments] = useState(['oi', 'tchau'])
     const [showCommentInput, setCommentInput] = useState(false)
@@ -121,7 +123,9 @@ export default function Feed() {
             const currentUser = members.find(member => member._id == userId)
             setCurrentUserPic(currentUser.profilePic)
             const moderators = mods.map(mod => mod._id)
+            const membersId = members.map(member => member._id)
             setModsIdLIst(moderators)
+            setMembersIdLIst(membersId)
             if(moderators.includes(userId)) setMod(true)
             setGroupName(name)
             setDiscipline(discipline)
@@ -376,8 +380,8 @@ export default function Feed() {
                 await api.patch(`groups/${id}/posts/${postId}/comments/${commentId}`, formData, {headers})
                 handleSucessModal('Comentário editado com sucesso.')
             }
-            const input = document.getElementsByClassName(postId)[0]
-            input.value = ''
+            //const input = document.getElementsByClassName(postId)[0]
+            //input.value = ''
             setCommentFiles([])
             setCommentContent('')
             setCommentEditionMode(false)
@@ -475,6 +479,7 @@ export default function Feed() {
             setContent(content)
             setEditablePost(data)
             setPostEditionMode(true)
+            setCommentEditionMode(false)
             setPostOptionsMenu(false)
         } catch(err) {
             if(!Array.isArray(err.response.data))
@@ -495,6 +500,7 @@ export default function Feed() {
             setEditableComment(data)
             setCommentEditionMode(true)
             setCommentOptionsMenu(false)
+            setPostEditionMode(false)
             setEditCommentIds([postId, commentId])
         } catch(err) {
             if(!Array.isArray(err.response.data))
@@ -554,13 +560,17 @@ export default function Feed() {
 
       const helpRequest = async (e) => {
         const postId = e.currentTarget.className
+        const data = { postId }
         const formData = new FormData()
         formData.append('isHelpRequired', true)
-        const headers = { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data"}
-
+        
         try {
-            await api.patch(`groups/${id}/posts/${postId}`, formData, {headers})
-            handleSucessModal('Sua postagem foi adicionada na fila de duvidas')
+            const confirm = window.confirm('Ao solicitar ajuda, os professores da área não poderão ter acesso aos materiais compartilhados na sua postagem. Deseja continuar mesmo assim?')
+            if(!confirm) return 
+            await api.post(`help-requests`, data, {headers})
+            await api.patch(`groups/${id}/posts/${postId}`, formData, {headers: { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data"}})
+            handleSucessModal('Sua dúvida foi enviada a todos os professores da área, sendo sujeita a ser respondida tanto por eles como pelos membros do grupo.')
+            setPostOptionsMenu(false)
             setReloadComponents(true)
         } catch(err) {
             handleErrorModal(err.response.data.name)
@@ -575,32 +585,24 @@ export default function Feed() {
         setHelpRequestModal(false)
       }
 
-      const inviteTeachers = async () => {
-        if(helpRequestContent.length === 0) {
-            handleErrorModal('É obrigatório adicionar uma mensagem no convite de solicitação de ajuda aos professores')
-            return
-        }
-
-        if(helpRequestContent.replace(/ /g, "").length > 280) {
-            handleErrorModal('A mensagem deve conter no máximo 280 caracteres')
-            return 
-        }
-
+      const cancelHelpRequest = async (e) => {
+        const postId = e.currentTarget.className
+        const data = { postId }
+        const formData = new FormData()
+        formData.append('isHelpRequired', false)
+        
         try {
-            const data = {
-                content: helpRequestContent,
-                group: id
-            }
-            await api.post(`help-requests`, data, {headers})
-            closeHelpRequestModal()
-            handleSucessModal('Solicitação de ajuda enviada com sucesso. Verifique se o grupo possui capacidade para novos membros')
-            setHelpRequestContent('')
+            const confirm = window.confirm('Tem certeza que deseja cancelar a solicitação de ajuda?')
+            if(!confirm) return 
+            await api.patch(`help-requests/${postId}`, {}, {headers})
+            await api.patch(`groups/${id}/posts/${postId}`, formData, {headers: { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data"}})
+            handleSucessModal('Solicitação de ajuda cancelada com sucesso.')
+            setPostOptionsMenu(false)
+            setReloadComponents(true)
         } catch(err) {
-            if(!Array.isArray(err.response.data))
-                handleErrorModal(err.response.data.name)
-            else 
-                handleErrorModal(err.response.data[0].name)
+            handleErrorModal(err.response.data.name)
         }
+
       }
 
       const resolveQuestion = async (e) => {
@@ -613,7 +615,7 @@ export default function Feed() {
         const headers = { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data"}
 
         try {
-            const confirm = window.confirm('Uma vez que você confirmar que esse comentário solucionou a sua dúvida, ela sairá da fila de dúvida e será dada como resolvida.')
+            const confirm = window.confirm('Sua dúvida foi realmente solucionada?')
             if(!confirm) return
             await api.patch(`groups/${id}/posts/${postId}`, formData, {headers})
             handleSucessModal('Sua dúvida foi dada como solucionada.')
@@ -647,7 +649,6 @@ export default function Feed() {
                             showGroupOptionsMenu ? 
                             <ul className='group__options__menu'>
                                 <li><Link to={`/group/${id}/members`} className="group__options__link"><img src={group} className="group__options__icon"/>Membros</Link></li>
-                                {!isMod ? '' : <li><button className="group__options__btn" onClick={openHelpRequestModal}><img src={requestIcon} className="group__options__icon"/>Solicitar ajuda</button></li>}
                                 <li><Link to={`/group/${id}/files`} className="group__options__link"><img src={book} className="group__options__icon"/>Materiais</Link></li>
                                 {!isMod ? '' : <li><Link to={`/group/${id}/config`} className="group__options__link"><img src={settings} className="group__options__icon"/>Configurações</Link></li>}
                                 <li><button className="group__options__btn" onClick={quitGroup}><img src={leave} className="group__options__icon"/>Sair</button></li>
@@ -693,7 +694,7 @@ export default function Feed() {
                                             <ul className='post__options__menu'>
                                                 <li onClick={enablePostEditionMode} className={post._id}><img src={editPost} className='post__options__menu__icon' />Editar postagem</li>
                                                 <li onClick={deletePost} className={post._id}><img src={deleteIcon} className='post__options__menu__icon' />Deletar postagem</li>
-                                                {post.isHelpRequired || post.hasOwnProperty('resolvedBy') ? '' : <li onClick={helpRequest} className={post._id}><img src={questionIcon} className='post__options__menu__icon' />Estou com dúvida</li>}
+                                                {post.isHelpRequired || post.hasOwnProperty('resolvedBy') ? <li onClick={cancelHelpRequest} className={post._id}><img src={cancelIcon} className='post__options__menu__icon' />Cancelar solicitação de ajuda</li>  : <li onClick={helpRequest} className={post._id}><img src={requestIcon} className='post__options__menu__icon' />Solicitar ajuda</li>}
                                             </ul>
                                         ) : (
                                             <ul className='post__options__menu'>
@@ -702,7 +703,7 @@ export default function Feed() {
                                         )
                                      : '' 
                                 }
-                                <img src={`https://hakuna-1337.s3.amazonaws.com/${post.author.profilePic}`} className={`post__author__img ${post.author._id}`} style={post.author.type === 'teacher' ? {border: '2px solid black'} : {border: '2px solid #3799CE'}} onClick={handleProfileModal}/>
+                                <img src={`https://hakuna-1337.s3.amazonaws.com/${post.author.profilePic}`} className={`post__author__img ${post.author._id}`} style={post.author.type === 'teacher' ? {border: '2px solid lightgreen'} : {border: '2px solid #3799CE'}} onClick={handleProfileModal}/>
                                 <div className='post__infos'>
                                     <span className={modsIdList.includes(post.author._id) ? `post__author__name is__mod ${post.author._id}` : `post__author__name ${post.author._id}`}>{post.author.username} {post.isHelpRequired ? <img src={flagIcon} className='flag__icon' /> : ''}</span>
                                     {post.author.type === 'teacher' ? <span className='post__author__title'>Professor de {post.author.area}</span> : ''}
@@ -736,7 +737,7 @@ export default function Feed() {
                                 {
                                     showCommentInput && commentInputTargetId == post._id? (
                                         <div className='post__comment__input'>
-                                            <img src={`https://hakuna-1337.s3.amazonaws.com/${currentUserPic}`} style={post.author.type == 'teacher' ? {border: '2px solid black'} : {border: '2px solid #3799CE'}} className='post__author__img'/>
+                                            <img src={`https://hakuna-1337.s3.amazonaws.com/${currentUserPic}`} style={post.author.type == 'teacher' ? {border: '2px solid lightgreen'} : {border: '2px solid #3799CE'}} className='post__author__img'/>
                                             <input type="text" placeholder='adicionar comentário' className={post._id} onKeyDown={submitComment} onChange={e => setCommentContent(e.target.value)}/>
                                             <input type="file" id="add_material__comment__btn" onChange={e => setCommentFiles(e.target.files)} name='files' multiple/>
                                             <label for="add_material__comment__btn" className=""><img src={addMaterial} className="material__comment__icon"/></label>
@@ -765,7 +766,7 @@ export default function Feed() {
                                                 post.comments.map(comment => {
                                                     return (
                                                         <div className="comment__item">
-                                                            <img src={`https://hakuna-1337.s3.amazonaws.com/${comment.author.profilePic}`} style={comment.author.type === 'teacher' ? {border: '2px solid black'} : {border: '2px solid #3799CE'}} className={`post__author__img ${comment.author._id}`} onClick={goToProfile}/>
+                                                            <img src={`https://hakuna-1337.s3.amazonaws.com/${comment.author.profilePic}`} style={comment.author.type === 'teacher' ? {border: '2px solid lightgreen'} : {border: '2px solid #3799CE'}} className={`post__author__img ${comment.author._id}`} onClick={goToProfile}/>
                                                             <div className='comment_body'>
                                                             {
                                                                 showCommentOptionsMenu && commentOptionsMenuTargetId == comment._id ? (
@@ -780,9 +781,9 @@ export default function Feed() {
                                                                 ) : ''
                                                             }
                                                                 <div className='comment__infos'>
-                                                                    <span className={modsIdList.includes(comment.author._id) ? 'comment__author__name is__mod' : 'comment__author__name'}>{comment.author.username}{comment._id == post.resolvedBy ? <span className='best__answer'>solução</span> : ''}</span>
+                                                                    <span className={!membersIdList.includes(comment.author._id) ? 'comment__author__name not__member' : 'comment__author__name'}>{comment.author.username}{comment._id == post.resolvedBy ? <span className='best__answer'>solução</span> : ''}</span>
                                                                     {comment.author.type == 'teacher'? <span className='comment__author__title'>Professor de {comment.author.area}</span> : ''}
-                                                                    <span className={comment.updated ? 'comment__creation_time updated__content' : 'comment__creation_time'}>{comment.creationTime}</span>
+                                                                    <span className={comment.updated ? 'comment__creation_time updated__content' : 'comment__creation_time'}>{comment.creationDate}<BsDot />{comment.creationTime}</span>
                                                                 </div>
                                                                 {comment.author._id == userId || isMod || (post.author._id == userId && post.isHelpRequired == true) ? <button className='comment__options__btn' value={comment._id} onClick={handleCommentOptionsMenu}><BsThreeDots /></button> : ''}
                                                                 <p className='comment__content'>
@@ -899,19 +900,6 @@ export default function Feed() {
                                 ) : ''
                             )
                         }
-                    </form>
-                </div>
-                <div className={showHelpRequestModal ? 'helpRequest__modal show__div' : 'helpRequest__modal hide__div'}>
-                    <div className='content__title__wrapper'>
-                        <h2 className="content__title"><img src={requestIcon} className='title__icon' />Solicitação de ajuda</h2>
-                        <IoClose onClick={closeHelpRequestModal} className='close__edit__modal' />
-                    </div>
-                    <p>Ao criar uma solicitação de ajuda, todos os professores da área na qual seu grupo pertence receberão um convite para participar do grupo e tirar as dúvidas dos alunos.</p>
-                    <form action="" className="post__form">
-                        <textarea name="description" className="form__textarea" id="group__description" cols="30" rows="7" placeholder='adicione uma mensagem a solicitação' onChange={e => setHelpRequestContent(e.target.value)}></textarea>
-                        <div className='post__btn__wrapper'>
-                            <button type='button' className="form__btn" onClick={inviteTeachers}>Enviar</button>
-                        </div>     
                     </form>
                 </div>
                 {

@@ -55,7 +55,7 @@ function Aside({updatePic}) {
   return (
     <aside className="aside">
         <picture>
-          <img src={profilePic} className="sidebar__user" />
+          <img src={profilePic} className="sidebar__user" style={type === 'teacher' ? {borderColor: 'lightgreen'} : {borderColor: '#3799CE'}} />
         </picture>
         <span className="sidebar__username">{username}</span>
         <ul className="sidebar__menu">

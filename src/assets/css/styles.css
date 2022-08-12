@@ -1305,6 +1305,21 @@ span.member__type {
     text-overflow: ellipsis;
 }
 
+.point__icon {
+    align-self: center;
+}
+
+button.request__delete {
+    background-color: transparent;
+    outline: none;
+    border: unset;
+}
+
+.request__delete > img {
+    width: 22px;
+    height: 22px;
+}
+
 .chat__item .chat__last__message, .chat__last__message__time {
     font-size: 0.95rem;
 }
@@ -1512,7 +1527,7 @@ h3.content__subtitle {
     height: 18px;
 }
 
-.post__item .post__author__img, .comment__container .post__author__img {
+.post__item .post__author__img, .comment__container .post__author__img, .help__user__img {
     width: 45px;
     height: 45px;
     padding: 2px;
@@ -1529,7 +1544,7 @@ h3.content__subtitle {
     cursor: pointer;
 }
 
-.is__modd::after, .updated__content::after, .best__answer {
+.is__modd::after, .updated__content::after, .best__answer, .not__member::after {
     content: 'moderador';
     margin-left: 6px;
     background-color: var(--blue);
@@ -1542,6 +1557,11 @@ h3.content__subtitle {
 
 .updated__content::after {
     content: 'editado';
+    background-color: var(--black);
+}
+
+.not__member::after {
+    content: 'externo';
     background-color: var(--black);
 }
 
@@ -1665,7 +1685,7 @@ h3.content__subtitle {
 }
 */
 
-.post__comment__input {
+.post__comment__input, .helpRequest__comment__input {
     display: flex;
     align-items: center;
     position: relative;
@@ -1674,7 +1694,7 @@ h3.content__subtitle {
     margin-top: 15px;
 }
 
-.post__comment__input > input {
+.post__comment__input > input, .helpRequest__comment__input > input {
     flex-grow: 1;
     text-indent: 15px;
     background-color: var(--ice-2);
@@ -1686,7 +1706,11 @@ h3.content__subtitle {
     padding: 0px 35px 0px 0px;
 }
 
-.post__comment__input > input:focus {
+.helpRequest__comment__input > input {
+    height: 40px;
+}
+
+.post__comment__input > input:focus, .helpRequest__comment__input > input:focus {
     outline-color: var(--blue);
 }
 
@@ -2226,8 +2250,10 @@ h3.groups__in__common__title {
 }
 
 .request__modal .request__modal__icon {
-    width: 48px;
-    height: 48px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    padding: 2px;
     text-align: center;
 }
 
@@ -2283,7 +2309,7 @@ h3.groups__in__common__title {
 
 .request__modal__title {
     margin-top: 10px;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
 }
 
 .modal__message, .request__modal__message {
@@ -3310,7 +3336,11 @@ footer p, footer span {
         height: 80%;
     }
 
-    .post__item .post__author__img, .comment__container .post__author__img {
+    .helpRequest__comment__input > input {
+        height: 25px;
+    }
+
+    .post__item .post__author__img, .comment__container .post__author__img, .help__user__img {
         width: 40px;
         height: 40px;
     }
