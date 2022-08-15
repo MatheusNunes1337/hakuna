@@ -25,7 +25,7 @@ function IndexNavBar() {
               <ul className="index__navbar__menu">
               <li className="index__navbar__links"><Link to={{pathname:'https://hakunah.herokuapp.com/api/v1/api-docs'}} target='_blank' className="index__navbar__link">Documentação</Link></li>
                   <li className="index__navbar__links"><Link to={{pathname:'https://docs.google.com/document/d/14U_eKYhol5aUs1gHAjpIAQik7ijTx2P5Ekparlop_po/edit?usp=sharing'}} target='_blank' className="index__navbar__link">Sobre</Link></li>
-                  <li className="index__navbar__links"><Link to="/" className="index__navbar__link">Contato</Link></li>
+                  <li className="index__navbar__links"><Link to={{pathname:'https://linktr.ee/matheusnunes1337'}} target='_blank' className="index__navbar__link">Contato</Link></li>
               </ul> 
           </nav>
           {!hiddenMenu
@@ -35,7 +35,7 @@ function IndexNavBar() {
               <ul className="index__menu">
               <li className="index__menu__links"><Link to={{pathname:'https://hakunah.herokuapp.com/api/v1/api-docs'}} target='_blank' className="index__menu__link">Documentação</Link></li>
                   <li className="index__menu__links"><Link to={{pathname:'https://docs.google.com/document/d/14U_eKYhol5aUs1gHAjpIAQik7ijTx2P5Ekparlop_po/edit?usp=sharing'}} target='_blank' className="index__menu__link">Sobre</Link></li>
-                  <li className="index__menu__links"><Link to="/" className="index__menu__link">Contato</Link></li>
+                  <li className="index__menu__links"><Link to={{pathname:'https://linktr.ee/matheusnunes1337'}} target='_blank' className="index__menu__link">Contato</Link></li>
               </ul>
             </div>
           </>    
