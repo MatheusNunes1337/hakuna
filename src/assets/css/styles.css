@@ -1728,6 +1728,7 @@ h3.content__subtitle {
 
 .post__files__wrapper, .comment__files__wrapper  {
     display: flex;
+    flex-wrap: wrap;
     gap: 10px;
     height: auto;
     width: 100%;

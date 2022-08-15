@@ -365,26 +365,26 @@ export default function Feed() {
         try {
             const formData = new FormData()
             formData.append('content', commentContent)
-            if(Array.from(commentFiles).length > 0) {
+           
                 Array.from(commentFiles).forEach(file => {
                     formData.append('files', file)
                 })
-            }
+            
 
             const headers = { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data"}
             if(!commentEditionMode) {
                 await api.post(`groups/${id}/posts/${postId}/comments`, formData, {headers})
                 handleSucessModal('Comentário criado com sucesso.')
+                const input = document.getElementsByClassName(postId)[0]
+                input.value = ''
             } else {
                 const [postId, commentId] = editCommentIds
                 await api.patch(`groups/${id}/posts/${postId}/comments/${commentId}`, formData, {headers})
                 handleSucessModal('Comentário editado com sucesso.')
+                setCommentFiles([])
+                setCommentContent('')
+                setCommentEditionMode(false)
             }
-            //const input = document.getElementsByClassName(postId)[0]
-            //input.value = ''
-            setCommentFiles([])
-            setCommentContent('')
-            setCommentEditionMode(false)
             setReloadComponents(true)
         } catch(err) {
             if(!Array.isArray(err.response.data))
@@ -471,10 +471,10 @@ export default function Feed() {
 
     const enablePostEditionMode = async (e) => {
         const postId = e.currentTarget.className
-        const input = document.getElementsByClassName('form__textarea')[1]
         try {
             const {data} = await api.get(`groups/${id}/posts/${postId}`, {headers})
             const {content, files} = data
+            const input = document.getElementsByClassName('form__textarea')[1]
             input.innerHTML = content
             setContent(content)
             setEditablePost(data)
@@ -491,16 +491,16 @@ export default function Feed() {
 
     const enableCommentEditionMode = async (e) => {
         const [commentId, postId] = e.currentTarget.className.split(' ')
-        const input = document.getElementsByClassName('form__textarea')[1]
         try {
             const {data} = await api.get(`groups/${id}/posts/${postId}/comments/${commentId}`, {headers})
             const {content, files} = data
+            const input = document.getElementsByClassName('form__textarea')[1]
             input.innerHTML = content
             setCommentContent(content)
             setEditableComment(data)
             setCommentEditionMode(true)
-            setCommentOptionsMenu(false)
             setPostEditionMode(false)
+            setCommentOptionsMenu(false)
             setEditCommentIds([postId, commentId])
         } catch(err) {
             if(!Array.isArray(err.response.data))
@@ -668,7 +668,7 @@ export default function Feed() {
                     }
                     <form action="" className="post__form">
                         <textarea name="description" className="form__textarea" id="group__description" cols="30" rows="7" placeholder='Compartilhe algo com os seus colegas' onChange={e => setContent(e.target.value)}></textarea>
-                        {files.length > 0 ? <p className='file__status'><img src={sucess} alt='sucess icon' /> materiais selecionados</p> : ''}
+                        {files.length > 0 && !postEditionMode ? <p className='file__status'><img src={sucess} alt='sucess icon' /> materiais selecionados</p> : ''}
                         <div className='post__btn__wrapper'> 
                             <button className="form__btn" onClick={handlePost}>Postar</button>
                             <input type="file" id="add_material__btn" name='files' onChange={e => setFiles(e.target.files)} multiple/>
@@ -843,8 +843,8 @@ export default function Feed() {
                     <form action="" className="post__form">
                         {
                             postEditionMode ? 
-                            <textarea name="description" className="form__textarea" id="group__description" cols="30" rows="7" onChange={e => setContent(e.target.value)}></textarea> :
-                            <textarea name="description" className="form__textarea" id="group__description" cols="30" rows="7" onChange={e => setCommentContent(e.target.value)}></textarea>
+                            <textarea name="description" className="form__textarea" value={content} id="group__description" cols="30" rows="7" onChange={e => setContent(e.target.value)}></textarea> :
+                            <textarea name="description" className="form__textarea" value={commentContent} id="group__description" cols="30" rows="7" onChange={e => setCommentContent(e.target.value)}></textarea>
                         }
                         {files.length > 0 || commentFiles.length > 0 ? <p className='file__status'><img src={sucess} alt='sucess icon' /> materiais selecionados</p> : ''}
                         <div className='post__btn__wrapper'>
