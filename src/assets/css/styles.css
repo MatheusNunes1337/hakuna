@@ -2952,7 +2952,7 @@ footer p, footer span {
     .hakuna__version {
         top: 10px;
         font-size: 0.7rem;
-        margin-left: 72px;
+        margin-left: 85px;
     }
 
     .navbar__menu, .index__navbar__menu {
@@ -3366,6 +3366,10 @@ footer p, footer span {
 
     .card__favorite {
         right: 2rem;
+    }
+
+    .hakuna__version {
+        margin-left: 75px;
     }
 }
 

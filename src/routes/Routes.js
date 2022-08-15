@@ -27,6 +27,9 @@ function CustomRoute(props) {
 	const userToken = localStorage.getItem('userToken')
     const emailRecover = localStorage.getItem('emailRecover')
 
+    if(props.external && userToken) {
+		return <Redirect to="/home" />
+	}
 	if(props.private && !userToken) {
 		return <Redirect to="/login" />
 	}
@@ -43,12 +46,12 @@ function Routes() {
     return (
         <Router>
             <Switch>
-                <Route path="/recover-pass">
+                <CustomRoute external path="/recover-pass">
                     <RecoverPass />
-                </Route>
-                <Route restrict path="/redefine-pass">
+                </CustomRoute>
+                <CustomRoute external restrict path="/redefine-pass">
                     <RedefinePass />
-                </Route>
+                </CustomRoute>
                 <CustomRoute private path="/create-group">
                     <CreateGroup />
                 </CustomRoute>
@@ -94,18 +97,18 @@ function Routes() {
                 <CustomRoute private path="/ranking">
                     <Ranking />
                 </CustomRoute>
-                <Route path="/login">
+                <CustomRoute external path="/login">
                     <Login />
-                </Route>
-                <Route path="/register">
+                </CustomRoute>
+                <CustomRoute external path="/register">
                     <Register />
-                </Route>
+                </CustomRoute>
                 <CustomRoute private path="/:id">
                     <Profile />
                 </CustomRoute>
-                <Route path="/">
+                <CustomRoute external path="/">
                     <IndexPage />
-                </Route>
+                </CustomRoute>
             </Switch>
         </Router>
     )
