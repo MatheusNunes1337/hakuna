@@ -1,5 +1,5 @@
 import React, {useState, useEffect } from 'react'
-import { Link, useParams, useHistory } from 'react-router-dom'
+import { Link, useParams, useHistory, Redirect } from 'react-router-dom'
 import api from '../../services/api'
 
 import { HiLogout, HiUsers, HiUserGroup } from "react-icons/hi"
@@ -46,6 +46,7 @@ import SucessModal from '../../components/SucessModal';
 import WarningModal from '../../components/WarningModal';
 import ProfileModal from '../../components/ProfileModal';
 import badWordCatcher from '../../utils/badWordCatcher';
+import authenticateMember from '../../utils/authenticateMember';
 
 
 export default function Feed() {
@@ -107,11 +108,13 @@ export default function Feed() {
     let [commentListTargetId, setCommentListTargetId] = useState('')
     let [commentOptionsMenuTargetId, setCommentOptionsMenuTargetId] = useState('')
     let [showGroupOptionsMenu, setGroupOptionsMenuStatus] = useState(false)
+    //let [canAccess, setMemberAuthentication] = useState(false)
 
     const { id } = useParams();
     const token = localStorage.getItem('userToken')
     const userId = localStorage.getItem('userId')
     const headers = { Authorization: `Bearer ${token}` }
+    const isMember = async () => await authenticateMember(id, userId)
     const history = useHistory()
 
     useEffect(() => {
@@ -634,6 +637,9 @@ export default function Feed() {
         }
       }
 
+    if(!isMember) {
+        return <Redirect to="/home" />
+    }
     return (
         <>
         <NavBar />

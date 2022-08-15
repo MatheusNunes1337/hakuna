@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { Link, useParams, useHistory } from 'react-router-dom'
+import { Link, useParams, useHistory, Redirect } from 'react-router-dom'
 import api from '../../services/api'
 
 import NavBar from '../../components/NavBar'
@@ -18,12 +18,14 @@ import ErrorModal from '../../components/ErrorModal'
 import SucessModal from '../../components/SucessModal'
 import WarningModal from '../../components/WarningModal'
 import ProfileModal from '../../components/ProfileModal'
+import authenticateMember from '../../utils/authenticateMember'
 
 export default function Membros() {
     const { id } = useParams();
     const token = localStorage.getItem('userToken')
     const userId = localStorage.getItem('userId')
     const headers = { Authorization: `Bearer ${token}` }
+    const isMember = async () => await authenticateMember(id, userId)
     const history = useHistory()
 
     const [modPaginationIndex, setModPaginationIndex] = useState(1)
@@ -193,133 +195,137 @@ export default function Membros() {
         setProfileModalStatus(false)
     }
 
-    return (
-        <>
-        <NavBar />
-            <main>
-                <Container>
-                    <SearchBar />
-                    <Aside />
-                    <div className="content">
-                        <div className='content__title__wrapper'>
-                            <Link to={`group/${id}`} className="group__back" title='voltar' ><MdOutlineArrowBack className="back__icon"/></Link>
-                            <h2 className="content__title">Membros <img src={group} className='title__colorful__icon' /></h2>
-                        </div>
-                        {contentLoaded ? <div className='member__container'>
-                            <div className='mod__container'>
-                                <h3 className="content__subtitle">Moderadores</h3>
-                                {
-                                    mods.map((mod, index) => {
-                                        return (
-                                            <div className='mod__item' key={index}>
-                                                <span className='member__index'>#{index + 1}</span>
-                                                <img src={`https://hakuna-1337.s3.amazonaws.com/${mod.profilePic}`} className='member__img'/>
-                                                <span className='member__name'>{mod.username}</span>
-                                                {
-                                                    mod._id !== userId ? (
-                                                        <div className='member__action__btns'>
-                                                            <button className='member__action__btn' title='Ver perfil' value={mod._id} onClick={handleProfileModal}><FaSearch /></button>
-                                                            {
-                                                                allMods.includes(userId) ? (
-                                                                    <>
-                                                                        <button className='member__action__btn' title='Remover moderador' value={mod._id} onClick={revokeMod}><FaArrowDown /></button>
-                                                                        <button className='member__action__btn' title='Remover membro' value={mod._id} onClick={deleteMember}><AiFillDelete /></button>
-                                                                    </>
-                                                                ) : ''
-                                                            }
-                                                        </div>
-                                                    ) : ''
-                                                }
-                                            </div>
-                                        )
-                                    }) 
-                                }
-                                {
-                                    mods.length !== 0 && totalModsPages > 1 ? (
-                                        <div className='pagination__wrapper'>
-                                            <button disabled={modPaginationIndex === 1} value="mod" className='pagination__btn' onClick={previousPage}><BsChevronLeft /></button>
-                                            <span className='pagination__index'>{modPaginationIndex}</span>
-                                            <button className='pagination__btn' value="mod" onClick={nextPage}><BsChevronRight /></button>
-                                        </div>
-                                    ) : ''
-                                }
+    if(!isMember) {
+        return <Redirect to='/home' />
+    } else {
+        return (
+            <>
+            <NavBar />
+                <main>
+                    <Container>
+                        <SearchBar />
+                        <Aside />
+                        <div className="content">
+                            <div className='content__title__wrapper'>
+                                <Link to={`group/${id}`} className="group__back" title='voltar' ><MdOutlineArrowBack className="back__icon"/></Link>
+                                <h2 className="content__title">Membros <img src={group} className='title__colorful__icon' /></h2>
                             </div>
-                            <div className='others__container'>
-                                <h3 className="content__subtitle">Outros membros</h3>
-                                {
-                                    members.length !== 0 ?
-                                    members.map((member, index) => {
-                                        return (
-                                            <div className='others__item' key={index}>
-                                                <span className='member__index'>#{index + 1}</span>
-                                                <img src={`https://hakuna-1337.s3.amazonaws.com/${member.profilePic}`} className='member__img'/>
-                                                <span className='member__name'>{member.username}</span>
-                                                {
-                                                    member._id !== userId ? (
-                                                        <div className='member__action__btns'>
-                                                            <button className='member__action__btn' title='Ver perfil' value={member._id} onClick={handleProfileModal}><FaSearch /></button>
-                                                            {
-                                                                allMods.includes(userId) ? (
-                                                                    <>
-                                                                        <button className='member__action__btn' title='Tornar moderador' onClick={makeMod} value={member._id}><FaArrowUp /></button>
-                                                                        <button className='member__action__btn' title='Remover membro' onClick={deleteMember} value={member._id}><AiFillDelete /></button>
-                                                                    </>
-                                                                ) : ''
-                                                            }
-                                                        </div>
-                                                    ) : ''
-                                                }
+                            {contentLoaded ? <div className='member__container'>
+                                <div className='mod__container'>
+                                    <h3 className="content__subtitle">Moderadores</h3>
+                                    {
+                                        mods.map((mod, index) => {
+                                            return (
+                                                <div className='mod__item' key={index}>
+                                                    <span className='member__index'>#{index + 1}</span>
+                                                    <img src={`https://hakuna-1337.s3.amazonaws.com/${mod.profilePic}`} className='member__img'/>
+                                                    <span className='member__name'>{mod.username}</span>
+                                                    {
+                                                        mod._id !== userId ? (
+                                                            <div className='member__action__btns'>
+                                                                <button className='member__action__btn' title='Ver perfil' value={mod._id} onClick={handleProfileModal}><FaSearch /></button>
+                                                                {
+                                                                    allMods.includes(userId) ? (
+                                                                        <>
+                                                                            <button className='member__action__btn' title='Remover moderador' value={mod._id} onClick={revokeMod}><FaArrowDown /></button>
+                                                                            <button className='member__action__btn' title='Remover membro' value={mod._id} onClick={deleteMember}><AiFillDelete /></button>
+                                                                        </>
+                                                                    ) : ''
+                                                                }
+                                                            </div>
+                                                        ) : ''
+                                                    }
+                                                </div>
+                                            )
+                                        }) 
+                                    }
+                                    {
+                                        mods.length !== 0 && totalModsPages > 1 ? (
+                                            <div className='pagination__wrapper'>
+                                                <button disabled={modPaginationIndex === 1} value="mod" className='pagination__btn' onClick={previousPage}><BsChevronLeft /></button>
+                                                <span className='pagination__index'>{modPaginationIndex}</span>
+                                                <button className='pagination__btn' value="mod" onClick={nextPage}><BsChevronRight /></button>
                                             </div>
-                                        ) 
-                                    }) : ''
-                                }
-                            </div>
-                        </div> : <div className="container__null"><div className="loader"></div></div>
-                        }
-                        {
-                            members.length !== 0 && totalMembersPages > 1 ? (
-                                <div className='pagination__wrapper'>
-                                    <button disabled={memberPaginationIndex === 1} value="member" className='pagination__btn' onClick={previousPage}><BsChevronLeft /></button>
-                                    <span className='pagination__index'>{memberPaginationIndex}</span>
-                                    <button className='pagination__btn' value="member" onClick={nextPage}><BsChevronRight /></button>
+                                        ) : ''
+                                    }
                                 </div>
+                                <div className='others__container'>
+                                    <h3 className="content__subtitle">Outros membros</h3>
+                                    {
+                                        members.length !== 0 ?
+                                        members.map((member, index) => {
+                                            return (
+                                                <div className='others__item' key={index}>
+                                                    <span className='member__index'>#{index + 1}</span>
+                                                    <img src={`https://hakuna-1337.s3.amazonaws.com/${member.profilePic}`} className='member__img'/>
+                                                    <span className='member__name'>{member.username}</span>
+                                                    {
+                                                        member._id !== userId ? (
+                                                            <div className='member__action__btns'>
+                                                                <button className='member__action__btn' title='Ver perfil' value={member._id} onClick={handleProfileModal}><FaSearch /></button>
+                                                                {
+                                                                    allMods.includes(userId) ? (
+                                                                        <>
+                                                                            <button className='member__action__btn' title='Tornar moderador' onClick={makeMod} value={member._id}><FaArrowUp /></button>
+                                                                            <button className='member__action__btn' title='Remover membro' onClick={deleteMember} value={member._id}><AiFillDelete /></button>
+                                                                        </>
+                                                                    ) : ''
+                                                                }
+                                                            </div>
+                                                        ) : ''
+                                                    }
+                                                </div>
+                                            ) 
+                                        }) : ''
+                                    }
+                                </div>
+                            </div> : <div className="container__null"><div className="loader"></div></div>
+                            }
+                            {
+                                members.length !== 0 && totalMembersPages > 1 ? (
+                                    <div className='pagination__wrapper'>
+                                        <button disabled={memberPaginationIndex === 1} value="member" className='pagination__btn' onClick={previousPage}><BsChevronLeft /></button>
+                                        <span className='pagination__index'>{memberPaginationIndex}</span>
+                                        <button className='pagination__btn' value="member" onClick={nextPage}><BsChevronRight /></button>
+                                    </div>
+                                ) : ''
+                            }
+                        </div>
+                        {
+                            showErrorModal ? (
+                            <>
+                                <ErrorModal closeModal={closeModal} message={modalMessage} />
+                                <div className='overlay'></div>
+                            </>
                             ) : ''
                         }
-                    </div>
-                    {
-                        showErrorModal ? (
-                        <>
-                            <ErrorModal closeModal={closeModal} message={modalMessage} />
-                            <div className='overlay'></div>
-                        </>
-                        ) : ''
-                    }
-                    {
-                        showSucessModal ? (
-                        <>
-                            <SucessModal closeModal={closeModal} message={modalMessage} />
-                            <div className='overlay'></div>
-                        </>
-                        ) : ''
-                    }
-                    {
-                        showWarningModal ? (
-                        <>
-                            <WarningModal closeModal={closeModal} cancelOperation={closeModal} confirmOperation={confirmOperation} message={modalMessage} />
-                            <div className='overlay'></div>
-                        </>
-                        ) : ''
-                    }
-                    {
-                     showProfileModal ? (
-                        <>
-                            <ProfileModal closeModal={closeProfileModal} targetId={targetUser} />
-                            <div className='overlay'></div>
-                        </>
-                        ) : ''
-                    }
-                </Container >  
-            </main>
-        </>
-    )
+                        {
+                            showSucessModal ? (
+                            <>
+                                <SucessModal closeModal={closeModal} message={modalMessage} />
+                                <div className='overlay'></div>
+                            </>
+                            ) : ''
+                        }
+                        {
+                            showWarningModal ? (
+                            <>
+                                <WarningModal closeModal={closeModal} cancelOperation={closeModal} confirmOperation={confirmOperation} message={modalMessage} />
+                                <div className='overlay'></div>
+                            </>
+                            ) : ''
+                        }
+                        {
+                         showProfileModal ? (
+                            <>
+                                <ProfileModal closeModal={closeProfileModal} targetId={targetUser} />
+                                <div className='overlay'></div>
+                            </>
+                            ) : ''
+                        }
+                    </Container >  
+                </main>
+            </>
+        )
+    }
 }

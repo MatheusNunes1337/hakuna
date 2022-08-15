@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useParams, useHistory, Link } from 'react-router-dom'
+import { useParams, useHistory, Link, Redirect } from 'react-router-dom'
 import api from '../../services/api'
 
 import NavBar from '../../components/NavBar'
@@ -17,6 +17,8 @@ import settings from '../../assets/images/settings.png'
 import ErrorModal from '../../components/ErrorModal'
 import SucessModal from '../../components/SucessModal'
 import WarningModal from '../../components/WarningModal'
+import authenticateModerator from '../../utils/authenticateMod'
+import authenticateMember from '../../utils/authenticateMember'
 
 function CreateGroup() {
     let [name, setName] = useState('')
@@ -41,6 +43,7 @@ function CreateGroup() {
     const history = useHistory()
     const userToken = localStorage.getItem('userToken')
     const userId = localStorage.getItem('userId')
+    const isMember = async () => await authenticateMember(id, userId)
     const headers = { Authorization: `Bearer ${userToken}` }
 
     useEffect(() => {
@@ -174,108 +177,112 @@ function CreateGroup() {
       setWarningModalStatus(true)
     }
 
-    return (
-      <>
-        <NavBar />
-        <main>
-          <Container>
-            <SearchBar />
-            <Aside />
-            <div className="content">
-                <div className='content__title__wrapper'>
-                  <Link to={`group/${id}`} className="group__back" title='voltar' ><MdOutlineArrowBack className="back__icon"/></Link>
-                  <h2 className="content__title">Configurações do grupo <img src={settings} className='title__colorful__icon' /></h2>
-                </div>
-                {
-                    contentLoaded ?
-                    <form action="" className="group__form" onSubmit={handleGroup}>
-                    <label htmlFor="name" className="form__label">Nome:</label>
-                    <input type="text" className="form__input" value={name} onChange={e => setName(e.target.value)} />
-                    <label htmlFor="description" className="form__label">Descrição:</label>
-                    <textarea name="description" className="form__textarea" id="group__description" cols="30" rows="7" value={description} onChange={e => setDescription(e.target.value)}></textarea>
-                    <label htmlFor="discipline" className="form__label">Disciplina:</label>
-                    <select name="type" className="form__input" defaultValue={discipline} onChange={e => setDiscipline(e.target.value)}>
-                      <option value="matemática">Matemática</option>
-                      <option value="geografia">Geografia</option>
-                      <option value="física">Física</option>
-                      <option value="quimica">Química</option>
-                      <option value="filosofia">Filosofia</option>
-                      <option value="design">Design</option>
-                      <option value="programação">Programação</option>
-                      <option value="astronomia">Astronomia</option>
-                      <option value="inglês">Lingua estrangeira - inglês</option>
-                      <option value="espanhol">Lingua estrangeira - espanhol</option>
-                      <option value="coreano">Lingua estrangeira - coreano</option>
-                      <option value="música">Música</option>
-                      <option value="direito">Direito</option>
-                    </select>
-                    <label htmlFor="topics" className="form__label">Tópicos:</label>
-                    <div className='topics__wrapper'>
-                        <input type="text" className="form__input" id="topic__input" onChange={e => setTopic(e.target.value)} />
-                        <button type='button' disabled={topics.length === 5} className='add__tag__button' onClick={addTopic}><IoMdAdd /></button>
-                    </div>
-                    <div className='create__group__topics__wrapper'>
-                      {
-                        topics.map((topic, index) => {
-                          return (<span key={index} className='create__group__topic'>{topic} <IoClose onClick={deleteTopic} className={`delete__topic__icon ${topic}`} /></span>)
-                        })
+    if(!isMember) {
+      return <Redirect to={`group/${id}`} />
+    } else {
+      return (
+        <>
+          <NavBar />
+          <main>
+            <Container>
+              <SearchBar />
+              <Aside />
+              <div className="content">
+                  <div className='content__title__wrapper'>
+                    <Link to={`group/${id}`} className="group__back" title='voltar' ><MdOutlineArrowBack className="back__icon"/></Link>
+                    <h2 className="content__title">Configurações do grupo <img src={settings} className='title__colorful__icon' /></h2>
+                  </div>
+                  {
+                      contentLoaded ?
+                      <form action="" className="group__form" onSubmit={handleGroup}>
+                      <label htmlFor="name" className="form__label">Nome:</label>
+                      <input type="text" className="form__input" value={name} onChange={e => setName(e.target.value)} />
+                      <label htmlFor="description" className="form__label">Descrição:</label>
+                      <textarea name="description" className="form__textarea" id="group__description" cols="30" rows="7" value={description} onChange={e => setDescription(e.target.value)}></textarea>
+                      <label htmlFor="discipline" className="form__label">Disciplina:</label>
+                      <select name="type" className="form__input" defaultValue={discipline} onChange={e => setDiscipline(e.target.value)}>
+                        <option value="matemática">Matemática</option>
+                        <option value="geografia">Geografia</option>
+                        <option value="física">Física</option>
+                        <option value="quimica">Química</option>
+                        <option value="filosofia">Filosofia</option>
+                        <option value="design">Design</option>
+                        <option value="programação">Programação</option>
+                        <option value="astronomia">Astronomia</option>
+                        <option value="inglês">Lingua estrangeira - inglês</option>
+                        <option value="espanhol">Lingua estrangeira - espanhol</option>
+                        <option value="coreano">Lingua estrangeira - coreano</option>
+                        <option value="música">Música</option>
+                        <option value="direito">Direito</option>
+                      </select>
+                      <label htmlFor="topics" className="form__label">Tópicos:</label>
+                      <div className='topics__wrapper'>
+                          <input type="text" className="form__input" id="topic__input" onChange={e => setTopic(e.target.value)} />
+                          <button type='button' disabled={topics.length === 5} className='add__tag__button' onClick={addTopic}><IoMdAdd /></button>
+                      </div>
+                      <div className='create__group__topics__wrapper'>
+                        {
+                          topics.map((topic, index) => {
+                            return (<span key={index} className='create__group__topic'>{topic} <IoClose onClick={deleteTopic} className={`delete__topic__icon ${topic}`} /></span>)
+                          })
+                        }
+                      </div>
+                      <label htmlFor="max_members" className="form__label">Número máximo de membros:</label>
+                      <input type="text" className="form__input" value={maxMembers} onChange={e => setMembers(e.target.value)} />
+                      <label htmlFor="type" className="form__label">Tipo:</label>
+                      <select name="type" className="form__select" value={isPublic} onChange={e => setType(e.target.value)}>
+                        <option value={true}>público</option>
+                        <option value={false} selected="selected">privado</option>
+                      </select>
+                      {  showPasswordField
+                          ? (
+                          <>
+                              <label htmlFor="password" className="form__label">Senha:</label>
+                              <div className='topics__wrapper'>
+                                  <input type="password" className="form__input" value={password} onChange={e => setPassword(e.target.value)} />
+                                  {password && password.length >= 6 ? <button title='salvar senha' type='button' className='add__tag__button' onClick={changePassword}><FaSave /></button> : ''}
+                              </div>
+                          </>    
+                          ) 
+                          : ''
                       }
-                    </div>
-                    <label htmlFor="max_members" className="form__label">Número máximo de membros:</label>
-                    <input type="text" className="form__input" value={maxMembers} onChange={e => setMembers(e.target.value)} />
-                    <label htmlFor="type" className="form__label">Tipo:</label>
-                    <select name="type" className="form__select" value={isPublic} onChange={e => setType(e.target.value)}>
-                      <option value={true}>público</option>
-                      <option value={false} selected="selected">privado</option>
-                    </select>
-                    {  showPasswordField
-                        ? (
-                        <>
-                            <label htmlFor="password" className="form__label">Senha:</label>
-                            <div className='topics__wrapper'>
-                                <input type="password" className="form__input" value={password} onChange={e => setPassword(e.target.value)} />
-                                {password && password.length >= 6 ? <button title='salvar senha' type='button' className='add__tag__button' onClick={changePassword}><FaSave /></button> : ''}
-                            </div>
-                        </>    
-                        ) 
-                        : ''
-                    }
-                    <div className="button__group">
-                      <button className="form__btn">Salvar</button>
-                      {isPublic.toString() === 'false' ? <button type='button' className="form__btn" onClick={handlePasswordField}>Definir senha</button> : ''}
-                      <button type="button" className="form__btn" onClick={deleteGroup}>Excluir grupo</button>
-                    </div>
-                  </form> : ''
-                }
-            </div>
-            {
-                showErrorModal ? (
-                <>
-                    <ErrorModal closeModal={closeModal} message={modalMessage} />
-                    <div className='overlay'></div>
-                </>
-                ) : ''
-            }
-            {
-                showSucessModal ? (
-                <>
-                    <SucessModal closeModal={closeModal} message={modalMessage} />
-                    <div className='overlay'></div>
-                </>
-                ) : ''
-            }
-            {
-                showWarningModal ? (
-                <>
-                    <WarningModal closeModal={closeModal} cancelOperation={closeModal} confirmOperation={confirmOperation} message={modalMessage} />
-                    <div className='overlay'></div>
-                </>
-                ) : ''
-            }
-          </Container >  
-        </main>  
-      </>  
-    )
+                      <div className="button__group">
+                        <button className="form__btn">Salvar</button>
+                        {isPublic.toString() === 'false' ? <button type='button' className="form__btn" onClick={handlePasswordField}>Definir senha</button> : ''}
+                        <button type="button" className="form__btn" onClick={deleteGroup}>Excluir grupo</button>
+                      </div>
+                    </form> : ''
+                  }
+              </div>
+              {
+                  showErrorModal ? (
+                  <>
+                      <ErrorModal closeModal={closeModal} message={modalMessage} />
+                      <div className='overlay'></div>
+                  </>
+                  ) : ''
+              }
+              {
+                  showSucessModal ? (
+                  <>
+                      <SucessModal closeModal={closeModal} message={modalMessage} />
+                      <div className='overlay'></div>
+                  </>
+                  ) : ''
+              }
+              {
+                  showWarningModal ? (
+                  <>
+                      <WarningModal closeModal={closeModal} cancelOperation={closeModal} confirmOperation={confirmOperation} message={modalMessage} />
+                      <div className='overlay'></div>
+                  </>
+                  ) : ''
+              }
+            </Container >  
+          </main>  
+        </>  
+      )
+    }
 }
 
 export default CreateGroup
