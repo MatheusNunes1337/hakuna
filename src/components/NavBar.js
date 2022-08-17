@@ -115,7 +115,7 @@ function NavBar() {
                 <li className="user__links"><Link to="/chats" className="user__link"><img src={chat} className="user__link__icon"/>Conversas</Link></li>
                 {type == 'teacher'? <li className="sidebar__links"><Link to="/help-requests" className="sidebar__link"><img src={help} className="user__link__icon"/>Solicitações de ajuda</Link></li> : ''}
                 <li className="user__links"><Link to="/user/config" className="user__link"><img src={settings} className="user__link__icon"/>Configurações</Link></li>
-                <button className="user__menu__btn"><AiOutlineLogout className="user__menu__btn__icon" onClick={logout}/>Logout</button>
+                <button className="user__menu__btn" onClick={logout}><AiOutlineLogout className="user__menu__btn__icon"/>Logout</button>
               </ul>
             </div>
           </>    

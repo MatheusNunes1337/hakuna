@@ -55,6 +55,25 @@ button:hover {
     display: none;
 }
 
+.login__form a.form__link {
+    margin-top: 5px;
+}
+
+p.create__account {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 10px;
+    font-weight: bold;
+    color: var(--black);
+}
+
+p.create__account > a {
+    margin-top: 0px;
+    text-decoration: none;
+    color: var(--blue);
+}
+
 .login__section, .register__section, .recoverPass__section, .redefinePass__section {
     display: flex;
     width: 70%;

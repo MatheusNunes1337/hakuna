@@ -48,6 +48,7 @@ function Login() {
                     <input type="password" className="form__input" onChange={e => setPassword(e.target.value)} />
                     <button className="form__btn">Login</button>
                     <Link to="/recover-pass" className="form__link">Esqueceu sua senha?</Link>
+                    <p className='create__account'>Novo na plataforma? <Link to="/register">Crie uma conta</Link></p>
                 </form>
                 <section className='login__section'>
                     <div className='login__image__wrapper'>
