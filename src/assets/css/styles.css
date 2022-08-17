@@ -2114,6 +2114,10 @@ h3.groups__in__common__title {
     transform: translate(-50%,-50%);
 }
 
+.message__modal {
+    z-index: 150;
+}
+
 .group__info__modal {
     min-height: 0px;
     height: auto;
