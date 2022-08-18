@@ -700,7 +700,7 @@ export default function Feed() {
                                             <ul className='post__options__menu'>
                                                 <li onClick={enablePostEditionMode} className={post._id}><img src={editPost} className='post__options__menu__icon' />Editar postagem</li>
                                                 <li onClick={deletePost} className={post._id}><img src={deleteIcon} className='post__options__menu__icon' />Deletar postagem</li>
-                                                {post.isHelpRequired ? <li onClick={cancelHelpRequest} className={post._id}><img src={cancelIcon} className='post__options__menu__icon' />Cancelar solicitação de ajuda</li>  : <li onClick={helpRequest} className={post._id}><img src={requestIcon} className='post__options__menu__icon' />Solicitar ajuda</li>}
+                                                {post.isHelpRequired ? <li onClick={cancelHelpRequest} className={post._id}><img src={cancelIcon} className='post__options__menu__icon' />Cancelar solicitação de ajuda</li> : !post.hasOwnProperty('resolvedBy') ? <li onClick={helpRequest} className={post._id}><img src={requestIcon} className='post__options__menu__icon' />Solicitar ajuda</li> : ''}
                                             </ul>
                                         ) : (
                                             <ul className='post__options__menu'>
