@@ -100,7 +100,7 @@ function Home() {
           <div className="content">
             <div className='content__title__wrapper'>
               <h2 className="content__title welcome with__icon">{greeting}</h2>
-              <img src={sunny} className="title__icon" />
+              {greetingIcon}
             </div>
             <div className={groups.length !== 0 && contentLoaded ? "card__wrapper": "card__wrapper any__group"}>
             {

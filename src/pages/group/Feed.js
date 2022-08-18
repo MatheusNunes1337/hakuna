@@ -826,10 +826,15 @@ export default function Feed() {
                         : (
                             !isPostsFiltered ? (
                                 !contentLoaded ? <div className="loader"></div> :
+                                postFilter !== 'duvidas' ? 
                                 <>
                                     <img src={postIcon} className="any__user__icon"/>
                                     <p className="group__feed__message">Nenhuma publicação foi realizada ainda</p>
-                                </>
+                                </> :
+                                <>
+                                    <img src={requestIcon} className="any__user__icon"/>
+                                    <p className="group__feed__message">Nenhuma ajuda foi solicitada ainda</p>
+                                </> 
                             ) : (
                                 !contentLoaded ? <div className="loader"></div> :
                                 <>
