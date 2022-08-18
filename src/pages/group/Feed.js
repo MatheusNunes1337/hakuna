@@ -772,7 +772,7 @@ export default function Feed() {
                                                 post.comments.map(comment => {
                                                     return (
                                                         <div className="comment__item">
-                                                            <img src={`https://hakuna-1337.s3.amazonaws.com/${comment.author.profilePic}`} style={comment.author.type === 'teacher' ? {border: '2px solid lightgreen'} : {border: '2px solid #3799CE'}} className={`post__author__img ${comment.author._id}`} onClick={goToProfile}/>
+                                                            <img src={`https://hakuna-1337.s3.amazonaws.com/${comment.author.profilePic}`} style={comment.author.type === 'teacher' ? {border: '2px solid lightgreen'} : {border: '2px solid #3799CE'}} className={`post__author__img ${comment.author._id}`} onClick={handleProfileModal}/>
                                                             <div className='comment_body'>
                                                             {
                                                                 showCommentOptionsMenu && commentOptionsMenuTargetId == comment._id ? (
