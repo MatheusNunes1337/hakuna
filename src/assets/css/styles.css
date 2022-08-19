@@ -2198,8 +2198,8 @@ h3.groups__in__common__title {
     content: url('../images/unlocked.png');
 }
 
-.group__info__modal .content__title__wrapper {
-    background-color: red;
+.group__header {
+    background-color: #32BEA6;
 }
 
 .overlay {
