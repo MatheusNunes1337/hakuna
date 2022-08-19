@@ -25,7 +25,7 @@ const setGroupIcon = (discipline) => {
         case 'direito':
             icon = direito
             break
-        case 'programacao':
+        case 'programação':
             icon = programacao
             break 
         case 'quimica':

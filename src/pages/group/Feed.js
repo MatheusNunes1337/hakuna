@@ -122,7 +122,7 @@ export default function Feed() {
           try {
             const {data} = await api.get(`groups/${id}`, {headers})
             const {mods, name, posts, discipline, members} = data
-
+            console.log('data', data)
             const currentUser = members.find(member => member._id == userId)
             setCurrentUserPic(currentUser.profilePic)
             const moderators = mods.map(mod => mod._id)

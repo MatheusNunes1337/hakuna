@@ -2198,6 +2198,10 @@ h3.groups__in__common__title {
     content: url('../images/unlocked.png');
 }
 
+.group__info__modal .content__title__wrapper {
+    background-color: red;
+}
+
 .overlay {
     position: fixed; /* Sit on top of the page content */
    /* Hidden by default */
