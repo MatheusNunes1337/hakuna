@@ -103,20 +103,20 @@ function HelpRequests() {
 
   const createComment = async (postId) => {
     if(commentContent.length == 0) {
-        handleErrorModal('The comment content cannot be null.')
+        handleErrorModal('o conteúdo da sua resposta não pode ser nulo')
         return 
         
     } else if(commentContent.length > 300) {
-        handleErrorModal('The comment content must be a maximum of 300 characters.')
+        handleErrorModal('A sua resposta deve conter no máximo 300 caracteres')
         return 
     } else if(Array.from(commentFiles).length > 3) {
-        handleErrorModal('You can only upload a maximum of three files per comment.')
+        handleErrorModal('Você pode anexar no máximo três materiais por resposta')
         return
     }
 
     const badWordsCount =  badWordCatcher(commentContent)
     if(badWordsCount > 0) {
-        handleErrorModal('Não são permitidas palavras impróprias no conteúdo de um comentário.')
+        handleErrorModal('Não são permitidas palavras impróprias no conteúdo de uma resposta')
         return
     }
 
@@ -132,7 +132,7 @@ function HelpRequests() {
         const headers = { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data"}
         await api.post(`groups/${request.group._id}/posts/${postId}/comments`, formData, {headers})
         await api.delete(`help-requests/${postId}`, {headers: { Authorization: `Bearer ${token}` }})
-        handleSucessModal('Comentário criado com sucesso. Para saber a repercussão da postagem, você deve ser um membro do grupo.')
+        handleSucessModal('Resposta enviada com sucesso. Para saber a repercussão da postagem, você deve ser um membro do grupo')
         
         setCommentFiles([])
         setCommentContent('')

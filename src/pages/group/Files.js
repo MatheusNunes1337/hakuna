@@ -151,7 +151,7 @@ export default function Files() {
                                 )
                         }
                         {
-                            showModal ? (
+                            showModal && !showErrorModal ? (
                             <>
                                 <div className='file__info__modal'>
                                     <div className='content__title__wrapper'>

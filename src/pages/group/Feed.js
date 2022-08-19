@@ -122,7 +122,6 @@ export default function Feed() {
           try {
             const {data} = await api.get(`groups/${id}`, {headers})
             const {mods, name, posts, discipline, members} = data
-            console.log('data', data)
             const currentUser = members.find(member => member._id == userId)
             setCurrentUserPic(currentUser.profilePic)
             const moderators = mods.map(mod => mod._id)
@@ -161,21 +160,21 @@ export default function Feed() {
         e.preventDefault()
 
         if(content.length == 0) {
-            handleErrorModal('The post content cannot be null.')
+            handleErrorModal('O conteúdo da postagem não pode ser nulo')
             return 
         } else if(content.length > 2000) {
-            handleErrorModal('The post content must be a maximum of 2000 characters.')
+            handleErrorModal('O conteúdo da postagem deve conter no máximo 2000 caracteres')
             return 
         }
 
         if(Array.from(files).length > 3) {
-            handleErrorModal('You can only upload a maximum of three files per post.')
+            handleErrorModal('você pode anexar no máximo três materiais por postagem')
             return 
         }
 
         const badWordsCount =  badWordCatcher(content)
         if(badWordsCount > 0) {
-            handleErrorModal('Não são permitidas palavras impróprias no conteúdo de uma postagem.')
+            handleErrorModal('Não são permitidas palavras impróprias no conteúdo de uma postagem')
             return
         }
 
@@ -198,7 +197,7 @@ export default function Feed() {
         } else {
             try {
                 await api.patch(`groups/${id}/posts/${editablePost._id}`, formData, {headers})
-                handleSucessModal('Post editado com sucesso')
+                handleSucessModal('Postagem editada com sucesso')
                 setFiles([])
                 setContent('')
                 setPostEditionMode(false)
@@ -348,14 +347,14 @@ export default function Feed() {
 
     const createComment = async (postId) => {
         if(commentContent.length == 0) {
-            handleErrorModal('The comment content cannot be null.')
+            handleErrorModal('O conteúdo do comentário não pode ser nulo')
             return 
             
         } else if(commentContent.length > 300) {
-            handleErrorModal('The comment content must be a maximum of 300 characters.')
+            handleErrorModal('O conteúdo do comentário deve conter no máximo 300 caracteres')
             return 
         } else if(Array.from(commentFiles).length > 3) {
-            handleErrorModal('You can only upload a maximum of three files per comment.')
+            handleErrorModal('Você pode anexar no máximo três materiais por comentário')
             return
         }
 
@@ -377,13 +376,13 @@ export default function Feed() {
             const headers = { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data"}
             if(!commentEditionMode) {
                 await api.post(`groups/${id}/posts/${postId}/comments`, formData, {headers})
-                handleSucessModal('Comentário criado com sucesso.')
+                handleSucessModal('Comentário criado com sucesso')
                 const input = document.getElementsByClassName(postId)[0]
                 input.value = ''
             } else {
                 const [postId, commentId] = editCommentIds
                 await api.patch(`groups/${id}/posts/${postId}/comments/${commentId}`, formData, {headers})
-                handleSucessModal('Comentário editado com sucesso.')
+                handleSucessModal('Comentário editado com sucesso')
                 setCommentFiles([])
                 setCommentContent('')
                 setCommentEditionMode(false)
@@ -424,7 +423,7 @@ export default function Feed() {
             const isOperationConfirmed = window.confirm('Você tem certeza que deseja excluir esse comentário?')
             if(isOperationConfirmed) {
                 await api.delete(`groups/${id}/posts/${postId}/comments/${commentId}`, {headers})
-                handleSucessModal('Comentário excluído com sucesso.')
+                handleSucessModal('Comentário excluído com sucesso')
                 setReloadComponents(true)
             }
         } catch(err) {
@@ -572,7 +571,7 @@ export default function Feed() {
             if(!confirm) return 
             await api.post(`help-requests`, data, {headers})
             await api.patch(`groups/${id}/posts/${postId}`, formData, {headers: { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data"}})
-            handleSucessModal('Sua dúvida foi enviada a todos os professores da área, sendo sujeita a ser respondida tanto por eles como pelos membros do grupo.')
+            handleSucessModal('Sua dúvida foi enviada a todos os professores da área, sendo sujeita a ser respondida tanto por eles como pelos membros do grupo')
             setPostOptionsMenu(false)
             setReloadComponents(true)
         } catch(err) {
@@ -599,7 +598,7 @@ export default function Feed() {
             if(!confirm) return 
             await api.patch(`help-requests/${postId}`, {}, {headers})
             await api.patch(`groups/${id}/posts/${postId}`, formData, {headers: { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data"}})
-            handleSucessModal('Solicitação de ajuda cancelada com sucesso.')
+            handleSucessModal('Solicitação de ajuda cancelada com sucesso')
             setPostOptionsMenu(false)
             setReloadComponents(true)
         } catch(err) {
@@ -621,7 +620,7 @@ export default function Feed() {
             const confirm = window.confirm('Sua dúvida foi realmente solucionada?')
             if(!confirm) return
             await api.patch(`groups/${id}/posts/${postId}`, formData, {headers})
-            handleSucessModal('Sua dúvida foi dada como solucionada.')
+            handleSucessModal('Sua dúvida foi dada como solucionada')
             setReloadComponents(true)
         } catch(err) {
             handleErrorModal(err.response.data.name)

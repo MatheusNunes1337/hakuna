@@ -119,11 +119,11 @@ function Card({id, icon, title, max_members, is_public, favoritos, members, show
           }
       </div>
       {
-        showModal ? (
+        showModal && !showErrorModal ? (
           <>
             <div className='group__info__modal'>
               <div className='content__title__wrapper'>
-                <img src={cardIcon} alt="card-image" className="card__image" />
+                <img src={cardIcon} alt="card-image" className="title__icon" />
                 <h2 className="content__title">{title}</h2>
                 <IoClose onClick={closeModal} className='close__edit__modal' />
               </div>

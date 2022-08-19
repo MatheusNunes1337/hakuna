@@ -52,7 +52,7 @@ function CreateGroup() {
     const addTopic = () => {
       const duplicate = topics.find(item => item === topic)
       if(duplicate) {
-        alert('Topics with duplicate values are not allowed')
+        handleErrorModal('Não são permitidos tópicos de estudo repetidos')
         return 
       }
       setTopics([...topics, topic])

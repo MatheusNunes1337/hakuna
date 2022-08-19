@@ -1028,7 +1028,7 @@ form.user__form .profile__pic__overlay {
 
 .post__form .form__textarea{
     width: 100%;
-    text-indent: 10px;
+    padding-left: 10px;
     color: var(--black);
     margin-top: 15px;
 }
@@ -1036,6 +1036,11 @@ form.user__form .profile__pic__overlay {
 .group__form input, .group__form .form__textarea, .user__form input {
     text-indent: 10px;
     color: var(--black);
+}
+
+.group__form .form__textarea {
+    padding-left: 10px;
+    text-indent: 0px;
 }
 
 .form__button__group {
@@ -2134,7 +2139,7 @@ h3.groups__in__common__title {
 }
 
 .message__modal {
-    z-index: 150;
+    z-index: 15;
 }
 
 .group__info__modal {
@@ -2198,8 +2203,18 @@ h3.groups__in__common__title {
     content: url('../images/unlocked.png');
 }
 
-.group__header {
-    background-color: #32BEA6;
+.group__info__modal .content__title__wrapper {
+    
+    display: flex;
+    align-items: center;
+}
+
+.group__info__modal .content__title__wrapper .card__image {
+    margin-top: 5px;
+}
+
+.group__info__modal .content__title__wrapper .content__title {
+    
 }
 
 .overlay {
@@ -3397,6 +3412,11 @@ footer p, footer span {
 
     .hakuna__version {
         margin-left: 75px;
+    }
+
+    .group__info__modal .content__title__wrapper .title__icon {
+        width: 22px;
+        height: 22px;
     }
 }
 
