@@ -27,6 +27,7 @@ function NavBar() {
   let [hiddenMenu, setVisibility] = useState(true)
   let [username, setUsername] = useState('')
   let [type, setType] = useState('')
+  let [profilePic, setProfilePic] = useState('')
   let [showErrorModal, setErrorModalStatus] = useState(false)
   let [contributionPoints, setCPoints] = useState('')
   let [modalMessage, setModalMessage] = useState('')
@@ -41,9 +42,10 @@ function NavBar() {
     const getUser = async () => {
       try {
         const {data} = await api.get(`users/${id}`, {headers})
-        const {username, type, contributionPoints} = data
+        const {username, type, contributionPoints, profilePic} = data
         setType(type)
         setUsername(username)
+        setProfilePic(`https://hakuna-1337.s3.amazonaws.com/${profilePic}`)
         setCPoints(contributionPoints)
       } catch(err) {
         handleErrorModal(err.response.data.name)
@@ -81,7 +83,7 @@ function NavBar() {
         <header>
           <nav className="navbar">
               <Link to="/home" className="navbar__brand">Hakuna</Link>
-              <span className='hakuna__version'>v1</span>
+              <span className='hakuna__version'>v1.0</span>
               <FaBars onClick={toggleMenu} className="navbar__bars"/>
               <ul className="navbar__menu">
                   <div className="navbar__cPoints__wrapper">
@@ -101,7 +103,7 @@ function NavBar() {
           <>
             <div className="hidden__menu">
               <picture>
-                <img src={studentPic} alt="user_pic" className="hidden__menu__user" />
+                <img src={profilePic} alt="user_pic" className="hidden__menu__user" />
               </picture>
               <span className="hidden__menu__username">{username}</span>
               <div className="user__cPoints__wrapper">

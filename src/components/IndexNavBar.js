@@ -20,7 +20,7 @@ function IndexNavBar() {
         <header>
           <nav className="index__navbar" id='index__nav'>
               <Link to="/" className="index__navbar__brand">Hakuna</Link>
-              <span className='hakuna__version'>v1</span>
+              <span className='hakuna__version'>v1.0</span>
               <FaBars onClick={toggleMenu} className="index__navbar__bars"/>
               <ul className="index__navbar__menu">
               <li className="index__navbar__links"><Link to={{pathname:'https://hakunah.herokuapp.com/api/v1/api-docs'}} target='_blank' className="index__navbar__link">Documentação</Link></li>
