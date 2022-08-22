@@ -8,6 +8,12 @@ function SearchBar() {
   const [targetType, setTargetType] = useState('grupos')
   const history = useHistory()
 
+  const handleSearch = (e) => {
+    if(e.key === 'Enter') {
+        search(e)
+    }
+  }
+
   const search = (e) => {
     e.preventDefault()
     
@@ -24,7 +30,7 @@ function SearchBar() {
             <option value="grupos">Grupos</option>
             <option value="usuários">Usuários</option>
           </select>
-          <input type="text" className="searchbar__input" onChange={e => setFilter(e.target.value)} placeholder={targetType == 'grupos' ? "Busque um grupo por disciplina ou tópico de estudo" : "Busque usuários pelo nome de usuário"}/>
+          <input type="text" className="searchbar__input" onKeyDown={handleSearch} onChange={e => setFilter(e.target.value)} placeholder={targetType == 'grupos' ? "Busque um grupo por disciplina ou tópico de estudo" : "Busque usuários pelo nome de usuário"}/>
           <button className="searchbar__btn" onClick={search}><FaSearch className="searchbar__icon"/></button>
       </div>  
     </> 

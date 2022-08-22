@@ -636,9 +636,16 @@ export default function Feed() {
         }
       }
 
+      const handleFilter = (e) => {
+        if(e.key === 'Enter') {
+            searchPost(e)
+        }
+      }
+
     if(!isMember) {
         return <Redirect to="/home" />
     }
+
     return (
         <>
         <NavBar />
@@ -664,7 +671,7 @@ export default function Feed() {
                         showSearchInput ? (
                             <>
                                 <div className="feed_searchbar">
-                                    <input type="text" className="search__post__input" onChange={e => setFilter(e.target.value)} placeholder="Busque uma postagem por palavra-chave"/>
+                                    <input type="text" className="search__post__input" onKeyDown={handleFilter} onChange={e => setFilter(e.target.value)} placeholder="Busque uma postagem por palavra-chave"/>
                                     <button className="searchbar__btn" onClick={searchPost}><FaSearch className="searchbar__icon"/></button>
                                 </div>
                                 {filterButtonVisibility ? <button className='filter__btn'>{filter}<MdClose onClick={removeFilter}/></button> : ''}
