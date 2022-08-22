@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { Link, useParams, useHistory } from 'react-router-dom'
 import ScrollToBottom from 'react-scroll-to-bottom'
+import ReactScrollableFeed from 'react-scrollable-feed'
 import api from '../services/api'
 
 import { BsFillChatFill, BsThreeDots } from "react-icons/bs";
