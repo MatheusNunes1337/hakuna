@@ -741,12 +741,15 @@ export default function Feed() {
                                 </div>
                                 {
                                     showCommentInput && commentInputTargetId == post._id? (
+                                        <>
                                         <div className='post__comment__input'>
                                             <img src={`https://hakuna-1337.s3.amazonaws.com/${currentUserPic}`} style={post.author.type == 'teacher' ? {border: '2px solid lightgreen'} : {border: '2px solid #3799CE'}} className='post__author__img'/>
                                             <input type="text" placeholder='adicionar comentário' className={post._id} onKeyDown={submitComment} onChange={e => setCommentContent(e.target.value)}/>
                                             <input type="file" id="add_material__comment__btn" onChange={e => setCommentFiles(e.target.files)} name='files' multiple/>
                                             <label for="add_material__comment__btn" className=""><img src={addMaterial} className="material__comment__icon"/></label>
                                         </div>
+                                        {true ? <p className='comment__file__status'><img src={sucess} alt='sucess icon' /> materiais selecionados</p> : ''}
+                                        </>
                                     ) : ''
                                 }
                                 {
