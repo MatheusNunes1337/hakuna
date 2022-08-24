@@ -15,7 +15,7 @@ function MailModal({message, closeModal}) {
                 <img src={EmailIcon} alt='sucess image' className='message__modal__icon' />
                 <h2 className='modal__title mail__title'>Quase lá!</h2>
             </div>
-            <p className='modal__message'>
+            <p className='email__modal__message'>
                 {message}
             </p>
         </div>  
