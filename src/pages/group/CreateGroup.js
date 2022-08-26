@@ -101,22 +101,7 @@ function CreateGroup() {
                     <label htmlFor="description" className="form__label">Descrição:</label>
                     <textarea name="description" className="form__textarea" id="group__description" cols="30" rows="7" placeholder='Uma breve descrição sobre o seu grupo' onChange={e => setDescription(e.target.value)}></textarea>
                     <label htmlFor="discipline" className="form__label">Disciplina:</label>
-                    <select name="type" className="form__input" defaultValue='-' onChange={e => setDiscipline(e.target.value)}>
-                      {!discipline ? <option value="-">-</option> : ''}
-                      <option value="matemática">Matemática</option>
-                      <option value="geografia">Geografia</option>
-                      <option value="física">Física</option>
-                      <option value="quimica">Química</option>
-                      <option value="filosofia">Filosofia</option>
-                      <option value="design">Design</option>
-                      <option value="programação">Programação</option>
-                      <option value="astronomia">Astronomia</option>
-                      <option value="inglês">Lingua estrangeira - inglês</option>
-                      <option value="espanhol">Lingua estrangeira - espanhol</option>
-                      <option value="coreano">Lingua estrangeira - coreano</option>
-                      <option value="música">Música</option>
-                      <option value="direito">Direito</option>
-                    </select>
+                    <input type="text" className="form__input" onChange={e => setDiscipline(e.target.value)} />
                     <label htmlFor="topics" className="form__label">Tópicos:</label>
                     <div className='topics__wrapper'>
                         <input type="text" placeholder='Ex: Análise combinatória' className="form__input" id="topic__input" onChange={e => setTopic(e.target.value)} />

@@ -103,7 +103,7 @@ function NavBar() {
           <>
             <div className="hidden__menu">
               <picture>
-                <img src={profilePic} alt="user_pic" className="hidden__menu__user" />
+                <img src={profilePic} style={type === 'teacher' ? {borderColor: 'lightgreen'} : {borderColor: '#3799CE'}} alt="user_pic" className="hidden__menu__user" />
               </picture>
               <span className="hidden__menu__username">{username}</span>
               <div className="user__cPoints__wrapper">

@@ -175,7 +175,7 @@ export default function UserConfig() {
                       <label for="add_pic__btn" className="profile__pic__overlay"><MdAddAPhoto className='form__user__pic__icon' /></label>
                       {
                         showSavePicButton ? (<img src={URL.createObjectURL(profilePic)} alt="foto de perfil" className="user__form__pic"/>) : (
-                        <img src={profilePic} className="user__form__pic"/>
+                        <img src={profilePic} style={type === 'teacher' ? {borderColor: 'lightgreen'} : {borderColor: '#3799CE'}} className="user__form__pic"/>
                         )
                       }
                     </picture>
@@ -188,21 +188,7 @@ export default function UserConfig() {
                             ? (
                             <>
                                 <label htmlFor="type" className="form__label">Área</label>
-                                <select name="type" className="form__input" defaultValue={area} onChange={e => setArea(e.target.value)}>
-                                    <option value="matemática">Matemática</option>
-                                    <option value="geografia">Geografia</option>
-                                    <option value="física">Física</option>
-                                    <option value="quimica">Química</option>
-                                    <option value="filosofia">Filosofia</option>
-                                    <option value="design">Design</option>
-                                    <option value="programação">Programação</option>
-                                    <option value="astronomia">Astronomia</option>
-                                    <option value="inglês">Lingua estrangeira - inglês</option>
-                                    <option value="espanhol">Lingua estrangeira - espanhol</option>
-                                    <option value="coreano">Lingua estrangeira - coreano</option>
-                                    <option value="música">Música</option>
-                                    <option value="direito">Direito</option>
-                                </select>
+                                <input type="text" className="form__input" value={area} onChange={e => setArea(e.target.value)}/>
                             </>    
                             ) 
                             : ''
