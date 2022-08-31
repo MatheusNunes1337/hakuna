@@ -37,7 +37,7 @@ function IndexPage() {
             <main className='index__main'>
                 <section className='hero'>
                     <div className='hero__content'>
-                        <h1 className='hero__title'>Hakuna, uma plataforma para criação de grupos de estudo</h1>
+                        <h1 className='hero__title'>Hakuna: Uma plataforma de grupos de estudo</h1>
                         <p className='hero__paragraph'>Crie ou faça parte de diversos grupos de estudo e alavanque o seu conhecimento junto a outros usuários.</p>
                         <button><AnchorLink href='#functionalities__title'>Saiba mais</AnchorLink></button>
                         <button onClick={goToLoginPage}>Login</button>
