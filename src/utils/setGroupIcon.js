@@ -11,6 +11,7 @@ import filosofia from '../assets/images/filosofia.png'
 import design from '../assets/images/design.png'
 import fisica from '../assets/images/fisica.png'
 import geografia from '../assets/images/geografia.png'
+import iconeDefault from '../assets/images/studying.png'
 
 const setGroupIcon = (discipline) => {
     let icon
@@ -56,7 +57,7 @@ const setGroupIcon = (discipline) => {
             icon = geografia
             break
         default:
-            icon = astronomia
+            icon = iconeDefault
              break            
     }
 

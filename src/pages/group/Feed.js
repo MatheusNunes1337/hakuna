@@ -107,6 +107,7 @@ export default function Feed() {
     let [commentInputTargetId, setCommentInputTargetId] = useState('')
     let [commentListTargetId, setCommentListTargetId] = useState('')
     let [commentOptionsMenuTargetId, setCommentOptionsMenuTargetId] = useState('')
+    let [postOptionsMenuTargetId, setPostOptionsMenuTargetId] = useState('')
     let [showGroupOptionsMenu, setGroupOptionsMenuStatus] = useState(false)
     //let [canAccess, setMemberAuthentication] = useState(false)
 
@@ -188,6 +189,8 @@ export default function Feed() {
             try {
                 await api.post(`groups/${id}/posts`, formData, {headers})
                 handleSucessModal('Postagem criada com sucesso')
+                setFiles([])
+                setContent('')
             } catch(err) {
                 if(!Array.isArray(err.response.data))
                     handleErrorModal(err.response.data.name)
@@ -326,10 +329,10 @@ export default function Feed() {
     }
 
     const handlePostOptionsMenu = (e) => {
-        setTargetId(e.currentTarget.value)
+        setPostOptionsMenuTargetId(e.currentTarget.value)
         if(showPostOptionsMenu) {
             setPostOptionsMenu(false)
-            setTargetId('')
+            setPostOptionsMenuTargetId('')
         } else {
             setPostOptionsMenu(true)
         }
@@ -377,6 +380,8 @@ export default function Feed() {
             if(!commentEditionMode) {
                 await api.post(`groups/${id}/posts/${postId}/comments`, formData, {headers})
                 handleSucessModal('Comentário criado com sucesso')
+                setCommentFiles([])
+                setCommentContent('')
                 const input = document.getElementsByClassName(postId)[0]
                 input.value = ''
             } else {
@@ -701,7 +706,7 @@ export default function Feed() {
                             <>
                             <div className='post__item' key={index}>
                                 {
-                                    showPostOptionsMenu && targetId == post._id ? 
+                                    showPostOptionsMenu && postOptionsMenuTargetId == post._id ? 
                                     post.author._id === userId ? (
                                             <ul className='post__options__menu'>
                                                 <li onClick={enablePostEditionMode} className={post._id}><img src={editPost} className='post__options__menu__icon' />Editar postagem</li>
@@ -755,7 +760,7 @@ export default function Feed() {
                                             <input type="file" id="add_material__comment__btn" onChange={e => setCommentFiles(e.target.files)} name='files' multiple/>
                                             <label for="add_material__comment__btn" className=""><img src={addMaterial} className="material__comment__icon"/></label>
                                         </div>
-                                        {true ? <p className='comment__file__status'><img src={sucess} alt='sucess icon' /> materiais selecionados</p> : ''}
+                                        {commentFiles.length > 0 && !commentEditionMode ? <p className='comment__file__status'><img src={sucess} alt='sucess icon' /> materiais selecionados</p> : ''}
                                         </>
                                     ) : ''
                                 }
